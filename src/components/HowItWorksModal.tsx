@@ -4,7 +4,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { ChartLineUp, Upload, Pill, MessageSquare, LayoutDashboard } from "lucide-react";
+import { ChartLine, Upload, Pill, MessageSquare, LayoutDashboard } from "lucide-react";
 
 interface HowItWorksModalProps {
   open: boolean;
@@ -14,7 +14,7 @@ interface HowItWorksModalProps {
 export const HowItWorksModal = ({ open, onClose }: HowItWorksModalProps) => {
   const steps = [
     {
-      icon: <ChartLineUp className="w-8 h-8 text-primary" />,
+      icon: <ChartLine className="w-8 h-8 text-primary" />,
       title: "Input Health Metrics",
       description: "Enter your basic health information and metrics",
     },
