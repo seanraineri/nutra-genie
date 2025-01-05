@@ -38,7 +38,7 @@ export const HealthAssistant = () => {
   };
 
   return (
-    <Card className="flex flex-col h-[800px]">
+    <Card className="flex flex-col h-[calc(100vh-12rem)]">
       <div className="p-4 border-b">
         <h2 className="text-xl font-semibold">Health Assistant</h2>
         <p className="text-sm text-muted-foreground">Ask me anything about your health data and supplements</p>
@@ -67,7 +67,7 @@ export const HealthAssistant = () => {
         </div>
       </ScrollArea>
 
-      <div className="p-4 border-t">
+      <div className="p-4 border-t mt-auto">
         <div className="flex flex-wrap gap-2 mb-4">
           {quickReplies.map((reply, index) => (
             <Button
