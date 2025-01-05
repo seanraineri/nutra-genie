@@ -56,6 +56,31 @@ export const HealthAssistant = () => {
     }
   };
 
+  const getModelResponse = async (userMessage: string) => {
+    try {
+      const response = await fetch('YOUR_MODEL_ENDPOINT', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          message: userMessage,
+          history: chatHistory
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to get model response');
+      }
+
+      const data = await response.json();
+      return data.response;
+    } catch (error) {
+      console.error('Error getting model response:', error);
+      throw error;
+    }
+  };
+
   const handleSendMessage = async () => {
     if (!message.trim()) return;
     
@@ -88,25 +113,17 @@ export const HealthAssistant = () => {
             { role: "assistant", content: response }
           ]);
         } else {
-          // Here you would integrate your custom model
-          // For now, we'll use a placeholder response
+          const modelResponse = await getModelResponse(userMessage);
           setChatHistory(prev => [
             ...prev,
-            { 
-              role: "assistant", 
-              content: "I'm currently experiencing technical difficulties. Please try again later."
-            }
+            { role: "assistant", content: modelResponse }
           ]);
         }
       } else {
-        // Here you would integrate your custom model
-        // For now, we'll use a placeholder response
+        const modelResponse = await getModelResponse(userMessage);
         setChatHistory(prev => [
           ...prev,
-          { 
-            role: "assistant", 
-            content: "I'm currently experiencing technical difficulties. Please try again later."
-          }
+          { role: "assistant", content: modelResponse }
         ]);
       }
     } catch (error) {
