@@ -1,10 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Send, Paperclip, Loader2 } from "lucide-react";
-import { pipeline } from "@huggingface/transformers";
+import { Send, Paperclip } from "lucide-react";
 
 interface ChatMessage {
   role: "user" | "assistant";
@@ -20,75 +19,29 @@ const quickReplies = [
 
 export const HealthAssistant = () => {
   const [message, setMessage] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [model, setModel] = useState<any>(null);
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([
     {
       role: "assistant",
-      content: "Hello! I'm your health assistant powered by OpenBioLLM. How can I help you today?",
+      content: "Hello! I'm your health assistant. How can I help you today?",
     },
   ]);
 
-  useEffect(() => {
-    const initModel = async () => {
-      try {
-        const pipe = await pipeline(
-          "text-generation",
-          "aaditya/Llama3-OpenBioLLM-70B",
-          { device: "webgpu" }
-        );
-        setModel(pipe);
-        console.log("Model loaded successfully");
-      } catch (error) {
-        console.error("Error loading model:", error);
-      }
-    };
-
-    initModel();
-  }, []);
-
-  const handleSendMessage = async () => {
-    if (!message.trim() || !model) return;
+  const handleSendMessage = () => {
+    if (!message.trim()) return;
     
-    setIsLoading(true);
-    const userMessage = { role: "user", content: message };
-    
-    setChatHistory(prev => [...prev, userMessage]);
+    setChatHistory((prev) => [
+      ...prev,
+      { role: "user", content: message },
+      { role: "assistant", content: "I'll help you with that! (This is a mock response)" },
+    ]);
     setMessage("");
-
-    try {
-      const prompt = `You are a helpful health assistant. User asks: ${message}`;
-      const result = await model(prompt, {
-        max_new_tokens: 500,
-        temperature: 0.7,
-        top_p: 0.95,
-      });
-
-      const assistantMessage = {
-        role: "assistant",
-        content: result[0].generated_text,
-      };
-
-      setChatHistory(prev => [...prev, assistantMessage]);
-    } catch (error) {
-      console.error("Error generating response:", error);
-      setChatHistory(prev => [
-        ...prev,
-        {
-          role: "assistant",
-          content: "I apologize, but I encountered an error processing your request. Please try again.",
-        },
-      ]);
-    } finally {
-      setIsLoading(false);
-    }
   };
 
   return (
     <Card className="flex flex-col h-[calc(100vh-12rem)]">
       <div className="p-4 border-b">
         <h2 className="text-xl font-semibold">Health Assistant</h2>
-        <p className="text-sm text-muted-foreground">Powered by OpenBioLLM - Ask me anything about your health data and supplements</p>
+        <p className="text-sm text-muted-foreground">Ask me anything about your health data and supplements</p>
       </div>
 
       <ScrollArea className="flex-1 p-4">
@@ -143,7 +96,7 @@ export const HealthAssistant = () => {
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             onKeyDown={(e) => {
-              if (e.key === "Enter" && !isLoading) {
+              if (e.key === "Enter") {
                 handleSendMessage();
               }
             }}
@@ -151,13 +104,8 @@ export const HealthAssistant = () => {
           <Button
             className="shrink-0"
             onClick={handleSendMessage}
-            disabled={isLoading || !model}
           >
-            {isLoading ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
-            ) : (
-              <Send className="h-4 w-4" />
-            )}
+            <Send className="h-4 w-4" />
           </Button>
         </div>
       </div>
