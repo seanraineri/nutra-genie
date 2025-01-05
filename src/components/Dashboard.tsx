@@ -5,6 +5,7 @@ import { HealthAssistant } from "./dashboard/HealthAssistant";
 import { HealthMetrics } from "./dashboard/HealthMetrics";
 import { SupplementPlan } from "./dashboard/SupplementPlan";
 import { HealthGoals } from "./dashboard/HealthGoals";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export const Dashboard = () => {
   const navigate = useNavigate();
@@ -24,19 +25,30 @@ export const Dashboard = () => {
         <h1 className="text-3xl font-bold text-secondary">Your Health Dashboard</h1>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr,600px] gap-6">
-        {/* Right Panel - Chat Interface (Now given more space) */}
-        <div className="order-2 lg:order-1">
-          <HealthAssistant />
-        </div>
+      <Tabs defaultValue="assistant" className="w-full">
+        <TabsList className="w-full justify-start mb-6">
+          <TabsTrigger value="assistant">Health Assistant</TabsTrigger>
+          <TabsTrigger value="metrics">Health Metrics</TabsTrigger>
+          <TabsTrigger value="supplements">Supplement Plan</TabsTrigger>
+          <TabsTrigger value="goals">Health Goals</TabsTrigger>
+        </TabsList>
 
-        {/* Left Panel - Health Data */}
-        <div className="space-y-6 order-1 lg:order-2">
+        <TabsContent value="assistant" className="mt-0">
+          <HealthAssistant />
+        </TabsContent>
+
+        <TabsContent value="metrics" className="mt-0">
           <HealthMetrics />
+        </TabsContent>
+
+        <TabsContent value="supplements" className="mt-0">
           <SupplementPlan />
+        </TabsContent>
+
+        <TabsContent value="goals" className="mt-0">
           <HealthGoals />
-        </div>
-      </div>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };
