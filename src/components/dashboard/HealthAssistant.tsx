@@ -80,27 +80,39 @@ export const HealthAssistant = () => {
         };
 
         const recommendations = await analyzeLabs(mockLabData);
+        const response = generateResponse(userMessage, recommendations);
         
-        setChatHistory(prev => [
-          ...prev,
-          { 
-            role: "assistant", 
-            content: generateResponse(userMessage, recommendations)
-          }
-        ]);
+        if (response) {
+          setChatHistory(prev => [
+            ...prev,
+            { role: "assistant", content: response }
+          ]);
+        } else {
+          // Here you would integrate your custom model
+          // For now, we'll use a placeholder response
+          setChatHistory(prev => [
+            ...prev,
+            { 
+              role: "assistant", 
+              content: "I'm currently experiencing technical difficulties. Please try again later."
+            }
+          ]);
+        }
       } else {
+        // Here you would integrate your custom model
+        // For now, we'll use a placeholder response
         setChatHistory(prev => [
           ...prev,
           { 
             role: "assistant", 
-            content: generateResponse(userMessage)
+            content: "I'm currently experiencing technical difficulties. Please try again later."
           }
         ]);
       }
     } catch (error) {
       toast({
         title: "Error",
-        description: "Failed to analyze lab results. Please try again later.",
+        description: "Failed to process your request. Please try again later.",
         variant: "destructive"
       });
       
