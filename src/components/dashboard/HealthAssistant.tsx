@@ -5,6 +5,9 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Send, Paperclip, Loader2 } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
+import { generateResponse } from "@/utils/healthAssistantResponses";
+import { ChatMessage } from "./ChatMessage";
+import { QuickReplies } from "./QuickReplies";
 
 interface ChatMessage {
   role: "user" | "assistant";
@@ -25,7 +28,7 @@ export const HealthAssistant = () => {
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([
     {
       role: "assistant",
-      content: "Hello! I'm your health assistant. How can I help you today?",
+      content: "Hello! I'm your health assistant. I can help you analyze lab results, review your supplement plan, track progress, and manage health goals. How can I assist you today?",
     },
   ]);
 
@@ -60,19 +63,16 @@ export const HealthAssistant = () => {
     const userMessage = message;
     setMessage("");
 
-    // Add user message to chat
     setChatHistory(prev => [
       ...prev,
       { role: "user", content: userMessage }
     ]);
 
     try {
-      // Check if message is about lab analysis
       if (userMessage.toLowerCase().includes("lab") || 
           userMessage.toLowerCase().includes("results") ||
           userMessage.toLowerCase().includes("analysis")) {
         
-        // Mock lab data for demonstration - in real app, this would come from your data store
         const mockLabData = {
           vitaminD: 30,
           b12: 400,
@@ -85,16 +85,15 @@ export const HealthAssistant = () => {
           ...prev,
           { 
             role: "assistant", 
-            content: `Based on your lab results analysis:\n${recommendations}`
+            content: generateResponse(userMessage, recommendations)
           }
         ]);
       } else {
-        // Default response for non-lab related queries
         setChatHistory(prev => [
           ...prev,
           { 
             role: "assistant", 
-            content: "I understand you're asking about " + userMessage + ". How can I help you with that?"
+            content: generateResponse(userMessage)
           }
         ]);
       }
@@ -127,41 +126,17 @@ export const HealthAssistant = () => {
       <ScrollArea className="flex-1 p-4">
         <div className="space-y-4">
           {chatHistory.map((msg, index) => (
-            <div
-              key={index}
-              className={`flex ${
-                msg.role === "user" ? "justify-end" : "justify-start"
-              }`}
-            >
-              <div
-                className={`max-w-[80%] rounded-lg p-3 ${
-                  msg.role === "user"
-                    ? "bg-primary text-primary-foreground"
-                    : "bg-muted"
-                }`}
-              >
-                {msg.content}
-              </div>
-            </div>
+            <ChatMessage key={index} role={msg.role} content={msg.content} />
           ))}
         </div>
       </ScrollArea>
 
       <div className="p-4 border-t mt-auto">
-        <div className="flex flex-wrap gap-2 mb-4">
-          {quickReplies.map((reply, index) => (
-            <Button
-              key={index}
-              variant="outline"
-              size="sm"
-              onClick={() => {
-                setMessage(reply);
-              }}
-            >
-              {reply}
-            </Button>
-          ))}
-        </div>
+        <QuickReplies 
+          replies={quickReplies} 
+          onSelect={setMessage} 
+          disabled={isLoading} 
+        />
         
         <div className="flex gap-2">
           <Button
