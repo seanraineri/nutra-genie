@@ -14,17 +14,16 @@ export const Dashboard = () => {
     <div className="container mx-auto py-8 animate-fade-in">
       <Tabs defaultValue="assistant" className="w-full">
         <div className="flex items-center justify-between mb-8">
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-6">
             <Button
-              variant="outline"
-              size="sm"
-              className="flex items-center gap-2"
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8"
               onClick={() => navigate(-1)}
             >
               <ChevronLeft className="h-4 w-4" />
-              Back
             </Button>
-            <h1 className="text-3xl font-bold text-secondary">Your Health Dashboard</h1>
+            <h1 className="text-4xl font-bold text-secondary">Your Health Dashboard</h1>
           </div>
           <TabsList className="bg-background border">
             <TabsTrigger value="assistant" className="px-6">Health Assistant</TabsTrigger>
