@@ -3,7 +3,8 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Send, Paperclip } from "lucide-react";
+import { Send, Paperclip, Loader2 } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
 
 interface ChatMessage {
   role: "user" | "assistant";
@@ -14,11 +15,13 @@ const quickReplies = [
   "View my supplement plan",
   "Check my progress",
   "Update my goals",
-  "Side effects",
+  "Analyze my lab results",
 ];
 
 export const HealthAssistant = () => {
+  const { toast } = useToast();
   const [message, setMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([
     {
       role: "assistant",
@@ -26,15 +29,92 @@ export const HealthAssistant = () => {
     },
   ]);
 
-  const handleSendMessage = () => {
+  const analyzeLabs = async (labData: any) => {
+    try {
+      const response = await fetch('/analyze_labs', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          lab_results: labData
+        })
+      });
+      
+      const result = await response.json();
+      if (result.status === 'success') {
+        return result.recommendations;
+      } else {
+        throw new Error(result.error);
+      }
+    } catch (error) {
+      console.error('Error analyzing labs:', error);
+      throw error;
+    }
+  };
+
+  const handleSendMessage = async () => {
     if (!message.trim()) return;
     
-    setChatHistory((prev) => [
-      ...prev,
-      { role: "user", content: message },
-      { role: "assistant", content: "I'll help you with that! (This is a mock response)" },
-    ]);
+    setIsLoading(true);
+    const userMessage = message;
     setMessage("");
+
+    // Add user message to chat
+    setChatHistory(prev => [
+      ...prev,
+      { role: "user", content: userMessage }
+    ]);
+
+    try {
+      // Check if message is about lab analysis
+      if (userMessage.toLowerCase().includes("lab") || 
+          userMessage.toLowerCase().includes("results") ||
+          userMessage.toLowerCase().includes("analysis")) {
+        
+        // Mock lab data for demonstration - in real app, this would come from your data store
+        const mockLabData = {
+          vitaminD: 30,
+          b12: 400,
+          iron: 80
+        };
+
+        const recommendations = await analyzeLabs(mockLabData);
+        
+        setChatHistory(prev => [
+          ...prev,
+          { 
+            role: "assistant", 
+            content: `Based on your lab results analysis:\n${recommendations}`
+          }
+        ]);
+      } else {
+        // Default response for non-lab related queries
+        setChatHistory(prev => [
+          ...prev,
+          { 
+            role: "assistant", 
+            content: "I understand you're asking about " + userMessage + ". How can I help you with that?"
+          }
+        ]);
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to analyze lab results. Please try again later.",
+        variant: "destructive"
+      });
+      
+      setChatHistory(prev => [
+        ...prev,
+        { 
+          role: "assistant", 
+          content: "I apologize, but I encountered an error while processing your request. Please try again later."
+        }
+      ]);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -88,6 +168,7 @@ export const HealthAssistant = () => {
             variant="outline"
             size="icon"
             className="shrink-0"
+            disabled={isLoading}
           >
             <Paperclip className="h-4 w-4" />
           </Button>
@@ -96,16 +177,22 @@ export const HealthAssistant = () => {
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             onKeyDown={(e) => {
-              if (e.key === "Enter") {
+              if (e.key === "Enter" && !isLoading) {
                 handleSendMessage();
               }
             }}
+            disabled={isLoading}
           />
           <Button
             className="shrink-0"
             onClick={handleSendMessage}
+            disabled={isLoading}
           >
-            <Send className="h-4 w-4" />
+            {isLoading ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              <Send className="h-4 w-4" />
+            )}
           </Button>
         </div>
       </div>
