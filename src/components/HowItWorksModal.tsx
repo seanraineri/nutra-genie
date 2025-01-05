@@ -42,7 +42,7 @@ export const HowItWorksModal = ({ open, onClose }: HowItWorksModalProps) => {
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="max-w-2xl">
+      <DialogContent className="max-w-2xl border-2 border-primary/20">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold text-center mb-6">
             How It Works
