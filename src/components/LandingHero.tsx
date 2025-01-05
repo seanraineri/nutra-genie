@@ -1,8 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import { HowItWorksModal } from "./HowItWorksModal";
+import { useState } from "react";
 
 export const LandingHero = () => {
   const navigate = useNavigate();
+  const [showHowItWorks, setShowHowItWorks] = useState(false);
 
   return (
     <div className="min-h-[80vh] flex flex-col items-center justify-center px-4 animate-fade-in">
@@ -29,7 +32,16 @@ export const LandingHero = () => {
         >
           View Demo Dashboard
         </Button>
+        <Button
+          size="lg"
+          variant="ghost"
+          onClick={() => setShowHowItWorks(true)}
+          className="text-muted-foreground hover:text-primary"
+        >
+          How It Works
+        </Button>
       </div>
+      <HowItWorksModal open={showHowItWorks} onClose={() => setShowHowItWorks(false)} />
     </div>
   );
 };
