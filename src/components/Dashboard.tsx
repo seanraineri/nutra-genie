@@ -1,4 +1,7 @@
 import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { ChevronLeft } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 
 const mockData = [
@@ -27,9 +30,22 @@ const recommendations = [
 ];
 
 export const Dashboard = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="container mx-auto py-8 animate-fade-in">
-      <h1 className="text-3xl font-bold text-secondary mb-8">Your Health Dashboard</h1>
+      <div className="flex items-center gap-4 mb-8">
+        <Button
+          variant="outline"
+          size="sm"
+          className="flex items-center gap-2"
+          onClick={() => navigate(-1)}
+        >
+          <ChevronLeft className="h-4 w-4" />
+          Back
+        </Button>
+        <h1 className="text-3xl font-bold text-secondary">Your Health Dashboard</h1>
+      </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
         <Card className="p-6">
