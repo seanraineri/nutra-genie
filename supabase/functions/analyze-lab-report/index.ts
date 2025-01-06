@@ -27,6 +27,7 @@ serve(async (req) => {
       .download(filePath)
 
     if (downloadError) {
+      console.error('Download error:', downloadError);
       throw new Error('Error downloading file: ' + downloadError.message)
     }
 
@@ -56,17 +57,17 @@ serve(async (req) => {
 
     const analysis = completion.data.choices[0]?.message?.content
 
-    // Store the analysis results
+    // Store the analysis results without user_id
     const { error: insertError } = await supabase
       .from('lab_results')
       .insert({
         test_name: 'Lab Report Analysis',
-        value: 0, // placeholder
+        value: 0,
         unit: 'N/A',
-        test_date: new Date().toISOString(),
       })
 
     if (insertError) {
+      console.error('Insert error:', insertError);
       throw new Error('Error storing analysis: ' + insertError.message)
     }
 
@@ -81,6 +82,7 @@ serve(async (req) => {
       }
     )
   } catch (error) {
+    console.error('Function error:', error);
     return new Response(
       JSON.stringify({ error: error.message }),
       { 

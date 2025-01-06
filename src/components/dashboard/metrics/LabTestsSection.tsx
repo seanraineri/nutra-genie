@@ -16,17 +16,24 @@ export const LabTestsSection = () => {
     try {
       setIsUploading(true);
       
-      // Upload file to Supabase Storage
+      // Upload file directly to storage without auth
       const fileExt = file.name.split('.').pop();
       const filePath = `${crypto.randomUUID()}.${fileExt}`;
       
-      const { error: uploadError } = await supabase.storage
+      const { data: uploadData, error: uploadError } = await supabase.storage
         .from('health_files')
-        .upload(filePath, file);
+        .upload(filePath, file, {
+          upsert: false
+        });
 
-      if (uploadError) throw uploadError;
+      if (uploadError) {
+        console.error('Upload error:', uploadError);
+        throw uploadError;
+      }
 
-      // Store file metadata
+      console.log('Upload successful:', uploadData);
+
+      // Store file metadata without user_id
       const { error: dbError } = await supabase
         .from('health_files')
         .insert({
@@ -35,7 +42,10 @@ export const LabTestsSection = () => {
           file_type: file.type,
         });
 
-      if (dbError) throw dbError;
+      if (dbError) {
+        console.error('Database error:', dbError);
+        throw dbError;
+      }
 
       toast({
         title: "File uploaded successfully",
@@ -59,7 +69,7 @@ export const LabTestsSection = () => {
       console.log('Analysis results:', analysisData);
 
     } catch (error: any) {
-      console.error('Upload error:', error);
+      console.error('Error:', error);
       toast({
         title: "Error",
         description: error.message || "Failed to process your lab results",
