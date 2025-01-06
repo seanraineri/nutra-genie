@@ -31,8 +31,17 @@ export const useHealthChat = () => {
 
       console.log('Sending message to search-supplements function:', message);
       
+      // Convert chat history to the format expected by the API
+      const apiChatHistory = chatHistory.map(msg => ({
+        role: msg.role,
+        content: msg.content
+      }));
+
       const { data, error } = await supabase.functions.invoke('search-supplements', {
-        body: { query: message }
+        body: { 
+          query: message,
+          chatHistory: apiChatHistory
+        }
       });
 
       if (error) {
