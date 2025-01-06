@@ -3,9 +3,22 @@ import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { Upload, ShoppingCart } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useState } from "react";
 
 export const HealthMetrics = () => {
   const { toast } = useToast();
+  const [isEditing, setIsEditing] = useState(false);
+  const [personalInfo, setPersonalInfo] = useState({
+    age: "32",
+    gender: "male",
+    height: "5'10\" (178 cm)",
+    weight: "165 lbs (75 kg)",
+    exerciseLevel: "medium",
+    medications: "- Vitamin D3 (1000 IU)\n- Fish Oil (1000mg)",
+    conditions: "- Seasonal allergies\n- Mild hypertension"
+  });
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -24,74 +37,138 @@ export const HealthMetrics = () => {
     });
   };
 
+  const handleSave = () => {
+    setIsEditing(false);
+    toast({
+      title: "Changes saved successfully",
+      description: "Your health information has been updated.",
+    });
+  };
+
   return (
     <Card className="p-4 md:p-6 h-[calc(100vh-12rem)] overflow-y-auto">
       <div className="space-y-6">
-        <div>
-          <h2 className="text-xl font-semibold">Welcome back, John!</h2>
-          <p className="text-muted-foreground">Here's an overview of your health metrics and goals.</p>
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="text-xl font-semibold">Welcome back, John!</h2>
+            <p className="text-muted-foreground">Here's an overview of your health metrics and goals.</p>
+          </div>
+          <Button 
+            variant="outline" 
+            onClick={() => isEditing ? handleSave() : setIsEditing(true)}
+          >
+            {isEditing ? "Save Changes" : "Edit Information"}
+          </Button>
         </div>
 
         {/* Personal Information Section */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="p-4 bg-background rounded-lg border">
             <h3 className="font-semibold text-secondary mb-2">Personal Information</h3>
-            <div className="space-y-2">
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Age:</span>
-                <span>32 years</span>
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <label className="text-sm text-muted-foreground">Age</label>
+                {isEditing ? (
+                  <Input 
+                    value={personalInfo.age}
+                    onChange={(e) => setPersonalInfo({...personalInfo, age: e.target.value})}
+                  />
+                ) : (
+                  <p>{personalInfo.age} years</p>
+                )}
               </div>
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Gender:</span>
-                <span>Male</span>
+              <div className="space-y-2">
+                <label className="text-sm text-muted-foreground">Gender</label>
+                {isEditing ? (
+                  <Select 
+                    value={personalInfo.gender}
+                    onValueChange={(value) => setPersonalInfo({...personalInfo, gender: value})}
+                  >
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="male">Male</SelectItem>
+                      <SelectItem value="female">Female</SelectItem>
+                      <SelectItem value="other">Other</SelectItem>
+                    </SelectContent>
+                  </Select>
+                ) : (
+                  <p className="capitalize">{personalInfo.gender}</p>
+                )}
               </div>
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Height:</span>
-                <span>5'10" (178 cm)</span>
+              <div className="space-y-2">
+                <label className="text-sm text-muted-foreground">Height</label>
+                {isEditing ? (
+                  <Input 
+                    value={personalInfo.height}
+                    onChange={(e) => setPersonalInfo({...personalInfo, height: e.target.value})}
+                  />
+                ) : (
+                  <p>{personalInfo.height}</p>
+                )}
               </div>
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Weight:</span>
-                <span>165 lbs (75 kg)</span>
+              <div className="space-y-2">
+                <label className="text-sm text-muted-foreground">Weight</label>
+                {isEditing ? (
+                  <Input 
+                    value={personalInfo.weight}
+                    onChange={(e) => setPersonalInfo({...personalInfo, weight: e.target.value})}
+                  />
+                ) : (
+                  <p>{personalInfo.weight}</p>
+                )}
               </div>
             </div>
           </div>
 
           <div className="p-4 bg-background rounded-lg border">
             <h3 className="font-semibold text-secondary mb-2">Health Status</h3>
-            <div className="space-y-2">
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Exercise Level:</span>
-                <span className="text-primary font-medium">Medium</span>
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <label className="text-sm text-muted-foreground">Exercise Level</label>
+                {isEditing ? (
+                  <Select 
+                    value={personalInfo.exerciseLevel}
+                    onValueChange={(value) => setPersonalInfo({...personalInfo, exerciseLevel: value})}
+                  >
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="low">Low</SelectItem>
+                      <SelectItem value="medium">Medium</SelectItem>
+                      <SelectItem value="high">High</SelectItem>
+                    </SelectContent>
+                  </Select>
+                ) : (
+                  <p className="text-primary font-medium capitalize">{personalInfo.exerciseLevel}</p>
+                )}
               </div>
-              <div className="flex flex-col gap-1">
-                <span className="text-muted-foreground">Current Medications:</span>
-                <span className="text-sm">
-                  - Vitamin D3 (1000 IU)<br />
-                  - Fish Oil (1000mg)
-                </span>
+              <div className="space-y-2">
+                <label className="text-sm text-muted-foreground">Current Medications</label>
+                {isEditing ? (
+                  <textarea 
+                    className="w-full min-h-[80px] p-2 border rounded-md"
+                    value={personalInfo.medications}
+                    onChange={(e) => setPersonalInfo({...personalInfo, medications: e.target.value})}
+                  />
+                ) : (
+                  <p className="whitespace-pre-line text-sm">{personalInfo.medications}</p>
+                )}
               </div>
-              <div className="flex flex-col gap-1">
-                <span className="text-muted-foreground">Existing Conditions:</span>
-                <span className="text-sm">
-                  - Seasonal allergies<br />
-                  - Mild hypertension
-                </span>
+              <div className="space-y-2">
+                <label className="text-sm text-muted-foreground">Existing Conditions</label>
+                {isEditing ? (
+                  <textarea 
+                    className="w-full min-h-[80px] p-2 border rounded-md"
+                    value={personalInfo.conditions}
+                    onChange={(e) => setPersonalInfo({...personalInfo, conditions: e.target.value})}
+                  />
+                ) : (
+                  <p className="whitespace-pre-line text-sm">{personalInfo.conditions}</p>
+                )}
               </div>
-            </div>
-          </div>
-
-          <div className="p-4 bg-background rounded-lg border md:col-span-2 lg:col-span-1">
-            <h3 className="font-semibold text-secondary mb-2">Quick Actions</h3>
-            <div className="space-y-2">
-              <Button variant="outline" size="sm" className="w-full justify-start">
-                Update Health Information
-              </Button>
-              <Button variant="outline" size="sm" className="w-full justify-start">
-                Download Health Report
-              </Button>
-              <Button variant="outline" size="sm" className="w-full justify-start">
-                Schedule Health Review
-              </Button>
             </div>
           </div>
         </div>
@@ -127,6 +204,7 @@ export const HealthMetrics = () => {
           </div>
         </div>
 
+        {/* Lab Tests Section */}
         <div className="mt-6 p-6 border-2 border-dashed rounded-lg bg-muted/50">
           <h3 className="text-lg font-semibold mb-4">Lab Tests</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
