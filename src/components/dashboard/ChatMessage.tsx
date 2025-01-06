@@ -16,27 +16,20 @@ export const ChatMessage = ({ role, content }: ChatMessageProps) => {
 
   // Function to convert URLs to clickable links
   const createClickableLinks = (text: string) => {
-    // URL regex pattern
+    // URL pattern that matches URLs within square brackets followed by parentheses
+    const markdownLinkPattern = /\[(.*?)\]\((https?:\/\/[^\s)]+)\)/g;
+    
+    // If the text contains markdown-style links, convert them
+    if (text.match(markdownLinkPattern)) {
+      return text.replace(markdownLinkPattern, (match, linkText, url) => {
+        return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-primary underline hover:text-primary/80">${linkText}</a>`;
+      });
+    }
+    
+    // Regular URL pattern for plain URLs
     const urlPattern = /(https?:\/\/[^\s]+)/g;
-    
-    // Split the text into parts (URLs and non-URLs)
-    const parts = text.split(urlPattern);
-    
-    return parts.map((part, index) => {
-      if (part.match(urlPattern)) {
-        return (
-          <a
-            key={index}
-            href={part}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-primary underline hover:text-primary/80"
-          >
-            {part}
-          </a>
-        );
-      }
-      return part;
+    return text.replace(urlPattern, (url) => {
+      return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-primary underline hover:text-primary/80">${url}</a>`;
     });
   };
 
@@ -47,15 +40,23 @@ export const ChatMessage = ({ role, content }: ChatMessageProps) => {
       const trimmedLine = line.trim();
       if (trimmedLine.startsWith('•') || trimmedLine.startsWith('-')) {
         return (
-          <li key={index} className="ml-4 mb-2">
-            {createClickableLinks(trimmedLine.substring(1).trim())}
-          </li>
+          <li 
+            key={index} 
+            className="ml-4 mb-2"
+            dangerouslySetInnerHTML={{
+              __html: createClickableLinks(trimmedLine.substring(1).trim())
+            }}
+          />
         );
       }
       return (
-        <p key={index} className={trimmedLine ? "mb-2" : "mb-4"}>
-          {createClickableLinks(trimmedLine)}
-        </p>
+        <p 
+          key={index} 
+          className={trimmedLine ? "mb-2" : "mb-4"}
+          dangerouslySetInnerHTML={{
+            __html: createClickableLinks(trimmedLine)
+          }}
+        />
       );
     });
   };
