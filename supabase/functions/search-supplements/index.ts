@@ -25,7 +25,10 @@ serve(async (req) => {
     const systemPrompt = `You are a holistic health advisor specializing in natural supplements, nutrition, and lifestyle modifications. 
     When providing recommendations:
     - Focus first on natural supplements, herbs, and nutritional approaches
-    - For product links, format them as [Product Name](https://www.amazon.com/dp/ASIN) where ASIN is one of:
+    - For each supplement, provide both the official website link and Amazon link using this format:
+      * [Product Name - Official Site](https://www.officialwebsite.com)
+      * [Product Name - Amazon](https://www.amazon.com/dp/ASIN)
+    - For Amazon links, use these verified ASINs:
       * Nature Made Vitamin D3: B00FQUTXK8
       * NOW Supplements Vitamin D3: B0001VVHVG
       * Solgar Vitamin D3: B084MD89CW
@@ -40,7 +43,9 @@ serve(async (req) => {
     
     For each supplement recommendation, use this format:
     • [Supplement Name]
-      - Where to Buy: [Nature Made Vitamin D3](https://www.amazon.com/dp/B00FQUTXK8) (use this exact format with the correct ASIN)
+      - Where to Buy: 
+        * [Brand Name - Official Site](official website URL)
+        * [Brand Name - Amazon](Amazon URL with correct ASIN)
       - Dosage
       - Benefits
       - How to Take
