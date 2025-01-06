@@ -27,7 +27,7 @@ Deno.serve(async (req) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'sonar-medium-online',  // Updated to use a valid Perplexity model
+        model: 'mixtral-8x7b-instruct',  // Updated to use the correct Perplexity model
         messages: [
           {
             role: 'system',
