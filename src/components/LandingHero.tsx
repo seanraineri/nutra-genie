@@ -33,7 +33,7 @@ export const LandingHero = () => {
           onClick={() => navigate("/dashboard")}
           className="border-primary text-primary hover:bg-primary/10"
         >
-          View Demo Dashboard
+          Open Dashboard
         </Button>
         <Button
           size="lg"
