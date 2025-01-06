@@ -4,15 +4,13 @@ interface ChatMessageProps {
 }
 
 export const ChatMessage = ({ role, content }: ChatMessageProps) => {
-  // Function to clean markdown symbols, brackets, and standalone numbers from text
+  // Function to clean markdown symbols from text
   const cleanMarkdown = (text: string) => {
     return text
       .replace(/#{1,6}\s/g, '') // Remove heading markers
       .replace(/\*\*/g, '')     // Remove bold markers
       .replace(/\*/g, '')       // Remove bullet points and italic markers
       .replace(/`/g, '')        // Remove code markers
-      .replace(/\[|\]/g, '')    // Remove square brackets
-      .replace(/(?<![a-zA-Z0-9])\d+(?![a-zA-Z0-9])/g, '') // Remove standalone numbers but keep numbers in words/measurements
       .trim();
   };
 
