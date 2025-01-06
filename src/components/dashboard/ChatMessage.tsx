@@ -4,9 +4,20 @@ interface ChatMessageProps {
 }
 
 export const ChatMessage = ({ role, content }: ChatMessageProps) => {
+  // Function to clean markdown symbols from text
+  const cleanMarkdown = (text: string) => {
+    return text
+      .replace(/#{1,6}\s/g, '') // Remove heading markers
+      .replace(/\*\*/g, '')     // Remove bold markers
+      .replace(/\*/g, '')       // Remove italic markers
+      .replace(/`/g, '')        // Remove code markers
+      .trim();
+  };
+
   // Function to format the content with bullet points
   const formatContent = (text: string) => {
-    return text.split('\n').map((line, index) => {
+    const cleanedText = cleanMarkdown(text);
+    return cleanedText.split('\n').map((line, index) => {
       const trimmedLine = line.trim();
       if (trimmedLine.startsWith('•') || trimmedLine.startsWith('-')) {
         return (
