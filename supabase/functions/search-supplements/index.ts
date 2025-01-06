@@ -14,12 +14,22 @@ serve(async (req) => {
 
   try {
     const { query } = await req.json();
-    console.log('Processing supplement query:', query);
+    console.log('Processing holistic health query:', query);
 
     const perplexityKey = Deno.env.get('PERPLEXITY_API_KEY');
     if (!perplexityKey) {
       throw new Error('Perplexity API key not configured');
     }
+
+    const systemPrompt = `You are a holistic health advisor specializing in natural supplements, nutrition, and lifestyle modifications. 
+    When providing recommendations:
+    - Focus first on natural supplements, herbs, and nutritional approaches
+    - Suggest lifestyle modifications and dietary changes
+    - Include traditional medicine perspectives (e.g., Ayurveda, Traditional Chinese Medicine)
+    - Mention potential root causes that could be addressed naturally
+    - Only mention conventional medical treatments as a last resort or in emergency situations
+    - Format responses with clear sections and bullet points for readability
+    Keep responses evidence-based but prioritize natural and holistic approaches.`;
 
     const response = await fetch('https://api.perplexity.ai/chat/completions', {
       method: 'POST',
@@ -32,7 +42,7 @@ serve(async (req) => {
         messages: [
           {
             role: 'system',
-            content: 'You are a knowledgeable health assistant specializing in supplements and nutrition. Provide accurate, evidence-based information about supplements, vitamins, and minerals. Keep responses concise and focused on the query.'
+            content: systemPrompt
           },
           {
             role: 'user',
@@ -52,7 +62,7 @@ serve(async (req) => {
     }
 
     const result = await response.json();
-    console.log('Successfully got response from Perplexity');
+    console.log('Successfully got holistic health response from Perplexity');
 
     return new Response(
       JSON.stringify(result),
