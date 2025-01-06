@@ -43,6 +43,11 @@ export const LandingHero = () => {
         </Button>
       </div>
       <HowItWorksModal open={showHowItWorks} onClose={() => setShowHowItWorks(false)} />
+      
+      <div className="fixed bottom-4 left-0 right-0 flex justify-center gap-8 text-sm text-muted-foreground">
+        <a href="/privacy" className="hover:text-primary transition-colors">Privacy Policy</a>
+        <a href="/terms" className="hover:text-primary transition-colors">Terms & Conditions</a>
+      </div>
     </div>
   );
 };
