@@ -1,6 +1,8 @@
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 
+const perplexityKey = Deno.env.get('PERPLEXITY_API_KEY');
+
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
@@ -16,7 +18,6 @@ serve(async (req) => {
     const { query } = await req.json();
     console.log('Processing holistic health query:', query);
 
-    const perplexityKey = Deno.env.get('PERPLEXITY_API_KEY');
     if (!perplexityKey) {
       throw new Error('Perplexity API key not configured');
     }
@@ -24,7 +25,8 @@ serve(async (req) => {
     const systemPrompt = `You are a holistic health advisor specializing in natural supplements, nutrition, and lifestyle modifications. 
     When providing recommendations:
     - Focus first on natural supplements, herbs, and nutritional approaches
-    - Always include approximate price ranges for recommended supplements (e.g., "$10-15/month")
+    - For each supplement, find and include the exact current price from a reputable online retailer
+    - Include direct product links to purchase from reputable retailers
     - Suggest lifestyle modifications and dietary changes
     - Include traditional medicine perspectives (e.g., Ayurveda, Traditional Chinese Medicine)
     - Mention potential root causes that could be addressed naturally
@@ -33,10 +35,16 @@ serve(async (req) => {
     Keep responses evidence-based but prioritize natural and holistic approaches.
     
     For each supplement recommendation, use this format:
-    • [Supplement Name] ($XX-XX/month)
+    • [Supplement Name]
+      - Current Price: $XX.XX
+      - Where to Buy: [Direct product link]
       - Dosage
       - Benefits
-      - How to take`;
+      - How to Take
+    
+    Always end your response with:
+    
+    "Please let me know if you order any of these supplements so I can update your supplement plan accordingly."`;
 
     const response = await fetch('https://api.perplexity.ai/chat/completions', {
       method: 'POST',
