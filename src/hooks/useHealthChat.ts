@@ -10,17 +10,16 @@ export const useHealthChat = () => {
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([
     {
       role: "assistant",
-      content: "Hello! I'm your health assistant. I can help you analyze lab results, review your supplement plan, track progress, and manage health goals. How can I assist you today?",
+      content: "Hi! I'm your personal health assistant. I can help you understand your lab results, manage your supplement plan, and track your health goals. What would you like to know about?",
     },
   ]);
 
   const checkUserProfile = async () => {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
-      throw new Error("Please sign in to use the health assistant");
+      throw new Error("Please sign in to continue our conversation");
     }
 
-    // Check if user has a health profile
     const { data: healthProfile } = await supabase
       .from('user_health_profiles')
       .select('*')
@@ -28,17 +27,16 @@ export const useHealthChat = () => {
       .single();
 
     if (!healthProfile) {
-      throw new Error("Please complete your health profile first");
+      throw new Error("I notice you haven't completed your health profile yet. Would you like me to guide you through setting that up?");
     }
 
-    // Check if user has lab results
     const { data: labResults } = await supabase
       .from('lab_results')
       .select('*')
       .eq('user_id', user.id);
 
     if (!labResults?.length) {
-      throw new Error("Please upload your lab results first");
+      throw new Error("I see that we don't have your lab results yet. Would you like to know how to upload them?");
     }
 
     return user.id;
@@ -67,41 +65,32 @@ export const useHealthChat = () => {
     setChatHistory(prev => [...prev, { role: "user", content: message }]);
 
     try {
+      let response: string;
+      
       if (message.toLowerCase().includes("analyze") || 
-          message.toLowerCase().includes("recommendations") ||
           message.toLowerCase().includes("health data")) {
         
         const recommendations = await analyzeHealthData();
-        const response = generateResponse(message, recommendations);
-        
-        setChatHistory(prev => [
-          ...prev,
-          { role: "assistant", content: response || "I've analyzed your health data and generated new recommendations. You can view them in your dashboard." }
-        ]);
+        response = generateResponse(message, recommendations);
       } else {
-        // For other types of messages, use the default response
-        setChatHistory(prev => [
-          ...prev,
-          { 
-            role: "assistant", 
-            content: "I understand your question. Let me help you with that. What specific information would you like to know?" 
-          }
-        ]);
+        response = generateResponse(message);
       }
+
+      setChatHistory(prev => [...prev, { role: "assistant", content: response }]);
     } catch (error: any) {
-      const errorMessage = error.message || "Failed to process your request. Please try again later.";
+      const errorMessage = error.message || "I'm having trouble accessing your health information right now. Could you try again in a moment?";
       
       toast({
-        title: "Error",
+        title: "Notice",
         description: errorMessage,
-        variant: "destructive"
+        variant: "default"
       });
       
       setChatHistory(prev => [
         ...prev,
         { 
           role: "assistant", 
-          content: `I apologize, but ${errorMessage.toLowerCase()}. Please make sure you have completed your health profile and uploaded your lab results before requesting an analysis.`
+          content: errorMessage
         }
       ]);
     } finally {
