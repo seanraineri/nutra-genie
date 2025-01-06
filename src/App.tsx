@@ -6,8 +6,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import InputPage from "./pages/InputPage";
 import DashboardPage from "./pages/DashboardPage";
-import Privacy from "./pages/Privacy";
-import Terms from "./pages/Terms";
 
 const queryClient = new QueryClient();
 
@@ -21,8 +19,6 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/input" element={<InputPage />} />
           <Route path="/dashboard" element={<DashboardPage />} />
-          <Route path="/privacy" element={<Privacy />} />
-          <Route path="/terms" element={<Terms />} />
         </Routes>
       </BrowserRouter>
     </TooltipProvider>
