@@ -14,28 +14,42 @@ serve(async (req) => {
   }
 
   try {
+    const { userId } = await req.json();
+    
+    if (!userId) {
+      throw new Error('User ID is required');
+    }
+
+    console.log('Analyzing health data for user:', userId);
+
     const supabase = createClient(
       Deno.env.get('SUPABASE_URL') ?? '',
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
     );
 
-    const { userId } = await req.json();
-
     // Fetch user's health profile and lab results
-    const { data: healthProfile } = await supabase
+    const { data: healthProfile, error: profileError } = await supabase
       .from('user_health_profiles')
       .select('*')
       .eq('user_id', userId)
       .single();
 
-    const { data: labResults } = await supabase
+    if (profileError || !healthProfile) {
+      console.error('Error fetching health profile:', profileError);
+      throw new Error('Health profile not found');
+    }
+
+    const { data: labResults, error: labError } = await supabase
       .from('lab_results')
       .select('*')
       .eq('user_id', userId);
 
-    if (!healthProfile || !labResults) {
-      throw new Error('Health profile or lab results not found');
+    if (labError || !labResults?.length) {
+      console.error('Error fetching lab results:', labError);
+      throw new Error('Lab results not found');
     }
+
+    console.log('Successfully fetched health data');
 
     // Prepare the prompt for OpenAI
     const prompt = `As a healthcare professional, analyze the following health data and recommend supplements. Consider the patient's conditions and current medications for potential interactions.
@@ -45,8 +59,8 @@ Health Profile:
 - Gender: ${healthProfile.gender}
 - Height: ${healthProfile.height}
 - Weight: ${healthProfile.weight}
-- Medical Conditions: ${healthProfile.medical_conditions?.join(', ')}
-- Current Medications: ${healthProfile.current_medications?.join(', ')}
+- Medical Conditions: ${healthProfile.medical_conditions?.join(', ') || 'None'}
+- Current Medications: ${healthProfile.current_medications?.join(', ') || 'None'}
 
 Lab Results:
 ${labResults.map(result => `- ${result.test_name}: ${result.value} ${result.unit} (Reference Range: ${result.reference_range_min}-${result.reference_range_max})`).join('\n')}
@@ -68,7 +82,7 @@ Please provide supplement recommendations in the following format for each recom
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'gpt-4o',
+        model: 'gpt-4',
         messages: [
           {
             role: 'system',
@@ -84,11 +98,14 @@ Please provide supplement recommendations in the following format for each recom
     });
 
     if (!openAIResponse.ok) {
+      console.error('OpenAI API error:', await openAIResponse.text());
       throw new Error('Failed to get recommendations from OpenAI');
     }
 
     const aiResponse = await openAIResponse.json();
     const recommendations = aiResponse.choices[0].message.content;
+
+    console.log('Successfully generated recommendations');
 
     // Parse and store recommendations
     const recommendationLines = recommendations.split('\n');
@@ -119,14 +136,22 @@ Please provide supplement recommendations in the following format for each recom
         .delete()
         .eq('user_id', userId);
 
-      if (deleteError) throw deleteError;
+      if (deleteError) {
+        console.error('Error deleting old recommendations:', deleteError);
+        throw deleteError;
+      }
 
       const { error: insertError } = await supabase
         .from('supplement_recommendations')
         .insert(parsedRecommendations);
 
-      if (insertError) throw insertError;
+      if (insertError) {
+        console.error('Error inserting new recommendations:', insertError);
+        throw insertError;
+      }
     }
+
+    console.log('Successfully stored recommendations');
 
     return new Response(
       JSON.stringify({ success: true, recommendations: parsedRecommendations }),
