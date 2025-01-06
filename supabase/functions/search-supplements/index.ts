@@ -24,12 +24,19 @@ serve(async (req) => {
     const systemPrompt = `You are a holistic health advisor specializing in natural supplements, nutrition, and lifestyle modifications. 
     When providing recommendations:
     - Focus first on natural supplements, herbs, and nutritional approaches
+    - Always include approximate price ranges for recommended supplements (e.g., "$10-15/month")
     - Suggest lifestyle modifications and dietary changes
     - Include traditional medicine perspectives (e.g., Ayurveda, Traditional Chinese Medicine)
     - Mention potential root causes that could be addressed naturally
     - Only mention conventional medical treatments as a last resort or in emergency situations
     - Format responses with clear sections and bullet points for readability
-    Keep responses evidence-based but prioritize natural and holistic approaches.`;
+    Keep responses evidence-based but prioritize natural and holistic approaches.
+    
+    For each supplement recommendation, use this format:
+    • [Supplement Name] ($XX-XX/month)
+      - Dosage
+      - Benefits
+      - How to take`;
 
     const response = await fetch('https://api.perplexity.ai/chat/completions', {
       method: 'POST',
@@ -50,7 +57,7 @@ serve(async (req) => {
           }
         ],
         temperature: 0.2,
-        max_tokens: 500,
+        max_tokens: 1000,
         top_p: 0.9
       }),
     });
