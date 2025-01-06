@@ -9,7 +9,114 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      lab_results: {
+        Row: {
+          created_at: string | null
+          id: string
+          reference_range_max: number | null
+          reference_range_min: number | null
+          test_date: string | null
+          test_name: string | null
+          unit: string | null
+          user_id: string | null
+          value: number | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          reference_range_max?: number | null
+          reference_range_min?: number | null
+          test_date?: string | null
+          test_name?: string | null
+          unit?: string | null
+          user_id?: string | null
+          value?: number | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          reference_range_max?: number | null
+          reference_range_min?: number | null
+          test_date?: string | null
+          test_name?: string | null
+          unit?: string | null
+          user_id?: string | null
+          value?: number | null
+        }
+        Relationships: []
+      }
+      supplement_recommendations: {
+        Row: {
+          created_at: string | null
+          dosage: string | null
+          estimated_cost: number | null
+          id: string
+          priority: number | null
+          reason: string | null
+          supplement_name: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          dosage?: string | null
+          estimated_cost?: number | null
+          id?: string
+          priority?: number | null
+          reason?: string | null
+          supplement_name?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          dosage?: string | null
+          estimated_cost?: number | null
+          id?: string
+          priority?: number | null
+          reason?: string | null
+          supplement_name?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      user_health_profiles: {
+        Row: {
+          age: number | null
+          created_at: string | null
+          current_medications: string[] | null
+          gender: string | null
+          height: number | null
+          id: string
+          medical_conditions: string[] | null
+          updated_at: string | null
+          user_id: string | null
+          weight: number | null
+        }
+        Insert: {
+          age?: number | null
+          created_at?: string | null
+          current_medications?: string[] | null
+          gender?: string | null
+          height?: number | null
+          id?: string
+          medical_conditions?: string[] | null
+          updated_at?: string | null
+          user_id?: string | null
+          weight?: number | null
+        }
+        Update: {
+          age?: number | null
+          created_at?: string | null
+          current_medications?: string[] | null
+          gender?: string | null
+          height?: number | null
+          id?: string
+          medical_conditions?: string[] | null
+          updated_at?: string | null
+          user_id?: string | null
+          weight?: number | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
