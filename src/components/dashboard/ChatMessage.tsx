@@ -4,13 +4,14 @@ interface ChatMessageProps {
 }
 
 export const ChatMessage = ({ role, content }: ChatMessageProps) => {
-  // Function to clean markdown symbols from text
+  // Function to clean markdown symbols and citation references from text
   const cleanMarkdown = (text: string) => {
     return text
       .replace(/#{1,6}\s/g, '') // Remove heading markers
       .replace(/\*\*/g, '')     // Remove bold markers
       .replace(/\*/g, '')       // Remove bullet points and italic markers
       .replace(/`/g, '')        // Remove code markers
+      .replace(/\[\d+(?:,\s*\d+)*\]/g, '') // Remove citation references like [1] or [1,2,3]
       .trim();
   };
 
