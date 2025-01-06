@@ -23,23 +23,21 @@ export const LandingHero = () => {
         <Button
           size="lg"
           onClick={() => navigate("/input")}
-          className="bg-primary hover:bg-primary/90"
+          className="bg-primary hover:bg-primary/90 text-primary-foreground"
         >
           Get Started
         </Button>
         <Button
           size="lg"
-          variant="outline"
           onClick={() => navigate("/dashboard")}
-          className="border-primary text-primary hover:bg-primary/10"
+          className="bg-primary hover:bg-primary/90 text-primary-foreground"
         >
           Open Dashboard
         </Button>
         <Button
           size="lg"
-          variant="ghost"
           onClick={() => setShowHowItWorks(true)}
-          className="text-muted-foreground hover:text-primary"
+          className="bg-primary hover:bg-primary/90 text-primary-foreground"
         >
           How It Works
         </Button>
