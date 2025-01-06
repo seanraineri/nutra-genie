@@ -28,6 +28,20 @@ serve(async (req) => {
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
     );
 
+    // Fetch user's health profile including budget
+    const { data: profile, error: profileError } = await supabase
+      .from('user_health_profiles')
+      .select('monthly_supplement_budget')
+      .eq('user_id', userId)
+      .single();
+
+    if (profileError) {
+      console.error('Error fetching user profile:', profileError);
+    }
+
+    const monthlyBudget = profile?.monthly_supplement_budget || null;
+    console.log('User monthly budget:', monthlyBudget);
+
     // Fetch relevant documents for context
     const { data: healthFiles, error: filesError } = await supabase
       .from('health_files')
@@ -42,7 +56,6 @@ serve(async (req) => {
 
     let documentContext = '';
     if (healthFiles && healthFiles.length > 0) {
-      // Get the content of each file from storage
       for (const file of healthFiles) {
         try {
           const { data, error } = await supabase.storage
@@ -54,7 +67,6 @@ serve(async (req) => {
             continue;
           }
 
-          // Convert blob to text
           const text = await data.text();
           documentContext += `\n\nContext from ${file.filename}:\n${text}`;
         } catch (error) {
@@ -63,20 +75,30 @@ serve(async (req) => {
       }
     }
 
+    const budgetContext = monthlyBudget 
+      ? `\nThe user has a monthly supplement budget of $${monthlyBudget}. Please ensure the total cost of recommended supplements stays within this budget.`
+      : '\nPlease include estimated monthly costs for each supplement recommendation.';
+
     const systemPrompt = `You are a holistic health advisor specializing in natural supplements, nutrition, and lifestyle modifications. 
     Your recommendations should be based on both traditional wisdom and modern scientific research.
+    ${budgetContext}
     
     ${documentContext ? 'Use the following context from uploaded documents to inform your responses:' + documentContext : ''}
     
     When providing recommendations:
     - Focus first on natural supplements, herbs, and nutritional approaches
-    - For each supplement, provide the official website link using this format:
-      * [Product Name](https://www.officialwebsite.com)
-    - Only recommend high-quality supplements from reputable brands
-    - Suggest lifestyle modifications and dietary changes
-    - Include traditional medicine perspectives (e.g., Ayurveda, Traditional Chinese Medicine)
-    - Mention potential root causes that could be addressed naturally
-    - Only mention conventional medical treatments as a last resort
+    - For each supplement recommendation, include:
+      * Exact product name and brand
+      * Monthly cost estimate
+      * Recommended dosage
+      * Expected benefits
+      * Priority level (1-5)
+    - If a budget is specified, optimize recommendations to fit within the budget
+    - Prioritize essential supplements if budget is limited
+    - Include links to reputable online retailers
+    - Suggest alternative, more affordable options when relevant
+    - Format costs clearly with dollar amounts
+    - Consider bulk purchase options for cost savings
     - Format responses with clear sections and bullet points for readability`;
 
     const response = await fetch('https://api.perplexity.ai/chat/completions', {
@@ -111,6 +133,15 @@ serve(async (req) => {
 
     const result = await response.json();
     console.log('Successfully got holistic health response from Perplexity');
+
+    // Update supplement recommendations with cost information
+    if (result.choices && result.choices[0]?.message?.content) {
+      const content = result.choices[0].message.content;
+      const matches = content.match(/\$\d+(\.\d{2})?/g);
+      if (matches) {
+        console.log('Found cost information in recommendations:', matches);
+      }
+    }
 
     return new Response(
       JSON.stringify(result),
