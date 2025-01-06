@@ -1,17 +1,73 @@
 import { Button } from "@/components/ui/button";
 import { Upload, ShoppingCart } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
+import { useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 
 export const LabTestsSection = () => {
   const { toast } = useToast();
+  const [isUploading, setIsUploading] = useState(false);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
 
-  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    if (file) {
+    if (!file) return;
+
+    try {
+      setIsUploading(true);
+      
+      // Upload file to Supabase Storage
+      const fileExt = file.name.split('.').pop();
+      const filePath = `${crypto.randomUUID()}.${fileExt}`;
+      
+      const { error: uploadError } = await supabase.storage
+        .from('health_files')
+        .upload(filePath, file);
+
+      if (uploadError) throw uploadError;
+
+      // Store file metadata
+      const { error: dbError } = await supabase
+        .from('health_files')
+        .insert({
+          filename: file.name,
+          file_path: filePath,
+          file_type: file.type,
+        });
+
+      if (dbError) throw dbError;
+
       toast({
         title: "File uploaded successfully",
-        description: "Your lab test results will be processed shortly.",
+        description: "Analyzing your lab results...",
       });
+
+      // Analyze the uploaded file
+      setIsAnalyzing(true);
+      const { data: analysisData, error: analysisError } = await supabase.functions
+        .invoke('analyze-lab-report', {
+          body: { filePath }
+        });
+
+      if (analysisError) throw analysisError;
+
+      toast({
+        title: "Analysis complete",
+        description: "Your lab results have been processed successfully.",
+      });
+
+      console.log('Analysis results:', analysisData);
+
+    } catch (error: any) {
+      console.error('Upload error:', error);
+      toast({
+        title: "Error",
+        description: error.message || "Failed to process your lab results",
+        variant: "destructive",
+      });
+    } finally {
+      setIsUploading(false);
+      setIsAnalyzing(false);
     }
   };
 
@@ -36,11 +92,12 @@ export const LabTestsSection = () => {
             <input
               type="file"
               className="hidden"
-              accept=".pdf,.csv,.xlsx"
+              accept=".pdf,.csv,.txt"
               onChange={handleFileUpload}
+              disabled={isUploading || isAnalyzing}
             />
-            <Button variant="outline" className="w-full">
-              Choose File
+            <Button variant="outline" className="w-full" disabled={isUploading || isAnalyzing}>
+              {isUploading ? "Uploading..." : isAnalyzing ? "Analyzing..." : "Choose File"}
             </Button>
           </label>
         </div>
