@@ -58,9 +58,7 @@ Please provide supplement recommendations in the following format for each recom
 4. Priority level (1-5, where 1 is highest priority)
 5. Estimated monthly cost
 6. Any potential interactions with current medications
-7. Any relevant precautions
-
-Focus on evidence-based recommendations and consider cost-effectiveness.`;
+7. Any relevant precautions`;
 
     // Get recommendations from OpenAI
     const openAIResponse = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -93,7 +91,6 @@ Focus on evidence-based recommendations and consider cost-effectiveness.`;
     const recommendations = aiResponse.choices[0].message.content;
 
     // Parse and store recommendations
-    // This is a simplified parsing example - you might want to make it more robust
     const recommendationLines = recommendations.split('\n');
     const parsedRecommendations = [];
     let currentRec = {};
