@@ -45,6 +45,22 @@ export default {
           foreground: "#334155",
         },
       },
+      typography: {
+        DEFAULT: {
+          css: {
+            maxWidth: 'none',
+            color: 'inherit',
+            p: {
+              marginTop: '0.5em',
+              marginBottom: '0.5em',
+            },
+            li: {
+              marginTop: '0.25em',
+              marginBottom: '0.25em',
+            },
+          },
+        },
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
@@ -71,5 +87,8 @@ export default {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+    require("tailwindcss-animate"),
+    require("@tailwindcss/typography")
+  ],
 } satisfies Config;
