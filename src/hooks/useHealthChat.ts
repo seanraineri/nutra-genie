@@ -9,7 +9,7 @@ export const useHealthChat = () => {
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([
     {
       role: "assistant",
-      content: "Hi! I'm your personal health assistant. I can help you understand your supplements and health goals. What would you like to know about?",
+      content: "Hi! I'm your personal health assistant. I can help you understand your supplements and health goals. You can upload holistic health documents to help shape my knowledge and recommendations. What would you like to know about?",
     },
   ]);
 
@@ -84,10 +84,16 @@ export const useHealthChat = () => {
     setChatHistory(prev => [...prev, { role: "user", content: message }]);
 
     try {
+      // Get current user
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        throw new Error('Not authenticated');
+      }
+
       // Handle file upload messages
       if (message.toLowerCase().includes("uploaded a file:")) {
         const filename = message.split("uploaded a file: ")[1];
-        const response = `I see you've uploaded ${filename}. I'll analyze this file and provide insights based on its contents. Is there anything specific you'd like me to look for in this document?`;
+        const response = `I see you've uploaded ${filename}. I'll analyze this document and incorporate its insights into my knowledge base for providing holistic health recommendations. Is there anything specific you'd like me to focus on from this document?`;
         setChatHistory(prev => [...prev, { role: "assistant", content: response }]);
         setIsLoading(false);
         return;
@@ -96,7 +102,10 @@ export const useHealthChat = () => {
       console.log('Sending message to search-supplements function:', message);
       
       const { data, error } = await supabase.functions.invoke('search-supplements', {
-        body: { query: message }
+        body: { 
+          query: message,
+          userId: user.id
+        }
       });
 
       if (error) {
