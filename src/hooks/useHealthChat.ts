@@ -29,25 +29,26 @@ export const useHealthChat = () => {
         return;
       }
 
-      // Handle supplement-related queries
-      if (message.toLowerCase().includes("supplement") || 
-          message.toLowerCase().includes("vitamin") ||
-          message.toLowerCase().includes("mineral")) {
-        const { data, error } = await supabase.functions.invoke('search-supplements', {
-          body: { query: message }
-        });
+      console.log('Sending message to search-supplements function:', message);
+      
+      const { data, error } = await supabase.functions.invoke('search-supplements', {
+        body: { query: message }
+      });
 
-        if (error) throw error;
+      if (error) {
+        console.error('Supabase function error:', error);
+        throw error;
+      }
 
-        const response = data.choices[0]?.message?.content || 
-          "I couldn't find specific information about that supplement. Would you like me to search for something else?";
+      console.log('Received response from search-supplements:', data);
 
+      if (data.choices && data.choices[0]?.message?.content) {
+        const response = data.choices[0].message.content;
         setChatHistory(prev => [...prev, { role: "assistant", content: response }]);
       } else {
-        // Handle general queries with a friendly response
-        const response = `I understand you're asking about "${message}". While I'm currently focused on providing supplement-related information, I'd be happy to help you learn about any vitamins, minerals, or supplements you're interested in.`;
-        setChatHistory(prev => [...prev, { role: "assistant", content: response }]);
+        throw new Error('Invalid response format from API');
       }
+
     } catch (error: any) {
       console.error('Chat error:', error);
       
@@ -61,7 +62,7 @@ export const useHealthChat = () => {
         ...prev,
         { 
           role: "assistant", 
-          content: "I apologize, but I'm having trouble accessing that information right now. Could you try asking about supplements or vitamins specifically?"
+          content: "I apologize, but I'm having trouble accessing the information right now. Please try asking your question again in a moment."
         }
       ]);
     } finally {
