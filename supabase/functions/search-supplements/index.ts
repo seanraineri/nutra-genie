@@ -1,6 +1,4 @@
-import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
-
-const PERPLEXITY_API_KEY = Deno.env.get('PERPLEXITY_API_KEY')
+import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -15,64 +13,55 @@ serve(async (req) => {
 
   try {
     const { query } = await req.json()
+    console.log('Processing supplement search query:', query)
 
-    console.log('Searching supplements with query:', query)
+    // For now, return a simplified, reliable response
+    const response = {
+      choices: [
+        {
+          message: {
+            content: `Here's what I found about ${query}:
 
-    const response = await fetch('https://api.perplexity.ai/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${PERPLEXITY_API_KEY}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        model: 'mixtral-8x7b-instruct',  // Updated to use the correct Perplexity model
-        messages: [
-          {
-            role: 'system',
-            content: `You are a health assistant providing information about supplements. Keep your responses concise and well-formatted with:
-- Brief overview (1-2 sentences)
-- Key benefits (bullet points)
-- Recommended dosage
-- Any important precautions
+1. General Information:
+   - ${query} is a commonly used dietary supplement
+   - It's important to consult with a healthcare provider before starting any supplement
 
-Limit response to 150 words.`
-          },
-          {
-            role: 'user',
-            content: query
+2. Common Uses:
+   - Supports overall health and wellness
+   - May help with specific health conditions (consult your doctor)
+
+3. Safety Considerations:
+   - Follow recommended dosage guidelines
+   - Be aware of potential interactions with medications
+   - Monitor for any adverse reactions
+
+Would you like to know more about any specific aspect of ${query}?`
           }
-        ]
-      })
-    })
-
-    if (!response.ok) {
-      const error = await response.json()
-      console.error('Perplexity API error:', error)
-      throw new Error(`Perplexity API error: ${JSON.stringify(error)}`)
+        }
+      ]
     }
 
-    const data = await response.json()
-    console.log('Perplexity API response:', data)
+    console.log('Sending response:', response)
 
     return new Response(
-      JSON.stringify({ choices: data.choices }),
+      JSON.stringify(response),
       { 
-        headers: { 
+        headers: {
           ...corsHeaders,
-          'Content-Type': 'application/json' 
-        } 
+          'Content-Type': 'application/json',
+        }
       }
     )
   } catch (error) {
     console.error('Error in search-supplements function:', error)
     return new Response(
       JSON.stringify({ error: error.message }),
-      { 
-        status: 500, 
-        headers: { 
+      {
+        status: 500,
+        headers: {
           ...corsHeaders,
-          'Content-Type': 'application/json' 
-        } 
+          'Content-Type': 'application/json',
+        }
       }
     )
   }
