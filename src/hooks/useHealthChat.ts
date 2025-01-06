@@ -10,7 +10,7 @@ export const useHealthChat = () => {
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([
     {
       role: "assistant",
-      content: "Hi! I'm your personal health assistant. I can help you understand your lab results, manage your supplement plan, and track your health goals. What would you like to know about?",
+      content: "Hi! I'm your personal health assistant. I can help you understand your lab results, manage your supplement plan, and track your health goals. You can also share health-related files with me for analysis. What would you like to know about?",
     },
   ]);
 
@@ -28,15 +28,6 @@ export const useHealthChat = () => {
 
     if (!healthProfile) {
       throw new Error("I notice you haven't completed your health profile yet. Would you like me to guide you through setting that up?");
-    }
-
-    const { data: labResults } = await supabase
-      .from('lab_results')
-      .select('*')
-      .eq('user_id', user.id);
-
-    if (!labResults?.length) {
-      throw new Error("I see that we don't have your lab results yet. Would you like to know how to upload them?");
     }
 
     return user.id;
@@ -58,6 +49,16 @@ export const useHealthChat = () => {
     }
   };
 
+  const handleFileUpload = async (filename: string) => {
+    try {
+      const response = `I see you've uploaded ${filename}. I'll analyze this file and provide insights based on its contents. Is there anything specific you'd like me to look for in this document?`;
+      setChatHistory(prev => [...prev, { role: "assistant", content: response }]);
+    } catch (error) {
+      console.error('Error handling file upload:', error);
+      throw error;
+    }
+  };
+
   const handleSendMessage = async (message: string) => {
     if (!message.trim()) return;
     
@@ -67,9 +68,15 @@ export const useHealthChat = () => {
     try {
       let response: string;
       
+      if (message.toLowerCase().includes("uploaded a file:")) {
+        const filename = message.split("uploaded a file: ")[1];
+        await handleFileUpload(filename);
+        setIsLoading(false);
+        return;
+      }
+      
       if (message.toLowerCase().includes("analyze") || 
           message.toLowerCase().includes("health data")) {
-        
         const recommendations = await analyzeHealthData();
         response = generateResponse(message, recommendations);
       } else {

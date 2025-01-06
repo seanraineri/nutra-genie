@@ -9,6 +9,33 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      health_files: {
+        Row: {
+          file_path: string
+          file_type: string | null
+          filename: string
+          id: string
+          uploaded_at: string | null
+          user_id: string | null
+        }
+        Insert: {
+          file_path: string
+          file_type?: string | null
+          filename: string
+          id?: string
+          uploaded_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          file_path?: string
+          file_type?: string | null
+          filename?: string
+          id?: string
+          uploaded_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       lab_results: {
         Row: {
           created_at: string | null
