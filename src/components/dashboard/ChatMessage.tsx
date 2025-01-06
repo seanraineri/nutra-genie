@@ -4,25 +4,26 @@ interface ChatMessageProps {
 }
 
 export const ChatMessage = ({ role, content }: ChatMessageProps) => {
-  // Function to clean markdown symbols from text
+  // Function to clean markdown symbols and brackets from text
   const cleanMarkdown = (text: string) => {
     return text
       .replace(/#{1,6}\s/g, '') // Remove heading markers
       .replace(/\*\*/g, '')     // Remove bold markers
       .replace(/\*/g, '')       // Remove bullet points and italic markers
       .replace(/`/g, '')        // Remove code markers
+      .replace(/\[|\]/g, '')    // Remove square brackets
       .trim();
   };
 
   // Function to convert URLs to clickable links
   const createClickableLinks = (text: string) => {
-    // URL pattern that matches URLs within square brackets followed by parentheses
-    const markdownLinkPattern = /\[(.*?)\]\((https?:\/\/[^\s)]+)\)/g;
+    // URL pattern that matches text followed by parentheses containing URL
+    const linkPattern = /([^(]+)\((https?:\/\/[^\s)]+)\)/g;
     
-    // If the text contains markdown-style links, convert them
-    if (text.match(markdownLinkPattern)) {
-      return text.replace(markdownLinkPattern, (match, linkText, url) => {
-        return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-primary underline hover:text-primary/80">${linkText}</a>`;
+    // If the text contains link patterns, convert them
+    if (text.match(linkPattern)) {
+      return text.replace(linkPattern, (match, linkText, url) => {
+        return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-primary underline hover:text-primary/80">${linkText.trim()}</a>`;
       });
     }
     
