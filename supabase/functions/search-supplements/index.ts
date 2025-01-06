@@ -31,75 +31,64 @@ serve(async (req) => {
     // Fetch user's health profile including budget
     const { data: profile, error: profileError } = await supabase
       .from('user_health_profiles')
-      .select('monthly_supplement_budget')
+      .select('monthly_supplement_budget, medical_conditions, current_medications')
       .eq('user_id', userId)
       .single();
 
     if (profileError) {
       console.error('Error fetching user profile:', profileError);
+      throw new Error('Could not fetch user profile');
     }
 
-    const monthlyBudget = profile?.monthly_supplement_budget || null;
+    const monthlyBudget = profile?.monthly_supplement_budget;
+    const medicalConditions = profile?.medical_conditions || [];
+    const currentMedications = profile?.current_medications || [];
+
     console.log('User monthly budget:', monthlyBudget);
+    console.log('Medical conditions:', medicalConditions);
+    console.log('Current medications:', currentMedications);
 
-    // Fetch relevant documents for context
-    const { data: healthFiles, error: filesError } = await supabase
-      .from('health_files')
-      .select('*')
-      .eq('user_id', userId)
-      .order('uploaded_at', { ascending: false })
-      .limit(5);
+    // Fetch current supplement recommendations to track total cost
+    const { data: currentSupplements, error: supplementsError } = await supabase
+      .from('supplement_recommendations')
+      .select('supplement_name, estimated_cost')
+      .eq('user_id', userId);
 
-    if (filesError) {
-      console.error('Error fetching health files:', filesError);
+    if (supplementsError) {
+      console.error('Error fetching current supplements:', supplementsError);
     }
 
-    let documentContext = '';
-    if (healthFiles && healthFiles.length > 0) {
-      for (const file of healthFiles) {
-        try {
-          const { data, error } = await supabase.storage
-            .from('health_files')
-            .download(file.file_path);
-
-          if (error) {
-            console.error('Error downloading file:', error);
-            continue;
-          }
-
-          const text = await data.text();
-          documentContext += `\n\nContext from ${file.filename}:\n${text}`;
-        } catch (error) {
-          console.error('Error processing file:', error);
-        }
-      }
-    }
+    const currentTotalCost = currentSupplements?.reduce((sum, sup) => sum + (sup.estimated_cost || 0), 0) || 0;
+    console.log('Current total supplement cost:', currentTotalCost);
 
     const budgetContext = monthlyBudget 
-      ? `\nThe user has a monthly supplement budget of $${monthlyBudget}. Please ensure the total cost of recommended supplements stays within this budget.`
-      : '\nPlease include estimated monthly costs for each supplement recommendation.';
+      ? `The user has a monthly supplement budget of $${monthlyBudget}, with current supplement costs of $${currentTotalCost.toFixed(2)}. Please ensure new recommendations stay within the remaining budget of $${(monthlyBudget - currentTotalCost).toFixed(2)}.`
+      : 'No specific budget set. Please include estimated monthly costs for each supplement recommendation.';
+
+    const medicalContext = `
+      Medical Conditions: ${medicalConditions.length ? medicalConditions.join(', ') : 'None reported'}
+      Current Medications: ${currentMedications.length ? currentMedications.join(', ') : 'None reported'}
+    `;
 
     const systemPrompt = `You are a holistic health advisor specializing in natural supplements, nutrition, and lifestyle modifications. 
     Your recommendations should be based on both traditional wisdom and modern scientific research.
-    ${budgetContext}
     
-    ${documentContext ? 'Use the following context from uploaded documents to inform your responses:' + documentContext : ''}
+    ${budgetContext}
+    ${medicalContext}
     
     When providing recommendations:
-    - Focus first on natural supplements, herbs, and nutritional approaches
-    - For each supplement recommendation, include:
-      * Exact product name and brand
-      * Monthly cost estimate
-      * Recommended dosage
-      * Expected benefits
-      * Priority level (1-5)
-    - If a budget is specified, optimize recommendations to fit within the budget
-    - Prioritize essential supplements if budget is limited
-    - Include links to reputable online retailers
-    - Suggest alternative, more affordable options when relevant
-    - Format costs clearly with dollar amounts
-    - Consider bulk purchase options for cost savings
-    - Format responses with clear sections and bullet points for readability`;
+    1. First check for any contraindications with current medications
+    2. Prioritize essential supplements if budget is limited
+    3. For each supplement recommendation, include:
+       - Exact product name and brand
+       - Monthly cost estimate
+       - Recommended dosage
+       - Expected benefits
+       - Priority level (1-5)
+       - Any potential interactions with current medications
+    4. Format costs clearly with dollar amounts
+    5. Consider bulk purchase options for cost savings
+    6. Format responses with clear sections and bullet points for readability`;
 
     const response = await fetch('https://api.perplexity.ai/chat/completions', {
       method: 'POST',
