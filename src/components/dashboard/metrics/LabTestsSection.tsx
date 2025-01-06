@@ -15,25 +15,24 @@ export const LabTestsSection = () => {
 
     try {
       setIsUploading(true);
+      console.log('Starting file upload process...');
       
-      // Upload file directly to storage without auth
       const fileExt = file.name.split('.').pop();
       const filePath = `${crypto.randomUUID()}.${fileExt}`;
       
+      console.log('Uploading file to storage:', filePath);
+      
       const { data: uploadData, error: uploadError } = await supabase.storage
         .from('health_files')
-        .upload(filePath, file, {
-          upsert: false
-        });
+        .upload(filePath, file);
 
       if (uploadError) {
-        console.error('Upload error:', uploadError);
+        console.error('Storage upload error:', uploadError);
         throw uploadError;
       }
 
-      console.log('Upload successful:', uploadData);
+      console.log('File uploaded successfully:', uploadData);
 
-      // Store file metadata without user_id
       const { error: dbError } = await supabase
         .from('health_files')
         .insert({
@@ -43,7 +42,7 @@ export const LabTestsSection = () => {
         });
 
       if (dbError) {
-        console.error('Database error:', dbError);
+        console.error('Database insert error:', dbError);
         throw dbError;
       }
 
@@ -52,24 +51,28 @@ export const LabTestsSection = () => {
         description: "Analyzing your lab results...",
       });
 
-      // Analyze the uploaded file
       setIsAnalyzing(true);
+      console.log('Invoking analyze-lab-report function...');
+      
       const { data: analysisData, error: analysisError } = await supabase.functions
         .invoke('analyze-lab-report', {
           body: { filePath }
         });
 
-      if (analysisError) throw analysisError;
+      if (analysisError) {
+        console.error('Analysis error:', analysisError);
+        throw analysisError;
+      }
 
+      console.log('Analysis complete:', analysisData);
+      
       toast({
         title: "Analysis complete",
         description: "Your lab results have been processed successfully.",
       });
 
-      console.log('Analysis results:', analysisData);
-
     } catch (error: any) {
-      console.error('Error:', error);
+      console.error('Error in upload process:', error);
       toast({
         title: "Error",
         description: error.message || "Failed to process your lab results",
