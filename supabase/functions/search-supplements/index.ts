@@ -14,6 +14,13 @@ serve(async (req) => {
 
   try {
     const { query, chatHistory = [] } = await req.json();
+    
+    console.log('Processing request with:', { query, chatHistoryLength: chatHistory.length });
+
+    // Validate inputs
+    if (!query || typeof query !== 'string') {
+      throw new Error('Invalid query parameter');
+    }
 
     // Create messages array with system message and chat history
     const messages = [
@@ -21,34 +28,56 @@ serve(async (req) => {
         role: "system",
         content: "You are a knowledgeable health assistant specializing in analyzing lab results, recommending supplements, and providing evidence-based health advice. Always be clear, concise, and focus on actionable recommendations."
       },
-      ...chatHistory, // Include previous conversation context
+      ...chatHistory.map(msg => ({
+        role: msg.role,
+        content: msg.content
+      })),
       {
         role: "user",
         content: query
       }
     ];
 
-    console.log('Sending request to Perplexity API with messages:', messages);
+    console.log('Sending request to Perplexity API with messages structure:', {
+      messageCount: messages.length,
+      lastMessage: messages[messages.length - 1]
+    });
+
+    const perplexityKey = Deno.env.get('PERPLEXITY_API_KEY');
+    if (!perplexityKey) {
+      throw new Error('Perplexity API key not configured');
+    }
 
     const response = await fetch('https://api.perplexity.ai/chat/completions', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${Deno.env.get('PERPLEXITY_API_KEY')}`,
+        'Authorization': `Bearer ${perplexityKey}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         model: 'llama-3.1-sonar-small-128k-online',
         messages: messages,
         temperature: 0.7,
+        max_tokens: 4000
       }),
     });
 
     if (!response.ok) {
-      throw new Error(`API request failed: ${response.statusText}`);
+      const errorText = await response.text();
+      console.error('Perplexity API error:', {
+        status: response.status,
+        statusText: response.statusText,
+        error: errorText
+      });
+      throw new Error(`API request failed: ${response.status} ${response.statusText} - ${errorText}`);
     }
 
     const data = await response.json();
-    console.log('Received response from Perplexity API:', data);
+    console.log('Received response from Perplexity API:', {
+      status: response.status,
+      hasChoices: !!data.choices,
+      firstChoice: data.choices?.[0]
+    });
 
     return new Response(JSON.stringify(data), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -57,9 +86,12 @@ serve(async (req) => {
   } catch (error) {
     console.error('Error in search-supplements function:', error);
     return new Response(
-      JSON.stringify({ error: error.message }),
+      JSON.stringify({ 
+        error: error.message,
+        details: error.stack
+      }),
       { 
-        status: 500,
+        status: 400,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' }
       }
     );
