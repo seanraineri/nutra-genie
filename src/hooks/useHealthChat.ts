@@ -10,7 +10,7 @@ export const useHealthChat = () => {
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([
     {
       role: "assistant",
-      content: "Hi! I'm your personal health assistant. I can help you understand your lab results, manage your supplement plan, and track your health goals. You can also share health-related files with me for analysis. What would you like to know about?",
+      content: "Hi! I'm your personal health assistant. I can help you understand your lab results, manage your supplement plan, and track your health goals. You can also ask me about specific supplements or share health-related files with me for analysis. What would you like to know about?",
     },
   ]);
 
@@ -59,6 +59,24 @@ export const useHealthChat = () => {
     }
   };
 
+  const searchSupplements = async (query: string) => {
+    try {
+      const { data, error } = await supabase.functions.invoke('search-supplements', {
+        body: { query }
+      });
+
+      if (error) throw error;
+
+      const response = data.choices[0]?.message?.content || 
+        "I couldn't find specific information about that supplement. Would you like me to search for something else?";
+
+      return response;
+    } catch (error) {
+      console.error('Error searching supplements:', error);
+      throw error;
+    }
+  };
+
   const handleSendMessage = async (message: string) => {
     if (!message.trim()) return;
     
@@ -74,9 +92,14 @@ export const useHealthChat = () => {
         setIsLoading(false);
         return;
       }
-      
-      if (message.toLowerCase().includes("analyze") || 
-          message.toLowerCase().includes("health data")) {
+
+      // Check if the message is asking about supplements
+      if (message.toLowerCase().includes("supplement") || 
+          message.toLowerCase().includes("vitamin") ||
+          message.toLowerCase().includes("mineral")) {
+        response = await searchSupplements(message);
+      } else if (message.toLowerCase().includes("analyze") || 
+                 message.toLowerCase().includes("health data")) {
         const recommendations = await analyzeHealthData();
         response = generateResponse(message, recommendations);
       } else {
@@ -85,7 +108,7 @@ export const useHealthChat = () => {
 
       setChatHistory(prev => [...prev, { role: "assistant", content: response }]);
     } catch (error: any) {
-      const errorMessage = error.message || "I'm having trouble accessing your health information right now. Could you try again in a moment?";
+      const errorMessage = error.message || "I'm having trouble accessing that information right now. Could you try again in a moment?";
       
       toast({
         title: "Notice",

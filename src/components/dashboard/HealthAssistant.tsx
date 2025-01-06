@@ -8,6 +8,8 @@ import { useHealthChat } from "@/hooks/useHealthChat";
 const quickReplies = [
   "Analyze my health data",
   "View my supplement plan",
+  "Tell me about Vitamin D",
+  "Search for magnesium benefits",
   "Check my progress",
   "Update my goals",
 ];
@@ -20,7 +22,7 @@ export const HealthAssistant = () => {
       <div className="p-4 border-b">
         <h2 className="text-xl font-semibold">Health Assistant</h2>
         <p className="text-sm text-muted-foreground">
-          Ask me anything about your health data and supplements
+          Ask me anything about your health data, supplements, or upload health-related files
         </p>
       </div>
 
