@@ -31,7 +31,72 @@ export const HealthMetrics = () => {
           <h2 className="text-xl font-semibold">Welcome back, John!</h2>
           <p className="text-muted-foreground">Here's an overview of your health metrics and goals.</p>
         </div>
+
+        {/* Personal Information Section */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="p-4 bg-background rounded-lg border">
+            <h3 className="font-semibold text-secondary mb-2">Personal Information</h3>
+            <div className="space-y-2">
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Age:</span>
+                <span>32 years</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Gender:</span>
+                <span>Male</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Height:</span>
+                <span>5'10" (178 cm)</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Weight:</span>
+                <span>165 lbs (75 kg)</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="p-4 bg-background rounded-lg border">
+            <h3 className="font-semibold text-secondary mb-2">Health Status</h3>
+            <div className="space-y-2">
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Exercise Level:</span>
+                <span className="text-primary font-medium">Medium</span>
+              </div>
+              <div className="flex flex-col gap-1">
+                <span className="text-muted-foreground">Current Medications:</span>
+                <span className="text-sm">
+                  - Vitamin D3 (1000 IU)<br />
+                  - Fish Oil (1000mg)
+                </span>
+              </div>
+              <div className="flex flex-col gap-1">
+                <span className="text-muted-foreground">Existing Conditions:</span>
+                <span className="text-sm">
+                  - Seasonal allergies<br />
+                  - Mild hypertension
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div className="p-4 bg-background rounded-lg border md:col-span-2 lg:col-span-1">
+            <h3 className="font-semibold text-secondary mb-2">Quick Actions</h3>
+            <div className="space-y-2">
+              <Button variant="outline" size="sm" className="w-full justify-start">
+                Update Health Information
+              </Button>
+              <Button variant="outline" size="sm" className="w-full justify-start">
+                Download Health Report
+              </Button>
+              <Button variant="outline" size="sm" className="w-full justify-start">
+                Schedule Health Review
+              </Button>
+            </div>
+          </div>
+        </div>
         
+        {/* Vitamin Metrics Section */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="p-4 bg-primary/10 rounded-lg">
             <h3 className="font-semibold text-primary">Vitamin D Status</h3>
