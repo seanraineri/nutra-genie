@@ -1,26 +1,12 @@
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3'
+import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
 
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-}
+const PERPLEXITY_API_KEY = Deno.env.get('PERPLEXITY_API_KEY')
 
-Deno.serve(async (req) => {
-  // Handle CORS preflight requests
-  if (req.method === 'OPTIONS') {
-    return new Response(null, { headers: corsHeaders })
-  }
-
+serve(async (req) => {
   try {
-    const PERPLEXITY_API_KEY = Deno.env.get('PERPLEXITY_API_KEY')
-    if (!PERPLEXITY_API_KEY) {
-      throw new Error('PERPLEXITY_API_KEY is not set')
-    }
-
     const { query } = await req.json()
-    console.log('Searching supplements with query:', query)
 
-    const perplexityResponse = await fetch('https://api.perplexity.ai/chat/completions', {
+    const response = await fetch('https://api.perplexity.ai/chat/completions', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${PERPLEXITY_API_KEY}`,
@@ -31,47 +17,36 @@ Deno.serve(async (req) => {
         messages: [
           {
             role: 'system',
-            content: 'You are a knowledgeable health assistant. Provide accurate, scientific information about supplements, including benefits, risks, and typical dosages. Keep responses concise and evidence-based.'
+            content: `You are a health assistant providing information about supplements. Keep your responses concise and well-formatted with:
+- Brief overview (1-2 sentences)
+- Key benefits (bullet points)
+- Recommended dosage
+- Any important precautions
+
+Limit response to 150 words.`
           },
           {
             role: 'user',
             content: query
           }
-        ],
-        max_tokens: 1000,
-        temperature: 0.2,
-      }),
+        ]
+      })
     })
 
-    if (!perplexityResponse.ok) {
-      const errorText = await perplexityResponse.text()
-      console.error('Perplexity API error response:', errorText)
-      throw new Error(`Perplexity API error: ${errorText}`)
+    if (!response.ok) {
+      const error = await response.json()
+      throw new Error(`Perplexity API error: ${JSON.stringify(error)}`)
     }
 
-    const data = await perplexityResponse.json()
-    console.log('Perplexity API response received:', data)
-
+    const data = await response.json()
     return new Response(
-      JSON.stringify(data),
-      { 
-        headers: { 
-          ...corsHeaders, 
-          'Content-Type': 'application/json'
-        } 
-      },
+      JSON.stringify({ choices: data.choices }),
+      { headers: { 'Content-Type': 'application/json' } }
     )
   } catch (error) {
-    console.error('Error in search-supplements function:', error)
     return new Response(
       JSON.stringify({ error: error.message }),
-      { 
-        status: 500,
-        headers: { 
-          ...corsHeaders, 
-          'Content-Type': 'application/json'
-        }
-      },
+      { status: 500, headers: { 'Content-Type': 'application/json' } }
     )
   }
 })
