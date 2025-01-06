@@ -8,46 +8,52 @@ export const LandingHero = () => {
   const [showHowItWorks, setShowHowItWorks] = useState(false);
 
   return (
-    <div className="min-h-[80vh] flex flex-col items-center justify-center px-4 animate-fade-in">
-      <h1 className="text-4xl md:text-6xl font-bold text-center text-secondary mb-2">
-        Personalized Supplement
-        <span className="text-primary block mt-2">Recommendations</span>
-      </h1>
-      <h2 className="text-lg md:text-xl font-medium text-muted-foreground text-center mb-6">
-        Using Science to Actually Get You Healthy
-      </h2>
-      <p className="text-lg md:text-xl text-muted-foreground text-center max-w-2xl mb-8">
-        Get tailored supplement recommendations based on your blood work and genetic data. Track your progress and optimize your health journey.
-      </p>
-      <div className="flex flex-col sm:flex-row gap-4">
-        <Button
-          size="lg"
-          onClick={() => navigate("/input")}
-          className="bg-primary hover:bg-primary/90 text-primary-foreground"
-        >
-          Get Started
-        </Button>
-        <Button
-          size="lg"
-          onClick={() => navigate("/dashboard")}
-          className="bg-primary hover:bg-primary/90 text-primary-foreground"
-        >
-          Open Dashboard
-        </Button>
-        <Button
-          size="lg"
-          onClick={() => setShowHowItWorks(true)}
-          className="bg-primary hover:bg-primary/90 text-primary-foreground"
-        >
-          How It Works
-        </Button>
+    <>
+      <div className="fixed top-0 right-0 p-4 flex gap-4">
+        <a href="/about" className="text-muted-foreground hover:text-primary transition-colors">About Us</a>
+        <a href="/contact" className="text-muted-foreground hover:text-primary transition-colors">Contact</a>
       </div>
-      <HowItWorksModal open={showHowItWorks} onClose={() => setShowHowItWorks(false)} />
-      
-      <div className="fixed bottom-4 left-0 right-0 flex justify-center gap-8 text-sm text-muted-foreground">
-        <a href="/privacy" className="hover:text-primary transition-colors">Privacy Policy</a>
-        <a href="/terms" className="hover:text-primary transition-colors">Terms & Conditions</a>
+      <div className="min-h-[80vh] flex flex-col items-center justify-center px-4 animate-fade-in">
+        <h1 className="text-4xl md:text-6xl font-bold text-center text-secondary mb-2">
+          Personalized Supplement
+          <span className="text-primary block mt-2">Recommendations</span>
+        </h1>
+        <h2 className="text-lg md:text-xl font-medium text-muted-foreground text-center mb-6">
+          Using Science to Actually Get You Healthy
+        </h2>
+        <p className="text-lg md:text-xl text-muted-foreground text-center max-w-2xl mb-8">
+          Get tailored supplement recommendations based on your blood work and genetic data. Track your progress and optimize your health journey.
+        </p>
+        <div className="flex flex-col sm:flex-row gap-4">
+          <Button
+            size="lg"
+            onClick={() => navigate("/input")}
+            className="bg-primary hover:bg-primary/90 text-primary-foreground"
+          >
+            Get Started
+          </Button>
+          <Button
+            size="lg"
+            onClick={() => navigate("/dashboard")}
+            className="bg-primary hover:bg-primary/90 text-primary-foreground"
+          >
+            Open Dashboard
+          </Button>
+          <Button
+            size="lg"
+            onClick={() => setShowHowItWorks(true)}
+            className="bg-primary hover:bg-primary/90 text-primary-foreground"
+          >
+            How It Works
+          </Button>
+        </div>
+        <HowItWorksModal open={showHowItWorks} onClose={() => setShowHowItWorks(false)} />
+        
+        <div className="fixed bottom-4 left-0 right-0 flex justify-center gap-8 text-sm text-muted-foreground">
+          <a href="/privacy" className="hover:text-primary transition-colors">Privacy Policy</a>
+          <a href="/terms" className="hover:text-primary transition-colors">Terms & Conditions</a>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
