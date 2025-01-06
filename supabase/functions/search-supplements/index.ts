@@ -16,6 +16,8 @@ serve(async (req) => {
   try {
     const { query } = await req.json()
 
+    console.log('Searching supplements with query:', query)
+
     const response = await fetch('https://api.perplexity.ai/chat/completions', {
       method: 'POST',
       headers: {
@@ -23,7 +25,7 @@ serve(async (req) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'sonar-medium-chat',  // Updated to use a supported Perplexity model
+        model: 'mixtral-8x7b-instruct',  // Updated to use the correct Perplexity model
         messages: [
           {
             role: 'system',
@@ -45,10 +47,13 @@ Limit response to 150 words.`
 
     if (!response.ok) {
       const error = await response.json()
+      console.error('Perplexity API error:', error)
       throw new Error(`Perplexity API error: ${JSON.stringify(error)}`)
     }
 
     const data = await response.json()
+    console.log('Perplexity API response:', data)
+
     return new Response(
       JSON.stringify({ choices: data.choices }),
       { 
@@ -59,6 +64,7 @@ Limit response to 150 words.`
       }
     )
   } catch (error) {
+    console.error('Error in search-supplements function:', error)
     return new Response(
       JSON.stringify({ error: error.message }),
       { 
