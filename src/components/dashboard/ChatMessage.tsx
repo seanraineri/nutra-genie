@@ -9,7 +9,7 @@ export const ChatMessage = ({ role, content }: ChatMessageProps) => {
     return text
       .replace(/#{1,6}\s/g, '') // Remove heading markers
       .replace(/\*\*/g, '')     // Remove bold markers
-      .replace(/\*/g, '')       // Remove italic markers
+      .replace(/\*/g, '')       // Remove bullet points and italic markers
       .replace(/`/g, '')        // Remove code markers
       .trim();
   };
@@ -37,7 +37,7 @@ export const ChatMessage = ({ role, content }: ChatMessageProps) => {
   const formatContent = (text: string) => {
     const lines = text.split('\n');
     return lines.map((line, index) => {
-      const trimmedLine = line.trim();
+      const trimmedLine = cleanMarkdown(line.trim());
       if (trimmedLine.startsWith('•') || trimmedLine.startsWith('-')) {
         return (
           <li 
