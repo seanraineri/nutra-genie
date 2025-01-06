@@ -1,86 +1,17 @@
 import { Button } from "@/components/ui/button";
 import { Upload, ShoppingCart } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
-import { useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
 
 export const LabTestsSection = () => {
   const { toast } = useToast();
-  const [isUploading, setIsUploading] = useState(false);
-  const [isAnalyzing, setIsAnalyzing] = useState(false);
 
-  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    if (!file) return;
-
-    try {
-      setIsUploading(true);
-      console.log('Starting file upload process...');
-      
-      const fileExt = file.name.split('.').pop();
-      const filePath = `${crypto.randomUUID()}.${fileExt}`;
-      
-      console.log('Uploading file to storage:', filePath);
-      
-      const { data: uploadData, error: uploadError } = await supabase.storage
-        .from('health_files')
-        .upload(filePath, file);
-
-      if (uploadError) {
-        console.error('Storage upload error:', uploadError);
-        throw uploadError;
-      }
-
-      console.log('File uploaded successfully:', uploadData);
-
-      const { error: dbError } = await supabase
-        .from('health_files')
-        .insert({
-          filename: file.name,
-          file_path: filePath,
-          file_type: file.type,
-        });
-
-      if (dbError) {
-        console.error('Database insert error:', dbError);
-        throw dbError;
-      }
-
+    if (file) {
       toast({
         title: "File uploaded successfully",
-        description: "Analyzing your lab results...",
+        description: "Your lab test results will be processed shortly.",
       });
-
-      setIsAnalyzing(true);
-      console.log('Invoking analyze-lab-report function...');
-      
-      const { data: analysisData, error: analysisError } = await supabase.functions
-        .invoke('analyze-lab-report', {
-          body: { filePath }
-        });
-
-      if (analysisError) {
-        console.error('Analysis error:', analysisError);
-        throw analysisError;
-      }
-
-      console.log('Analysis complete:', analysisData);
-      
-      toast({
-        title: "Analysis complete",
-        description: "Your lab results have been processed successfully.",
-      });
-
-    } catch (error: any) {
-      console.error('Error in upload process:', error);
-      toast({
-        title: "Error",
-        description: error.message || "Failed to process your lab results",
-        variant: "destructive",
-      });
-    } finally {
-      setIsUploading(false);
-      setIsAnalyzing(false);
     }
   };
 
@@ -105,12 +36,11 @@ export const LabTestsSection = () => {
             <input
               type="file"
               className="hidden"
-              accept=".pdf,.csv,.txt"
+              accept=".pdf,.csv,.xlsx"
               onChange={handleFileUpload}
-              disabled={isUploading || isAnalyzing}
             />
-            <Button variant="outline" className="w-full" disabled={isUploading || isAnalyzing}>
-              {isUploading ? "Uploading..." : isAnalyzing ? "Analyzing..." : "Choose File"}
+            <Button variant="outline" className="w-full">
+              Choose File
             </Button>
           </label>
         </div>
