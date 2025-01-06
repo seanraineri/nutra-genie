@@ -19,7 +19,7 @@ export const Dashboard = () => {
               variant="outline"
               size="sm"
               className="flex items-center gap-2"
-              onClick={() => navigate(-1)}
+              onClick={() => navigate("/")}
             >
               <ChevronLeft className="h-4 w-4" />
               Back
