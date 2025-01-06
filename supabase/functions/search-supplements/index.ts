@@ -27,7 +27,7 @@ Deno.serve(async (req) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'mixtral-8x7b-instruct',  // Updated to use the correct Perplexity model
+        model: 'llama-3.1-sonar-small-128k-online',
         messages: [
           {
             role: 'system',
@@ -39,6 +39,8 @@ Deno.serve(async (req) => {
           }
         ],
         max_tokens: 1000,
+        temperature: 0.2,
+        top_p: 0.9
       }),
     })
 
