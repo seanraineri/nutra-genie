@@ -20,14 +20,14 @@ Deno.serve(async (req) => {
     const { query } = await req.json()
     console.log('Searching supplements with query:', query)
 
-    const response = await fetch('https://api.perplexity.ai/chat/completions', {
+    const perplexityResponse = await fetch('https://api.perplexity.ai/chat/completions', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${PERPLEXITY_API_KEY}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'llama-3.1-sonar-small-128k-online',
+        model: 'sonar-small-chat',
         messages: [
           {
             role: 'system',
@@ -40,18 +40,17 @@ Deno.serve(async (req) => {
         ],
         max_tokens: 1000,
         temperature: 0.2,
-        top_p: 0.9
       }),
     })
 
-    if (!response.ok) {
-      const error = await response.text()
-      console.error('Perplexity API error:', error)
-      throw new Error(`Perplexity API error: ${error}`)
+    if (!perplexityResponse.ok) {
+      const errorText = await perplexityResponse.text()
+      console.error('Perplexity API error response:', errorText)
+      throw new Error(`Perplexity API error: ${errorText}`)
     }
 
-    const data = await response.json()
-    console.log('Perplexity API response received')
+    const data = await perplexityResponse.json()
+    console.log('Perplexity API response received:', data)
 
     return new Response(
       JSON.stringify(data),
