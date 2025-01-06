@@ -35,8 +35,8 @@ export const ChatMessage = ({ role, content }: ChatMessageProps) => {
 
   // Function to format the content with bullet points and links
   const formatContent = (text: string) => {
-    const cleanedText = cleanMarkdown(text);
-    return cleanedText.split('\n').map((line, index) => {
+    const lines = text.split('\n');
+    return lines.map((line, index) => {
       const trimmedLine = line.trim();
       if (trimmedLine.startsWith('•') || trimmedLine.startsWith('-')) {
         return (
