@@ -1,6 +1,5 @@
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -22,25 +21,40 @@ serve(async (req) => {
       throw new Error('Invalid query parameter');
     }
 
-    // Create messages array with system message and chat history
+    // Start with the system message
     const messages = [
       {
         role: "system",
         content: "You are a knowledgeable health assistant specializing in analyzing lab results, recommending supplements, and providing evidence-based health advice. Always be clear, concise, and focus on actionable recommendations."
-      },
-      ...chatHistory.map(msg => ({
-        role: msg.role,
-        content: msg.content
-      })),
-      {
-        role: "user",
-        content: query
       }
     ];
 
+    // Add chat history ensuring alternating user/assistant messages
+    let lastRole = "system";
+    for (const msg of chatHistory) {
+      // Skip if we would have two messages with the same role in sequence
+      if (msg.role === lastRole) {
+        console.log('Skipping message due to non-alternating roles:', msg);
+        continue;
+      }
+      messages.push({
+        role: msg.role,
+        content: msg.content
+      });
+      lastRole = msg.role;
+    }
+
+    // Add the current query as a user message, but only if the last message wasn't a user message
+    if (lastRole !== "user") {
+      messages.push({
+        role: "user",
+        content: query
+      });
+    }
+
     console.log('Sending request to Perplexity API with messages structure:', {
       messageCount: messages.length,
-      lastMessage: messages[messages.length - 1]
+      messages: messages.map(m => ({ role: m.role }))
     });
 
     const perplexityKey = Deno.env.get('PERPLEXITY_API_KEY');
