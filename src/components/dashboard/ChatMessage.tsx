@@ -14,7 +14,33 @@ export const ChatMessage = ({ role, content }: ChatMessageProps) => {
       .trim();
   };
 
-  // Function to format the content with bullet points
+  // Function to convert URLs to clickable links
+  const createClickableLinks = (text: string) => {
+    // URL regex pattern
+    const urlPattern = /(https?:\/\/[^\s]+)/g;
+    
+    // Split the text into parts (URLs and non-URLs)
+    const parts = text.split(urlPattern);
+    
+    return parts.map((part, index) => {
+      if (part.match(urlPattern)) {
+        return (
+          <a
+            key={index}
+            href={part}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-primary underline hover:text-primary/80"
+          >
+            {part}
+          </a>
+        );
+      }
+      return part;
+    });
+  };
+
+  // Function to format the content with bullet points and links
   const formatContent = (text: string) => {
     const cleanedText = cleanMarkdown(text);
     return cleanedText.split('\n').map((line, index) => {
@@ -22,13 +48,13 @@ export const ChatMessage = ({ role, content }: ChatMessageProps) => {
       if (trimmedLine.startsWith('•') || trimmedLine.startsWith('-')) {
         return (
           <li key={index} className="ml-4 mb-2">
-            {trimmedLine.substring(1).trim()}
+            {createClickableLinks(trimmedLine.substring(1).trim())}
           </li>
         );
       }
       return (
         <p key={index} className={trimmedLine ? "mb-2" : "mb-4"}>
-          {trimmedLine}
+          {createClickableLinks(trimmedLine)}
         </p>
       );
     });
