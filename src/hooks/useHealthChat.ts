@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { ChatMessage } from "@/types/chat";
@@ -12,6 +12,70 @@ export const useHealthChat = () => {
       content: "Hi! I'm your personal health assistant. I can help you understand your supplements and health goals. What would you like to know about?",
     },
   ]);
+
+  const addSupplementRecommendation = async (supplement: {
+    supplement_name: string;
+    dosage: string;
+    reason: string;
+  }) => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("Not authenticated");
+
+      const { error } = await supabase
+        .from('supplement_recommendations')
+        .insert({
+          user_id: user.id,
+          ...supplement,
+          priority: 1,
+        });
+
+      if (error) throw error;
+
+      toast({
+        title: "Supplement added",
+        description: `${supplement.supplement_name} has been added to your supplement plan.`,
+      });
+    } catch (error: any) {
+      console.error('Error adding supplement:', error);
+      toast({
+        title: "Error",
+        description: "Failed to add supplement to your plan.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const addHealthGoal = async (goal: {
+    goal_name: string;
+    description?: string;
+  }) => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("Not authenticated");
+
+      const { error } = await supabase
+        .from('health_goals')
+        .insert({
+          user_id: user.id,
+          ...goal,
+        });
+
+      if (error) throw error;
+
+      toast({
+        title: "Goal added",
+        description: `${goal.goal_name} has been added to your health goals.`,
+      });
+    } catch (error: any) {
+      console.error('Error adding goal:', error);
+      toast({
+        title: "Error",
+        description: "Failed to add health goal.",
+        variant: "destructive",
+      });
+    }
+  };
 
   const handleSendMessage = async (message: string) => {
     if (!message.trim()) return;
@@ -44,6 +108,36 @@ export const useHealthChat = () => {
 
       if (data.choices && data.choices[0]?.message?.content) {
         const response = data.choices[0].message.content;
+        
+        // Check if response contains supplement recommendations
+        if (response.toLowerCase().includes("recommend") && response.includes("[")) {
+          const supplementMatch = response.match(/\[(.*?)\]/g);
+          if (supplementMatch) {
+            const supplement = supplementMatch[0].replace(/[\[\]]/g, '');
+            const dosageMatch = response.match(/Dosage: (.*?)(?=\n|$)/);
+            const reasonMatch = response.match(/Benefits: (.*?)(?=\n|$)/);
+            
+            if (dosageMatch && reasonMatch) {
+              await addSupplementRecommendation({
+                supplement_name: supplement,
+                dosage: dosageMatch[1],
+                reason: reasonMatch[1],
+              });
+            }
+          }
+        }
+
+        // Check if response contains health goals
+        if (response.toLowerCase().includes("goal")) {
+          const goalMatch = response.match(/goal: (.*?)(?=\n|$)/i);
+          if (goalMatch) {
+            await addHealthGoal({
+              goal_name: goalMatch[1],
+              description: "Added via health assistant chat",
+            });
+          }
+        }
+
         setChatHistory(prev => [...prev, { role: "assistant", content: response }]);
       } else {
         throw new Error('Invalid response format from API');
