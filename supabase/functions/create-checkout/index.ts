@@ -18,9 +18,8 @@ serve(async (req) => {
   )
 
   try {
-    // Get the email from the query parameters
-    const url = new URL(req.url)
-    const email = url.searchParams.get('email')
+    // Get the request body
+    const { email } = await req.json()
 
     if (!email) {
       throw new Error('Email is required')
@@ -30,18 +29,18 @@ serve(async (req) => {
       apiVersion: '2023-10-16',
     })
 
-    console.log('Creating payment session...')
+    console.log('Creating payment session for email:', email)
     const session = await stripe.checkout.sessions.create({
       customer_email: email,
       line_items: [
         {
-          price: 'price_1QekbUKwHcx67g1caV3p18A7',
+          price: 'price_1QekbUKwHcx67g1caV3p18A7', // This is your price ID from the logs
           quantity: 1,
         },
       ],
       mode: 'subscription',
-      success_url: `${url.origin}/dashboard`,
-      cancel_url: `${url.origin}/input`,
+      success_url: `${new URL(req.url).origin}/dashboard`,
+      cancel_url: `${new URL(req.url).origin}/input`,
     })
 
     console.log('Payment session created:', session.id)
