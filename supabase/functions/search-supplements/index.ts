@@ -8,12 +8,14 @@ const corsHeaders = {
 };
 
 serve(async (req) => {
+  // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
-    return new Response('ok', { headers: corsHeaders });
+    return new Response(null, { headers: corsHeaders });
   }
 
   try {
     const { query, userId } = await req.json();
+    console.log('Received request with query:', query, 'and userId:', userId);
 
     // Initialize OpenAI
     const openAiKey = Deno.env.get('OPENAI_API_KEY');
@@ -26,11 +28,11 @@ serve(async (req) => {
 
     // Get response from OpenAI
     const completion = await openai.createChatCompletion({
-      model: "gpt-3.5-turbo",
+      model: "gpt-4o-mini",
       messages: [
         {
           role: "system",
-          content: "You are a helpful health assistant that provides supplement recommendations based on user queries."
+          content: "You are a helpful health assistant that provides supplement recommendations based on user queries. Format supplement recommendations with [Supplement Name], Dosage: amount, Benefits: list of benefits."
         },
         {
           role: "user",
@@ -38,6 +40,8 @@ serve(async (req) => {
         }
       ],
     });
+
+    console.log('OpenAI response received');
 
     // Store the chat history if userId is provided
     if (userId) {
@@ -60,6 +64,8 @@ serve(async (req) => {
             role: 'assistant'
           }
         ]);
+      
+      console.log('Chat history stored');
     }
 
     return new Response(
@@ -72,7 +78,7 @@ serve(async (req) => {
       }
     );
   } catch (error) {
-    console.error('Error:', error);
+    console.error('Error in search-supplements function:', error);
     return new Response(
       JSON.stringify({ error: error.message }),
       { 
