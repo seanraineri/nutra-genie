@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import { HealthFormData } from "@/types/health-form";
 import { ExternalLink, Upload } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
@@ -21,7 +20,6 @@ export const TestInformationInputs = ({
     bloodwork: false,
     genetic: false
   });
-  const [noTestsYet, setNoTestsYet] = useState(false);
 
   const handleFileUpload = async (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -30,6 +28,7 @@ export const TestInformationInputs = ({
     const file = e.target.files?.[0];
     if (!file) return;
 
+    // Validate file type
     if (file.type !== "application/pdf") {
       toast({
         title: "Invalid file type",
@@ -42,16 +41,19 @@ export const TestInformationInputs = ({
     setUploading(prev => ({ ...prev, [type]: true }));
 
     try {
+      // Generate a unique filename
       const fileExt = file.name.split('.').pop();
       const fileName = `${type}_${Date.now()}.${fileExt}`;
       const filePath = `${type}/${fileName}`;
 
+      // Upload file to Supabase storage
       const { error: uploadError } = await supabase.storage
         .from('health_files')
         .upload(filePath, file);
 
       if (uploadError) throw uploadError;
 
+      // Update the corresponding state in parent component
       onTestChange(type === "bloodwork" ? "hasBloodwork" : "hasGeneticTesting", true);
 
       toast({
@@ -85,7 +87,7 @@ export const TestInformationInputs = ({
               <Button
                 variant="outline"
                 className="w-full flex items-center justify-center gap-2"
-                disabled={uploading.bloodwork || noTestsYet}
+                disabled={uploading.bloodwork}
                 onClick={() => document.getElementById('bloodwork')?.click()}
               >
                 <Upload className="h-4 w-4" />
@@ -112,7 +114,7 @@ export const TestInformationInputs = ({
               <Button
                 variant="outline"
                 className="w-full flex items-center justify-center gap-2"
-                disabled={uploading.genetic || noTestsYet}
+                disabled={uploading.genetic}
                 onClick={() => document.getElementById('genetic')?.click()}
               >
                 <Upload className="h-4 w-4" />
@@ -133,24 +135,8 @@ export const TestInformationInputs = ({
         </div>
       </div>
 
-      <div className="space-y-4">
-        <div className="flex items-center space-x-2">
-          <Checkbox
-            id="no-tests"
-            checked={noTestsYet}
-            onCheckedChange={(checked) => {
-              setNoTestsYet(checked as boolean);
-              if (checked) {
-                onTestChange("hasBloodwork", false);
-                onTestChange("hasGeneticTesting", false);
-              }
-            }}
-          />
-          <Label htmlFor="no-tests" className="text-sm font-medium">
-            I don't have any test results yet
-          </Label>
-        </div>
-
+      <div className="space-y-2">
+        <Label>Don't have test results?</Label>
         <Button
           variant="outline"
           className="w-full flex items-center justify-center gap-2"
