@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { ChatMessage } from "@/types/chat";
+import { ChatMessage, ChatHistoryRecord } from "@/types/chat";
 
 export const useHealthChat = () => {
   const { toast } = useToast();
@@ -26,9 +26,11 @@ export const useHealthChat = () => {
       }
 
       if (data && data.length > 0) {
-        setChatHistory(data.map(msg => ({
-          role: msg.role as "user" | "assistant",
-          content: msg.content || msg.message // handle both new and old format
+        // Properly type the data as ChatHistoryRecord[]
+        const historyRecords = data as ChatHistoryRecord[];
+        setChatHistory(historyRecords.map(record => ({
+          role: record.role as "user" | "assistant",
+          content: record.message // Map database 'message' field to 'content'
         })));
       } else {
         // Set initial greeting if no history exists
@@ -115,7 +117,7 @@ export const useHealthChat = () => {
         .from('chat_history')
         .insert({
           user_id: user.id,
-          message: message.content,
+          message: message.content, // Map 'content' to database 'message' field
           role: message.role,
         });
 
