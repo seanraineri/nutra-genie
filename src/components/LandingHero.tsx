@@ -34,11 +34,11 @@ export const LandingHero = () => {
       </div>
       <div className="relative min-h-screen flex flex-col items-center justify-center px-4 animate-fade-in">
         <h1 className="text-4xl md:text-6xl font-bold text-center text-secondary mb-2">
-          Personalized Supplement
-          <span className="text-primary block mt-2">Recommendations</span>
+          SupplementScribe
+          <span className="text-primary block mt-2">.ai</span>
         </h1>
         <h2 className="text-lg md:text-xl font-medium text-muted-foreground text-center mb-6">
-          Using Science to Actually Get You Healthy
+          AI-Powered Supplement Recommendations
         </h2>
         <p className="text-lg md:text-xl text-muted-foreground text-center max-w-2xl mb-8">
           Get tailored supplement recommendations based on your blood work and genetic data. Track your progress and optimize your health journey.
