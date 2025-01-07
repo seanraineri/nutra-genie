@@ -1,5 +1,5 @@
+import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import OpenAI from "https://esm.sh/openai@4.20.1";
 
 const corsHeaders = {
@@ -8,7 +8,6 @@ const corsHeaders = {
 };
 
 serve(async (req) => {
-  // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
@@ -17,7 +16,6 @@ serve(async (req) => {
     const { query, userId } = await req.json();
     console.log('Received request with query:', query, 'and userId:', userId);
 
-    // Initialize OpenAI with the new API version
     const openAiKey = Deno.env.get('OPENAI_API_KEY');
     if (!openAiKey) {
       throw new Error('OPENAI_API_KEY is not set');
@@ -27,13 +25,35 @@ serve(async (req) => {
       apiKey: openAiKey
     });
 
-    // Get response from OpenAI using the new API
+    const systemPrompt = `You are a knowledgeable health assistant that provides clear, well-structured responses. 
+Format your responses using these guidelines:
+
+1. For supplement recommendations:
+   • [Supplement Name]
+   • Dosage: amount
+   • Benefits: list key benefits
+   • Cautions: list any warnings
+
+2. For general health information:
+   • Use bullet points (•) for lists
+   • Break information into clear sections
+   • Use bold for important terms by wrapping them in **asterisks**
+   • Include relevant scientific terms in parentheses where appropriate
+   • End with a "Key Takeaway:" section
+
+3. For action items:
+   • Number each step
+   • Provide clear, actionable advice
+   • Include any relevant timing or frequency information
+
+Always maintain a professional yet friendly tone, and ensure information is evidence-based.`;
+
     const completion = await openai.chat.completions.create({
       model: "gpt-4o-mini",
       messages: [
         {
           role: "system",
-          content: "You are a helpful health assistant that provides supplement recommendations based on user queries. Format supplement recommendations with [Supplement Name], Dosage: amount, Benefits: list of benefits."
+          content: systemPrompt
         },
         {
           role: "user",
@@ -44,7 +64,6 @@ serve(async (req) => {
 
     console.log('OpenAI response received');
 
-    // Store the chat history if userId is provided
     if (userId) {
       const supabaseClient = createClient(
         Deno.env.get('SUPABASE_URL') ?? '',
