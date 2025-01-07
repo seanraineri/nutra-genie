@@ -7,8 +7,10 @@ import { supabase } from "@/integrations/supabase/client";
 import { PersonalInfoInputs } from "./health-form/PersonalInfoInputs";
 import { HealthMetricsInputs } from "./health-form/HealthMetricsInputs";
 import { TestInformationInputs } from "./health-form/TestInformationInputs";
+import { HealthGoalsInput } from "./health-form/HealthGoalsInput";
 import { HealthFormData, ActivityLevel } from "@/types/health-form";
 import { useToast } from "@/components/ui/use-toast";
+import { addHealthGoal } from "@/api/healthGoalsApi";
 
 export const HealthDataForm = () => {
   const navigate = useNavigate();
@@ -28,6 +30,7 @@ export const HealthDataForm = () => {
     currentMedications: "",
     hasBloodwork: false,
     hasGeneticTesting: false,
+    healthGoals: "",
   });
 
   const handleInputChange = (
@@ -98,6 +101,18 @@ export const HealthDataForm = () => {
 
       if (profileError) throw profileError;
 
+      // Add health goals if provided
+      if (formData.healthGoals.trim()) {
+        const goals = formData.healthGoals
+          .split('\n')
+          .filter(goal => goal.trim())
+          .map(goal => ({ goal_name: goal.trim() }));
+
+        for (const goal of goals) {
+          await addHealthGoal(goal);
+        }
+      }
+
       toast({
         title: "Account Created",
         description: "Your account has been created successfully.",
@@ -138,6 +153,8 @@ export const HealthDataForm = () => {
           formData={formData}
           onTestChange={handleTestChange}
         />
+
+        <HealthGoalsInput formData={formData} onChange={handleInputChange} />
 
         <div className="flex items-center space-x-2">
           <Checkbox
