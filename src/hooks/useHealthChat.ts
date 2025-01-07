@@ -6,12 +6,41 @@ import { ChatMessage } from "@/types/chat";
 export const useHealthChat = () => {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
-  const [chatHistory, setChatHistory] = useState<ChatMessage[]>([
-    {
-      role: "assistant",
-      content: "Hi! I'm your personal health assistant. I can help you understand your supplements and health goals. You can upload holistic health documents to help shape my knowledge and recommendations. What would you like to know about?",
-    },
-  ]);
+  const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
+
+  // Fetch chat history on mount
+  useEffect(() => {
+    const fetchChatHistory = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const { data, error } = await supabase
+        .from('chat_history')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: true });
+
+      if (error) {
+        console.error('Error fetching chat history:', error);
+        return;
+      }
+
+      if (data && data.length > 0) {
+        setChatHistory(data.map(msg => ({
+          role: msg.role as "user" | "assistant",
+          content: msg.content || msg.message // handle both new and old format
+        })));
+      } else {
+        // Set initial greeting if no history exists
+        setChatHistory([{
+          role: "assistant",
+          content: "Hi! I'm your personal health assistant. I can help you understand your supplements and health goals. You can upload holistic health documents to help shape my knowledge and recommendations. What would you like to know about?"
+        }]);
+      }
+    };
+
+    fetchChatHistory();
+  }, []);
 
   const addSupplementRecommendation = async (supplement: {
     supplement_name: string;
@@ -77,24 +106,45 @@ export const useHealthChat = () => {
     }
   };
 
+  const persistMessage = async (message: ChatMessage) => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const { error } = await supabase
+        .from('chat_history')
+        .insert({
+          user_id: user.id,
+          message: message.content,
+          role: message.role,
+        });
+
+      if (error) throw error;
+    } catch (error) {
+      console.error('Error persisting message:', error);
+    }
+  };
+
   const handleSendMessage = async (message: string) => {
     if (!message.trim()) return;
     
     setIsLoading(true);
-    setChatHistory(prev => [...prev, { role: "user", content: message }]);
+    const userMessage: ChatMessage = { role: "user", content: message };
+    setChatHistory(prev => [...prev, userMessage]);
+    await persistMessage(userMessage);
 
     try {
-      // Get current user
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
         throw new Error('Not authenticated');
       }
 
-      // Handle file upload messages
       if (message.toLowerCase().includes("uploaded a file:")) {
         const filename = message.split("uploaded a file: ")[1];
         const response = `I see you've uploaded ${filename}. I'll analyze this document and incorporate its insights into my knowledge base for providing holistic health recommendations. Is there anything specific you'd like me to focus on from this document?`;
-        setChatHistory(prev => [...prev, { role: "assistant", content: response }]);
+        const assistantMessage: ChatMessage = { role: "assistant", content: response };
+        setChatHistory(prev => [...prev, assistantMessage]);
+        await persistMessage(assistantMessage);
         setIsLoading(false);
         return;
       }
@@ -147,7 +197,9 @@ export const useHealthChat = () => {
           }
         }
 
-        setChatHistory(prev => [...prev, { role: "assistant", content: response }]);
+        const assistantMessage: ChatMessage = { role: "assistant", content: response };
+        setChatHistory(prev => [...prev, assistantMessage]);
+        await persistMessage(assistantMessage);
       } else {
         throw new Error('Invalid response format from API');
       }
@@ -161,13 +213,12 @@ export const useHealthChat = () => {
         variant: "destructive"
       });
       
-      setChatHistory(prev => [
-        ...prev,
-        { 
-          role: "assistant", 
-          content: "I apologize, but I'm having trouble accessing the information right now. Please try asking your question again in a moment."
-        }
-      ]);
+      const errorMessage: ChatMessage = { 
+        role: "assistant", 
+        content: "I apologize, but I'm having trouble accessing the information right now. Please try asking your question again in a moment."
+      };
+      setChatHistory(prev => [...prev, errorMessage]);
+      await persistMessage(errorMessage);
     } finally {
       setIsLoading(false);
     }

@@ -9,6 +9,33 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      chat_history: {
+        Row: {
+          context: Json | null
+          created_at: string | null
+          id: string
+          message: string
+          role: string
+          user_id: string | null
+        }
+        Insert: {
+          context?: Json | null
+          created_at?: string | null
+          id?: string
+          message: string
+          role: string
+          user_id?: string | null
+        }
+        Update: {
+          context?: Json | null
+          created_at?: string | null
+          id?: string
+          message?: string
+          role?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       health_files: {
         Row: {
           file_path: string
