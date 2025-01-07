@@ -102,21 +102,45 @@ export const HealthMetricsInputs = ({
           value={formData.activityLevel}
           onValueChange={(value) => onActivityLevelChange(value as ActivityLevel)}
         >
-          <SelectTrigger className="w-full h-10 px-3 py-2 text-sm bg-background border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
+          <SelectTrigger className="w-full h-10 px-3 py-2 text-sm bg-background border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 transition-colors">
             <SelectValue placeholder="Select your activity level" />
           </SelectTrigger>
-          <SelectContent className="bg-background border rounded-md shadow-lg">
-            <SelectItem value="sedentary" className="cursor-pointer hover:bg-accent hover:text-accent-foreground">
-              Sedentary (Little to no exercise)
+          <SelectContent className="bg-background border rounded-md shadow-lg min-w-[240px]">
+            <SelectItem 
+              value="sedentary" 
+              className="cursor-pointer px-4 py-2.5 hover:bg-accent/10 transition-colors"
+            >
+              <div className="space-y-1">
+                <div className="font-medium">Sedentary</div>
+                <div className="text-xs text-muted-foreground">Little to no exercise</div>
+              </div>
             </SelectItem>
-            <SelectItem value="moderate" className="cursor-pointer hover:bg-accent hover:text-accent-foreground">
-              Moderate (Exercise 2-3 times/week)
+            <SelectItem 
+              value="moderate" 
+              className="cursor-pointer px-4 py-2.5 hover:bg-accent/10 transition-colors"
+            >
+              <div className="space-y-1">
+                <div className="font-medium">Moderate</div>
+                <div className="text-xs text-muted-foreground">Exercise 2-3 times/week</div>
+              </div>
             </SelectItem>
-            <SelectItem value="active" className="cursor-pointer hover:bg-accent hover:text-accent-foreground">
-              Active (Exercise 4-5 times/week)
+            <SelectItem 
+              value="active" 
+              className="cursor-pointer px-4 py-2.5 hover:bg-accent/10 transition-colors"
+            >
+              <div className="space-y-1">
+                <div className="font-medium">Active</div>
+                <div className="text-xs text-muted-foreground">Exercise 4-5 times/week</div>
+              </div>
             </SelectItem>
-            <SelectItem value="athlete" className="cursor-pointer hover:bg-accent hover:text-accent-foreground">
-              Athlete (Intense exercise 6+ times/week)
+            <SelectItem 
+              value="athlete" 
+              className="cursor-pointer px-4 py-2.5 hover:bg-accent/10 transition-colors"
+            >
+              <div className="space-y-1">
+                <div className="font-medium">Athlete</div>
+                <div className="text-xs text-muted-foreground">Intense exercise 6+ times/week</div>
+              </div>
             </SelectItem>
           </SelectContent>
         </Select>
