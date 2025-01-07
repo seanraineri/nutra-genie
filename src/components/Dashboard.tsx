@@ -1,54 +1,79 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { supabase } from "@/integrations/supabase/client";
+import { ChevronLeft } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { HealthAssistant } from "./dashboard/HealthAssistant";
-import { HealthGoals } from "./dashboard/HealthGoals";
 import { HealthMetrics } from "./dashboard/HealthMetrics";
 import { SupplementPlan } from "./dashboard/SupplementPlan";
-import { LogOut } from "lucide-react";
+import { HealthGoals } from "./dashboard/HealthGoals";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export const Dashboard = () => {
   const navigate = useNavigate();
-  const [userName, setUserName] = useState<string>("");
-
-  useEffect(() => {
-    const getProfile = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (user?.user_metadata?.first_name) {
-        setUserName(user.user_metadata.first_name);
-      }
-    };
-    getProfile();
-  }, []);
-
-  const handleSignOut = async () => {
-    await supabase.auth.signOut();
-    navigate("/");
-  };
+  const isMobile = useIsMobile();
 
   return (
-    <div className="container mx-auto p-4 space-y-6">
-      <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">
-          {userName ? `Welcome back, ${userName}!` : "Welcome to your dashboard!"}
-        </h1>
-        <Button
-          variant="outline"
-          onClick={handleSignOut}
-          className="flex items-center gap-2"
-        >
-          <LogOut className="h-4 w-4" />
-          Sign Out
-        </Button>
-      </div>
+    <div className="container mx-auto py-4 md:py-8 px-2 md:px-6 animate-fade-in">
+      <Tabs defaultValue="assistant" className="w-full">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4 md:mb-8">
+          <div className="flex items-center gap-4">
+            <Button
+              variant="outline"
+              size="sm"
+              className="flex items-center gap-2"
+              onClick={() => navigate("/")}
+            >
+              <ChevronLeft className="h-4 w-4" />
+              Back
+            </Button>
+            <h1 className="text-2xl md:text-3xl font-bold text-secondary truncate">
+              Your Health Dashboard
+            </h1>
+          </div>
+          <TabsList className="bg-background border w-full md:w-auto overflow-x-auto">
+            <TabsTrigger 
+              value="assistant" 
+              className="flex-1 md:flex-none px-3 md:px-6"
+            >
+              Assistant
+            </TabsTrigger>
+            <TabsTrigger 
+              value="metrics" 
+              className="flex-1 md:flex-none px-3 md:px-6"
+            >
+              Metrics
+            </TabsTrigger>
+            <TabsTrigger 
+              value="supplements" 
+              className="flex-1 md:flex-none px-3 md:px-6"
+            >
+              Plan
+            </TabsTrigger>
+            <TabsTrigger 
+              value="goals" 
+              className="flex-1 md:flex-none px-3 md:px-6"
+            >
+              Goals
+            </TabsTrigger>
+          </TabsList>
+        </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <HealthMetrics />
-        <HealthGoals />
-        <SupplementPlan />
-        <HealthAssistant />
-      </div>
+        <TabsContent value="assistant" className="mt-0">
+          <HealthAssistant />
+        </TabsContent>
+
+        <TabsContent value="metrics" className="mt-0">
+          <HealthMetrics />
+        </TabsContent>
+
+        <TabsContent value="supplements" className="mt-0">
+          <SupplementPlan />
+        </TabsContent>
+
+        <TabsContent value="goals" className="mt-0">
+          <HealthGoals />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };
