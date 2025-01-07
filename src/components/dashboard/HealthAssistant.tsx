@@ -28,10 +28,21 @@ export const HealthAssistant = () => {
   const { toast } = useToast();
 
   const handleBudgetUpdate = async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+      toast({
+        title: "Error",
+        description: "You must be logged in to set a budget",
+        variant: "destructive",
+      });
+      return;
+    }
+
     try {
       const { error } = await supabase
         .from('user_health_profiles')
-        .insert({
+        .upsert({
+          user_id: user.id,
           monthly_supplement_budget: parseFloat(budget)
         });
 
@@ -75,7 +86,7 @@ export const HealthAssistant = () => {
 
       <ScrollArea className="flex-1 p-6">
         <div className="space-y-6">
-          {chatHistory.map((msg, index) => (
+          {chatHistory?.map((msg, index) => (
             <ChatMessage key={index} role={msg.role} content={msg.content} />
           ))}
           {showBudgetInput && (
