@@ -132,6 +132,63 @@ export type Database = {
         }
         Relationships: []
       }
+      pending_health_profiles: {
+        Row: {
+          activity_level: string | null
+          age: number | null
+          allergies: string[] | null
+          created_at: string | null
+          current_medications: string[] | null
+          email: string
+          expires_at: string | null
+          first_name: string | null
+          gender: string | null
+          health_goals: string | null
+          height: number | null
+          id: string
+          last_name: string | null
+          medical_conditions: string[] | null
+          password: string
+          weight: number | null
+        }
+        Insert: {
+          activity_level?: string | null
+          age?: number | null
+          allergies?: string[] | null
+          created_at?: string | null
+          current_medications?: string[] | null
+          email: string
+          expires_at?: string | null
+          first_name?: string | null
+          gender?: string | null
+          health_goals?: string | null
+          height?: number | null
+          id?: string
+          last_name?: string | null
+          medical_conditions?: string[] | null
+          password: string
+          weight?: number | null
+        }
+        Update: {
+          activity_level?: string | null
+          age?: number | null
+          allergies?: string[] | null
+          created_at?: string | null
+          current_medications?: string[] | null
+          email?: string
+          expires_at?: string | null
+          first_name?: string | null
+          gender?: string | null
+          health_goals?: string | null
+          height?: number | null
+          id?: string
+          last_name?: string | null
+          medical_conditions?: string[] | null
+          password?: string
+          weight?: number | null
+        }
+        Relationships: []
+      }
       supplement_recommendations: {
         Row: {
           company_name: string | null

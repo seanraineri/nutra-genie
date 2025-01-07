@@ -3,14 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
-import { supabase } from "@/integrations/supabase/client";
 import { PersonalInfoInputs } from "./health-form/PersonalInfoInputs";
 import { HealthMetricsInputs } from "./health-form/HealthMetricsInputs";
 import { TestInformationInputs } from "./health-form/TestInformationInputs";
 import { HealthGoalsInput } from "./health-form/HealthGoalsInput";
 import { HealthFormData, ActivityLevel, Gender } from "@/types/health-form";
 import { useToast } from "@/components/ui/use-toast";
-import { addHealthGoal } from "@/api/healthGoalsApi";
+import { submitHealthFormData } from "@/utils/healthFormSubmission";
 
 export const HealthDataForm = () => {
   const navigate = useNavigate();
@@ -83,62 +82,15 @@ export const HealthDataForm = () => {
     setLoading(true);
     
     try {
-      // First sign up the user
-      const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
-        email: formData.email,
-        password: formData.password,
-        options: {
-          data: {
-            first_name: formData.firstName,
-            last_name: formData.lastName,
-          },
-        },
-      });
-
-      if (signUpError) throw signUpError;
-      if (!signUpData.user) throw new Error('No user returned after signup');
-
-      // Wait for the session to be established
-      const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
-      if (sessionError) throw sessionError;
-      if (!sessionData.session) throw new Error('No session established');
-
-      // Now create the health profile
-      const { error: profileError } = await supabase
-        .from('user_health_profiles')
-        .insert([
-          {
-            user_id: signUpData.user.id,
-            age: parseInt(formData.age),
-            gender: formData.gender,
-            height: parseFloat(formData.height),
-            weight: parseFloat(formData.weight),
-            medical_conditions: formData.medicalConditions.split(',').map(c => c.trim()),
-            allergies: formData.allergies.split(',').map(a => a.trim()),
-            current_medications: formData.currentMedications.split(',').map(m => m.trim()),
-          },
-        ]);
-
-      if (profileError) throw profileError;
-
-      // Add health goals if provided
-      if (formData.healthGoals.trim()) {
-        const goals = formData.healthGoals
-          .split('\n')
-          .filter(goal => goal.trim())
-          .map(goal => ({ goal_name: goal.trim() }));
-
-        for (const goal of goals) {
-          await addHealthGoal(goal);
-        }
-      }
-
+      await submitHealthFormData(formData);
+      
       toast({
-        title: "Account Created",
-        description: "Your account has been created successfully.",
+        title: "Form Submitted",
+        description: "Please complete the payment to create your account.",
       });
 
-      navigate("/dashboard");
+      // Navigate to payment page with email as query param for identification
+      navigate(`/payment?email=${encodeURIComponent(formData.email)}`);
     } catch (error: any) {
       console.error('Error:', error);
       
@@ -200,7 +152,7 @@ export const HealthDataForm = () => {
           className="w-full"
           disabled={loading || !acceptedTerms}
         >
-          {loading ? "Creating Account..." : "Next"}
+          {loading ? "Processing..." : "Continue to Payment"}
         </Button>
       </form>
     </Card>
