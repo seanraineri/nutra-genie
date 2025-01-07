@@ -1,60 +1,46 @@
 import { Button } from "@/components/ui/button";
-import { useNavigate } from "react-router-dom";
-import { HowItWorksModal } from "./HowItWorksModal";
-import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export const LandingHero = () => {
-  const navigate = useNavigate();
-  const [showHowItWorks, setShowHowItWorks] = useState(false);
-
   return (
-    <>
-      <div className="fixed top-0 right-0 p-4 flex gap-4">
-        <a href="/faq" className="text-muted-foreground hover:text-primary transition-colors">FAQ</a>
-        <a href="/about" className="text-muted-foreground hover:text-primary transition-colors">About Us</a>
-        <a href="/contact" className="text-muted-foreground hover:text-primary transition-colors">Contact</a>
-      </div>
-      <div className="relative min-h-screen flex flex-col items-center justify-center px-4 animate-fade-in">
-        <h1 className="text-4xl md:text-6xl font-bold text-center text-secondary mb-2">
-          Personalized Supplement
-          <span className="text-primary block mt-2">Recommendations</span>
-        </h1>
-        <h2 className="text-lg md:text-xl font-medium text-muted-foreground text-center mb-6">
-          Using Science to Actually Get You Healthy
-        </h2>
-        <p className="text-lg md:text-xl text-muted-foreground text-center max-w-2xl mb-8">
-          Get tailored supplement recommendations based on your blood work and genetic data. Track your progress and optimize your health journey.
-        </p>
-        <div className="flex flex-col sm:flex-row gap-4">
-          <Button
-            size="lg"
-            onClick={() => navigate("/input")}
-            className="bg-primary hover:bg-primary/90 text-primary-foreground"
-          >
-            Get Started
-          </Button>
-          <Button
-            size="lg"
-            onClick={() => navigate("/dashboard")}
-            className="bg-primary hover:bg-primary/90 text-primary-foreground"
-          >
-            Open Dashboard
-          </Button>
-          <Button
-            size="lg"
-            onClick={() => setShowHowItWorks(true)}
-            className="bg-primary hover:bg-primary/90 text-primary-foreground"
-          >
-            How It Works
-          </Button>
-        </div>
-        <HowItWorksModal open={showHowItWorks} onClose={() => setShowHowItWorks(false)} />
-        
-        <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-8 text-sm text-muted-foreground">
-          <a href="/privacy" className="hover:text-primary transition-colors">Privacy Policy</a>
-          <a href="/terms" className="hover:text-primary transition-colors">Terms & Conditions</a>
-        </div>
-      </div>
-    </>
+    <div className="flex min-h-screen flex-col">
+      <header className="px-4 lg:px-6 h-14 flex items-center">
+        <Link to="/" className="flex items-center justify-center">
+          <span className="font-bold text-xl">HealthAI</span>
+        </Link>
+        <nav className="ml-auto flex gap-4 sm:gap-6">
+          <Link to="/about" className="text-sm font-medium hover:underline underline-offset-4">
+            About Us
+          </Link>
+          <Link to="/faq" className="text-sm font-medium hover:underline underline-offset-4">
+            FAQ
+          </Link>
+          <Link to="/contact" className="text-sm font-medium hover:underline underline-offset-4">
+            Contact
+          </Link>
+        </nav>
+      </header>
+      <main className="flex-1">
+        <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48">
+          <div className="container px-4 md:px-6">
+            <div className="flex flex-col items-center space-y-4 text-center">
+              <div className="space-y-2">
+                <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
+                  Your Personal Health AI Assistant
+                </h1>
+                <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl dark:text-gray-400">
+                  Get personalized supplement recommendations based on your unique health data and goals.
+                </p>
+              </div>
+              <div className="space-x-4">
+                <Link to="/get-started">
+                  <Button>Get Started</Button>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
   );
 };
