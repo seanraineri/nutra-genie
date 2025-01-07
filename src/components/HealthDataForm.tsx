@@ -27,6 +27,7 @@ export const HealthDataForm = () => {
     weight: "",
     activityLevel: "sedentary",
     medicalConditions: "",
+    allergies: "", // Added allergies field
     currentMedications: "",
     hasBloodwork: false,
     hasGeneticTesting: false,
@@ -97,6 +98,7 @@ export const HealthDataForm = () => {
               height: parseFloat(formData.height),
               weight: parseFloat(formData.weight),
               medical_conditions: formData.medicalConditions.split(',').map(c => c.trim()),
+              allergies: formData.allergies.split(',').map(a => a.trim()), // Added allergies
               current_medications: formData.currentMedications.split(',').map(m => m.trim()),
             },
           ]);
