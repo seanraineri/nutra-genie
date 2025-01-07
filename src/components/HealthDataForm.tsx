@@ -8,7 +8,7 @@ import { PersonalInfoInputs } from "./health-form/PersonalInfoInputs";
 import { HealthMetricsInputs } from "./health-form/HealthMetricsInputs";
 import { TestInformationInputs } from "./health-form/TestInformationInputs";
 import { HealthGoalsInput } from "./health-form/HealthGoalsInput";
-import { HealthFormData, ActivityLevel } from "@/types/health-form";
+import { HealthFormData, ActivityLevel, Gender } from "@/types/health-form";
 import { useToast } from "@/components/ui/use-toast";
 import { addHealthGoal } from "@/api/healthGoalsApi";
 
@@ -23,7 +23,7 @@ export const HealthDataForm = () => {
     email: "",
     password: "",
     age: "",
-    gender: "prefer-not-to-say",
+    gender: "male",
     height: "",
     weight: "",
     activityLevel: "sedentary",
@@ -83,7 +83,7 @@ export const HealthDataForm = () => {
     setLoading(true);
     
     try {
-      const { error: signUpError } = await supabase.auth.signUp({
+      const { data: { user }, error: signUpError } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,
         options: {
@@ -95,11 +95,13 @@ export const HealthDataForm = () => {
       });
 
       if (signUpError) throw signUpError;
+      if (!user) throw new Error('No user returned after signup');
 
       const { error: profileError } = await supabase
         .from('user_health_profiles')
         .insert([
           {
+            user_id: user.id,
             age: parseInt(formData.age),
             gender: formData.gender,
             height: parseFloat(formData.height),
