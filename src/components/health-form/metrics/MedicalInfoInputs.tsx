@@ -22,6 +22,17 @@ export const MedicalInfoInputs = ({ formData, onChange }: MedicalInfoInputsProps
       </div>
 
       <div className="space-y-2">
+        <Label htmlFor="allergies">Allergies</Label>
+        <Textarea
+          id="allergies"
+          value={formData.allergies}
+          onChange={onChange}
+          className="min-h-[100px]"
+          placeholder="List any allergies you have"
+        />
+      </div>
+
+      <div className="space-y-2">
         <Label htmlFor="currentMedications">Current Medications</Label>
         <Textarea
           id="currentMedications"

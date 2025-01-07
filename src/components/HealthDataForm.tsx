@@ -23,10 +23,12 @@ export const HealthDataForm = () => {
     email: "",
     password: "",
     age: "",
+    gender: "prefer-not-to-say",
     height: "",
     weight: "",
     activityLevel: "sedentary",
     medicalConditions: "",
+    allergies: "",
     currentMedications: "",
     hasBloodwork: false,
     hasGeneticTesting: false,
@@ -40,6 +42,13 @@ export const HealthDataForm = () => {
     setFormData((prev) => ({
       ...prev,
       [id]: value,
+    }));
+  };
+
+  const handleGenderChange = (value: Gender) => {
+    setFormData((prev) => ({
+      ...prev,
+      gender: value,
     }));
   };
 
@@ -92,9 +101,11 @@ export const HealthDataForm = () => {
         .insert([
           {
             age: parseInt(formData.age),
+            gender: formData.gender,
             height: parseFloat(formData.height),
             weight: parseFloat(formData.weight),
             medical_conditions: formData.medicalConditions.split(',').map(c => c.trim()),
+            allergies: formData.allergies.split(',').map(a => a.trim()),
             current_medications: formData.currentMedications.split(',').map(m => m.trim()),
           },
         ]);
@@ -147,6 +158,7 @@ export const HealthDataForm = () => {
           formData={formData}
           onChange={handleInputChange}
           onActivityLevelChange={handleActivityLevelChange}
+          onGenderChange={handleGenderChange}
         />
         
         <TestInformationInputs

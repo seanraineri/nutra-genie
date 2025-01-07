@@ -1,14 +1,16 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useState, useEffect } from "react";
-import { HealthFormData } from "@/types/health-form";
+import { HealthFormData, Gender } from "@/types/health-form";
 
 interface BasicMetricsInputsProps {
   formData: HealthFormData;
   onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  onGenderChange: (value: Gender) => void;
 }
 
-export const BasicMetricsInputs = ({ formData, onChange }: BasicMetricsInputsProps) => {
+export const BasicMetricsInputs = ({ formData, onChange, onGenderChange }: BasicMetricsInputsProps) => {
   const [feet, setFeet] = useState("");
   const [inches, setInches] = useState("");
 
@@ -27,62 +29,92 @@ export const BasicMetricsInputs = ({ formData, onChange }: BasicMetricsInputsPro
   }, [feet, inches, onChange]);
 
   return (
-    <div className="grid grid-cols-3 gap-4">
-      <div className="space-y-2">
-        <Label htmlFor="age">Age</Label>
-        <Input
-          id="age"
-          type="number"
-          value={formData.age}
-          onChange={onChange}
-          required
-        />
-      </div>
-      <div className="space-y-2">
-        <Label>Height</Label>
-        <div className="flex gap-2">
-          <div className="flex-1">
-            <Input
-              type="number"
-              placeholder="Feet"
-              value={feet}
-              onChange={(e) => setFeet(e.target.value)}
-              min="0"
-              max="8"
-              required
-            />
-          </div>
-          <div className="flex-1">
-            <Input
-              type="number"
-              placeholder="Inches"
-              value={inches}
-              onChange={(e) => setInches(e.target.value)}
-              min="0"
-              max="11"
-              required
-            />
-          </div>
+    <div className="space-y-6">
+      <div className="grid grid-cols-3 gap-4">
+        <div className="space-y-2">
+          <Label htmlFor="age">Age</Label>
+          <Input
+            id="age"
+            type="number"
+            value={formData.age}
+            onChange={onChange}
+            required
+          />
+        </div>
+        <div className="space-y-2 col-span-2">
+          <Label>Gender</Label>
+          <RadioGroup
+            value={formData.gender}
+            onValueChange={(value) => onGenderChange(value as Gender)}
+            className="flex space-x-4"
+          >
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem value="male" id="male" />
+              <Label htmlFor="male">Male</Label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem value="female" id="female" />
+              <Label htmlFor="female">Female</Label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem value="other" id="other" />
+              <Label htmlFor="other">Other</Label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem value="prefer-not-to-say" id="prefer-not-to-say" />
+              <Label htmlFor="prefer-not-to-say">Prefer not to say</Label>
+            </div>
+          </RadioGroup>
         </div>
       </div>
-      <div className="space-y-2">
-        <Label htmlFor="weight">Weight (lbs)</Label>
-        <Input
-          id="weight"
-          type="number"
-          value={formData.weight}
-          onChange={(e) => {
-            const kg = Math.round(parseFloat(e.target.value) * 0.453592);
-            const event = {
-              target: {
-                id: "weight",
-                value: kg.toString()
-              }
-            } as React.ChangeEvent<HTMLInputElement>;
-            onChange(event);
-          }}
-          required
-        />
+
+      <div className="grid grid-cols-3 gap-4">
+        <div className="space-y-2">
+          <Label>Height</Label>
+          <div className="flex gap-2">
+            <div className="flex-1">
+              <Input
+                type="number"
+                placeholder="Feet"
+                value={feet}
+                onChange={(e) => setFeet(e.target.value)}
+                min="0"
+                max="8"
+                required
+              />
+            </div>
+            <div className="flex-1">
+              <Input
+                type="number"
+                placeholder="Inches"
+                value={inches}
+                onChange={(e) => setInches(e.target.value)}
+                min="0"
+                max="11"
+                required
+              />
+            </div>
+          </div>
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="weight">Weight (lbs)</Label>
+          <Input
+            id="weight"
+            type="number"
+            value={formData.weight}
+            onChange={(e) => {
+              const kg = Math.round(parseFloat(e.target.value) * 0.453592);
+              const event = {
+                target: {
+                  id: "weight",
+                  value: kg.toString()
+                }
+              } as React.ChangeEvent<HTMLInputElement>;
+              onChange(event);
+            }}
+            required
+          />
+        </div>
       </div>
     </div>
   );
