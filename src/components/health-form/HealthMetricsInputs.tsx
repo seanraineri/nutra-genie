@@ -102,14 +102,22 @@ export const HealthMetricsInputs = ({
           value={formData.activityLevel}
           onValueChange={(value) => onActivityLevelChange(value as ActivityLevel)}
         >
-          <SelectTrigger>
-            <SelectValue placeholder="Select activity level" />
+          <SelectTrigger className="w-full h-10 px-3 py-2 text-sm bg-background border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
+            <SelectValue placeholder="Select your activity level" />
           </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="sedentary">Sedentary</SelectItem>
-            <SelectItem value="moderate">2-3 times a week</SelectItem>
-            <SelectItem value="active">4-5 times a week</SelectItem>
-            <SelectItem value="athlete">Athlete</SelectItem>
+          <SelectContent className="bg-background border rounded-md shadow-lg">
+            <SelectItem value="sedentary" className="cursor-pointer hover:bg-accent hover:text-accent-foreground">
+              Sedentary (Little to no exercise)
+            </SelectItem>
+            <SelectItem value="moderate" className="cursor-pointer hover:bg-accent hover:text-accent-foreground">
+              Moderate (Exercise 2-3 times/week)
+            </SelectItem>
+            <SelectItem value="active" className="cursor-pointer hover:bg-accent hover:text-accent-foreground">
+              Active (Exercise 4-5 times/week)
+            </SelectItem>
+            <SelectItem value="athlete" className="cursor-pointer hover:bg-accent hover:text-accent-foreground">
+              Athlete (Intense exercise 6+ times/week)
+            </SelectItem>
           </SelectContent>
         </Select>
       </div>
