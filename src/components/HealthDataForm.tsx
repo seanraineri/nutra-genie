@@ -12,6 +12,10 @@ import { HealthFormData, ActivityLevel } from "@/types/health-form";
 import { useToast } from "@/components/ui/use-toast";
 import { Auth } from '@supabase/auth-ui-react';
 import { ThemeSupa } from '@supabase/auth-ui-shared';
+import { addHealthGoal } from "@/api/healthGoalsApi";
+
+// Let's extract form submission logic to a separate component
+import { useHealthFormSubmit } from "@/hooks/useHealthFormSubmit";
 
 export const HealthDataForm = () => {
   const navigate = useNavigate();
@@ -35,6 +39,8 @@ export const HealthDataForm = () => {
     hasGeneticTesting: false,
     healthGoals: "",
   });
+
+  const { handleSubmit: submitForm } = useHealthFormSubmit();
 
   useEffect(() => {
     // Check for existing session
@@ -94,7 +100,7 @@ export const HealthDataForm = () => {
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!acceptedTerms) {
       toast({
@@ -106,62 +112,12 @@ export const HealthDataForm = () => {
     }
     
     setLoading(true);
-    
     try {
-      if (!session) {
-        const { data: authData, error: signUpError } = await supabase.auth.signUp({
-          email: formData.email,
-          password: formData.password,
-          options: {
-            data: {
-              first_name: formData.firstName,
-              last_name: formData.lastName,
-            },
-          },
-        });
-
-        if (signUpError) throw signUpError;
-        if (!authData.user) throw new Error("No user data returned");
-      }
-
-      const userId = session?.user.id || formData.email;
-
-      const { error: profileError } = await supabase
-        .from('user_health_profiles')
-        .insert([
-          {
-            user_id: userId,
-            age: parseInt(formData.age),
-            height: parseFloat(formData.height),
-            weight: parseFloat(formData.weight),
-            medical_conditions: formData.medicalConditions.split(',').map(c => c.trim()),
-            allergies: formData.allergies.split(',').map(a => a.trim()),
-            current_medications: formData.currentMedications.split(',').map(m => m.trim()),
-          },
-        ]);
-
-      if (profileError) throw profileError;
-
-      // Add health goals if provided
-      if (formData.healthGoals.trim()) {
-        const goals = formData.healthGoals
-          .split('\n')
-          .filter(goal => goal.trim())
-          .map(goal => ({ 
-            user_id: userId,
-            goal_name: goal.trim() 
-          }));
-
-        for (const goal of goals) {
-          await addHealthGoal(goal);
-        }
-      }
-
+      await submitForm(formData, session);
       toast({
         title: "Profile Updated",
         description: "Your health profile has been created successfully.",
       });
-
       navigate("/dashboard");
     } catch (error) {
       console.error('Error:', error);
@@ -214,7 +170,7 @@ export const HealthDataForm = () => {
         </>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-8">
+      <form onSubmit={handleFormSubmit} className="space-y-8">
         {!session && (
           <PersonalInfoInputs formData={formData} onChange={handleInputChange} />
         )}
