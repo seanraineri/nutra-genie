@@ -6,48 +6,75 @@ import { addSupplementRecommendation } from "@/api/supplementApi";
 import { addHealthGoal } from "@/api/healthGoalsApi";
 import { useAIChat } from "./useAIChat";
 import { supabase } from "@/integrations/supabase/client";
+import { useNavigate } from "react-router-dom";
 
 export const useHealthChat = () => {
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
   const { processAIResponse } = useAIChat();
 
   useEffect(() => {
-    const loadChatHistory = async () => {
-      const data = await fetchChatHistory();
-      
-      if (data && data.length > 0) {
-        const historyRecords = data as ChatHistoryRecord[];
-        setChatHistory(historyRecords.map(record => ({
-          role: record.role as "user" | "assistant",
-          content: record.message
-        })));
-      } else {
-        setChatHistory([{
-          role: "assistant",
-          content: "Hi! I'm your personal health assistant. How can I help!"
-        }]);
+    const checkAuth = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        navigate('/login');
+        return;
       }
     };
 
+    checkAuth();
     loadChatHistory();
-  }, []);
+
+    // Subscribe to auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_OUT') {
+        navigate('/login');
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, [navigate]);
+
+  const loadChatHistory = async () => {
+    const data = await fetchChatHistory();
+    
+    if (data && data.length > 0) {
+      const historyRecords = data as ChatHistoryRecord[];
+      setChatHistory(historyRecords.map(record => ({
+        role: record.role as "user" | "assistant",
+        content: record.message
+      })));
+    } else {
+      setChatHistory([{
+        role: "assistant",
+        content: "Hi! I'm your personal health assistant. How can I help!"
+      }]);
+    }
+  };
 
   const handleSendMessage = async (message: string) => {
     if (!message.trim()) return;
     
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) {
+      toast({
+        title: "Authentication required",
+        description: "Please log in to use the chat assistant.",
+        variant: "destructive"
+      });
+      navigate('/login');
+      return;
+    }
+    
     setIsLoading(true);
     const userMessage: ChatMessage = { role: "user", content: message };
     setChatHistory(prev => [...prev, userMessage]);
-    await persistMessage(userMessage);
 
     try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
-        throw new Error('Not authenticated');
-      }
-
+      await persistMessage(userMessage);
+      
       if (message.toLowerCase().includes("uploaded a file:")) {
         const filename = message.split("uploaded a file: ")[1];
         const response = `I see you've uploaded ${filename}. I'll analyze this document and incorporate its insights into my knowledge base for providing holistic health recommendations. Is there anything specific you'd like me to focus on from this document?`;
@@ -57,7 +84,7 @@ export const useHealthChat = () => {
         return;
       }
 
-      const response = await processAIResponse(message, user.id);
+      const response = await processAIResponse(message, session.user.id);
       
       // Check if response contains supplement recommendations
       if (response.toLowerCase().includes("recommend") && response.includes("[")) {
