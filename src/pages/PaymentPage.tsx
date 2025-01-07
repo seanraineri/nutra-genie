@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
+import { Progress } from "@/components/ui/progress";
 import { supabase } from "@/integrations/supabase/client";
 
 export default function PaymentPage() {
@@ -10,6 +11,7 @@ export default function PaymentPage() {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
+  const [progress, setProgress] = useState(0);
   const email = new URLSearchParams(search).get('email');
 
   useEffect(() => {
@@ -17,6 +19,20 @@ export default function PaymentPage() {
       navigate('/input');
     }
   }, [email, navigate]);
+
+  useEffect(() => {
+    let interval: number;
+    if (loading) {
+      setProgress(0);
+      interval = setInterval(() => {
+        setProgress((prev) => {
+          if (prev >= 90) return prev;
+          return prev + 10;
+        });
+      }, 500);
+    }
+    return () => clearInterval(interval);
+  }, [loading]);
 
   const handleSubscribe = async () => {
     setLoading(true);
@@ -27,7 +43,10 @@ export default function PaymentPage() {
 
       if (error) throw error;
       if (data?.url) {
-        window.location.href = data.url;
+        setProgress(100);
+        setTimeout(() => {
+          window.location.href = data.url;
+        }, 500);
       } else {
         throw new Error('No checkout URL received');
       }
@@ -67,12 +86,21 @@ export default function PaymentPage() {
             </ul>
           </div>
 
+          {loading && (
+            <div className="space-y-2">
+              <Progress value={progress} />
+              <p className="text-sm text-center text-muted-foreground">
+                Creating your checkout session...
+              </p>
+            </div>
+          )}
+
           <Button 
             className="w-full" 
             onClick={handleSubscribe}
             disabled={loading}
           >
-            {loading ? "Processing..." : "Subscribe Now"}
+            {loading ? "Please wait..." : "Subscribe Now"}
           </Button>
         </div>
 
