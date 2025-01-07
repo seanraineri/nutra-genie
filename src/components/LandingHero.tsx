@@ -1,27 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { HowItWorksModal } from "./HowItWorksModal";
-import { useState, useEffect } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { useState } from "react";
 
 export const LandingHero = () => {
   const navigate = useNavigate();
   const [showHowItWorks, setShowHowItWorks] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
-
-  useEffect(() => {
-    // Check for existing session on load
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setIsAuthenticated(!!session);
-    });
-
-    // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      setIsAuthenticated(!!session);
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
 
   return (
     <>
@@ -41,33 +25,20 @@ export const LandingHero = () => {
           Get tailored supplement recommendations based on your blood work and genetic data. Track your progress and optimize your health journey.
         </p>
         <div className="flex flex-col sm:flex-row gap-4">
-          {isAuthenticated ? (
-            <Button
-              size="lg"
-              onClick={() => navigate("/dashboard")}
-              className="bg-primary hover:bg-primary/90 text-primary-foreground"
-            >
-              Open Dashboard
-            </Button>
-          ) : (
-            <>
-              <Button
-                size="lg"
-                onClick={() => navigate("/login")}
-                className="bg-primary hover:bg-primary/90 text-primary-foreground"
-              >
-                Get Started
-              </Button>
-              <Button
-                size="lg"
-                onClick={() => navigate("/login")}
-                variant="outline"
-                className="border-primary text-primary hover:bg-primary/10"
-              >
-                Sign In
-              </Button>
-            </>
-          )}
+          <Button
+            size="lg"
+            onClick={() => navigate("/input")}
+            className="bg-primary hover:bg-primary/90 text-primary-foreground"
+          >
+            Get Started
+          </Button>
+          <Button
+            size="lg"
+            onClick={() => navigate("/dashboard")}
+            className="bg-primary hover:bg-primary/90 text-primary-foreground"
+          >
+            Open Dashboard
+          </Button>
           <Button
             size="lg"
             onClick={() => setShowHowItWorks(true)}
