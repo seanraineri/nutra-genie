@@ -9,6 +9,12 @@ export const LandingHero = () => {
 
   return (
     <>
+      <div className="fixed top-0 left-0 p-4">
+        <h1 className="text-2xl font-bold">
+          Supplement<span className="text-primary">Scribe</span>
+          <span className="text-sm text-muted-foreground">.ai</span>
+        </h1>
+      </div>
       <div className="fixed top-0 right-0 p-4 flex gap-4">
         <Button 
           variant="ghost"
