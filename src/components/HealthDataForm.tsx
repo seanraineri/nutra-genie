@@ -83,7 +83,8 @@ export const HealthDataForm = () => {
     setLoading(true);
     
     try {
-      const { data: { user }, error: signUpError } = await supabase.auth.signUp({
+      // First sign up the user
+      const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,
         options: {
@@ -95,13 +96,19 @@ export const HealthDataForm = () => {
       });
 
       if (signUpError) throw signUpError;
-      if (!user) throw new Error('No user returned after signup');
+      if (!signUpData.user) throw new Error('No user returned after signup');
 
+      // Wait for the session to be established
+      const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
+      if (sessionError) throw sessionError;
+      if (!sessionData.session) throw new Error('No session established');
+
+      // Now create the health profile
       const { error: profileError } = await supabase
         .from('user_health_profiles')
         .insert([
           {
-            user_id: user.id,
+            user_id: signUpData.user.id,
             age: parseInt(formData.age),
             gender: formData.gender,
             height: parseFloat(formData.height),
@@ -132,8 +139,9 @@ export const HealthDataForm = () => {
       });
 
       navigate("/dashboard");
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error:', error);
+      
       toast({
         title: "Error",
         description: error.message,
