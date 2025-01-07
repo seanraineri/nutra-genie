@@ -1,5 +1,7 @@
 project_id = "gfzdxckeajqmjeshysyo"
+
 [functions.analyze-health-data]
 verify_jwt = true
+
 [functions.search-supplements]
 verify_jwt = false
