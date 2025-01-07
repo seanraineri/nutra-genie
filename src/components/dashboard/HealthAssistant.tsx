@@ -4,14 +4,7 @@ import { ChatMessage } from "./ChatMessage";
 import { QuickReplies } from "./QuickReplies";
 import { ChatInput } from "./chat/ChatInput";
 import { useHealthChat } from "@/hooks/useHealthChat";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/components/ui/use-toast";
-import { Bot, AlertCircle } from "lucide-react";
-import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
-import { useNavigate } from "react-router-dom";
+import { Bot } from "lucide-react";
 
 const quickReplies = [
   "Analyze my health data",
@@ -24,76 +17,7 @@ const quickReplies = [
 ];
 
 export const HealthAssistant = () => {
-  const { chatHistory, isLoading, handleSendMessage, isAuthenticated } = useHealthChat();
-  const [showBudgetInput, setShowBudgetInput] = useState(false);
-  const [budget, setBudget] = useState("");
-  const { toast } = useToast();
-  const navigate = useNavigate();
-
-  const handleBudgetUpdate = async () => {
-    try {
-      const { error } = await supabase
-        .from('user_health_profiles')
-        .insert({
-          monthly_supplement_budget: parseFloat(budget)
-        });
-
-      if (error) throw error;
-
-      toast({
-        title: "Budget Updated",
-        description: `Your monthly supplement budget has been set to $${budget}`,
-      });
-
-      setShowBudgetInput(false);
-      handleSendMessage(`My monthly supplement budget is now $${budget}. Please provide recommendations within this budget.`);
-    } catch (error) {
-      console.error('Error updating budget:', error);
-      toast({
-        title: "Error",
-        description: "Failed to update budget. Please try again.",
-        variant: "destructive",
-      });
-    }
-  };
-
-  const handleQuickReply = (reply: string) => {
-    if (reply === "Set monthly supplement budget") {
-      setShowBudgetInput(true);
-    } else {
-      handleSendMessage(reply);
-    }
-  };
-
-  if (!isAuthenticated) {
-    return (
-      <Card className="flex flex-col h-[calc(100vh-8rem)] bg-gradient-to-b from-background to-background/80 shadow-lg animate-fade-in">
-        <div className="p-6 border-b">
-          <div className="flex items-center gap-3 mb-3">
-            <div className="p-2 bg-primary/10 rounded-lg">
-              <Bot className="h-6 w-6 text-primary" />
-            </div>
-            <h2 className="text-2xl font-semibold text-secondary">Health Assistant</h2>
-          </div>
-        </div>
-        <div className="p-6 flex-1 flex items-center justify-center">
-          <Alert variant="destructive" className="max-w-md">
-            <AlertCircle className="h-4 w-4" />
-            <AlertTitle>Authentication Required</AlertTitle>
-            <AlertDescription className="mt-2">
-              Please sign in to use the Health Assistant chat feature.
-              <Button 
-                className="w-full mt-4"
-                onClick={() => navigate("/")}
-              >
-                Go to Sign In
-              </Button>
-            </AlertDescription>
-          </Alert>
-        </div>
-      </Card>
-    );
-  }
+  const { chatHistory, isLoading, handleSendMessage } = useHealthChat();
 
   return (
     <Card className="flex flex-col h-[calc(100vh-8rem)] bg-gradient-to-b from-background to-background/80 shadow-lg animate-fade-in">
@@ -111,38 +35,13 @@ export const HealthAssistant = () => {
           {chatHistory.map((msg, index) => (
             <ChatMessage key={index} role={msg.role} content={msg.content} />
           ))}
-          {showBudgetInput && (
-            <div className="flex gap-3 items-center p-4 bg-accent/5 rounded-lg border border-accent/20 animate-fade-in">
-              <Input
-                type="number"
-                placeholder="Enter monthly budget"
-                value={budget}
-                onChange={(e) => setBudget(e.target.value)}
-                className="max-w-[200px]"
-              />
-              <Button 
-                onClick={handleBudgetUpdate}
-                disabled={!budget || isNaN(parseFloat(budget))}
-                className="bg-accent hover:bg-accent/90"
-              >
-                Set Budget
-              </Button>
-              <Button 
-                variant="ghost" 
-                onClick={() => setShowBudgetInput(false)}
-                className="text-muted-foreground"
-              >
-                Cancel
-              </Button>
-            </div>
-          )}
         </div>
       </ScrollArea>
 
       <div className="p-6 border-t bg-background/50 backdrop-blur-sm">
         <QuickReplies
           replies={quickReplies}
-          onSelect={handleQuickReply}
+          onSelect={handleSendMessage}
           disabled={isLoading}
         />
         <ChatInput onSendMessage={handleSendMessage} isLoading={isLoading} />
