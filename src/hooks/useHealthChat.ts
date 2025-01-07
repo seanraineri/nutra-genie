@@ -26,7 +26,7 @@ export const useHealthChat = () => {
       } else {
         setChatHistory([{
           role: "assistant",
-          content: "Hi! I'm your personal health assistant. I can help you understand your supplements and health goals. You can upload holistic health documents to help shape my knowledge and recommendations. What would you like to know about?"
+          content: "Hi! I'm your personal health assistant. How can I help!"
         }]);
       }
     };
