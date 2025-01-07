@@ -74,7 +74,7 @@ export const HealthDataForm = () => {
     setLoading(true);
     
     try {
-      const { error: signUpError } = await supabase.auth.signUp({
+      const { data: authData, error: signUpError } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,
         options: {
@@ -87,38 +87,44 @@ export const HealthDataForm = () => {
 
       if (signUpError) throw signUpError;
 
-      const { error: profileError } = await supabase
-        .from('user_health_profiles')
-        .insert([
-          {
-            age: parseInt(formData.age),
-            height: parseFloat(formData.height),
-            weight: parseFloat(formData.weight),
-            medical_conditions: formData.medicalConditions.split(',').map(c => c.trim()),
-            current_medications: formData.currentMedications.split(',').map(m => m.trim()),
-          },
-        ]);
+      if (authData.user) {
+        const { error: profileError } = await supabase
+          .from('user_health_profiles')
+          .insert([
+            {
+              user_id: authData.user.id,
+              age: parseInt(formData.age),
+              height: parseFloat(formData.height),
+              weight: parseFloat(formData.weight),
+              medical_conditions: formData.medicalConditions.split(',').map(c => c.trim()),
+              current_medications: formData.currentMedications.split(',').map(m => m.trim()),
+            },
+          ]);
 
-      if (profileError) throw profileError;
+        if (profileError) throw profileError;
 
-      // Add health goals if provided
-      if (formData.healthGoals.trim()) {
-        const goals = formData.healthGoals
-          .split('\n')
-          .filter(goal => goal.trim())
-          .map(goal => ({ goal_name: goal.trim() }));
+        // Add health goals if provided
+        if (formData.healthGoals.trim()) {
+          const goals = formData.healthGoals
+            .split('\n')
+            .filter(goal => goal.trim())
+            .map(goal => ({ 
+              user_id: authData.user.id,
+              goal_name: goal.trim() 
+            }));
 
-        for (const goal of goals) {
-          await addHealthGoal(goal);
+          for (const goal of goals) {
+            await addHealthGoal(goal);
+          }
         }
+
+        toast({
+          title: "Account Created",
+          description: "Your account has been created successfully.",
+        });
+
+        // The AuthProvider will automatically redirect to dashboard
       }
-
-      toast({
-        title: "Account Created",
-        description: "Your account has been created successfully.",
-      });
-
-      navigate("/dashboard");
     } catch (error) {
       console.error('Error:', error);
       toast({

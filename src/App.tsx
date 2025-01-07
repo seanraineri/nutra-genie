@@ -3,6 +3,8 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "./components/auth/AuthProvider";
+import { ProtectedRoute } from "./components/auth/ProtectedRoute";
 import Index from "./pages/Index";
 import InputPage from "./pages/InputPage";
 import DashboardPage from "./pages/DashboardPage";
@@ -13,16 +15,25 @@ const queryClient = new QueryClient();
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <BrowserRouter>
-      <TooltipProvider>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/input" element={<InputPage />} />
-          <Route path="/dashboard" element={<DashboardPage />} />
-          <Route path="/faq" element={<FAQPage />} />
-        </Routes>
-        <Toaster />
-        <Sonner />
-      </TooltipProvider>
+      <AuthProvider>
+        <TooltipProvider>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/input" element={<InputPage />} />
+            <Route
+              path="/dashboard"
+              element={
+                <ProtectedRoute>
+                  <DashboardPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="/faq" element={<FAQPage />} />
+          </Routes>
+          <Toaster />
+          <Sonner />
+        </TooltipProvider>
+      </AuthProvider>
     </BrowserRouter>
   </QueryClientProvider>
 );
