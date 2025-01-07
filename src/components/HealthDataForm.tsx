@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -10,7 +10,6 @@ import { TestInformationInputs } from "./health-form/TestInformationInputs";
 import { HealthGoalsInput } from "./health-form/HealthGoalsInput";
 import { HealthFormData, ActivityLevel } from "@/types/health-form";
 import { useToast } from "@/components/ui/use-toast";
-import { addHealthGoal } from "@/api/healthGoalsApi";
 import { Auth } from '@supabase/auth-ui-react';
 import { ThemeSupa } from '@supabase/auth-ui-shared';
 
@@ -19,6 +18,7 @@ export const HealthDataForm = () => {
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const [acceptedTerms, setAcceptedTerms] = useState(false);
+  const [session, setSession] = useState(null);
   const [formData, setFormData] = useState<HealthFormData>({
     firstName: "",
     lastName: "",
@@ -29,12 +29,43 @@ export const HealthDataForm = () => {
     weight: "",
     activityLevel: "sedentary",
     medicalConditions: "",
-    allergies: "", // Added allergies field
+    allergies: "",
     currentMedications: "",
     hasBloodwork: false,
     hasGeneticTesting: false,
     healthGoals: "",
   });
+
+  useEffect(() => {
+    // Check for existing session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+      if (session?.user) {
+        // Pre-fill email for authenticated users
+        setFormData(prev => ({
+          ...prev,
+          email: session.user.email || "",
+          firstName: session.user.user_metadata.first_name || "",
+          lastName: session.user.user_metadata.last_name || "",
+        }));
+      }
+    });
+
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+      if (session?.user) {
+        setFormData(prev => ({
+          ...prev,
+          email: session.user.email || "",
+          firstName: session.user.user_metadata.first_name || "",
+          lastName: session.user.user_metadata.last_name || "",
+        }));
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -77,58 +108,61 @@ export const HealthDataForm = () => {
     setLoading(true);
     
     try {
-      const { data: authData, error: signUpError } = await supabase.auth.signUp({
-        email: formData.email,
-        password: formData.password,
-        options: {
-          data: {
-            first_name: formData.firstName,
-            last_name: formData.lastName,
-          },
-        },
-      });
-
-      if (signUpError) throw signUpError;
-
-      if (authData.user) {
-        const { error: profileError } = await supabase
-          .from('user_health_profiles')
-          .insert([
-            {
-              user_id: authData.user.id,
-              age: parseInt(formData.age),
-              height: parseFloat(formData.height),
-              weight: parseFloat(formData.weight),
-              medical_conditions: formData.medicalConditions.split(',').map(c => c.trim()),
-              allergies: formData.allergies.split(',').map(a => a.trim()), // Added allergies
-              current_medications: formData.currentMedications.split(',').map(m => m.trim()),
+      if (!session) {
+        const { data: authData, error: signUpError } = await supabase.auth.signUp({
+          email: formData.email,
+          password: formData.password,
+          options: {
+            data: {
+              first_name: formData.firstName,
+              last_name: formData.lastName,
             },
-          ]);
-
-        if (profileError) throw profileError;
-
-        // Add health goals if provided
-        if (formData.healthGoals.trim()) {
-          const goals = formData.healthGoals
-            .split('\n')
-            .filter(goal => goal.trim())
-            .map(goal => ({ 
-              user_id: authData.user.id,
-              goal_name: goal.trim() 
-            }));
-
-          for (const goal of goals) {
-            await addHealthGoal(goal);
-          }
-        }
-
-        toast({
-          title: "Account Created",
-          description: "Your account has been created successfully.",
+          },
         });
 
-        // The AuthProvider will automatically redirect to dashboard
+        if (signUpError) throw signUpError;
+        if (!authData.user) throw new Error("No user data returned");
       }
+
+      const userId = session?.user.id || formData.email;
+
+      const { error: profileError } = await supabase
+        .from('user_health_profiles')
+        .insert([
+          {
+            user_id: userId,
+            age: parseInt(formData.age),
+            height: parseFloat(formData.height),
+            weight: parseFloat(formData.weight),
+            medical_conditions: formData.medicalConditions.split(',').map(c => c.trim()),
+            allergies: formData.allergies.split(',').map(a => a.trim()),
+            current_medications: formData.currentMedications.split(',').map(m => m.trim()),
+          },
+        ]);
+
+      if (profileError) throw profileError;
+
+      // Add health goals if provided
+      if (formData.healthGoals.trim()) {
+        const goals = formData.healthGoals
+          .split('\n')
+          .filter(goal => goal.trim())
+          .map(goal => ({ 
+            user_id: userId,
+            goal_name: goal.trim() 
+          }));
+
+        for (const goal of goals) {
+          await addHealthGoal(goal);
+        }
+      }
+
+      toast({
+        title: "Profile Updated",
+        description: "Your health profile has been created successfully.",
+      });
+
+      navigate("/dashboard");
     } catch (error) {
       console.error('Error:', error);
       toast({
@@ -144,35 +178,46 @@ export const HealthDataForm = () => {
   return (
     <Card className="w-full max-w-2xl mx-auto p-6 animate-fade-in">
       <div className="space-y-2 mb-6">
-        <h2 className="text-2xl font-bold text-secondary">Create Your Account</h2>
+        <h2 className="text-2xl font-bold text-secondary">
+          {session ? "Complete Your Health Profile" : "Create Your Account"}
+        </h2>
         <p className="text-muted-foreground">
-          Enter your information to get personalized health recommendations
+          {session 
+            ? "Please provide your health information to get personalized recommendations"
+            : "Enter your information to get started"
+          }
         </p>
       </div>
 
-      <div className="mb-6">
-        <Auth
-          supabaseClient={supabase}
-          appearance={{ theme: ThemeSupa }}
-          providers={['google']}
-          redirectTo={window.location.origin + '/dashboard'}
-          onlyThirdPartyProviders
-        />
-      </div>
+      {!session && (
+        <>
+          <div className="mb-6">
+            <Auth
+              supabaseClient={supabase}
+              appearance={{ theme: ThemeSupa }}
+              providers={['google']}
+              redirectTo={window.location.origin + '/input'}
+              onlyThirdPartyProviders
+            />
+          </div>
 
-      <div className="relative my-6">
-        <div className="absolute inset-0 flex items-center">
-          <span className="w-full border-t" />
-        </div>
-        <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-background px-2 text-muted-foreground">
-            Or continue with email
-          </span>
-        </div>
-      </div>
+          <div className="relative my-6">
+            <div className="absolute inset-0 flex items-center">
+              <span className="w-full border-t" />
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-background px-2 text-muted-foreground">
+                Or continue with email
+              </span>
+            </div>
+          </div>
+        </>
+      )}
 
       <form onSubmit={handleSubmit} className="space-y-8">
-        <PersonalInfoInputs formData={formData} onChange={handleInputChange} />
+        {!session && (
+          <PersonalInfoInputs formData={formData} onChange={handleInputChange} />
+        )}
         
         <HealthMetricsInputs
           formData={formData}
@@ -209,7 +254,7 @@ export const HealthDataForm = () => {
           className="w-full"
           disabled={loading || !acceptedTerms}
         >
-          {loading ? "Creating Account..." : "Next"}
+          {loading ? "Saving..." : "Save Health Profile"}
         </Button>
       </form>
     </Card>
