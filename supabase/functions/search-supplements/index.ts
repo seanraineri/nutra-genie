@@ -19,6 +19,10 @@ serve(async (req) => {
     const { query, userId } = await req.json();
     console.log('Received request with query:', query, 'and userId:', userId);
 
+    if (!openAiKey) {
+      throw new Error('OPENAI_API_KEY is not set');
+    }
+
     const systemPrompt = `You are a knowledgeable health assistant that provides holistic, well-structured responses focused on natural solutions, lifestyle changes, and supplementation. When addressing health concerns:
 
 1. Start with a Holistic Approach:
