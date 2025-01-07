@@ -10,7 +10,6 @@ export interface HealthFormData {
   weight: string;
   activityLevel: ActivityLevel;
   medicalConditions: string;
-  allergies: string;
   currentMedications: string;
   hasBloodwork: boolean;
   hasGeneticTesting: boolean;
