@@ -17,28 +17,14 @@ export const LandingHero = () => {
         </h1>
       </div>
 
-      {/* Navigation - stack on mobile */}
-      <div className="fixed top-14 sm:top-0 right-0 p-2 sm:p-4 flex flex-col sm:flex-row gap-2 sm:gap-4">
-        <Button 
-          variant="ghost"
-          onClick={() => navigate("/faq")}
-          className="text-muted-foreground hover:text-primary transition-colors text-sm sm:text-base"
-        >
-          FAQ
-        </Button>
+      {/* Navigation - single About button */}
+      <div className="fixed top-0 right-0 p-2 sm:p-4">
         <Button 
           variant="ghost"
           onClick={() => navigate("/about")}
           className="text-muted-foreground hover:text-primary transition-colors text-sm sm:text-base"
         >
-          About Us
-        </Button>
-        <Button 
-          variant="ghost"
-          onClick={() => navigate("/contact")}
-          className="text-muted-foreground hover:text-primary transition-colors text-sm sm:text-base"
-        >
-          Contact
+          About
         </Button>
       </div>
 
