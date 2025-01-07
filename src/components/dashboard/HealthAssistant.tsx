@@ -63,7 +63,7 @@ export const HealthAssistant = () => {
   };
 
   return (
-    <Card className="flex flex-col h-[calc(100vh-12rem)] bg-gradient-to-b from-background to-background/80 shadow-lg animate-fade-in">
+    <Card className="flex flex-col h-[calc(100vh-8rem)] bg-gradient-to-b from-background to-background/80 shadow-lg animate-fade-in">
       <div className="p-6 border-b">
         <div className="flex items-center gap-3 mb-3">
           <div className="p-2 bg-primary/10 rounded-lg">
