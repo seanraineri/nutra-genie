@@ -15,41 +15,29 @@ export const ActivityLevelSelect = ({ value, onValueChange }: ActivityLevelSelec
         value={value}
         onValueChange={(value) => onValueChange(value as ActivityLevel)}
       >
-        <SelectTrigger className="w-full bg-white">
+        <SelectTrigger className="w-full bg-background border border-input">
           <SelectValue placeholder="Select your activity level" />
         </SelectTrigger>
-        <SelectContent className="max-h-[300px]">
-          <SelectItem 
-            value="sedentary" 
-            className="py-3 px-2 cursor-pointer hover:bg-slate-50 focus:bg-slate-50 rounded-md"
-          >
+        <SelectContent className="bg-background border border-input">
+          <SelectItem value="sedentary">
             <div className="space-y-1">
               <div className="font-medium">Sedentary</div>
               <div className="text-sm text-muted-foreground">Little to no regular exercise</div>
             </div>
           </SelectItem>
-          <SelectItem 
-            value="moderate" 
-            className="py-3 px-2 cursor-pointer hover:bg-slate-50 focus:bg-slate-50 rounded-md"
-          >
+          <SelectItem value="moderate">
             <div className="space-y-1">
               <div className="font-medium">Moderately Active</div>
               <div className="text-sm text-muted-foreground">Light exercise 2-3 times per week</div>
             </div>
           </SelectItem>
-          <SelectItem 
-            value="active" 
-            className="py-3 px-2 cursor-pointer hover:bg-slate-50 focus:bg-slate-50 rounded-md"
-          >
+          <SelectItem value="active">
             <div className="space-y-1">
               <div className="font-medium">Active</div>
               <div className="text-sm text-muted-foreground">Moderate exercise 4-5 times per week</div>
             </div>
           </SelectItem>
-          <SelectItem 
-            value="athlete" 
-            className="py-3 px-2 cursor-pointer hover:bg-slate-50 focus:bg-slate-50 rounded-md"
-          >
+          <SelectItem value="athlete">
             <div className="space-y-1">
               <div className="font-medium">Very Active</div>
               <div className="text-sm text-muted-foreground">Intense exercise 6+ times per week</div>
