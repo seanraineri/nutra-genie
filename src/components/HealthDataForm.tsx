@@ -161,7 +161,7 @@ export const HealthDataForm = () => {
           className="w-full"
           disabled={loading || !acceptedTerms}
         >
-          {loading ? "Creating Account..." : "Create Account & Continue"}
+          {loading ? "Creating Account..." : "Next"}
         </Button>
       </form>
     </Card>
