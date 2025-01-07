@@ -14,7 +14,7 @@ const queryClient = new QueryClient();
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <BrowserRouter>
-      <TooltipProvider>
+      <TooltipProvider delayDuration={0}>
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/input" element={<InputPage />} />
