@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { HowItWorksModal } from "./HowItWorksModal";
 import { useState } from "react";
 
@@ -10,9 +10,27 @@ export const LandingHero = () => {
   return (
     <>
       <div className="fixed top-0 right-0 p-4 flex gap-4">
-        <a href="/faq" className="text-muted-foreground hover:text-primary transition-colors">FAQ</a>
-        <a href="/about" className="text-muted-foreground hover:text-primary transition-colors">About Us</a>
-        <a href="/contact" className="text-muted-foreground hover:text-primary transition-colors">Contact</a>
+        <Button 
+          variant="ghost"
+          onClick={() => navigate("/faq")}
+          className="text-muted-foreground hover:text-primary transition-colors"
+        >
+          FAQ
+        </Button>
+        <Button 
+          variant="ghost"
+          onClick={() => navigate("/about")}
+          className="text-muted-foreground hover:text-primary transition-colors"
+        >
+          About Us
+        </Button>
+        <Button 
+          variant="ghost"
+          onClick={() => navigate("/contact")}
+          className="text-muted-foreground hover:text-primary transition-colors"
+        >
+          Contact
+        </Button>
       </div>
       <div className="relative min-h-screen flex flex-col items-center justify-center px-4 animate-fade-in">
         <h1 className="text-4xl md:text-6xl font-bold text-center text-secondary mb-2">
@@ -51,8 +69,8 @@ export const LandingHero = () => {
         <HowItWorksModal open={showHowItWorks} onClose={() => setShowHowItWorks(false)} />
         
         <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-8 text-sm text-muted-foreground">
-          <a href="/privacy" className="hover:text-primary transition-colors">Privacy Policy</a>
-          <a href="/terms" className="hover:text-primary transition-colors">Terms & Conditions</a>
+          <Link to="/privacy" className="hover:text-primary transition-colors">Privacy Policy</Link>
+          <Link to="/terms" className="hover:text-primary transition-colors">Terms & Conditions</Link>
         </div>
       </div>
     </>

@@ -6,14 +6,16 @@ import { HealthMetrics } from "./dashboard/HealthMetrics";
 import { SupplementPlan } from "./dashboard/SupplementPlan";
 import { HealthGoals } from "./dashboard/HealthGoals";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export const Dashboard = () => {
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
 
   return (
-    <div className="container mx-auto py-8 animate-fade-in">
+    <div className="container mx-auto py-4 md:py-8 px-2 md:px-6 animate-fade-in">
       <Tabs defaultValue="assistant" className="w-full">
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4 md:mb-8">
           <div className="flex items-center gap-4">
             <Button
               variant="outline"
@@ -24,13 +26,35 @@ export const Dashboard = () => {
               <ChevronLeft className="h-4 w-4" />
               Back
             </Button>
-            <h1 className="text-3xl font-bold text-secondary">Your Health Dashboard</h1>
+            <h1 className="text-2xl md:text-3xl font-bold text-secondary truncate">
+              Your Health Dashboard
+            </h1>
           </div>
-          <TabsList className="bg-background border">
-            <TabsTrigger value="assistant" className="px-6">Health Assistant</TabsTrigger>
-            <TabsTrigger value="metrics" className="px-6">Health Metrics</TabsTrigger>
-            <TabsTrigger value="supplements" className="px-6">Supplement Plan</TabsTrigger>
-            <TabsTrigger value="goals" className="px-6">Health Goals</TabsTrigger>
+          <TabsList className="bg-background border w-full md:w-auto overflow-x-auto">
+            <TabsTrigger 
+              value="assistant" 
+              className="flex-1 md:flex-none px-3 md:px-6"
+            >
+              {isMobile ? "Assistant" : "Health Assistant"}
+            </TabsTrigger>
+            <TabsTrigger 
+              value="metrics" 
+              className="flex-1 md:flex-none px-3 md:px-6"
+            >
+              {isMobile ? "Metrics" : "Health Metrics"}
+            </TabsTrigger>
+            <TabsTrigger 
+              value="supplements" 
+              className="flex-1 md:flex-none px-3 md:px-6"
+            >
+              {isMobile ? "Plan" : "Supplement Plan"}
+            </TabsTrigger>
+            <TabsTrigger 
+              value="goals" 
+              className="flex-1 md:flex-none px-3 md:px-6"
+            >
+              {isMobile ? "Goals" : "Health Goals"}
+            </TabsTrigger>
           </TabsList>
         </div>
 

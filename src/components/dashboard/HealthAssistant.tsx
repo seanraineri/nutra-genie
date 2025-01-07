@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
-import { Bot, Brain, Sparkles } from "lucide-react";
+import { Bot } from "lucide-react";
 
 const quickReplies = [
   "Analyze my health data",
@@ -63,18 +63,13 @@ export const HealthAssistant = () => {
   };
 
   return (
-    <Card className="flex flex-col h-[calc(100vh-12rem)] bg-gradient-to-b from-background to-background/80 shadow-lg animate-fade-in">
+    <Card className="flex flex-col h-[calc(100vh-8rem)] bg-gradient-to-b from-background to-background/80 shadow-lg animate-fade-in">
       <div className="p-6 border-b">
         <div className="flex items-center gap-3 mb-3">
           <div className="p-2 bg-primary/10 rounded-lg">
             <Bot className="h-6 w-6 text-primary" />
           </div>
           <h2 className="text-2xl font-semibold text-secondary">Health Assistant</h2>
-        </div>
-        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-          <Brain className="h-4 w-4" />
-          <p>Powered by AI to provide personalized health insights</p>
-          <Sparkles className="h-4 w-4 text-accent" />
         </div>
       </div>
 
