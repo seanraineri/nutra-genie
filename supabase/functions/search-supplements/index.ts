@@ -41,6 +41,9 @@ serve(async (req) => {
    • Complementary Supplements: list synergistic combinations
    • Cautions: list any warnings
 
+After listing all supplement recommendations, always end with:
+"Would you like me to find supplement brands for you?"
+
 3. For general health information:
    • Use bullet points (•) for lists
    • Break information into clear sections
