@@ -177,6 +177,7 @@ export type Database = {
       user_health_profiles: {
         Row: {
           age: number | null
+          allergies: string[] | null
           created_at: string | null
           current_medications: string[] | null
           gender: string | null
@@ -190,6 +191,7 @@ export type Database = {
         }
         Insert: {
           age?: number | null
+          allergies?: string[] | null
           created_at?: string | null
           current_medications?: string[] | null
           gender?: string | null
@@ -203,6 +205,7 @@ export type Database = {
         }
         Update: {
           age?: number | null
+          allergies?: string[] | null
           created_at?: string | null
           current_medications?: string[] | null
           gender?: string | null
