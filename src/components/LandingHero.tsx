@@ -10,7 +10,13 @@ export const LandingHero = () => {
   return (
     <>
       <div className="fixed top-0 right-0 p-4 flex gap-4">
-        <Link to="/faq" className="text-muted-foreground hover:text-primary transition-colors">FAQ</Link>
+        <Link 
+          to="/faq" 
+          className="text-muted-foreground hover:text-primary transition-colors"
+          aria-label="Frequently Asked Questions"
+        >
+          FAQ
+        </Link>
         <Link to="/about" className="text-muted-foreground hover:text-primary transition-colors">About Us</Link>
         <Link to="/contact" className="text-muted-foreground hover:text-primary transition-colors">Contact</Link>
       </div>
