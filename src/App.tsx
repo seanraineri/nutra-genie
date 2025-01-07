@@ -8,6 +8,7 @@ import InputPage from "./pages/InputPage";
 import DashboardPage from "./pages/DashboardPage";
 import FAQPage from "./pages/FAQPage";
 import PaymentPage from "./pages/PaymentPage";
+import AuthPage from "./pages/AuthPage";
 
 const queryClient = new QueryClient();
 
@@ -17,6 +18,7 @@ const App = () => (
       <TooltipProvider>
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/auth" element={<AuthPage />} />
           <Route path="/input" element={<InputPage />} />
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/faq" element={<FAQPage />} />
