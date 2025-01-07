@@ -1,9 +1,7 @@
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { HealthFormData, ActivityLevel } from "@/types/health-form";
-import { Textarea } from "@/components/ui/textarea";
-import { useState, useEffect } from "react";
+import { BasicMetricsInputs } from "./metrics/BasicMetricsInputs";
+import { ActivityLevelSelect } from "./metrics/ActivityLevelSelect";
+import { MedicalInfoInputs } from "./metrics/MedicalInfoInputs";
 
 interface HealthMetricsInputsProps {
   formData: HealthFormData;
@@ -16,131 +14,14 @@ export const HealthMetricsInputs = ({
   onChange, 
   onActivityLevelChange 
 }: HealthMetricsInputsProps) => {
-  const [feet, setFeet] = useState("");
-  const [inches, setInches] = useState("");
-
-  // Convert feet/inches to centimeters when either value changes
-  useEffect(() => {
-    if (feet || inches) {
-      const totalInches = (parseInt(feet) || 0) * 12 + (parseInt(inches) || 0);
-      const cm = Math.round(totalInches * 2.54);
-      const event = {
-        target: {
-          id: "height",
-          value: cm.toString()
-        }
-      } as React.ChangeEvent<HTMLInputElement>;
-      onChange(event);
-    }
-  }, [feet, inches, onChange]);
-
   return (
-    <div className="space-y-4">
-      <div className="grid grid-cols-3 gap-4">
-        <div className="space-y-2">
-          <Label htmlFor="age">Age</Label>
-          <Input
-            id="age"
-            type="number"
-            value={formData.age}
-            onChange={onChange}
-            required
-          />
-        </div>
-        <div className="space-y-2">
-          <Label>Height</Label>
-          <div className="flex gap-2">
-            <div className="flex-1">
-              <Input
-                type="number"
-                placeholder="Feet"
-                value={feet}
-                onChange={(e) => setFeet(e.target.value)}
-                min="0"
-                max="8"
-                required
-              />
-            </div>
-            <div className="flex-1">
-              <Input
-                type="number"
-                placeholder="Inches"
-                value={inches}
-                onChange={(e) => setInches(e.target.value)}
-                min="0"
-                max="11"
-                required
-              />
-            </div>
-          </div>
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="weight">Weight (lbs)</Label>
-          <Input
-            id="weight"
-            type="number"
-            value={formData.weight}
-            onChange={(e) => {
-              // Convert pounds to kilograms for storage
-              const kg = Math.round(parseFloat(e.target.value) * 0.453592);
-              const event = {
-                target: {
-                  id: "weight",
-                  value: kg.toString()
-                }
-              } as React.ChangeEvent<HTMLInputElement>;
-              onChange(event);
-            }}
-            required
-          />
-        </div>
-      </div>
-
-      <div className="space-y-2">
-        <Label htmlFor="activityLevel">Activity Level</Label>
-        <Select
-          value={formData.activityLevel}
-          onValueChange={(value) => onActivityLevelChange(value as ActivityLevel)}
-        >
-          <SelectTrigger className="w-full h-10 px-3 py-2 text-sm bg-background border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
-            <SelectValue placeholder="Select your activity level" />
-          </SelectTrigger>
-          <SelectContent className="bg-background border rounded-md shadow-lg">
-            <SelectItem value="sedentary" className="cursor-pointer hover:bg-accent hover:text-accent-foreground">
-              Sedentary (Little to no exercise)
-            </SelectItem>
-            <SelectItem value="moderate" className="cursor-pointer hover:bg-accent hover:text-accent-foreground">
-              Moderate (Exercise 2-3 times/week)
-            </SelectItem>
-            <SelectItem value="active" className="cursor-pointer hover:bg-accent hover:text-accent-foreground">
-              Active (Exercise 4-5 times/week)
-            </SelectItem>
-            <SelectItem value="athlete" className="cursor-pointer hover:bg-accent hover:text-accent-foreground">
-              Athlete (Intense exercise 6+ times/week)
-            </SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-
-      <div className="space-y-2">
-        <Label htmlFor="medicalConditions">Current Medical Conditions</Label>
-        <Textarea
-          id="medicalConditions"
-          value={formData.medicalConditions}
-          onChange={onChange}
-          className="min-h-[100px]"
-        />
-      </div>
-
-      <div className="space-y-2">
-        <Label htmlFor="currentMedications">Current Medications</Label>
-        <Textarea
-          id="currentMedications"
-          value={formData.currentMedications}
-          onChange={onChange}
-          className="min-h-[100px]"
-        />
-      </div>
+    <div className="space-y-6">
+      <BasicMetricsInputs formData={formData} onChange={onChange} />
+      <ActivityLevelSelect 
+        value={formData.activityLevel} 
+        onValueChange={onActivityLevelChange} 
+      />
+      <MedicalInfoInputs formData={formData} onChange={onChange} />
     </div>
   );
 };
