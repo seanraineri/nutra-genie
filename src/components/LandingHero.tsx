@@ -13,7 +13,7 @@ export const LandingHero = () => {
         <a href="/about" className="text-muted-foreground hover:text-primary transition-colors">About Us</a>
         <a href="/contact" className="text-muted-foreground hover:text-primary transition-colors">Contact</a>
       </div>
-      <div className="min-h-[80vh] flex flex-col items-center justify-center px-4 animate-fade-in">
+      <div className="relative min-h-screen flex flex-col items-center justify-center px-4 animate-fade-in">
         <h1 className="text-4xl md:text-6xl font-bold text-center text-secondary mb-2">
           Personalized Supplement
           <span className="text-primary block mt-2">Recommendations</span>
@@ -49,7 +49,7 @@ export const LandingHero = () => {
         </div>
         <HowItWorksModal open={showHowItWorks} onClose={() => setShowHowItWorks(false)} />
         
-        <div className="fixed bottom-4 left-0 right-0 flex justify-center gap-8 text-sm text-muted-foreground">
+        <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-8 text-sm text-muted-foreground">
           <a href="/privacy" className="hover:text-primary transition-colors">Privacy Policy</a>
           <a href="/terms" className="hover:text-primary transition-colors">Terms & Conditions</a>
         </div>
