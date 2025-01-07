@@ -12,13 +12,23 @@ export const LandingHero = () => {
       <div className="fixed top-0 right-0 p-4 flex gap-4">
         <Link 
           to="/faq" 
-          className="text-muted-foreground hover:text-primary transition-colors"
-          aria-label="Frequently Asked Questions"
+          className="text-muted-foreground hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-sm"
+          aria-label="View Frequently Asked Questions"
         >
           FAQ
         </Link>
-        <Link to="/about" className="text-muted-foreground hover:text-primary transition-colors">About Us</Link>
-        <Link to="/contact" className="text-muted-foreground hover:text-primary transition-colors">Contact</Link>
+        <Link 
+          to="/about" 
+          className="text-muted-foreground hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-sm"
+        >
+          About Us
+        </Link>
+        <Link 
+          to="/contact" 
+          className="text-muted-foreground hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-sm"
+        >
+          Contact
+        </Link>
       </div>
       <div className="relative min-h-screen flex flex-col items-center justify-center px-4 animate-fade-in">
         <h1 className="text-4xl md:text-6xl font-bold text-center text-secondary mb-2">
