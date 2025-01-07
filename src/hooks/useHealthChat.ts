@@ -11,31 +11,53 @@ export const useHealthChat = () => {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const { processAIResponse } = useAIChat();
 
   useEffect(() => {
-    const loadChatHistory = async () => {
-      const data = await fetchChatHistory();
+    const checkAuth = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      setIsAuthenticated(!!user);
       
-      if (data && data.length > 0) {
-        const historyRecords = data as ChatHistoryRecord[];
-        setChatHistory(historyRecords.map(record => ({
-          role: record.role as "user" | "assistant",
-          content: record.message
-        })));
-      } else {
-        setChatHistory([{
-          role: "assistant",
-          content: "Hi! I'm your personal health assistant. How can I help!"
-        }]);
+      if (user) {
+        const data = await fetchChatHistory();
+        if (data && data.length > 0) {
+          const historyRecords = data as ChatHistoryRecord[];
+          setChatHistory(historyRecords.map(record => ({
+            role: record.role as "user" | "assistant",
+            content: record.message
+          })));
+        } else {
+          setChatHistory([{
+            role: "assistant",
+            content: "Hi! I'm your personal health assistant. How can I help!"
+          }]);
+        }
       }
     };
 
-    loadChatHistory();
+    checkAuth();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setIsAuthenticated(!!session?.user);
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
   }, []);
 
   const handleSendMessage = async (message: string) => {
     if (!message.trim()) return;
+    
+    if (!isAuthenticated) {
+      toast({
+        title: "Authentication Required",
+        description: "Please sign in to use the chat feature.",
+        variant: "destructive"
+      });
+      return;
+    }
     
     setIsLoading(true);
     const userMessage: ChatMessage = { role: "user", content: message };
@@ -59,7 +81,6 @@ export const useHealthChat = () => {
 
       const response = await processAIResponse(message, user.id);
       
-      // Check if response contains supplement recommendations
       if (response.toLowerCase().includes("recommend") && response.includes("[")) {
         const supplementMatch = response.match(/\[(.*?)\]/g);
         if (supplementMatch) {
@@ -82,7 +103,6 @@ export const useHealthChat = () => {
         }
       }
 
-      // Check if response contains health goals
       if (response.toLowerCase().includes("goal")) {
         const goalMatch = response.match(/goal: (.*?)(?=\n|$)/i);
         if (goalMatch) {
@@ -125,6 +145,7 @@ export const useHealthChat = () => {
   return {
     chatHistory,
     isLoading,
-    handleSendMessage
+    handleSendMessage,
+    isAuthenticated
   };
 };
