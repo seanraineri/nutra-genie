@@ -35,25 +35,25 @@ export const Dashboard = () => {
               value="assistant" 
               className="flex-1 md:flex-none px-3 md:px-6"
             >
-              {isMobile ? "Assistant" : "Health Assistant"}
+              Assistant
             </TabsTrigger>
             <TabsTrigger 
               value="metrics" 
               className="flex-1 md:flex-none px-3 md:px-6"
             >
-              {isMobile ? "Metrics" : "Health Metrics"}
+              Metrics
             </TabsTrigger>
             <TabsTrigger 
               value="supplements" 
               className="flex-1 md:flex-none px-3 md:px-6"
             >
-              {isMobile ? "Plan" : "Supplement Plan"}
+              Plan
             </TabsTrigger>
             <TabsTrigger 
               value="goals" 
               className="flex-1 md:flex-none px-3 md:px-6"
             >
-              {isMobile ? "Goals" : "Health Goals"}
+              Goals
             </TabsTrigger>
           </TabsList>
         </div>
