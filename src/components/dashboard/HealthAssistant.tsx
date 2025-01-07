@@ -6,7 +6,7 @@ import { ChatInput } from "./chat/ChatInput";
 import { useHealthChat } from "@/hooks/useHealthChat";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
 import { Bot, Brain, LogIn, Sparkles } from "lucide-react";
@@ -28,15 +28,14 @@ export const HealthAssistant = () => {
   const { toast } = useToast();
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
-  // Check authentication status when component mounts
-  useState(() => {
-    checkAuth();
-  });
-
   const checkAuth = async () => {
     const { data: { user } } = await supabase.auth.getUser();
     setIsAuthenticated(!!user);
   };
+
+  useEffect(() => {
+    checkAuth();
+  }, []);
 
   const handleBudgetUpdate = async () => {
     try {
