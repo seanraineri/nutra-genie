@@ -134,31 +134,40 @@ export type Database = {
       }
       supplement_recommendations: {
         Row: {
+          company_name: string | null
           created_at: string | null
           dosage: string | null
           estimated_cost: number | null
           id: string
+          image_url: string | null
           priority: number | null
+          product_url: string | null
           reason: string | null
           supplement_name: string | null
           user_id: string | null
         }
         Insert: {
+          company_name?: string | null
           created_at?: string | null
           dosage?: string | null
           estimated_cost?: number | null
           id?: string
+          image_url?: string | null
           priority?: number | null
+          product_url?: string | null
           reason?: string | null
           supplement_name?: string | null
           user_id?: string | null
         }
         Update: {
+          company_name?: string | null
           created_at?: string | null
           dosage?: string | null
           estimated_cost?: number | null
           id?: string
+          image_url?: string | null
           priority?: number | null
+          product_url?: string | null
           reason?: string | null
           supplement_name?: string | null
           user_id?: string | null
