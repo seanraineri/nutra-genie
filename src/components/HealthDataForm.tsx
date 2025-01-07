@@ -11,6 +11,8 @@ import { HealthGoalsInput } from "./health-form/HealthGoalsInput";
 import { HealthFormData, ActivityLevel } from "@/types/health-form";
 import { useToast } from "@/components/ui/use-toast";
 import { addHealthGoal } from "@/api/healthGoalsApi";
+import { Auth } from '@supabase/auth-ui-react';
+import { ThemeSupa } from '@supabase/auth-ui-shared';
 
 export const HealthDataForm = () => {
   const navigate = useNavigate();
@@ -141,14 +143,35 @@ export const HealthDataForm = () => {
 
   return (
     <Card className="w-full max-w-2xl mx-auto p-6 animate-fade-in">
-      <form onSubmit={handleSubmit} className="space-y-8">
-        <div className="space-y-2">
-          <h2 className="text-2xl font-bold text-secondary">Create Your Account</h2>
-          <p className="text-muted-foreground">
-            Enter your information to get personalized health recommendations
-          </p>
-        </div>
+      <div className="space-y-2 mb-6">
+        <h2 className="text-2xl font-bold text-secondary">Create Your Account</h2>
+        <p className="text-muted-foreground">
+          Enter your information to get personalized health recommendations
+        </p>
+      </div>
 
+      <div className="mb-6">
+        <Auth
+          supabaseClient={supabase}
+          appearance={{ theme: ThemeSupa }}
+          providers={['google']}
+          redirectTo={window.location.origin + '/dashboard'}
+          onlyThirdPartyProviders
+        />
+      </div>
+
+      <div className="relative my-6">
+        <div className="absolute inset-0 flex items-center">
+          <span className="w-full border-t" />
+        </div>
+        <div className="relative flex justify-center text-xs uppercase">
+          <span className="bg-background px-2 text-muted-foreground">
+            Or continue with email
+          </span>
+        </div>
+      </div>
+
+      <form onSubmit={handleSubmit} className="space-y-8">
         <PersonalInfoInputs formData={formData} onChange={handleInputChange} />
         
         <HealthMetricsInputs
