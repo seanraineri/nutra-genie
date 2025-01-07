@@ -7,19 +7,21 @@ const InputPage = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="container mx-auto py-8">
-      <div className="flex items-center gap-4 mb-8">
-        <Button
-          variant="outline"
-          size="sm"
-          className="flex items-center gap-2"
-          onClick={() => navigate(-1)}
-        >
-          <ChevronLeft className="h-4 w-4" />
-          Back
-        </Button>
+    <div className="min-h-screen bg-background">
+      <div className="container mx-auto py-8">
+        <div className="flex items-center gap-4 mb-8">
+          <Button
+            variant="outline"
+            size="sm"
+            className="flex items-center gap-2"
+            onClick={() => navigate(-1)}
+          >
+            <ChevronLeft className="h-4 w-4" />
+            Back
+          </Button>
+        </div>
+        <HealthDataForm />
       </div>
-      <HealthDataForm />
     </div>
   );
 };
