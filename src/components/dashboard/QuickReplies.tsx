@@ -16,6 +16,8 @@ export const QuickReplies = ({ replies, onSelect, disabled }: QuickRepliesProps)
           size="sm"
           onClick={() => onSelect(reply)}
           disabled={disabled}
+          className="bg-background hover:bg-accent/10 border-accent/20 text-secondary hover:text-accent transition-colors animate-fade-in"
+          style={{ animationDelay: `${index * 50}ms` }}
         >
           {reply}
         </Button>

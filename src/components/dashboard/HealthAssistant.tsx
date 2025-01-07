@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
+import { Bot, Brain, Sparkles } from "lucide-react";
 
 const quickReplies = [
   "Analyze my health data",
@@ -68,21 +69,28 @@ export const HealthAssistant = () => {
   };
 
   return (
-    <Card className="flex flex-col h-[calc(100vh-12rem)]">
-      <div className="p-4 border-b">
-        <h2 className="text-xl font-semibold">Health Assistant</h2>
-        <p className="text-sm text-muted-foreground">
-          Ask me anything about your health data, supplements, or upload health-related files
-        </p>
+    <Card className="flex flex-col h-[calc(100vh-12rem)] bg-gradient-to-b from-background to-background/80 shadow-lg animate-fade-in">
+      <div className="p-6 border-b">
+        <div className="flex items-center gap-3 mb-3">
+          <div className="p-2 bg-primary/10 rounded-lg">
+            <Bot className="h-6 w-6 text-primary" />
+          </div>
+          <h2 className="text-2xl font-semibold text-secondary">Health Assistant</h2>
+        </div>
+        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+          <Brain className="h-4 w-4" />
+          <p>Powered by AI to provide personalized health insights</p>
+          <Sparkles className="h-4 w-4 text-accent" />
+        </div>
       </div>
 
-      <ScrollArea className="flex-1 p-4">
-        <div className="space-y-4">
+      <ScrollArea className="flex-1 p-6">
+        <div className="space-y-6">
           {chatHistory.map((msg, index) => (
             <ChatMessage key={index} role={msg.role} content={msg.content} />
           ))}
           {showBudgetInput && (
-            <div className="flex gap-2 items-center p-4 bg-accent/10 rounded-lg">
+            <div className="flex gap-3 items-center p-4 bg-accent/5 rounded-lg border border-accent/20 animate-fade-in">
               <Input
                 type="number"
                 placeholder="Enter monthly budget"
@@ -93,12 +101,14 @@ export const HealthAssistant = () => {
               <Button 
                 onClick={handleBudgetUpdate}
                 disabled={!budget || isNaN(parseFloat(budget))}
+                className="bg-accent hover:bg-accent/90"
               >
                 Set Budget
               </Button>
               <Button 
                 variant="ghost" 
                 onClick={() => setShowBudgetInput(false)}
+                className="text-muted-foreground"
               >
                 Cancel
               </Button>
@@ -107,7 +117,7 @@ export const HealthAssistant = () => {
         </div>
       </ScrollArea>
 
-      <div className="p-4 border-t mt-auto">
+      <div className="p-6 border-t bg-background/50 backdrop-blur-sm">
         <QuickReplies
           replies={quickReplies}
           onSelect={handleQuickReply}
