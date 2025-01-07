@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox";
 import { supabase } from "@/integrations/supabase/client";
 import { PersonalInfoInputs } from "./health-form/PersonalInfoInputs";
 import { HealthMetricsInputs } from "./health-form/HealthMetricsInputs";
@@ -10,12 +9,10 @@ import { TestInformationInputs } from "./health-form/TestInformationInputs";
 import { HealthGoalsInput } from "./health-form/HealthGoalsInput";
 import { HealthFormData, ActivityLevel } from "@/types/health-form";
 import { useToast } from "@/components/ui/use-toast";
-import { Auth } from '@supabase/auth-ui-react';
-import { ThemeSupa } from '@supabase/auth-ui-shared';
-import { addHealthGoal } from "@/api/healthGoalsApi";
-
-// Let's extract form submission logic to a separate component
 import { useHealthFormSubmit } from "@/hooks/useHealthFormSubmit";
+import { AuthSection } from "./health-form/AuthSection";
+import { TermsSection } from "./health-form/TermsSection";
+import { FormHeader } from "./health-form/FormHeader";
 
 export const HealthDataForm = () => {
   const navigate = useNavigate();
@@ -43,11 +40,9 @@ export const HealthDataForm = () => {
   const { handleSubmit: submitForm } = useHealthFormSubmit();
 
   useEffect(() => {
-    // Check for existing session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       if (session?.user) {
-        // Pre-fill email for authenticated users
         setFormData(prev => ({
           ...prev,
           email: session.user.email || "",
@@ -57,7 +52,6 @@ export const HealthDataForm = () => {
       }
     });
 
-    // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
       if (session?.user) {
@@ -133,42 +127,9 @@ export const HealthDataForm = () => {
 
   return (
     <Card className="w-full max-w-2xl mx-auto p-6 animate-fade-in">
-      <div className="space-y-2 mb-6">
-        <h2 className="text-2xl font-bold text-secondary">
-          {session ? "Complete Your Health Profile" : "Create Your Account"}
-        </h2>
-        <p className="text-muted-foreground">
-          {session 
-            ? "Please provide your health information to get personalized recommendations"
-            : "Enter your information to get started"
-          }
-        </p>
-      </div>
+      <FormHeader isAuthenticated={!!session} />
 
-      {!session && (
-        <>
-          <div className="mb-6">
-            <Auth
-              supabaseClient={supabase}
-              appearance={{ theme: ThemeSupa }}
-              providers={['google']}
-              redirectTo={window.location.origin + '/input'}
-              onlyThirdPartyProviders
-            />
-          </div>
-
-          <div className="relative my-6">
-            <div className="absolute inset-0 flex items-center">
-              <span className="w-full border-t" />
-            </div>
-            <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-background px-2 text-muted-foreground">
-                Or continue with email
-              </span>
-            </div>
-          </div>
-        </>
-      )}
+      {!session && <AuthSection />}
 
       <form onSubmit={handleFormSubmit} className="space-y-8">
         {!session && (
@@ -188,22 +149,10 @@ export const HealthDataForm = () => {
 
         <HealthGoalsInput formData={formData} onChange={handleInputChange} />
 
-        <div className="flex items-center space-x-2">
-          <Checkbox
-            id="terms"
-            checked={acceptedTerms}
-            onCheckedChange={(checked) => setAcceptedTerms(checked as boolean)}
-          />
-          <label
-            htmlFor="terms"
-            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-          >
-            I accept the{" "}
-            <a href="/terms" className="text-primary hover:underline">
-              terms and conditions
-            </a>
-          </label>
-        </div>
+        <TermsSection 
+          acceptedTerms={acceptedTerms}
+          onTermsChange={(checked) => setAcceptedTerms(checked)}
+        />
 
         <Button
           type="submit"
