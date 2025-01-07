@@ -21,17 +21,17 @@ export default function PaymentPage() {
   }, [email, navigate]);
 
   useEffect(() => {
-    let interval: number;
+    let intervalId: ReturnType<typeof setInterval>;
     if (loading) {
       setProgress(0);
-      interval = setInterval(() => {
+      intervalId = setInterval(() => {
         setProgress((prev) => {
           if (prev >= 90) return prev;
           return prev + 10;
         });
       }, 500);
     }
-    return () => clearInterval(interval);
+    return () => clearInterval(intervalId);
   }, [loading]);
 
   const handleSubscribe = async () => {

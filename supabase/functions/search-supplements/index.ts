@@ -1,6 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-import { Configuration, OpenAIApi } from "https://esm.sh/openai@3.1.0";
+import OpenAI from "https://esm.sh/openai@4.20.1";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -17,17 +17,18 @@ serve(async (req) => {
     const { query, userId } = await req.json();
     console.log('Received request with query:', query, 'and userId:', userId);
 
-    // Initialize OpenAI
+    // Initialize OpenAI with the new API version
     const openAiKey = Deno.env.get('OPENAI_API_KEY');
     if (!openAiKey) {
       throw new Error('OPENAI_API_KEY is not set');
     }
 
-    const configuration = new Configuration({ apiKey: openAiKey });
-    const openai = new OpenAIApi(configuration);
+    const openai = new OpenAI({
+      apiKey: openAiKey
+    });
 
-    // Get response from OpenAI
-    const completion = await openai.createChatCompletion({
+    // Get response from OpenAI using the new API
+    const completion = await openai.chat.completions.create({
       model: "gpt-4o-mini",
       messages: [
         {
@@ -60,7 +61,7 @@ serve(async (req) => {
           },
           {
             user_id: userId,
-            message: completion.data.choices[0].message?.content,
+            message: completion.choices[0].message.content,
             role: 'assistant'
           }
         ]);
@@ -69,7 +70,7 @@ serve(async (req) => {
     }
 
     return new Response(
-      JSON.stringify(completion.data),
+      JSON.stringify({ choices: [{ message: { content: completion.choices[0].message.content } }] }),
       { 
         headers: { 
           ...corsHeaders,
