@@ -17,18 +17,20 @@ export const LandingHero = () => {
         >
           FAQ
         </Button>
-        <Link 
-          to="/about" 
-          className="text-muted-foreground hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-sm"
+        <Button 
+          variant="ghost"
+          onClick={() => navigate("/about")}
+          className="text-muted-foreground hover:text-primary transition-colors"
         >
           About Us
-        </Link>
-        <Link 
-          to="/contact" 
-          className="text-muted-foreground hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-sm"
+        </Button>
+        <Button 
+          variant="ghost"
+          onClick={() => navigate("/contact")}
+          className="text-muted-foreground hover:text-primary transition-colors"
         >
           Contact
-        </Link>
+        </Button>
       </div>
       <div className="relative min-h-screen flex flex-col items-center justify-center px-4 animate-fade-in">
         <h1 className="text-4xl md:text-6xl font-bold text-center text-secondary mb-2">
