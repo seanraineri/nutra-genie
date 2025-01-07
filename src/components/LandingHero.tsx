@@ -10,13 +10,13 @@ export const LandingHero = () => {
   return (
     <>
       <div className="fixed top-0 right-0 p-4 flex gap-4">
-        <Link 
-          to="/faq" 
-          className="text-muted-foreground hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-sm"
-          aria-label="View Frequently Asked Questions"
+        <Button 
+          variant="ghost"
+          onClick={() => navigate("/faq")}
+          className="text-muted-foreground hover:text-primary transition-colors"
         >
           FAQ
-        </Link>
+        </Button>
         <Link 
           to="/about" 
           className="text-muted-foreground hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-sm"
