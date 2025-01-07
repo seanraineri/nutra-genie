@@ -45,17 +45,17 @@ export const LandingHero = () => {
         <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto px-4 sm:px-0">
           <Button
             size="lg"
-            onClick={() => navigate("/auth")}
-            className="bg-primary hover:bg-primary/90 text-primary-foreground w-full sm:w-auto"
-          >
-            Sign In
-          </Button>
-          <Button
-            size="lg"
             onClick={() => navigate("/input")}
             className="bg-primary hover:bg-primary/90 text-primary-foreground w-full sm:w-auto"
           >
             Get Started
+          </Button>
+          <Button
+            size="lg"
+            onClick={() => navigate("/dashboard")}
+            className="bg-primary hover:bg-primary/90 text-primary-foreground w-full sm:w-auto"
+          >
+            Open Dashboard
           </Button>
           <Button
             size="lg"
