@@ -71,16 +71,8 @@ export const BasicMetricsInputs = ({ formData, onChange }: BasicMetricsInputsPro
           id="weight"
           type="number"
           value={formData.weight}
-          onChange={(e) => {
-            const kg = Math.round(parseFloat(e.target.value) * 0.453592);
-            const event = {
-              target: {
-                id: "weight",
-                value: kg.toString()
-              }
-            } as React.ChangeEvent<HTMLInputElement>;
-            onChange(event);
-          }}
+          onChange={onChange}
+          min="0"
           required
         />
       </div>
