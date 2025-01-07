@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
-import { Bot, Brain, Sparkles } from "lucide-react";
+import { Bot, Brain, LogIn, Sparkles } from "lucide-react";
 
 const quickReplies = [
   "Analyze my health data",
@@ -26,11 +26,29 @@ export const HealthAssistant = () => {
   const [showBudgetInput, setShowBudgetInput] = useState(false);
   const [budget, setBudget] = useState("");
   const { toast } = useToast();
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+
+  // Check authentication status when component mounts
+  useState(() => {
+    checkAuth();
+  });
+
+  const checkAuth = async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+    setIsAuthenticated(!!user);
+  };
 
   const handleBudgetUpdate = async () => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error('Not authenticated');
+      if (!user) {
+        toast({
+          title: "Authentication Required",
+          description: "Please sign in to update your budget.",
+          variant: "destructive",
+        });
+        return;
+      }
 
       const { error } = await supabase
         .from('user_health_profiles')
@@ -61,12 +79,31 @@ export const HealthAssistant = () => {
   };
 
   const handleQuickReply = (reply: string) => {
+    if (!isAuthenticated) {
+      toast({
+        title: "Authentication Required",
+        description: "Please sign in to use the health assistant.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     if (reply === "Set monthly supplement budget") {
       setShowBudgetInput(true);
     } else {
       handleSendMessage(reply);
     }
   };
+
+  if (isAuthenticated === false) {
+    return (
+      <Card className="flex flex-col h-[calc(100vh-12rem)] items-center justify-center bg-gradient-to-b from-background to-background/80 shadow-lg animate-fade-in">
+        <LogIn className="h-12 w-12 text-muted-foreground mb-4" />
+        <h2 className="text-2xl font-semibold text-secondary mb-2">Authentication Required</h2>
+        <p className="text-muted-foreground mb-6">Please sign in to use the health assistant</p>
+      </Card>
+    );
+  }
 
   return (
     <Card className="flex flex-col h-[calc(100vh-12rem)] bg-gradient-to-b from-background to-background/80 shadow-lg animate-fade-in">
