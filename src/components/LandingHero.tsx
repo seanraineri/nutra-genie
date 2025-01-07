@@ -10,6 +10,7 @@ export const LandingHero = () => {
   return (
     <>
       <div className="fixed top-0 right-0 p-4 flex gap-4">
+        <a href="/faq" className="text-muted-foreground hover:text-primary transition-colors">FAQ</a>
         <a href="/about" className="text-muted-foreground hover:text-primary transition-colors">About Us</a>
         <a href="/contact" className="text-muted-foreground hover:text-primary transition-colors">Contact</a>
       </div>
