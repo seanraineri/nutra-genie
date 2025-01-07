@@ -56,14 +56,6 @@ export const BasicMetricsInputs = ({ formData, onChange, onGenderChange }: Basic
               <RadioGroupItem value="female" id="female" />
               <Label htmlFor="female">Female</Label>
             </div>
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem value="other" id="other" />
-              <Label htmlFor="other">Other</Label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem value="prefer-not-to-say" id="prefer-not-to-say" />
-              <Label htmlFor="prefer-not-to-say">Prefer not to say</Label>
-            </div>
           </RadioGroup>
         </div>
       </div>
@@ -102,16 +94,8 @@ export const BasicMetricsInputs = ({ formData, onChange, onGenderChange }: Basic
             id="weight"
             type="number"
             value={formData.weight}
-            onChange={(e) => {
-              const kg = Math.round(parseFloat(e.target.value) * 0.453592);
-              const event = {
-                target: {
-                  id: "weight",
-                  value: kg.toString()
-                }
-              } as React.ChangeEvent<HTMLInputElement>;
-              onChange(event);
-            }}
+            onChange={onChange}
+            min="0"
             required
           />
         </div>

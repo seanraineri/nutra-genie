@@ -1,5 +1,5 @@
 export type ActivityLevel = "sedentary" | "moderate" | "active" | "athlete";
-export type Gender = "male" | "female" | "other" | "prefer-not-to-say";
+export type Gender = "male" | "female";
 
 export interface HealthFormData {
   firstName: string;
