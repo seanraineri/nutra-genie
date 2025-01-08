@@ -5,19 +5,13 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form } from "@/components/ui/form";
 import { PersonalInfoInputs } from "./health-form/PersonalInfoInputs";
 import { HealthMetricsInputs } from "./health-form/HealthMetricsInputs";
 import { TestInformationInputs } from "./health-form/TestInformationInputs";
 import { HealthGoalsInput } from "./health-form/HealthGoalsInput";
-import { ActivityLevel, Gender } from "@/types/health-form";
+import { FormSection } from "./health-form/FormSection";
+import { ActivityLevel, Gender, HealthFormData } from "@/types/health-form";
 import { useToast } from "@/components/ui/use-toast";
 import { submitHealthFormData } from "@/utils/healthFormSubmission";
 import { healthFormSchema } from "@/schemas/healthFormSchema";
@@ -60,7 +54,7 @@ export const HealthDataForm = () => {
     }
 
     try {
-      await submitHealthFormData(data);
+      await submitHealthFormData(data as HealthFormData);
       
       toast({
         title: "Form Submitted",
@@ -83,28 +77,44 @@ export const HealthDataForm = () => {
     <Card className="w-full max-w-2xl mx-auto p-6 animate-fade-in">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <div className="space-y-2">
-            <h2 className="text-2xl font-bold text-secondary">Create Your Account</h2>
-            <p className="text-muted-foreground">
-              Enter your information to get personalized health recommendations
-            </p>
-          </div>
+          <FormSection
+            title="Create Your Account"
+            description="Enter your information to get personalized health recommendations"
+          >
+            <PersonalInfoInputs form={form} />
+          </FormSection>
 
-          <PersonalInfoInputs form={form} />
-          <HealthMetricsInputs 
-            formData={form.getValues()} 
-            onChange={(e) => form.setValue(e.target.id as keyof HealthFormSchemaType, e.target.value)}
-            onActivityLevelChange={(value) => form.setValue("activityLevel", value)}
-            onGenderChange={(value) => form.setValue("gender", value)}
-          />
-          <TestInformationInputs 
-            formData={form.getValues()}
-            onTestChange={(field, value) => form.setValue(field, value)}
-          />
-          <HealthGoalsInput 
-            formData={form.getValues()}
-            onChange={(e) => form.setValue("healthGoals", e.target.value)}
-          />
+          <FormSection
+            title="Health Metrics"
+            description="Help us understand your current health status"
+          >
+            <HealthMetricsInputs 
+              formData={form.getValues() as HealthFormData}
+              onChange={(e) => form.setValue(e.target.id as keyof HealthFormSchemaType, e.target.value)}
+              onActivityLevelChange={(value) => form.setValue("activityLevel", value)}
+              onGenderChange={(value) => form.setValue("gender", value)}
+            />
+          </FormSection>
+
+          <FormSection
+            title="Test Results"
+            description="Upload any recent test results for better recommendations"
+          >
+            <TestInformationInputs 
+              formData={form.getValues() as HealthFormData}
+              onTestChange={(field, value) => form.setValue(field, value)}
+            />
+          </FormSection>
+
+          <FormSection
+            title="Health Goals"
+            description="Tell us what you'd like to achieve"
+          >
+            <HealthGoalsInput 
+              formData={form.getValues() as HealthFormData}
+              onChange={(e) => form.setValue("healthGoals", e.target.value)}
+            />
+          </FormSection>
 
           <div className="flex items-center space-x-2">
             <Checkbox
