@@ -17,4 +17,5 @@ export interface HealthFormData {
   hasBloodwork: boolean;
   hasGeneticTesting: boolean;
   healthGoals: string;
+  monthlyBudget: string;
 }

@@ -49,6 +49,7 @@ export const submitHealthFormData = async (formData: HealthFormData) => {
           allergies: convertToArray(formData.allergies),
           current_medications: convertToArray(formData.currentMedications),
           health_goals: formData.healthGoals,
+          monthly_supplement_budget: parseFloat(formData.monthlyBudget),
         }
       ])
       .select()

@@ -53,6 +53,10 @@ export const healthFormSchema = z.object({
   hasBloodwork: z.boolean(),
   hasGeneticTesting: z.boolean(),
   healthGoals: z.string(),
+  monthlyBudget: z
+    .string()
+    .refine((val) => !isNaN(Number(val)), "Budget must be a number")
+    .refine((val) => Number(val) >= 0, "Budget must be greater than or equal to 0"),
 });
 
 export type HealthFormSchemaType = z.infer<typeof healthFormSchema>;

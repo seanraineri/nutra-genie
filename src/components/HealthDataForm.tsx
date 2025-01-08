@@ -17,6 +17,14 @@ import { submitHealthFormData } from "@/utils/healthFormSubmission";
 import { healthFormSchema } from "@/schemas/healthFormSchema";
 import type { HealthFormSchemaType } from "@/schemas/healthFormSchema";
 import { Loader2 } from "lucide-react";
+import { Input } from "./ui/input";
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 
 export const HealthDataForm = () => {
   const navigate = useNavigate();
@@ -42,6 +50,7 @@ export const HealthDataForm = () => {
       hasBloodwork: false,
       hasGeneticTesting: false,
       healthGoals: "",
+      monthlyBudget: "",
     },
   });
 
@@ -126,6 +135,31 @@ export const HealthDataForm = () => {
             <HealthGoalsInput 
               formData={form.getValues() as HealthFormData}
               onChange={(e) => form.setValue("healthGoals", e.target.value)}
+            />
+          </FormSection>
+
+          <FormSection
+            title="Monthly Budget"
+            description="Set your monthly budget for supplements to get recommendations within your range"
+          >
+            <FormField
+              control={form.control}
+              name="monthlyBudget"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Monthly Budget (USD)</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="number"
+                      min="0"
+                      step="1"
+                      placeholder="Enter your monthly budget"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
           </FormSection>
 
