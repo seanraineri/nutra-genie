@@ -108,7 +108,7 @@ export const HealthDataForm = () => {
 
           <FormSection
             title="Health Goals"
-            description="Tell us what you'd like to achieve"
+            description="Tell us what you'd like to achieve. Be as specific as possible"
           >
             <HealthGoalsInput 
               formData={form.getValues() as HealthFormData}
