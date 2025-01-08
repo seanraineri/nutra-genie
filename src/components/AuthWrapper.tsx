@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { useToast } from "@/hooks/use-toast";
@@ -10,6 +10,7 @@ interface AuthWrapperProps {
 
 export const AuthWrapper = ({ children }: AuthWrapperProps) => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [isLoading, setIsLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const { toast } = useToast();
@@ -19,6 +20,13 @@ export const AuthWrapper = ({ children }: AuthWrapperProps) => {
       try {
         const { data: { session } } = await supabase.auth.getSession();
         
+        // Special handling for payment page
+        if (location.pathname === '/payment' && location.search.includes('email=')) {
+          setIsLoading(false);
+          setIsAuthenticated(true);
+          return;
+        }
+
         if (!session) {
           toast({
             title: "Please create an account to access this feature",
@@ -39,14 +47,18 @@ export const AuthWrapper = ({ children }: AuthWrapperProps) => {
         setIsAuthenticated(true);
       } catch (error) {
         console.error("Auth check failed:", error);
-        navigate("/");
+        // Only navigate away if not on payment page
+        if (location.pathname !== '/payment') {
+          navigate("/");
+        }
       } finally {
         setIsLoading(false);
       }
     };
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (!session) {
+      // Only handle auth changes if not on payment page
+      if (!session && location.pathname !== '/payment') {
         navigate("/");
       }
     });
@@ -56,7 +68,7 @@ export const AuthWrapper = ({ children }: AuthWrapperProps) => {
     return () => {
       subscription.unsubscribe();
     };
-  }, [navigate, toast]);
+  }, [navigate, toast, location]);
 
   if (isLoading) {
     return (
