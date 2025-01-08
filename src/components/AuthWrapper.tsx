@@ -1,48 +1,37 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
-import { LoadingSpinner } from "@/components/ui/loading-spinner";
+import { useAuth } from "@/hooks/useAuth";
+import { LoadingSpinner } from "./ui/loading-spinner";
+import { useToast } from "./ui/use-toast";
 
 interface AuthWrapperProps {
   children: React.ReactNode;
 }
 
 export const AuthWrapper = ({ children }: AuthWrapperProps) => {
+  const { session, isLoading } = useAuth();
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(true);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { toast } = useToast();
 
   useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const { data: { session } } = await supabase.auth.getSession();
-        
-        if (!session) {
-          navigate("/");
-          return;
-        }
-
-        setIsAuthenticated(true);
-      } catch (error) {
-        console.error("Auth check failed:", error);
-        navigate("/");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (!session) {
-        navigate("/");
-      }
-    });
-
-    checkAuth();
-
-    return () => {
-      subscription.unsubscribe();
-    };
-  }, [navigate]);
+    if (!isLoading && !session) {
+      toast({
+        title: "Account Required",
+        description: "Please create an account to access this feature. It's free to get started!",
+        duration: 5000,
+        variant: "default",
+        action: (
+          <button
+            onClick={() => navigate("/input")}
+            className="bg-primary text-primary-foreground px-3 py-2 rounded-md text-sm font-medium hover:bg-primary/90 transition-colors"
+          >
+            Sign Up
+          </button>
+        ),
+      });
+      navigate("/");
+    }
+  }, [session, isLoading, navigate, toast]);
 
   if (isLoading) {
     return (
@@ -52,9 +41,9 @@ export const AuthWrapper = ({ children }: AuthWrapperProps) => {
     );
   }
 
-  if (!isAuthenticated) {
+  if (!session) {
     return null;
   }
 
-  return children;
+  return <>{children}</>;
 };
