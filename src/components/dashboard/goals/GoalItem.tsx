@@ -4,15 +4,15 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Progress } from "@/components/ui/progress";
 import { Pencil, Save, X } from "lucide-react";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 
 interface Goal {
   id: string;
   goal_name: string;
   description?: string;
-  progress: string | number;
-  target: string | number;
+  progress: number;
+  target: number;
 }
 
 interface GoalItemProps {
@@ -35,19 +35,11 @@ export const GoalItem = ({ goal, onUpdate }: GoalItemProps) => {
     setEditedGoal(null);
   };
 
-  const calculateProgress = (progress: string | number, target: string | number): number => {
-    if (typeof progress === 'number' && typeof target === 'number') {
-      return (progress / target) * 100;
-    }
-    // If either value is a string, try to extract numbers
-    const progressNum = typeof progress === 'string' ? parseFloat(progress) : progress;
-    const targetNum = typeof target === 'string' ? parseFloat(target) : target;
-    
-    if (isNaN(progressNum) || isNaN(targetNum) || targetNum === 0) {
+  const calculateProgress = (progress: number, target: number): number => {
+    if (isNaN(progress) || isNaN(target) || target === 0) {
       return 0;
     }
-    
-    return (progressNum / targetNum) * 100;
+    return (progress / target) * 100;
   };
 
   const handleSave = async () => {
@@ -110,10 +102,11 @@ export const GoalItem = ({ goal, onUpdate }: GoalItemProps) => {
           />
           <div className="flex gap-2 items-center">
             <Input
+              type="number"
               value={editedGoal?.progress}
               onChange={(e) =>
                 setEditedGoal((prev) =>
-                  prev ? { ...prev, progress: e.target.value } : null
+                  prev ? { ...prev, progress: Number(e.target.value) } : null
                 )
               }
               className="w-32"
@@ -121,10 +114,11 @@ export const GoalItem = ({ goal, onUpdate }: GoalItemProps) => {
             />
             <span>/</span>
             <Input
+              type="number"
               value={editedGoal?.target}
               onChange={(e) =>
                 setEditedGoal((prev) =>
-                  prev ? { ...prev, target: e.target.value } : null
+                  prev ? { ...prev, target: Number(e.target.value) } : null
                 )
               }
               className="w-32"

@@ -12,7 +12,7 @@ import { TestInformationInputs } from "./health-form/TestInformationInputs";
 import { HealthGoalsInput } from "./health-form/HealthGoalsInput";
 import { FormSection } from "./health-form/FormSection";
 import { HealthFormData } from "@/types/health-form";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { submitHealthFormData } from "@/utils/healthFormSubmission";
 import { healthFormSchema } from "@/schemas/healthFormSchema";
 import type { HealthFormSchemaType } from "@/schemas/healthFormSchema";
@@ -61,7 +61,9 @@ export const HealthDataForm = () => {
         description: "Please complete the payment to create your account.",
       });
 
-      navigate(`/payment?email=${encodeURIComponent(data.email)}`);
+      // Use encodeURIComponent to properly encode the email for the URL
+      const encodedEmail = encodeURIComponent(data.email);
+      navigate(`/payment?email=${encodedEmail}`);
     } catch (error: any) {
       console.error('Error:', error);
       
