@@ -9,14 +9,25 @@ export const submitHealthFormData = async (formData: HealthFormData) => {
     const convertToArray = (str: string) => 
       str.trim() ? str.split(',').map(item => item.trim()) : [];
 
-    // First check if email already exists
-    const { data: existingProfile } = await supabase
+    // First clean up expired profiles
+    await supabase
+      .from('pending_health_profiles')
+      .delete()
+      .lt('expires_at', new Date().toISOString());
+
+    // Check for existing non-expired profile with this email
+    const { data: existingProfiles, error: checkError } = await supabase
       .from('pending_health_profiles')
       .select('id')
       .eq('email', formData.email)
-      .single();
+      .gt('expires_at', new Date().toISOString());
 
-    if (existingProfile) {
+    if (checkError) {
+      console.error('Error checking existing profiles:', checkError);
+      throw new Error('Error checking existing profiles');
+    }
+
+    if (existingProfiles && existingProfiles.length > 0) {
       throw new Error('An account with this email already exists');
     }
 
