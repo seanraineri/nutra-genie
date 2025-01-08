@@ -19,13 +19,14 @@ export const LandingHero = () => {
 
       {/* Navigation - single About button */}
       <div className="fixed top-0 right-0 p-2 sm:p-4">
-        <Button 
-          variant="ghost"
-          asChild
-          className="text-muted-foreground hover:text-primary transition-colors text-sm sm:text-base"
-        >
-          <Link to="/about">About</Link>
-        </Button>
+        <Link to="/about">
+          <Button 
+            variant="ghost"
+            className="text-muted-foreground hover:text-primary transition-colors text-sm sm:text-base"
+          >
+            About
+          </Button>
+        </Link>
       </div>
 
       {/* Main content - better padding and text sizing */}
