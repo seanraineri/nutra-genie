@@ -28,14 +28,8 @@ const App = () => (
         <TooltipProvider delayDuration={0}>
           <Routes>
             <Route path="/" element={<Index />} />
-            <Route
-              path="/input"
-              element={
-                <AuthWrapper>
-                  <InputPage />
-                </AuthWrapper>
-              }
-            />
+            <Route path="/input" element={<InputPage />} />
+            <Route path="/faq" element={<FAQPage />} />
             <Route
               path="/dashboard"
               element={
@@ -44,7 +38,6 @@ const App = () => (
                 </AuthWrapper>
               }
             />
-            <Route path="/faq" element={<FAQPage />} />
             <Route
               path="/payment"
               element={

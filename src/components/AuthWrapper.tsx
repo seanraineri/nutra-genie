@@ -47,7 +47,7 @@ export const AuthWrapper = ({ children }: AuthWrapperProps) => {
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <LoadingSpinner size="lg" />
+        <LoadingSpinner className="h-8 w-8" />
       </div>
     );
   }
