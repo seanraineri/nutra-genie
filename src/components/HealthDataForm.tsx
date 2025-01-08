@@ -55,23 +55,29 @@ export const HealthDataForm = () => {
       return;
     }
 
+    if (isSubmitting) {
+      return; // Prevent double submission
+    }
+
     try {
       setIsSubmitting(true);
-      console.log('Submitting form data:', data);
+      console.log('Starting form submission...');
       
       const result = await submitHealthFormData(data as HealthFormData);
-      
-      if (!result) {
-        throw new Error("Failed to save form data");
-      }
+      console.log('Form submission successful:', result);
 
       toast({
-        title: "Form Submitted",
+        title: "Success!",
         description: "Please complete the payment to create your account.",
       });
 
+      // Small delay to ensure toast is visible
+      await new Promise(resolve => setTimeout(resolve, 500));
+
       // Use encodeURIComponent to properly encode the email for the URL
       const encodedEmail = encodeURIComponent(data.email);
+      
+      // Navigate with replace to prevent back navigation
       navigate(`/payment?email=${encodedEmail}`, { replace: true });
     } catch (error: any) {
       console.error('Form submission error:', error);
@@ -81,8 +87,6 @@ export const HealthDataForm = () => {
         description: error.message || "An error occurred while submitting the form. Please try again.",
         variant: "destructive",
       });
-
-      // Don't navigate away on error
       setIsSubmitting(false);
     }
   };
