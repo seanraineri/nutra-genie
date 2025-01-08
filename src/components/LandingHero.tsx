@@ -19,13 +19,8 @@ export const LandingHero = () => {
 
       {/* Navigation - single About button */}
       <div className="fixed top-0 right-0 p-2 sm:p-4">
-        <Link to="/about">
-          <Button 
-            variant="ghost"
-            className="text-muted-foreground hover:text-primary transition-colors text-sm sm:text-base"
-          >
-            About
-          </Button>
+        <Link to="/about" className="hover:text-primary transition-colors text-sm sm:text-base text-muted-foreground">
+          About
         </Link>
       </div>
 
