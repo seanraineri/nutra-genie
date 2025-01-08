@@ -1,5 +1,5 @@
-import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { HealthFormData } from "@/types/health-form";
 
 interface HealthGoalsInputProps {
@@ -9,15 +9,21 @@ interface HealthGoalsInputProps {
 
 export const HealthGoalsInput = ({ formData, onChange }: HealthGoalsInputProps) => {
   return (
-    <div className="space-y-2">
-      <Label htmlFor="healthGoals">Health Goals</Label>
-      <Textarea
-        id="healthGoals"
-        value={formData.healthGoals}
-        onChange={onChange}
-        className="min-h-[100px]"
-        placeholder="What are your main health and wellness goals? (e.g., weight management, muscle gain, better sleep, etc.)"
-      />
-    </div>
+    <FormField
+      name="healthGoals"
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel>Health Goals</FormLabel>
+          <Textarea
+            {...field}
+            placeholder="Enter your health goals..."
+            className="min-h-[100px]"
+            value={formData.healthGoals}
+            onChange={onChange}
+          />
+          <FormMessage />
+        </FormItem>
+      )}
+    />
   );
 };

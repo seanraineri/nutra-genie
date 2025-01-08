@@ -52,10 +52,7 @@ export const healthFormSchema = z.object({
   currentMedications: z.string().optional(),
   hasBloodwork: z.boolean(),
   hasGeneticTesting: z.boolean(),
-  healthGoals: z
-    .string()
-    .min(10, "Please provide more detail about your health goals")
-    .max(1000, "Health goals must be less than 1000 characters"),
+  healthGoals: z.string(),
 });
 
 export type HealthFormSchemaType = z.infer<typeof healthFormSchema>;
