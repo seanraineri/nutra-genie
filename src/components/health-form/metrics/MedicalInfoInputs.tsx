@@ -16,7 +16,7 @@ export const MedicalInfoInputs = ({ formData, onChange }: MedicalInfoInputsProps
           id="medicalConditions"
           value={formData.medicalConditions}
           onChange={onChange}
-          className="min-h-[100px]"
+          className="min-h-[100px] resize-y"
           placeholder="List any current medical conditions"
         />
       </div>
@@ -27,7 +27,7 @@ export const MedicalInfoInputs = ({ formData, onChange }: MedicalInfoInputsProps
           id="allergies"
           value={formData.allergies}
           onChange={onChange}
-          className="min-h-[100px]"
+          className="min-h-[100px] resize-y"
           placeholder="List any allergies you have"
         />
       </div>
@@ -38,7 +38,7 @@ export const MedicalInfoInputs = ({ formData, onChange }: MedicalInfoInputsProps
           id="currentMedications"
           value={formData.currentMedications}
           onChange={onChange}
-          className="min-h-[100px]"
+          className="min-h-[100px] resize-y"
           placeholder="List any medications you're currently taking"
         />
       </div>

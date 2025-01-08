@@ -23,22 +23,20 @@ export const BasicMetricsInputs = ({ formData, onChange, onGenderChange }: Basic
       setFeet(calculatedFeet.toString());
       setInches(calculatedInches.toString());
     }
-  }, []);
+  }, [formData.height]);
 
   // Convert feet/inches to cm when either value changes
-  useEffect(() => {
-    if (feet || inches) {
-      const totalInches = (parseInt(feet) || 0) * 12 + (parseInt(inches) || 0);
-      const cm = Math.round(totalInches * 2.54);
-      const event = {
-        target: {
-          id: "height",
-          value: cm.toString()
-        }
-      } as React.ChangeEvent<HTMLInputElement>;
-      onChange(event);
-    }
-  }, [feet, inches, onChange]);
+  const updateHeight = (newFeet: string, newInches: string) => {
+    const totalInches = (parseInt(newFeet) || 0) * 12 + (parseInt(newInches) || 0);
+    const cm = Math.round(totalInches * 2.54);
+    const event = {
+      target: {
+        id: "height",
+        value: cm.toString()
+      }
+    } as React.ChangeEvent<HTMLInputElement>;
+    onChange(event);
+  };
 
   return (
     <div className="space-y-6">
@@ -49,14 +47,14 @@ export const BasicMetricsInputs = ({ formData, onChange, onGenderChange }: Basic
             id="age"
             value={formData.age}
             onChange={onChange}
-            placeholder="Enter your age"
+            placeholder="Enter age"
             className="w-full"
           />
         </div>
-        <div className="space-y-2 col-span-2">
+        <div className="col-span-2 space-y-2">
           <Label>Gender</Label>
           <RadioGroup
-            value={formData.gender}
+            defaultValue={formData.gender}
             onValueChange={(value) => onGenderChange(value as Gender)}
             className="flex space-x-4"
           >
@@ -80,7 +78,10 @@ export const BasicMetricsInputs = ({ formData, onChange, onGenderChange }: Basic
               <Input
                 placeholder="Feet"
                 value={feet}
-                onChange={(e) => setFeet(e.target.value)}
+                onChange={(e) => {
+                  setFeet(e.target.value);
+                  updateHeight(e.target.value, inches);
+                }}
                 className="w-full"
               />
             </div>
@@ -88,7 +89,10 @@ export const BasicMetricsInputs = ({ formData, onChange, onGenderChange }: Basic
               <Input
                 placeholder="Inches"
                 value={inches}
-                onChange={(e) => setInches(e.target.value)}
+                onChange={(e) => {
+                  setInches(e.target.value);
+                  updateHeight(feet, e.target.value);
+                }}
                 className="w-full"
               />
             </div>
