@@ -22,8 +22,15 @@ serve(async (req) => {
     const file = formData.get('file');
 
     if (!file) {
+      console.error('No file found in request');
       throw new Error('No file uploaded');
     }
+
+    console.log('File received:', {
+      name: file.name,
+      type: file.type,
+      size: file.size
+    });
 
     // Initialize AWS Textract client with explicit region
     console.log('Initializing Textract client');
@@ -57,19 +64,27 @@ serve(async (req) => {
     });
 
     console.log('Sending document to Textract for analysis...');
-    const response = await textract.send(command);
-    console.log('Received response from Textract:', {
-      blocksCount: response.Blocks?.length || 0
-    });
+    let response;
+    try {
+      response = await textract.send(command);
+      console.log('Received response from Textract:', {
+        blocksCount: response.Blocks?.length || 0
+      });
+    } catch (textractError) {
+      console.error('Textract error:', textractError);
+      throw new Error(`Textract analysis failed: ${textractError.message}`);
+    }
 
     // Process Textract response to extract lab results
     const blocks = response.Blocks || [];
+    console.log('Processing', blocks.length, 'blocks from Textract response');
     const labResults = [];
 
     // Extract key-value pairs from forms
     for (let i = 0; i < blocks.length; i++) {
       const block = blocks[i];
       if (block.BlockType === "KEY_VALUE_SET" && block.EntityTypes?.includes("KEY")) {
+        console.log('Found key block:', block.Text);
         const key = block.Text;
         // Find corresponding value block
         const valueBlock = blocks.find(b => 
@@ -79,6 +94,7 @@ serve(async (req) => {
         );
         
         if (valueBlock?.Text) {
+          console.log('Found value for key', key, ':', valueBlock.Text);
           // Try to parse numeric values and ranges
           const value = parseFloat(valueBlock.Text);
           if (!isNaN(value)) {
@@ -104,28 +120,35 @@ serve(async (req) => {
 
     const authHeader = req.headers.get('Authorization')?.split('Bearer ')[1];
     if (!authHeader) {
+      console.error('No authorization header found');
       throw new Error('No authorization header');
     }
 
     const { data: { user }, error: userError } = await supabase.auth.getUser(authHeader);
     if (userError || !user) {
+      console.error('User authentication error:', userError);
       throw new Error('Error getting user: ' + userError?.message);
     }
 
     console.log('User authenticated:', user.id);
 
     // Store the lab results
-    const { error: insertError } = await supabase
-      .from('lab_results')
-      .insert(labResults.map(result => ({
-        user_id: user.id,
-        ...result,
-        test_date: new Date().toISOString()
-      })));
+    if (labResults.length > 0) {
+      console.log('Storing', labResults.length, 'lab results in database');
+      const { error: insertError } = await supabase
+        .from('lab_results')
+        .insert(labResults.map(result => ({
+          user_id: user.id,
+          ...result,
+          test_date: new Date().toISOString()
+        })));
 
-    if (insertError) {
-      console.error('Error inserting lab results:', insertError);
-      throw new Error('Failed to save lab results: ' + insertError.message);
+      if (insertError) {
+        console.error('Error inserting lab results:', insertError);
+        throw new Error('Failed to save lab results: ' + insertError.message);
+      }
+    } else {
+      console.log('No lab results were extracted from the document');
     }
 
     console.log('Lab results stored in database');
@@ -134,6 +157,7 @@ serve(async (req) => {
     const fileExt = 'pdf'; // Since we only accept PDFs
     const filePath = `lab_results/${user.id}/${new Date().getTime()}.${fileExt}`;
 
+    console.log('Uploading PDF to storage:', filePath);
     const { error: uploadError } = await supabase.storage
       .from('health_files')
       .upload(filePath, file);
@@ -146,6 +170,7 @@ serve(async (req) => {
     console.log('PDF file stored in storage');
 
     // Trigger health data analysis
+    console.log('Triggering health data analysis');
     await supabase.functions.invoke('analyze-health-data', {
       body: { userId: user.id }
     });
