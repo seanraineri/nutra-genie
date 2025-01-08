@@ -67,6 +67,7 @@ export const LandingHero = () => {
         {/* Footer links - better spacing */}
         <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-4 sm:gap-8 text-xs sm:text-sm text-muted-foreground px-2">
           <Link to="/privacy" className="hover:text-primary transition-colors">Privacy Policy</Link>
+          <Link to="/about" className="hover:text-primary transition-colors">About</Link>
           <Link to="/terms" className="hover:text-primary transition-colors">Terms & Conditions</Link>
         </div>
       </div>
