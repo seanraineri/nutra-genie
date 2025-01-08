@@ -21,6 +21,7 @@ export const HealthDataForm = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [acceptedTerms, setAcceptedTerms] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm<HealthFormSchemaType>({
     resolver: zodResolver(healthFormSchema),
@@ -54,6 +55,7 @@ export const HealthDataForm = () => {
     }
 
     try {
+      setIsSubmitting(true);
       await submitHealthFormData(data as HealthFormData);
       
       toast({
@@ -72,6 +74,8 @@ export const HealthDataForm = () => {
         description: error.message || "An error occurred while submitting the form",
         variant: "destructive",
       });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -133,9 +137,9 @@ export const HealthDataForm = () => {
           <Button
             type="submit"
             className="w-full"
-            disabled={form.formState.isSubmitting || !acceptedTerms}
+            disabled={isSubmitting || !acceptedTerms}
           >
-            {form.formState.isSubmitting ? "Processing..." : "Continue to Payment"}
+            {isSubmitting ? "Processing..." : "Continue to Payment"}
           </Button>
         </form>
       </Form>

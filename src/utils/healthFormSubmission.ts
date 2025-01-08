@@ -2,12 +2,12 @@ import { supabase } from "@/integrations/supabase/client";
 import { HealthFormData } from "@/types/health-form";
 
 export const submitHealthFormData = async (formData: HealthFormData) => {
-  // Convert strings to arrays by splitting on commas and trimming whitespace
-  const convertToArray = (str: string) => 
-    str.trim() ? str.split(',').map(item => item.trim()) : [];
-
   try {
     console.log('Submitting form data:', formData);
+
+    // Convert strings to arrays by splitting on commas and trimming whitespace
+    const convertToArray = (str: string) => 
+      str.trim() ? str.split(',').map(item => item.trim()) : [];
 
     const { data, error } = await supabase
       .from('pending_health_profiles')
@@ -28,12 +28,11 @@ export const submitHealthFormData = async (formData: HealthFormData) => {
           health_goals: formData.healthGoals,
         }
       ])
-      .select();
-
-    console.log('Supabase response:', { data, error });
+      .select()
+      .single();
 
     if (error) {
-      console.error('Error details:', error);
+      console.error('Supabase error:', error);
       throw new Error(error.message);
     }
 
