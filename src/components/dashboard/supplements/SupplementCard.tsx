@@ -1,57 +1,125 @@
-import { Button } from "@/components/ui/button";
+import { useState } from "react";
 import { Card } from "@/components/ui/card";
-import { ExternalLink } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { ThumbsUp, ThumbsDown, DollarSign } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 interface SupplementCardProps {
-  supplement_name: string;
+  id: string;
+  name: string;
   dosage: string;
   reason: string;
-  company_name?: string;
-  product_url?: string;
-  image_url?: string;
+  cost: number;
+  companyName?: string;
+  productUrl?: string;
+  imageUrl?: string;
 }
 
 export const SupplementCard = ({
-  supplement_name,
+  id,
+  name,
   dosage,
   reason,
-  company_name,
-  product_url,
-  image_url,
+  cost,
+  companyName,
+  productUrl,
+  imageUrl
 }: SupplementCardProps) => {
+  const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const submitFeedback = async (isHelpful: boolean, followedRecommendation: boolean) => {
+    setIsSubmitting(true);
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("User not authenticated");
+
+      const { error } = await supabase.functions.invoke('track-ai-metrics', {
+        body: {
+          userId: user.id,
+          recommendationId: id,
+          isHelpful,
+          followedRecommendation,
+          budgetFit: true, // User can afford it since it's in their plan
+          feedback: `User ${isHelpful ? 'found' : 'did not find'} the recommendation helpful`,
+        }
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: "Thank you for your feedback!",
+        description: "Your input helps us improve our recommendations.",
+      });
+
+    } catch (error) {
+      console.error('Error submitting feedback:', error);
+      toast({
+        title: "Error submitting feedback",
+        description: "Please try again later.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
-    <Card className="overflow-hidden">
-      {image_url && (
-        <div className="relative h-48 w-full">
-          <img
-            src={image_url}
-            alt={supplement_name}
-            className="object-cover w-full h-full"
-            onError={(e) => {
-              const target = e.target as HTMLImageElement;
-              target.src = "/placeholder.svg";
-            }}
-          />
+    <Card className="p-4 flex flex-col h-full">
+      <div className="flex items-start justify-between mb-4">
+        <div>
+          <h3 className="font-semibold text-lg">{name}</h3>
+          <p className="text-sm text-muted-foreground">{dosage}</p>
         </div>
-      )}
-      <div className="p-4">
-        <h3 className="font-semibold text-lg text-primary">{supplement_name}</h3>
-        {company_name && (
-          <p className="text-sm text-muted-foreground mb-2">by {company_name}</p>
+        {imageUrl && (
+          <img 
+            src={imageUrl} 
+            alt={name} 
+            className="w-16 h-16 object-cover rounded-lg"
+          />
         )}
-        <div className="space-y-2">
-          <p className="text-sm font-medium">Dosage: {dosage}</p>
-          <p className="text-sm">Purpose: {reason}</p>
-          {product_url && (
-            <Button
-              variant="outline"
-              size="sm"
-              className="w-full mt-2"
-              onClick={() => window.open(product_url, '_blank')}
-            >
-              View Product <ExternalLink className="ml-2 h-4 w-4" />
-            </Button>
-          )}
+      </div>
+
+      <p className="text-sm mb-4">{reason}</p>
+
+      <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
+        <DollarSign className="w-4 h-4" />
+        <span>${cost}/month</span>
+      </div>
+
+      <div className="mt-auto space-y-2">
+        {productUrl && (
+          <Button 
+            variant="outline" 
+            className="w-full"
+            onClick={() => window.open(productUrl, '_blank')}
+          >
+            View Product
+          </Button>
+        )}
+
+        <div className="flex gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            className="flex-1"
+            onClick={() => submitFeedback(true, true)}
+            disabled={isSubmitting}
+          >
+            <ThumbsUp className="w-4 h-4 mr-2" />
+            Helpful
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            className="flex-1"
+            onClick={() => submitFeedback(false, false)}
+            disabled={isSubmitting}
+          >
+            <ThumbsDown className="w-4 h-4 mr-2" />
+            Not Helpful
+          </Button>
         </div>
       </div>
     </Card>
