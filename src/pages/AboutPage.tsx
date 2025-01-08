@@ -1,10 +1,23 @@
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
 
 const AboutPage = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-16">
+        <Button
+          variant="ghost"
+          size="sm"
+          className="mb-8"
+          onClick={() => navigate(-1)}
+        >
+          <ArrowLeft className="mr-2" />
+          Back
+        </Button>
+
         <div className="max-w-3xl mx-auto space-y-8">
           <div className="space-y-4">
             <h1 className="text-4xl font-bold tracking-tight">About HealthAI</h1>
