@@ -17,13 +17,6 @@ export const LandingHero = () => {
         </h1>
       </div>
 
-      {/* Navigation - single About button */}
-      <div className="fixed top-0 right-0 p-2 sm:p-4">
-        <Link to="/about" className="hover:text-primary transition-colors text-sm sm:text-base text-muted-foreground">
-          About
-        </Link>
-      </div>
-
       {/* Main content - better padding and text sizing */}
       <div className="relative min-h-screen flex flex-col items-center justify-center px-4 pt-24 sm:pt-0 animate-fade-in">
         <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold text-center text-secondary mb-2">
