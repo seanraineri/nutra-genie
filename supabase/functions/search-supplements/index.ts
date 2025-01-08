@@ -11,6 +11,22 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
+async function getChatHistory(supabaseClient: any, userId: string, limit = 10) {
+  const { data, error } = await supabaseClient
+    .from('chat_history')
+    .select('role, message')
+    .eq('user_id', userId)
+    .order('created_at', { ascending: false })
+    .limit(limit);
+
+  if (error) {
+    console.error('Error fetching chat history:', error);
+    return [];
+  }
+
+  return data.reverse();
+}
+
 async function searchSupplementBrands(query: string) {
   console.log('Searching supplement brands with Perplexity for:', query);
   
@@ -56,26 +72,29 @@ serve(async (req) => {
     const { query, userId } = await req.json();
     console.log('Received request with query:', query, 'and userId:', userId);
 
-    if (!openAiKey) {
-      throw new Error('OPENAI_API_KEY is not set');
-    }
+    if (!openAiKey) throw new Error('OPENAI_API_KEY is not set');
+    if (!perplexityKey) throw new Error('PERPLEXITY_API_KEY is not set');
 
-    if (!perplexityKey) {
-      throw new Error('PERPLEXITY_API_KEY is not set');
-    }
+    const supabaseClient = createClient(
+      Deno.env.get('SUPABASE_URL') ?? '',
+      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
+    );
 
-    // Check if the query is asking for supplement brands
+    // Get chat history for context
+    const chatHistory = await getChatHistory(supabaseClient, userId);
+    console.log('Retrieved chat history:', chatHistory);
+
+    // Check if asking for supplement brands
     const isAskingForBrands = query.toLowerCase().includes('find supplement brands') || 
                              query.toLowerCase().includes('show me brands') ||
                              query.toLowerCase().includes('yes');
 
     if (isAskingForBrands) {
-      // Extract the supplement name from previous context or use a default search
       const supplementSearch = query.toLowerCase().includes('find supplement brands for') 
         ? query.split('find supplement brands for')[1].trim()
         : query.toLowerCase().includes('show me brands for')
           ? query.split('show me brands for')[1].trim()
-          : 'vitamin supplements'; // default fallback
+          : 'vitamin supplements';
 
       const brandsResult = await searchSupplementBrands(supplementSearch);
       return new Response(
@@ -90,7 +109,13 @@ serve(async (req) => {
       );
     }
 
-    const systemPrompt = `You are a knowledgeable health assistant that provides holistic, well-structured responses focused on natural solutions, lifestyle changes, and supplementation. When addressing health concerns:
+    const openai = new OpenAI({ apiKey: openAiKey });
+
+    // Convert chat history to OpenAI message format
+    const messages = [
+      {
+        role: "system",
+        content: `You are a knowledgeable health assistant that provides holistic, well-structured responses focused on natural solutions, lifestyle changes, and supplementation. When addressing health concerns:
 
 1. Start with a Holistic Approach:
    • First suggest lifestyle modifications and natural remedies
@@ -130,72 +155,55 @@ After listing all supplement recommendations, always end with:
    • Natural approaches haven't helped after a reasonable time
    • There are red flag symptoms that need immediate attention
 
-Always maintain a professional yet friendly tone, ensure information is evidence-based, and emphasize natural, holistic approaches before medical interventions.`;
+Always maintain a professional yet friendly tone, ensure information is evidence-based, and emphasize natural, holistic approaches before medical interventions.
 
-    const openai = new OpenAI({
-      apiKey: openAiKey
-    });
+Previous conversation context:
+${chatHistory.map(msg => `${msg.role}: ${msg.message}`).join('\n')}`
+      },
+      ...chatHistory.map(msg => ({
+        role: msg.role,
+        content: msg.content
+      })),
+      {
+        role: "user",
+        content: query
+      }
+    ];
 
     const completion = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
-      messages: [
-        {
-          role: "system",
-          content: systemPrompt
-        },
-        {
-          role: "user",
-          content: query
-        }
-      ],
+      model: "gpt-4",
+      messages: messages,
     });
 
     console.log('OpenAI response received');
 
-    if (userId) {
-      const supabaseClient = createClient(
-        Deno.env.get('SUPABASE_URL') ?? '',
-        Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
-      );
-
-      await supabaseClient
-        .from('chat_history')
-        .insert([
-          {
-            user_id: userId,
-            message: query,
-            role: 'user'
-          },
-          {
-            user_id: userId,
-            message: completion.choices[0].message.content,
-            role: 'assistant'
-          }
-        ]);
-      
-      console.log('Chat history stored');
-    }
+    // Store both the user's message and AI's response
+    await supabaseClient
+      .from('chat_history')
+      .insert([
+        {
+          user_id: userId,
+          message: query,
+          role: 'user'
+        },
+        {
+          user_id: userId,
+          message: completion.choices[0].message.content,
+          role: 'assistant'
+        }
+      ]);
+    
+    console.log('Chat history stored');
 
     return new Response(
       JSON.stringify({ choices: [{ message: { content: completion.choices[0].message.content } }] }),
-      { 
-        headers: { 
-          ...corsHeaders,
-          'Content-Type': 'application/json'
-        }
-      }
+      { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
   } catch (error) {
     console.error('Error in search-supplements function:', error);
     return new Response(
       JSON.stringify({ error: error.message }),
-      { 
-        status: 500,
-        headers: { 
-          ...corsHeaders,
-          'Content-Type': 'application/json'
-        }
-      }
+      { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
   }
 });

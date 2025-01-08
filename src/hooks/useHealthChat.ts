@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { ChatMessage } from "@/types/chat";
 import { useAIChat } from "./useAIChat";
+import { fetchChatHistory, persistMessage } from "@/api/chatApi";
+import { supabase } from "@/integrations/supabase/client";
 
 export const useHealthChat = () => {
   const { toast } = useToast();
@@ -12,6 +14,20 @@ export const useHealthChat = () => {
   }]);
   const { processAIResponse } = useAIChat();
 
+  useEffect(() => {
+    const loadChatHistory = async () => {
+      const history = await fetchChatHistory();
+      if (history && history.length > 0) {
+        setChatHistory(history.map(msg => ({
+          role: msg.role as "user" | "assistant",
+          content: msg.message
+        })));
+      }
+    };
+
+    loadChatHistory();
+  }, []);
+
   const handleSendMessage = async (message: string) => {
     if (!message.trim()) return;
     
@@ -20,9 +36,14 @@ export const useHealthChat = () => {
     setChatHistory(prev => [...prev, userMessage]);
 
     try {
-      const response = await processAIResponse(message, 'test-user');
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("User not authenticated");
+
+      await persistMessage(userMessage);
+      const response = await processAIResponse(message, user.id);
       
       const assistantMessage: ChatMessage = { role: "assistant", content: response };
+      await persistMessage(assistantMessage);
       setChatHistory(prev => [...prev, assistantMessage]);
 
     } catch (error: any) {
