@@ -1,20 +1,42 @@
 import { z } from "zod";
 import { ActivityLevel, Gender } from "@/types/health-form";
 
+const passwordRegex = {
+  uppercase: /[A-Z]/,
+  lowercase: /[a-z]/,
+  number: /[0-9]/,
+  special: /[^A-Za-z0-9]/,
+};
+
 export const healthFormSchema = z.object({
-  firstName: z.string().min(2, "First name must be at least 2 characters"),
-  lastName: z.string().min(2, "Last name must be at least 2 characters"),
-  email: z.string().email("Please enter a valid email address"),
+  firstName: z
+    .string()
+    .min(2, "First name must be at least 2 characters")
+    .max(50, "First name must be less than 50 characters"),
+  lastName: z
+    .string()
+    .min(2, "Last name must be at least 2 characters")
+    .max(50, "Last name must be less than 50 characters"),
+  email: z
+    .string()
+    .email("Please enter a valid email address")
+    .min(5, "Email must be at least 5 characters")
+    .max(100, "Email must be less than 100 characters"),
   password: z
     .string()
     .min(8, "Password must be at least 8 characters")
-    .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
-    .regex(/[a-z]/, "Password must contain at least one lowercase letter")
-    .regex(/[0-9]/, "Password must contain at least one number"),
+    .max(100, "Password must be less than 100 characters")
+    .regex(passwordRegex.uppercase, "Password must contain at least one uppercase letter")
+    .regex(passwordRegex.lowercase, "Password must contain at least one lowercase letter")
+    .regex(passwordRegex.number, "Password must contain at least one number")
+    .regex(passwordRegex.special, "Password must contain at least one special character"),
   age: z
     .string()
     .refine((val) => !isNaN(Number(val)), "Age must be a number")
-    .refine((val) => Number(val) >= 18 && Number(val) <= 120, "Age must be between 18 and 120"),
+    .refine(
+      (val) => Number(val) >= 18 && Number(val) <= 120,
+      "Age must be between 18 and 120"
+    ),
   gender: z.enum(["male", "female"] as const),
   height: z
     .string()
@@ -30,7 +52,10 @@ export const healthFormSchema = z.object({
   currentMedications: z.string().optional(),
   hasBloodwork: z.boolean(),
   hasGeneticTesting: z.boolean(),
-  healthGoals: z.string().min(10, "Please provide more detail about your health goals"),
+  healthGoals: z
+    .string()
+    .min(10, "Please provide more detail about your health goals")
+    .max(1000, "Health goals must be less than 1000 characters"),
 });
 
 export type HealthFormSchemaType = z.infer<typeof healthFormSchema>;

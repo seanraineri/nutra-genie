@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router-dom";
@@ -19,7 +20,8 @@ import { HealthGoalsInput } from "./health-form/HealthGoalsInput";
 import { ActivityLevel, Gender } from "@/types/health-form";
 import { useToast } from "@/components/ui/use-toast";
 import { submitHealthFormData } from "@/utils/healthFormSubmission";
-import { healthFormSchema, HealthFormSchemaType } from "@/schemas/healthFormSchema";
+import { healthFormSchema } from "@/schemas/healthFormSchema";
+import type { HealthFormSchemaType } from "@/schemas/healthFormSchema";
 
 export const HealthDataForm = () => {
   const navigate = useNavigate();
@@ -34,10 +36,10 @@ export const HealthDataForm = () => {
       email: "",
       password: "",
       age: "",
-      gender: "male",
+      gender: "male" as Gender,
       height: "",
       weight: "",
-      activityLevel: "sedentary",
+      activityLevel: "sedentary" as ActivityLevel,
       medicalConditions: "",
       allergies: "",
       currentMedications: "",
@@ -71,7 +73,7 @@ export const HealthDataForm = () => {
       
       toast({
         title: "Error",
-        description: error.message,
+        description: error.message || "An error occurred while submitting the form",
         variant: "destructive",
       });
     }
@@ -89,9 +91,20 @@ export const HealthDataForm = () => {
           </div>
 
           <PersonalInfoInputs form={form} />
-          <HealthMetricsInputs form={form} />
-          <TestInformationInputs form={form} />
-          <HealthGoalsInput form={form} />
+          <HealthMetricsInputs 
+            formData={form.getValues()} 
+            onChange={(e) => form.setValue(e.target.id as keyof HealthFormSchemaType, e.target.value)}
+            onActivityLevelChange={(value) => form.setValue("activityLevel", value)}
+            onGenderChange={(value) => form.setValue("gender", value)}
+          />
+          <TestInformationInputs 
+            formData={form.getValues()}
+            onTestChange={(field, value) => form.setValue(field, value)}
+          />
+          <HealthGoalsInput 
+            formData={form.getValues()}
+            onChange={(e) => form.setValue("healthGoals", e.target.value)}
+          />
 
           <div className="flex items-center space-x-2">
             <Checkbox
