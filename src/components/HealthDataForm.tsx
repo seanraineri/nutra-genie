@@ -1,75 +1,53 @@
-import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { PersonalInfoInputs } from "./health-form/PersonalInfoInputs";
 import { HealthMetricsInputs } from "./health-form/HealthMetricsInputs";
 import { TestInformationInputs } from "./health-form/TestInformationInputs";
 import { HealthGoalsInput } from "./health-form/HealthGoalsInput";
-import { HealthFormData, ActivityLevel, Gender } from "@/types/health-form";
+import { ActivityLevel, Gender } from "@/types/health-form";
 import { useToast } from "@/components/ui/use-toast";
 import { submitHealthFormData } from "@/utils/healthFormSubmission";
+import { healthFormSchema, HealthFormSchemaType } from "@/schemas/healthFormSchema";
 
 export const HealthDataForm = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [loading, setLoading] = useState(false);
   const [acceptedTerms, setAcceptedTerms] = useState(false);
-  const [formData, setFormData] = useState<HealthFormData>({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    age: "",
-    gender: "male",
-    height: "",
-    weight: "",
-    activityLevel: "sedentary",
-    medicalConditions: "",
-    allergies: "",
-    currentMedications: "",
-    hasBloodwork: false,
-    hasGeneticTesting: false,
-    healthGoals: "",
+
+  const form = useForm<HealthFormSchemaType>({
+    resolver: zodResolver(healthFormSchema),
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+      age: "",
+      gender: "male",
+      height: "",
+      weight: "",
+      activityLevel: "sedentary",
+      medicalConditions: "",
+      allergies: "",
+      currentMedications: "",
+      hasBloodwork: false,
+      hasGeneticTesting: false,
+      healthGoals: "",
+    },
   });
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { id, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [id]: value,
-    }));
-  };
-
-  const handleGenderChange = (value: Gender) => {
-    setFormData((prev) => ({
-      ...prev,
-      gender: value,
-    }));
-  };
-
-  const handleActivityLevelChange = (value: ActivityLevel) => {
-    setFormData((prev) => ({
-      ...prev,
-      activityLevel: value,
-    }));
-  };
-
-  const handleTestChange = (
-    field: "hasBloodwork" | "hasGeneticTesting",
-    value: boolean
-  ) => {
-    setFormData((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const onSubmit = async (data: HealthFormSchemaType) => {
     if (!acceptedTerms) {
       toast({
         title: "Terms Required",
@@ -78,19 +56,16 @@ export const HealthDataForm = () => {
       });
       return;
     }
-    
-    setLoading(true);
-    
+
     try {
-      await submitHealthFormData(formData);
+      await submitHealthFormData(data);
       
       toast({
         title: "Form Submitted",
         description: "Please complete the payment to create your account.",
       });
 
-      // Navigate to payment page with email as query param for identification
-      navigate(`/payment?email=${encodeURIComponent(formData.email)}`);
+      navigate(`/payment?email=${encodeURIComponent(data.email)}`);
     } catch (error: any) {
       console.error('Error:', error);
       
@@ -99,62 +74,51 @@ export const HealthDataForm = () => {
         description: error.message,
         variant: "destructive",
       });
-    } finally {
-      setLoading(false);
     }
   };
 
   return (
     <Card className="w-full max-w-2xl mx-auto p-6 animate-fade-in">
-      <form onSubmit={handleSubmit} className="space-y-8">
-        <div className="space-y-2">
-          <h2 className="text-2xl font-bold text-secondary">Create Your Account</h2>
-          <p className="text-muted-foreground">
-            Enter your information to get personalized health recommendations
-          </p>
-        </div>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <div className="space-y-2">
+            <h2 className="text-2xl font-bold text-secondary">Create Your Account</h2>
+            <p className="text-muted-foreground">
+              Enter your information to get personalized health recommendations
+            </p>
+          </div>
 
-        <PersonalInfoInputs formData={formData} onChange={handleInputChange} />
-        
-        <HealthMetricsInputs
-          formData={formData}
-          onChange={handleInputChange}
-          onActivityLevelChange={handleActivityLevelChange}
-          onGenderChange={handleGenderChange}
-        />
-        
-        <TestInformationInputs
-          formData={formData}
-          onTestChange={handleTestChange}
-        />
+          <PersonalInfoInputs form={form} />
+          <HealthMetricsInputs form={form} />
+          <TestInformationInputs form={form} />
+          <HealthGoalsInput form={form} />
 
-        <HealthGoalsInput formData={formData} onChange={handleInputChange} />
+          <div className="flex items-center space-x-2">
+            <Checkbox
+              id="terms"
+              checked={acceptedTerms}
+              onCheckedChange={(checked) => setAcceptedTerms(checked as boolean)}
+            />
+            <label
+              htmlFor="terms"
+              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            >
+              I accept the{" "}
+              <a href="/terms" className="text-primary hover:underline">
+                terms and conditions
+              </a>
+            </label>
+          </div>
 
-        <div className="flex items-center space-x-2">
-          <Checkbox
-            id="terms"
-            checked={acceptedTerms}
-            onCheckedChange={(checked) => setAcceptedTerms(checked as boolean)}
-          />
-          <label
-            htmlFor="terms"
-            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          <Button
+            type="submit"
+            className="w-full"
+            disabled={form.formState.isSubmitting || !acceptedTerms}
           >
-            I accept the{" "}
-            <a href="/terms" className="text-primary hover:underline">
-              terms and conditions
-            </a>
-          </label>
-        </div>
-
-        <Button
-          type="submit"
-          className="w-full"
-          disabled={loading || !acceptedTerms}
-        >
-          {loading ? "Processing..." : "Continue to Payment"}
-        </Button>
-      </form>
+            {form.formState.isSubmitting ? "Processing..." : "Continue to Payment"}
+          </Button>
+        </form>
+      </Form>
     </Card>
   );
 };
