@@ -1,6 +1,7 @@
 import { Textarea } from "@/components/ui/textarea";
 import { FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { HealthFormData } from "@/types/health-form";
+import { useFormContext } from "react-hook-form";
 
 interface HealthGoalsInputProps {
   formData: HealthFormData;
@@ -8,6 +9,8 @@ interface HealthGoalsInputProps {
 }
 
 export const HealthGoalsInput = ({ formData, onChange }: HealthGoalsInputProps) => {
+  const form = useFormContext();
+  
   return (
     <FormField
       name="healthGoals"
@@ -15,11 +18,9 @@ export const HealthGoalsInput = ({ formData, onChange }: HealthGoalsInputProps) 
         <FormItem>
           <FormLabel>Health Goals</FormLabel>
           <Textarea
-            {...field}
             placeholder="Enter your health goals..."
             className="min-h-[100px]"
-            value={formData.healthGoals}
-            onChange={onChange}
+            {...field}
           />
           <FormMessage />
         </FormItem>
