@@ -2,32 +2,22 @@ import { HealthFormData, ActivityLevel, Gender } from "@/types/health-form";
 import { BasicMetricsInputs } from "./metrics/BasicMetricsInputs";
 import { ActivityLevelSelect } from "./metrics/ActivityLevelSelect";
 import { MedicalInfoInputs } from "./metrics/MedicalInfoInputs";
+import { UseFormReturn } from "react-hook-form";
+import { HealthFormSchemaType } from "@/schemas/healthFormSchema";
 
 interface HealthMetricsInputsProps {
-  formData: HealthFormData;
-  onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
-  onActivityLevelChange: (value: ActivityLevel) => void;
-  onGenderChange: (value: Gender) => void;
+  form: UseFormReturn<HealthFormSchemaType>;
 }
 
-export const HealthMetricsInputs = ({ 
-  formData, 
-  onChange, 
-  onActivityLevelChange,
-  onGenderChange
-}: HealthMetricsInputsProps) => {
+export const HealthMetricsInputs = ({ form }: HealthMetricsInputsProps) => {
   return (
     <div className="space-y-6">
-      <BasicMetricsInputs 
-        formData={formData} 
-        onChange={onChange}
-        onGenderChange={onGenderChange}
-      />
+      <BasicMetricsInputs form={form} />
       <ActivityLevelSelect 
-        value={formData.activityLevel} 
-        onValueChange={onActivityLevelChange} 
+        value={form.getValues("activityLevel")} 
+        onValueChange={(value) => form.setValue("activityLevel", value)} 
       />
-      <MedicalInfoInputs formData={formData} onChange={onChange} />
+      <MedicalInfoInputs form={form} />
     </div>
   );
 };

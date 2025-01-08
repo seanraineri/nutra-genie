@@ -2,71 +2,87 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useState, useEffect } from "react";
-import { HealthFormData, Gender } from "@/types/health-form";
+import { Gender } from "@/types/health-form";
+import { UseFormReturn } from "react-hook-form";
+import { HealthFormSchemaType } from "@/schemas/healthFormSchema";
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 
 interface BasicMetricsInputsProps {
-  formData: HealthFormData;
-  onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
-  onGenderChange: (value: Gender) => void;
+  form: UseFormReturn<HealthFormSchemaType>;
 }
 
-export const BasicMetricsInputs = ({ formData, onChange, onGenderChange }: BasicMetricsInputsProps) => {
+export const BasicMetricsInputs = ({ form }: BasicMetricsInputsProps) => {
   const [feet, setFeet] = useState("");
   const [inches, setInches] = useState("");
 
-  // Convert cm to feet/inches on component mount
+  // Convert cm to feet/inches when height value changes
   useEffect(() => {
-    if (formData.height) {
-      const totalInches = Math.round(Number(formData.height) / 2.54);
+    const heightValue = form.getValues("height");
+    if (heightValue) {
+      const totalInches = Math.round(Number(heightValue) / 2.54);
       const calculatedFeet = Math.floor(totalInches / 12);
       const calculatedInches = totalInches % 12;
       setFeet(calculatedFeet.toString());
       setInches(calculatedInches.toString());
     }
-  }, [formData.height]);
+  }, [form.getValues("height")]);
 
   // Convert feet/inches to cm when either value changes
   const updateHeight = (newFeet: string, newInches: string) => {
     const totalInches = (parseInt(newFeet) || 0) * 12 + (parseInt(newInches) || 0);
     const cm = Math.round(totalInches * 2.54);
-    const event = {
-      target: {
-        id: "height",
-        value: cm.toString()
-      }
-    } as React.ChangeEvent<HTMLInputElement>;
-    onChange(event);
+    form.setValue("height", cm.toString());
   };
 
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-3 gap-4">
-        <div className="space-y-2">
-          <Label htmlFor="age">Age</Label>
-          <Input
-            id="age"
-            value={formData.age}
-            onChange={onChange}
-            placeholder="Enter age"
-            className="w-full"
-          />
-        </div>
+        <FormField
+          control={form.control}
+          name="age"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Age</FormLabel>
+              <FormControl>
+                <Input {...field} placeholder="Enter age" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <div className="col-span-2 space-y-2">
-          <Label>Gender</Label>
-          <RadioGroup
-            defaultValue={formData.gender}
-            onValueChange={(value) => onGenderChange(value as Gender)}
-            className="flex space-x-4"
-          >
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem value="male" id="male" />
-              <Label htmlFor="male">Male</Label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem value="female" id="female" />
-              <Label htmlFor="female">Female</Label>
-            </div>
-          </RadioGroup>
+          <FormField
+            control={form.control}
+            name="gender"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Gender</FormLabel>
+                <FormControl>
+                  <RadioGroup
+                    defaultValue={field.value}
+                    onValueChange={field.onChange}
+                    className="flex space-x-4"
+                  >
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="male" id="male" />
+                      <Label htmlFor="male">Male</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="female" id="female" />
+                      <Label htmlFor="female">Female</Label>
+                    </div>
+                  </RadioGroup>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
       </div>
 
@@ -98,16 +114,19 @@ export const BasicMetricsInputs = ({ formData, onChange, onGenderChange }: Basic
             </div>
           </div>
         </div>
-        <div className="space-y-2 col-span-2">
-          <Label htmlFor="weight">Weight (lbs)</Label>
-          <Input
-            id="weight"
-            value={formData.weight}
-            onChange={onChange}
-            placeholder="Enter weight in lbs"
-            className="w-full"
-          />
-        </div>
+        <FormField
+          control={form.control}
+          name="weight"
+          render={({ field }) => (
+            <FormItem className="col-span-2">
+              <FormLabel>Weight (lbs)</FormLabel>
+              <FormControl>
+                <Input {...field} placeholder="Enter weight in lbs" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
       </div>
     </div>
   );

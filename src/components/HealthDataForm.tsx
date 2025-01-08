@@ -11,7 +11,7 @@ import { HealthMetricsInputs } from "./health-form/HealthMetricsInputs";
 import { TestInformationInputs } from "./health-form/TestInformationInputs";
 import { HealthGoalsInput } from "./health-form/HealthGoalsInput";
 import { FormSection } from "./health-form/FormSection";
-import { ActivityLevel, Gender, HealthFormData } from "@/types/health-form";
+import { HealthFormData } from "@/types/health-form";
 import { useToast } from "@/components/ui/use-toast";
 import { submitHealthFormData } from "@/utils/healthFormSubmission";
 import { healthFormSchema } from "@/schemas/healthFormSchema";
@@ -30,10 +30,10 @@ export const HealthDataForm = () => {
       email: "",
       password: "",
       age: "",
-      gender: "male" as Gender,
+      gender: "male",
       height: "",
       weight: "",
-      activityLevel: "sedentary" as ActivityLevel,
+      activityLevel: "sedentary",
       medicalConditions: "",
       allergies: "",
       currentMedications: "",
@@ -88,12 +88,7 @@ export const HealthDataForm = () => {
             title="Health Metrics"
             description="Help us understand your current health status"
           >
-            <HealthMetricsInputs 
-              formData={form.getValues() as HealthFormData}
-              onChange={(e) => form.setValue(e.target.id as keyof HealthFormSchemaType, e.target.value)}
-              onActivityLevelChange={(value) => form.setValue("activityLevel", value)}
-              onGenderChange={(value) => form.setValue("gender", value)}
-            />
+            <HealthMetricsInputs form={form} />
           </FormSection>
 
           <FormSection
