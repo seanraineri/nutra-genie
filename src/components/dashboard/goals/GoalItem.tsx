@@ -11,8 +11,8 @@ interface Goal {
   id: string;
   goal_name: string;
   description?: string;
-  progress: number;
-  target: number;
+  progress: string | number;
+  target: string | number;
 }
 
 interface GoalItemProps {
@@ -33,6 +33,21 @@ export const GoalItem = ({ goal, onUpdate }: GoalItemProps) => {
   const handleCancelEdit = () => {
     setIsEditing(false);
     setEditedGoal(null);
+  };
+
+  const calculateProgress = (progress: string | number, target: string | number): number => {
+    if (typeof progress === 'number' && typeof target === 'number') {
+      return (progress / target) * 100;
+    }
+    // If either value is a string, try to extract numbers
+    const progressNum = typeof progress === 'string' ? parseFloat(progress) : progress;
+    const targetNum = typeof target === 'string' ? parseFloat(target) : target;
+    
+    if (isNaN(progressNum) || isNaN(targetNum) || targetNum === 0) {
+      return 0;
+    }
+    
+    return (progressNum / targetNum) * 100;
   };
 
   const handleSave = async () => {
@@ -95,25 +110,25 @@ export const GoalItem = ({ goal, onUpdate }: GoalItemProps) => {
           />
           <div className="flex gap-2 items-center">
             <Input
-              type="number"
               value={editedGoal?.progress}
               onChange={(e) =>
                 setEditedGoal((prev) =>
-                  prev ? { ...prev, progress: Number(e.target.value) } : null
+                  prev ? { ...prev, progress: e.target.value } : null
                 )
               }
-              className="w-20"
+              className="w-32"
+              placeholder="Progress"
             />
             <span>/</span>
             <Input
-              type="number"
               value={editedGoal?.target}
               onChange={(e) =>
                 setEditedGoal((prev) =>
-                  prev ? { ...prev, target: Number(e.target.value) } : null
+                  prev ? { ...prev, target: e.target.value } : null
                 )
               }
-              className="w-20"
+              className="w-32"
+              placeholder="Target"
             />
           </div>
           <div className="flex gap-2">
@@ -162,10 +177,10 @@ export const GoalItem = ({ goal, onUpdate }: GoalItemProps) => {
               Progress: {goal.progress} / {goal.target}
             </span>
             <span className="text-muted-foreground">
-              {Math.round((goal.progress / goal.target) * 100)}%
+              {Math.round(calculateProgress(goal.progress, goal.target))}%
             </span>
           </div>
-          <Progress value={(goal.progress / goal.target) * 100} />
+          <Progress value={calculateProgress(goal.progress, goal.target)} />
         </div>
       )}
     </div>

@@ -8,8 +8,8 @@ interface Goal {
   id: string;
   goal_name: string;
   description?: string;
-  progress: number;
-  target: number;
+  progress: string | number;
+  target: string | number;
 }
 
 export const HealthGoals = () => {
