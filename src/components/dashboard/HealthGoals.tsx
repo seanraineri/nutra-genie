@@ -8,8 +8,8 @@ interface Goal {
   id: string;
   goal_name: string;
   description?: string;
-  progress: string | number;
-  target: string | number;
+  progress: number;
+  target: number;
 }
 
 export const HealthGoals = () => {
@@ -31,7 +31,14 @@ export const HealthGoals = () => {
       return;
     }
 
-    setGoals(data || []);
+    // Convert string values to numbers if needed
+    const formattedGoals = (data || []).map(goal => ({
+      ...goal,
+      progress: Number(goal.progress) || 0,
+      target: Number(goal.target) || 100
+    }));
+
+    setGoals(formattedGoals);
     setLoading(false);
   };
 
