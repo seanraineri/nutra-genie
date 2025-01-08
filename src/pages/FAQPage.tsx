@@ -1,9 +1,24 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
 
 const FAQPage = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="container mx-auto py-12 px-4">
-      <h1 className="text-3xl font-bold mb-8">Frequently Asked Questions</h1>
+      <Button
+        variant="ghost"
+        size="sm"
+        className="mb-8"
+        onClick={() => navigate(-1)}
+      >
+        <ArrowLeft className="mr-2" />
+        Back
+      </Button>
+
+      <h1 className="text-3xl font-bold mb-8 text-center">Frequently Asked Questions</h1>
       <Accordion type="single" collapsible className="w-full max-w-3xl mx-auto">
         <AccordionItem value="what-platform-does">
           <AccordionTrigger>What exactly does your platform do?</AccordionTrigger>
