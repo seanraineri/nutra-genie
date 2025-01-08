@@ -44,15 +44,18 @@ serve(async (req) => {
       .select('*')
       .eq('user_id', userId);
 
-    if (labError || !labResults?.length) {
+    if (labError) {
       console.error('Error fetching lab results:', labError);
-      throw new Error('Lab results not found');
+      throw new Error('Error fetching lab results');
     }
 
     console.log('Successfully fetched health data');
 
-    // Prepare the prompt for OpenAI
-    const prompt = `As a healthcare professional, analyze the following health data and recommend supplements. Consider the patient's conditions and current medications for potential interactions.
+    const monthlyBudget = healthProfile.monthly_supplement_budget || 0;
+    console.log('Monthly budget:', monthlyBudget);
+
+    // Prepare the prompt for OpenAI with budget consideration
+    const prompt = `As a healthcare professional, analyze the following health data and recommend supplements within a monthly budget of $${monthlyBudget}. Consider the patient's conditions, current medications for potential interactions, and prioritize the most important supplements if the budget is limited.
 
 Health Profile:
 - Age: ${healthProfile.age}
@@ -61,18 +64,21 @@ Health Profile:
 - Weight: ${healthProfile.weight}
 - Medical Conditions: ${healthProfile.medical_conditions?.join(', ') || 'None'}
 - Current Medications: ${healthProfile.current_medications?.join(', ') || 'None'}
+- Monthly Budget: $${monthlyBudget}
 
 Lab Results:
-${labResults.map(result => `- ${result.test_name}: ${result.value} ${result.unit} (Reference Range: ${result.reference_range_min}-${result.reference_range_max})`).join('\n')}
+${labResults?.map(result => `- ${result.test_name}: ${result.value} ${result.unit} (Reference Range: ${result.reference_range_min}-${result.reference_range_max})`).join('\n') || 'No lab results available'}
 
-Please provide supplement recommendations in the following format for each recommendation:
+Please provide supplement recommendations that fit within the monthly budget of $${monthlyBudget}. Format each recommendation as follows:
 1. Supplement name
 2. Recommended dosage
 3. Reason for recommendation
 4. Priority level (1-5, where 1 is highest priority)
-5. Estimated monthly cost
+5. Estimated monthly cost (must be specific and help stay within budget)
 6. Any potential interactions with current medications
-7. Any relevant precautions`;
+7. Any relevant precautions
+
+Important: The total monthly cost of all recommended supplements MUST NOT exceed $${monthlyBudget}. If the budget is limited, prioritize the most essential supplements first.`;
 
     // Get recommendations from OpenAI
     const openAIResponse = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -86,7 +92,7 @@ Please provide supplement recommendations in the following format for each recom
         messages: [
           {
             role: 'system',
-            content: 'You are a knowledgeable healthcare professional specializing in supplement recommendations based on lab results and health metrics.'
+            content: 'You are a knowledgeable healthcare professional specializing in supplement recommendations based on lab results, health metrics, and budget constraints. Always ensure recommendations stay within the specified budget.'
           },
           {
             role: 'user',
@@ -111,23 +117,37 @@ Please provide supplement recommendations in the following format for each recom
     const recommendationLines = recommendations.split('\n');
     const parsedRecommendations = [];
     let currentRec = {};
+    let totalMonthlyCost = 0;
 
     for (const line of recommendationLines) {
       if (line.startsWith('1. ')) currentRec.supplement_name = line.substring(3);
       if (line.startsWith('2. ')) currentRec.dosage = line.substring(3);
       if (line.startsWith('3. ')) currentRec.reason = line.substring(3);
-      if (line.startsWith('4. ')) {
-        currentRec.priority = parseInt(line.substring(3));
-        // When we hit priority, we've got all the main fields we need
-        if (Object.keys(currentRec).length >= 4) {
+      if (line.startsWith('4. ')) currentRec.priority = parseInt(line.substring(3));
+      if (line.startsWith('5. ')) {
+        const costMatch = line.match(/\$(\d+(\.\d{1,2})?)/);
+        if (costMatch) {
+          const cost = parseFloat(costMatch[1]);
+          currentRec.estimated_cost = cost;
+          totalMonthlyCost += cost;
+        }
+      }
+
+      // When we have all the main fields, add to recommendations
+      if (Object.keys(currentRec).length >= 5) {
+        // Only add if we're still within budget
+        if (totalMonthlyCost <= monthlyBudget) {
           parsedRecommendations.push({
             ...currentRec,
             user_id: userId,
           });
-          currentRec = {};
         }
+        currentRec = {};
       }
     }
+
+    console.log('Total monthly cost:', totalMonthlyCost);
+    console.log('Monthly budget:', monthlyBudget);
 
     // Store recommendations in the database
     if (parsedRecommendations.length > 0) {
@@ -154,7 +174,12 @@ Please provide supplement recommendations in the following format for each recom
     console.log('Successfully stored recommendations');
 
     return new Response(
-      JSON.stringify({ success: true, recommendations: parsedRecommendations }),
+      JSON.stringify({ 
+        success: true, 
+        recommendations: parsedRecommendations,
+        totalMonthlyCost,
+        withinBudget: totalMonthlyCost <= monthlyBudget 
+      }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
 
