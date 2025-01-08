@@ -24,27 +24,35 @@ export const LabTestsSection = () => {
     setIsUploading(true);
 
     try {
-      // Create form data for the edge function
+      // First, upload the file to Supabase Storage
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Date.now()}.${fileExt}`;
+      const filePath = `lab_results/${fileName}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from('health_files')
+        .upload(filePath, file);
+
+      if (uploadError) {
+        throw new Error('Failed to upload file');
+      }
+
+      // Now call the process-lab-results function
+      const { data: session } = await supabase.auth.getSession();
+      if (!session?.session?.access_token) {
+        throw new Error('No authentication session found');
+      }
+
       const formData = new FormData();
       formData.append('file', file);
 
-      // Call the process-lab-results edge function
-      const response = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/process-lab-results`,
-        {
-          method: 'POST',
-          headers: {
-            Authorization: `Bearer ${(await supabase.auth.getSession()).data.session?.access_token}`,
-          },
-          body: formData,
-        }
-      );
+      const response = await supabase.functions.invoke('process-lab-results', {
+        body: formData,
+      });
 
-      if (!response.ok) {
-        throw new Error('Failed to process lab results');
+      if (response.error) {
+        throw new Error(response.error.message);
       }
-
-      const data = await response.json();
 
       toast({
         title: "Lab results uploaded successfully",
@@ -68,7 +76,6 @@ export const LabTestsSection = () => {
       title: "Redirecting to lab test purchase",
       description: "You'll be redirected to our partner's website to purchase your lab test.",
     });
-    // Add your lab test purchase URL here
     window.open("/purchase-tests", "_blank");
   };
 
@@ -92,16 +99,19 @@ export const LabTestsSection = () => {
             />
             <Button 
               variant="outline" 
-              className="w-full"
+              className="w-full flex items-center justify-center gap-2"
               disabled={isUploading}
             >
               {isUploading ? (
                 <>
-                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                  <Loader2 className="h-4 w-4 animate-spin" />
                   Processing...
                 </>
               ) : (
-                "Choose File"
+                <>
+                  <Upload className="h-4 w-4" />
+                  Choose PDF File
+                </>
               )}
             </Button>
           </label>
