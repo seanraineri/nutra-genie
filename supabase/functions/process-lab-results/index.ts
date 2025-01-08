@@ -13,16 +13,16 @@ const corsHeaders = {
 serve(async (req) => {
   // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
-    return new Response(null, { headers: corsHeaders })
+    return new Response(null, { headers: corsHeaders });
   }
 
   try {
     console.log('Starting process-lab-results function');
-    const formData = await req.formData()
-    const file = formData.get('file')
+    const formData = await req.formData();
+    const file = formData.get('file');
 
     if (!file) {
-      throw new Error('No file uploaded')
+      throw new Error('No file uploaded');
     }
 
     // Initialize AWS Textract client with explicit region
@@ -36,16 +36,17 @@ serve(async (req) => {
     });
 
     // Log AWS credentials status (not the actual credentials)
-    console.log('AWS Credentials status:', {
+    console.log('AWS Credentials:', {
       hasAccessKey: !!Deno.env.get('AWS_ACCESS_KEY_ID'),
-      hasSecretKey: !!Deno.env.get('AWS_SECRET_ACCESS_KEY')
+      hasSecretKey: !!Deno.env.get('AWS_SECRET_ACCESS_KEY'),
+      region: "us-east-1"
     });
 
     // Convert file to buffer for Textract
     const arrayBuffer = await file.arrayBuffer();
     const buffer = new Uint8Array(arrayBuffer);
 
-    console.log('File prepared for analysis');
+    console.log('File prepared for analysis, size:', buffer.length);
 
     // Create Textract analyze document command
     const command = new AnalyzeDocumentCommand({
@@ -57,13 +58,13 @@ serve(async (req) => {
 
     console.log('Sending document to Textract for analysis...');
     const response = await textract.send(command);
-    console.log('Received response from Textract');
+    console.log('Received response from Textract:', {
+      blocksCount: response.Blocks?.length || 0
+    });
 
     // Process Textract response to extract lab results
     const blocks = response.Blocks || [];
     const labResults = [];
-
-    console.log('Processing Textract blocks:', blocks.length, 'blocks found');
 
     // Extract key-value pairs from forms
     for (let i = 0; i < blocks.length; i++) {
@@ -108,7 +109,7 @@ serve(async (req) => {
 
     const { data: { user }, error: userError } = await supabase.auth.getUser(authHeader);
     if (userError || !user) {
-      throw new Error('Error getting user');
+      throw new Error('Error getting user: ' + userError?.message);
     }
 
     console.log('User authenticated:', user.id);
@@ -130,7 +131,7 @@ serve(async (req) => {
     console.log('Lab results stored in database');
 
     // Store the original PDF
-    const fileExt = file.name.split('.').pop();
+    const fileExt = 'pdf'; // Since we only accept PDFs
     const filePath = `lab_results/${user.id}/${new Date().getTime()}.${fileExt}`;
 
     const { error: uploadError } = await supabase.storage
@@ -170,7 +171,8 @@ serve(async (req) => {
     return new Response(
       JSON.stringify({ 
         error: error.message,
-        details: error.toString()
+        details: error.toString(),
+        stack: error.stack
       }),
       { 
         headers: { 
