@@ -1,49 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { useNavigate, Link } from "react-router-dom";
 import { HowItWorksModal } from "./HowItWorksModal";
-import { useState, useEffect } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { useState } from "react";
 
 export const LandingHero = () => {
   const navigate = useNavigate();
   const [showHowItWorks, setShowHowItWorks] = useState(false);
-  const [authError, setAuthError] = useState<string | null>(null);
-
-  useEffect(() => {
-    console.log("LandingHero mounted");
-    
-    const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
-      console.log("Auth state changed:", event, session?.user?.id);
-      if (event === 'SIGNED_IN') {
-        console.log("User signed in, attempting navigation");
-        navigate('/dashboard');
-      }
-    });
-
-    return () => {
-      console.log("LandingHero unmounting");
-      authListener.subscription.unsubscribe();
-    };
-  }, [navigate]);
-
-  const handleDashboardClick = async () => {
-    try {
-      console.log("Dashboard button clicked");
-      const { data: { session } } = await supabase.auth.getSession();
-      console.log("Current session:", session?.user?.id);
-      
-      if (session) {
-        console.log("Session exists, navigating to dashboard");
-        navigate('/dashboard');
-      } else {
-        console.log("No session, showing error");
-        setAuthError("Please log in to access the dashboard");
-      }
-    } catch (error) {
-      console.error("Error checking session:", error);
-      setAuthError("An error occurred while checking your session");
-    }
-  };
 
   return (
     <>
@@ -79,13 +41,6 @@ export const LandingHero = () => {
           Get tailored supplement recommendations based on your blood work and genetic data. Track your progress and optimize your health journey.
         </p>
         
-        {/* Error message */}
-        {authError && (
-          <div className="text-red-500 mb-4 text-center">
-            {authError}
-          </div>
-        )}
-        
         {/* Buttons - stack on mobile */}
         <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto px-4 sm:px-0">
           <Button
@@ -97,7 +52,7 @@ export const LandingHero = () => {
           </Button>
           <Button
             size="lg"
-            onClick={handleDashboardClick}
+            onClick={() => navigate("/dashboard")}
             className="bg-primary hover:bg-primary/90 text-primary-foreground w-full sm:w-auto"
           >
             Open Dashboard
