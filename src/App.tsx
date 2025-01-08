@@ -10,6 +10,7 @@ import InputPage from "./pages/InputPage";
 import DashboardPage from "./pages/DashboardPage";
 import FAQPage from "./pages/FAQPage";
 import PaymentPage from "./pages/PaymentPage";
+import AboutPage from "./pages/AboutPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -28,6 +29,7 @@ const App = () => (
         <TooltipProvider delayDuration={0}>
           <Routes>
             <Route path="/" element={<Index />} />
+            <Route path="/about" element={<AboutPage />} />
             <Route path="/input" element={<InputPage />} />
             <Route path="/faq" element={<FAQPage />} />
             <Route
