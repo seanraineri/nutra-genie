@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Progress } from "@/components/ui/progress";
 import { Pencil, Save, X } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
@@ -9,6 +10,7 @@ import { supabase } from "@/integrations/supabase/client";
 interface Goal {
   id: string;
   goal_name: string;
+  description?: string;
   progress: number;
   target: number;
 }
@@ -41,6 +43,7 @@ export const GoalItem = ({ goal, onUpdate }: GoalItemProps) => {
         .from('health_goals')
         .update({
           goal_name: editedGoal.goal_name,
+          description: editedGoal.description,
           progress: editedGoal.progress,
           target: editedGoal.target
         })
@@ -78,6 +81,17 @@ export const GoalItem = ({ goal, onUpdate }: GoalItemProps) => {
               )
             }
             className="font-medium"
+            placeholder="Goal name"
+          />
+          <Textarea
+            value={editedGoal?.description || ""}
+            onChange={(e) =>
+              setEditedGoal((prev) =>
+                prev ? { ...prev, description: e.target.value } : null
+              )
+            }
+            placeholder="Add a description for your goal"
+            className="min-h-[80px]"
           />
           <div className="flex gap-2 items-center">
             <Input
@@ -125,7 +139,14 @@ export const GoalItem = ({ goal, onUpdate }: GoalItemProps) => {
       ) : (
         <div className="space-y-2">
           <div className="flex justify-between items-center">
-            <span className="font-medium">{goal.goal_name}</span>
+            <div>
+              <span className="font-medium block">{goal.goal_name}</span>
+              {goal.description && (
+                <p className="text-sm text-muted-foreground mt-1">
+                  {goal.description}
+                </p>
+              )}
+            </div>
             <Button
               size="sm"
               variant="ghost"

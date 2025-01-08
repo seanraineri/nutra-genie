@@ -7,6 +7,7 @@ import { GoalsSkeleton } from "./goals/GoalsSkeleton";
 interface Goal {
   id: string;
   goal_name: string;
+  description?: string;
   progress: number;
   target: number;
 }
@@ -21,7 +22,7 @@ export const HealthGoals = () => {
 
     const { data, error } = await supabase
       .from('health_goals')
-      .select('id, goal_name, progress, target')
+      .select('id, goal_name, description, progress, target')
       .eq('user_id', user.id)
       .order('created_at', { ascending: false });
 
