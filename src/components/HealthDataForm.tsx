@@ -16,6 +16,7 @@ import { useToast } from "@/hooks/use-toast";
 import { submitHealthFormData } from "@/utils/healthFormSubmission";
 import { healthFormSchema } from "@/schemas/healthFormSchema";
 import type { HealthFormSchemaType } from "@/schemas/healthFormSchema";
+import { Loader2 } from "lucide-react";
 
 export const HealthDataForm = () => {
   const navigate = useNavigate();
@@ -56,8 +57,14 @@ export const HealthDataForm = () => {
 
     try {
       setIsSubmitting(true);
-      await submitHealthFormData(data as HealthFormData);
+      console.log('Submitting form data:', data);
       
+      const result = await submitHealthFormData(data as HealthFormData);
+      
+      if (!result) {
+        throw new Error("Failed to save form data");
+      }
+
       toast({
         title: "Form Submitted",
         description: "Please complete the payment to create your account.",
@@ -65,16 +72,17 @@ export const HealthDataForm = () => {
 
       // Use encodeURIComponent to properly encode the email for the URL
       const encodedEmail = encodeURIComponent(data.email);
-      navigate(`/payment?email=${encodedEmail}`);
+      navigate(`/payment?email=${encodedEmail}`, { replace: true });
     } catch (error: any) {
-      console.error('Error:', error);
+      console.error('Form submission error:', error);
       
       toast({
         title: "Error",
-        description: error.message || "An error occurred while submitting the form",
+        description: error.message || "An error occurred while submitting the form. Please try again.",
         variant: "destructive",
       });
-    } finally {
+
+      // Don't navigate away on error
       setIsSubmitting(false);
     }
   };
@@ -139,7 +147,14 @@ export const HealthDataForm = () => {
             className="w-full"
             disabled={isSubmitting || !acceptedTerms}
           >
-            {isSubmitting ? "Processing..." : "Continue to Payment"}
+            {isSubmitting ? (
+              <div className="flex items-center gap-2">
+                <Loader2 className="h-4 w-4 animate-spin" />
+                Processing...
+              </div>
+            ) : (
+              "Continue to Payment"
+            )}
           </Button>
         </form>
       </Form>

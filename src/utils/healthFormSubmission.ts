@@ -36,9 +36,17 @@ export const submitHealthFormData = async (formData: HealthFormData) => {
       throw new Error(error.message);
     }
 
+    if (!data) {
+      throw new Error('No data returned from submission');
+    }
+
     return data;
   } catch (error: any) {
     console.error('Submission error:', error);
-    throw new Error(error.message || 'Failed to submit health form data');
+    throw new Error(
+      error.message === 'JSON object requested, multiple (or no) rows returned'
+        ? 'An account with this email already exists'
+        : error.message || 'Failed to submit health form data'
+    );
   }
 };
