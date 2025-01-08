@@ -11,11 +11,13 @@ const corsHeaders = {
 }
 
 serve(async (req) => {
+  // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders })
   }
 
   try {
+    console.log('Starting process-lab-results function');
     const formData = await req.formData()
     const file = formData.get('file')
 
@@ -23,18 +25,27 @@ serve(async (req) => {
       throw new Error('No file uploaded')
     }
 
-    // Initialize AWS Textract client
+    // Initialize AWS Textract client with explicit region
+    console.log('Initializing Textract client');
     const textract = new TextractClient({
-      region: "us-east-1", // Change to your preferred region
+      region: "us-east-1",
       credentials: {
         accessKeyId: Deno.env.get('AWS_ACCESS_KEY_ID') || '',
         secretAccessKey: Deno.env.get('AWS_SECRET_ACCESS_KEY') || ''
       }
     });
 
+    // Log AWS credentials status (not the actual credentials)
+    console.log('AWS Credentials status:', {
+      hasAccessKey: !!Deno.env.get('AWS_ACCESS_KEY_ID'),
+      hasSecretKey: !!Deno.env.get('AWS_SECRET_ACCESS_KEY')
+    });
+
     // Convert file to buffer for Textract
     const arrayBuffer = await file.arrayBuffer();
     const buffer = new Uint8Array(arrayBuffer);
+
+    console.log('File prepared for analysis');
 
     // Create Textract analyze document command
     const command = new AnalyzeDocumentCommand({
@@ -44,13 +55,15 @@ serve(async (req) => {
       FeatureTypes: ["TABLES", "FORMS"]
     });
 
-    console.log('Analyzing document with Textract...');
+    console.log('Sending document to Textract for analysis...');
     const response = await textract.send(command);
-    console.log('Textract response:', response);
+    console.log('Received response from Textract');
 
     // Process Textract response to extract lab results
     const blocks = response.Blocks || [];
     const labResults = [];
+
+    console.log('Processing Textract blocks:', blocks.length, 'blocks found');
 
     // Extract key-value pairs from forms
     for (let i = 0; i < blocks.length; i++) {
@@ -80,6 +93,8 @@ serve(async (req) => {
       }
     }
 
+    console.log('Extracted lab results:', labResults);
+
     // Get the current user
     const supabase = createClient(
       Deno.env.get('SUPABASE_URL') ?? '',
@@ -96,6 +111,8 @@ serve(async (req) => {
       throw new Error('Error getting user');
     }
 
+    console.log('User authenticated:', user.id);
+
     // Store the lab results
     const { error: insertError } = await supabase
       .from('lab_results')
@@ -106,8 +123,11 @@ serve(async (req) => {
       })));
 
     if (insertError) {
+      console.error('Error inserting lab results:', insertError);
       throw new Error('Failed to save lab results: ' + insertError.message);
     }
+
+    console.log('Lab results stored in database');
 
     // Store the original PDF
     const fileExt = file.name.split('.').pop();
@@ -118,13 +138,18 @@ serve(async (req) => {
       .upload(filePath, file);
 
     if (uploadError) {
+      console.error('Error uploading PDF:', uploadError);
       throw new Error('Failed to upload PDF: ' + uploadError.message);
     }
+
+    console.log('PDF file stored in storage');
 
     // Trigger health data analysis
     await supabase.functions.invoke('analyze-health-data', {
       body: { userId: user.id }
     });
+
+    console.log('Health data analysis triggered');
 
     return new Response(
       JSON.stringify({ 
@@ -141,9 +166,12 @@ serve(async (req) => {
     );
 
   } catch (error) {
-    console.error('Error processing lab results:', error);
+    console.error('Error in process-lab-results:', error);
     return new Response(
-      JSON.stringify({ error: error.message }),
+      JSON.stringify({ 
+        error: error.message,
+        details: error.toString()
+      }),
       { 
         headers: { 
           ...corsHeaders,
