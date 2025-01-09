@@ -1,4 +1,5 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 
 interface HealthStatusSectionProps {
   isEditing: boolean;
@@ -16,11 +17,14 @@ export const HealthStatusSection = ({
   setPersonalInfo,
 }: HealthStatusSectionProps) => {
   return (
-    <div className="p-4 bg-background rounded-lg border">
-      <h3 className="font-semibold text-secondary mb-4">Health Status</h3>
-      <div className="space-y-4">
+    <div className="p-6 bg-background rounded-lg border space-y-6">
+      <div className="flex items-center justify-between">
+        <h3 className="text-lg font-semibold text-secondary">Health Status</h3>
+      </div>
+
+      <div className="space-y-6">
         <div className="space-y-2">
-          <label className="text-sm text-muted-foreground">Exercise Level</label>
+          <label className="text-sm font-medium text-muted-foreground">Exercise Level</label>
           {isEditing ? (
             <Select
               value={personalInfo.exerciseLevel}
@@ -28,13 +32,13 @@ export const HealthStatusSection = ({
                 setPersonalInfo({ ...personalInfo, exerciseLevel: value })
               }
             >
-              <SelectTrigger className="w-full bg-white border-input hover:bg-accent/10 transition-colors">
+              <SelectTrigger className="w-full bg-background">
                 <SelectValue placeholder="Select exercise level" />
               </SelectTrigger>
-              <SelectContent className="bg-white border shadow-lg">
-                <SelectItem value="low" className="cursor-pointer hover:bg-accent/10">Low</SelectItem>
-                <SelectItem value="medium" className="cursor-pointer hover:bg-accent/10">Medium</SelectItem>
-                <SelectItem value="high" className="cursor-pointer hover:bg-accent/10">High</SelectItem>
+              <SelectContent>
+                <SelectItem value="low">Low</SelectItem>
+                <SelectItem value="medium">Medium</SelectItem>
+                <SelectItem value="high">High</SelectItem>
               </SelectContent>
             </Select>
           ) : (
@@ -43,38 +47,48 @@ export const HealthStatusSection = ({
             </p>
           )}
         </div>
+
         <div className="space-y-2">
-          <label className="text-sm text-muted-foreground">
+          <label className="text-sm font-medium text-muted-foreground">
             Current Medications
           </label>
           {isEditing ? (
-            <textarea
-              className="w-full min-h-[80px] p-2 border rounded-md"
+            <Textarea
+              className="min-h-[100px] resize-none bg-background"
               value={personalInfo.medications}
               onChange={(e) =>
                 setPersonalInfo({ ...personalInfo, medications: e.target.value })
               }
+              placeholder="List your current medications..."
             />
           ) : (
-            <p className="whitespace-pre-line text-sm">
-              {personalInfo.medications}
-            </p>
+            <div className="bg-muted/30 rounded-md p-3">
+              <pre className="whitespace-pre-line text-sm font-medium">
+                {personalInfo.medications}
+              </pre>
+            </div>
           )}
         </div>
+
         <div className="space-y-2">
-          <label className="text-sm text-muted-foreground">
+          <label className="text-sm font-medium text-muted-foreground">
             Existing Conditions
           </label>
           {isEditing ? (
-            <textarea
-              className="w-full min-h-[80px] p-2 border rounded-md"
+            <Textarea
+              className="min-h-[100px] resize-none bg-background"
               value={personalInfo.conditions}
               onChange={(e) =>
                 setPersonalInfo({ ...personalInfo, conditions: e.target.value })
               }
+              placeholder="List any existing medical conditions..."
             />
           ) : (
-            <p className="whitespace-pre-line text-sm">{personalInfo.conditions}</p>
+            <div className="bg-muted/30 rounded-md p-3">
+              <pre className="whitespace-pre-line text-sm font-medium">
+                {personalInfo.conditions}
+              </pre>
+            </div>
           )}
         </div>
       </div>
