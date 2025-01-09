@@ -3,9 +3,15 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { HealthFormData } from "@/types/health-form";
-import { ExternalLink, Upload, Loader2 } from "lucide-react";
+import { ExternalLink, Upload, Loader2, HelpCircle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface TestInformationInputsProps {
   formData: HealthFormData;
@@ -117,9 +123,24 @@ export const TestInformationInputs = ({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="genetic" className="text-sm text-muted-foreground">
-              Genetic Testing Results (PDF)
-            </Label>
+            <div className="flex items-center gap-2">
+              <Label htmlFor="genetic" className="text-sm text-muted-foreground">
+                Genetic Testing Results (PDF)
+              </Label>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button variant="ghost" size="icon" className="h-5 w-5 p-0">
+                      <HelpCircle className="h-4 w-4" />
+                      <span className="sr-only">Why Should I Get This?</span>
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Helps understand your genetic profile to see how well your body processes nutrients</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </div>
             <div className="flex items-center gap-4">
               <Button
                 variant="outline"
