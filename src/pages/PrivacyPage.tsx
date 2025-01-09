@@ -25,14 +25,6 @@ const PrivacyPage = () => {
           <h1>Privacy Policy</h1>
           <p className="text-muted-foreground">Last Updated: {lastUpdated}</p>
 
-          <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 my-4">
-            <p className="text-sm text-yellow-700">
-              Note: This Privacy Policy is provided for informational purposes only. While it covers key privacy considerations, 
-              it is not legal advice. Please consult with a qualified attorney to ensure that your privacy practices comply 
-              with all applicable laws and regulations in your jurisdiction.
-            </p>
-          </div>
-
           <p>
             Thank you for using our web application ("Service"). Your privacy is extremely important to us. 
             This Privacy Policy describes how we collect, use, store, and disclose your information when you 
@@ -64,12 +56,23 @@ const PrivacyPage = () => {
             <li>Other relevant health metrics as provided by the user</li>
           </ul>
 
+          <h3>Payment Information</h3>
+          <ul>
+            <li>Payment details (handled by Stripe)</li>
+            <li>Billing address (if applicable)</li>
+          </ul>
+
           <h3>Usage Data and Analytics</h3>
           <ul>
             <li>Website usage patterns (pages visited, time spent on pages)</li>
             <li>Device information (IP address, browser type)</li>
             <li>Cookies and similar tracking technologies for analytics</li>
           </ul>
+
+          <p>
+            We only collect personal and health data that is necessary to provide you with relevant supplement 
+            and health recommendations and to process any payments for services or premium features you may choose to use.
+          </p>
 
           <h2>2. Data Storage & Security</h2>
           <h3>Data Storage</h3>
@@ -84,45 +87,72 @@ const PrivacyPage = () => {
             <li>Where applicable, we use encryption at rest for sensitive data stored in our databases.</li>
           </ul>
 
-          <h2>3. Data Usage</h2>
-          <p>We use the collected data for the following purposes:</p>
+          <h3>Data Retention</h3>
           <ul>
-            <li>Generating personalized supplement recommendations</li>
-            <li>Processing health information through AI services</li>
-            <li>Payment processing through Stripe</li>
-            <li>Analytics and service improvement</li>
+            <li>We retain your personal and health data for as long as your account is active or as needed to provide services to you.</li>
+            <li>We may also retain certain information for legitimate business or legal purposes (such as records retention), or as required by law.</li>
+          </ul>
+
+          <h3>Security Measures</h3>
+          <ul>
+            <li>We implement administrative, technical, and physical safeguards to protect against unauthorized access, alteration, disclosure, or destruction of your personal information.</li>
+            <li>Regular security audits and vulnerability assessments help us maintain a secure environment.</li>
+          </ul>
+
+          <h2>3. Data Usage</h2>
+          <h3>Recommendations</h3>
+          <ul>
+            <li>Your health data is processed to generate personalized supplement recommendations.</li>
+          </ul>
+
+          <h3>AI Processing</h3>
+          <ul>
+            <li>We may use OpenAI services to process health information and other data to improve or generate personalized recommendations.</li>
+          </ul>
+
+          <h3>Payment Processing</h3>
+          <ul>
+            <li>We use Stripe to handle all payment transactions. Your payment information is transmitted securely to Stripe and is not stored on our servers.</li>
+          </ul>
+
+          <h3>Analytics and Service Improvement</h3>
+          <ul>
+            <li>We use usage data (e.g., page visits, device data) to analyze user behavior, improve the user experience, and develop new features.</li>
           </ul>
 
           <h2>4. Third-Party Services</h2>
-          <p>We work with trusted third-party providers:</p>
+          <p>To provide and enhance our Service, we rely on trusted third-party providers:</p>
           <ul>
-            <li>Supabase - Database and authentication</li>
-            <li>Stripe - Payment processing</li>
-            <li>OpenAI - AI-powered recommendations</li>
-            <li>AWS - Lab results processing</li>
+            <li><strong>Supabase</strong> - Database and authentication platform for storing and managing user data securely.</li>
+            <li><strong>Stripe</strong> - Payment processing service for handling user payments. Stripe's privacy policy can be found at stripe.com/privacy.</li>
+            <li><strong>OpenAI</strong> - AI-based service for generating or refining health recommendations. Limited data is shared for the purpose of creating personalized plans.</li>
+            <li><strong>AWS</strong> - We may use Amazon Web Services for processing lab results or additional storage. AWS maintains high security and compliance standards.</li>
           </ul>
 
           <h2>5. User Rights</h2>
-          <p>You have the right to:</p>
+          <p>We respect your rights regarding the personal data we hold about you:</p>
           <ul>
-            <li>Access your personal data</li>
-            <li>Request deletion of your account and data</li>
-            <li>Update your information</li>
-            <li>Export your data</li>
+            <li><strong>Access Your Personal Data</strong> - Request a copy of your personal data and health information stored in our systems.</li>
+            <li><strong>Delete Your Account and Data</strong> - Request deletion of your account and associated personal information at any time.</li>
+            <li><strong>Update Your Information</strong> - Correct or update any personal information if it is inaccurate or incomplete.</li>
+            <li><strong>Data Portability</strong> - Receive your personal data in a structured, commonly used, and machine-readable format where applicable.</li>
           </ul>
 
           <h2>6. Compliance</h2>
-          <p>We comply with applicable data protection laws, including:</p>
-          <ul>
-            <li>HIPAA (Health Insurance Portability and Accountability Act)</li>
-            <li>GDPR (General Data Protection Regulation)</li>
-            <li>CCPA (California Consumer Privacy Act)</li>
-          </ul>
+          <h3>HIPAA</h3>
+          <p>We strive to meet or exceed Health Insurance Portability and Accountability Act (HIPAA) standards if and where applicable, particularly regarding the safeguarding of Protected Health Information (PHI).</p>
+
+          <h3>GDPR</h3>
+          <p>If you are located in the European Union (EU), we comply with the General Data Protection Regulation (GDPR) regarding your rights to access, rectify, erase, or restrict processing of your data.</p>
+
+          <h3>CCPA</h3>
+          <p>If you are a California resident, we comply with the California Consumer Privacy Act (CCPA). You have the right to know what personal information we collect and to request deletion of your data.</p>
+
+          <h3>Medical Information Privacy Standards</h3>
+          <p>We follow industry best practices and guidelines to ensure the privacy of medical information is protected.</p>
 
           <h2>7. Contact Information</h2>
-          <p>
-            If you have questions about this Privacy Policy or our privacy practices, please contact us at:
-          </p>
+          <p>If you have any questions about this Privacy Policy or our privacy practices, please contact us at:</p>
           <p>Email: privacy@supplementscribe.ai</p>
 
           <h2>8. Changes to This Privacy Policy</h2>
