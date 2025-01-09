@@ -43,46 +43,44 @@ export const TestInformationInputs = ({
     setUploading(prev => ({ ...prev, [type]: true }));
 
     try {
-      // Get the current user's session
-      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+      // Create a temporary ID for the upload
+      const tempUserId = crypto.randomUUID();
       
-      if (sessionError || !session) {
-        // Create a temporary session for the user during onboarding
-        const tempUserId = crypto.randomUUID();
-        
-        // Upload file to a temporary folder in storage
-        const fileExt = file.name.split('.').pop();
-        const fileName = `temp/${tempUserId}/${type}_${Date.now()}.${fileExt}`;
-        const filePath = `${type}/${fileName}`;
+      // Upload file to a temporary folder in storage
+      const fileExt = file.name.split('.').pop();
+      const fileName = `temp/${tempUserId}/${type}_${Date.now()}.${fileExt}`;
+      const filePath = `${type}/${fileName}`;
 
-        const { error: uploadError } = await supabase.storage
-          .from('health_files')
-          .upload(filePath, file);
+      const { error: uploadError } = await supabase.storage
+        .from('health_files')
+        .upload(filePath, file);
 
-        if (uploadError) throw uploadError;
+      if (uploadError) throw uploadError;
 
-        // Process the PDF and extract test results
-        setProcessingResults(true);
-        const formData = new FormData();
-        formData.append('file', file);
-        formData.append('tempUserId', tempUserId);
-        
-        const response = await supabase.functions.invoke('process-lab-results', {
-          body: formData,
-        });
+      // Process the PDF and extract test results
+      setProcessingResults(true);
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('tempUserId', tempUserId);
+      
+      // Get the current session for authorization
+      const { data: { session } } = await supabase.auth.getSession();
+      
+      const response = await supabase.functions.invoke('process-lab-results', {
+        body: formData,
+        headers: session?.access_token ? {
+          Authorization: `Bearer ${session.access_token}`
+        } : undefined
+      });
 
-        if (response.error) throw new Error(response.error.message);
+      if (response.error) throw new Error(response.error.message);
 
-        onTestChange(type === "bloodwork" ? "hasBloodwork" : "hasGeneticTesting", true);
+      onTestChange(type === "bloodwork" ? "hasBloodwork" : "hasGeneticTesting", true);
 
-        toast({
-          title: "File processed successfully",
-          description: `Your ${type === "bloodwork" ? "blood work" : "genetic testing"} results have been processed and will be associated with your account after registration.`,
-        });
-
-      } else {
-        throw new Error("Unexpected state: User should not be authenticated during onboarding");
-      }
+      toast({
+        title: "File processed successfully",
+        description: `Your ${type === "bloodwork" ? "blood work" : "genetic testing"} results have been processed and will be associated with your account after registration.`,
+      });
 
     } catch (error: any) {
       console.error('Error:', error);
