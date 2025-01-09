@@ -59,20 +59,11 @@ export const LandingHero = () => {
         
         {/* Footer links - better spacing */}
         <div className="absolute bottom-4 left-0 right-0 flex flex-col items-center gap-4">
-          {/* Work with Us button */}
-          <Button
-            onClick={() => navigate("/work-with-us")}
-            variant="outline"
-            size="lg"
-            className="bg-white hover:bg-gray-50"
-          >
-            Work with Us
-          </Button>
-          
-          {/* Other footer links */}
+          {/* Footer links */}
           <div className="flex justify-center gap-4 sm:gap-8 text-xs sm:text-sm text-muted-foreground px-2">
             <Link to="/privacy" className="hover:text-primary transition-colors">Privacy Policy</Link>
             <Link to="/about" className="hover:text-primary transition-colors">About</Link>
+            <Link to="/work-with-us" className="hover:text-primary transition-colors">Work with Us</Link>
             <Link to="/terms" className="hover:text-primary transition-colors">Terms & Conditions</Link>
           </div>
         </div>

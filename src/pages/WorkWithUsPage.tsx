@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Users, Flask, Pill } from "lucide-react";
+import { ArrowLeft, Users, Beaker, Pill } from "lucide-react";
 
 const WorkWithUsPage = () => {
   const navigate = useNavigate();
@@ -43,7 +43,7 @@ const WorkWithUsPage = () => {
         <Card className="hover:shadow-lg transition-shadow">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Flask className="h-6 w-6 text-primary" />
+              <Beaker className="h-6 w-6 text-primary" />
               Lab Companies
             </CardTitle>
           </CardHeader>
