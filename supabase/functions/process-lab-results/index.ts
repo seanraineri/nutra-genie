@@ -15,8 +15,9 @@ serve(async (req) => {
   try {
     console.log('Starting file processing...');
     const formData = await req.formData();
-    const file = formData.get('file');
-    const tempUserId = formData.get('tempUserId');
+    const file = formData.get('file') as File;
+    const type = formData.get('type') as string;
+    const tempUserId = formData.get('tempUserId') as string;
 
     if (!file) {
       console.error('No file found in request');
@@ -27,6 +28,7 @@ serve(async (req) => {
       name: file.name,
       type: file.type,
       size: file.size,
+      uploadType: type,
       tempUserId
     });
 
@@ -39,7 +41,7 @@ serve(async (req) => {
     const sanitizedFileName = file.name.replace(/[^\x00-\x7F]/g, '');
     const fileExt = sanitizedFileName.split('.').pop();
     const uniqueId = crypto.randomUUID();
-    const filePath = `temp/${tempUserId}/${uniqueId}.${fileExt}`;
+    const filePath = `temp/${tempUserId}/${type}/${uniqueId}.${fileExt}`;
 
     console.log('Uploading file to path:', filePath);
 
@@ -76,7 +78,8 @@ serve(async (req) => {
     return new Response(
       JSON.stringify({ 
         message: 'File processed successfully',
-        filePath
+        filePath,
+        type
       }),
       { 
         headers: { 

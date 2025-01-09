@@ -22,7 +22,6 @@ export const TestInformationInputs = ({
     genetic: false
   });
   const [noTestsYet, setNoTestsYet] = useState(false);
-  const [processingResults, setProcessingResults] = useState(false);
 
   const handleFileUpload = async (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -41,39 +40,31 @@ export const TestInformationInputs = ({
     }
 
     setUploading(prev => ({ ...prev, [type]: true }));
+    console.log('Starting file upload:', { type, fileName: file.name });
 
     try {
-      // Create a temporary ID for the upload
-      const tempUserId = crypto.randomUUID();
-      
       // Create FormData for the file upload
       const formData = new FormData();
       formData.append('file', file);
-      formData.append('tempUserId', tempUserId);
-      
-      console.log('Uploading file:', {
-        name: file.name,
-        type: file.type,
-        size: file.size,
-        tempUserId
-      });
+      formData.append('type', type);
+      formData.append('tempUserId', crypto.randomUUID());
 
-      // Process the file using the edge function
+      console.log('Invoking process-lab-results function...');
       const { data, error } = await supabase.functions.invoke('process-lab-results', {
         body: formData,
       });
+
+      console.log('Upload response:', { data, error });
 
       if (error) {
         throw error;
       }
 
-      console.log('Upload response:', data);
-
       onTestChange(type === "bloodwork" ? "hasBloodwork" : "hasGeneticTesting", true);
 
       toast({
         title: "File uploaded successfully",
-        description: `Your ${type === "bloodwork" ? "blood work" : "genetic testing"} results have been uploaded and will be processed shortly.`,
+        description: `Your ${type === "bloodwork" ? "blood work" : "genetic testing"} results have been uploaded.`,
       });
 
     } catch (error: any) {
@@ -85,7 +76,6 @@ export const TestInformationInputs = ({
       });
     } finally {
       setUploading(prev => ({ ...prev, [type]: false }));
-      setProcessingResults(false);
     }
   };
 
@@ -103,7 +93,7 @@ export const TestInformationInputs = ({
               <Button
                 variant="outline"
                 className="w-full flex items-center justify-center gap-2"
-                disabled={uploading.bloodwork || noTestsYet || processingResults}
+                disabled={uploading.bloodwork || noTestsYet}
                 onClick={() => document.getElementById('bloodwork')?.click()}
               >
                 {uploading.bloodwork ? (
@@ -134,7 +124,7 @@ export const TestInformationInputs = ({
               <Button
                 variant="outline"
                 className="w-full flex items-center justify-center gap-2"
-                disabled={uploading.genetic || noTestsYet || processingResults}
+                disabled={uploading.genetic || noTestsYet}
                 onClick={() => document.getElementById('genetic')?.click()}
               >
                 {uploading.genetic ? (
@@ -185,13 +175,6 @@ export const TestInformationInputs = ({
           Purchase Tests <ExternalLink className="h-4 w-4" />
         </Button>
       </div>
-
-      {processingResults && (
-        <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
-          <Loader2 className="h-4 w-4 animate-spin" />
-          Processing test results...
-        </div>
-      )}
     </div>
   );
 };
