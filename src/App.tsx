@@ -6,6 +6,7 @@ import PrivacyPage from "@/pages/PrivacyPage";
 import AboutPage from "@/pages/AboutPage";
 import FAQPage from "@/pages/FAQPage";
 import PaymentPage from "@/pages/PaymentPage";
+import WorkWithUsPage from "@/pages/WorkWithUsPage";
 import { Toaster } from "@/components/ui/toaster";
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
         <Route path="/input" element={<InputPage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/payment" element={<PaymentPage />} />
+        <Route path="/work-with-us" element={<WorkWithUsPage />} />
       </Routes>
       <Toaster />
     </Router>
