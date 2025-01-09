@@ -7,11 +7,13 @@ const corsHeaders = {
 }
 
 serve(async (req) => {
+  // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
+    console.log('Starting file processing...');
     const formData = await req.formData();
     const file = formData.get('file');
     const tempUserId = formData.get('tempUserId');
@@ -33,52 +35,55 @@ serve(async (req) => {
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
     );
 
-    // Get user ID either from auth token or use temporary ID
-    let userId = tempUserId as string;
-    
-    // If there's an authorization header, try to get the user
-    const authHeader = req.headers.get('Authorization');
-    if (authHeader) {
-      try {
-        const { data: { user }, error: userError } = await supabase.auth.getUser(
-          authHeader.replace('Bearer ', '')
-        );
-        if (user && !userError) {
-          userId = user.id;
-        }
-      } catch (error) {
-        console.error('Error getting user:', error);
-        // Continue with tempUserId if auth fails
-      }
-    }
+    // Sanitize filename and generate unique path
+    const sanitizedFileName = file.name.replace(/[^\x00-\x7F]/g, '');
+    const fileExt = sanitizedFileName.split('.').pop();
+    const uniqueId = crypto.randomUUID();
+    const filePath = `temp/${tempUserId}/${uniqueId}.${fileExt}`;
 
-    // First, upload the file
+    console.log('Uploading file to path:', filePath);
+
+    // Upload file to storage
     const arrayBuffer = await file.arrayBuffer();
-    const buffer = new Uint8Array(arrayBuffer);
-    
-    console.log('Processing file...');
+    const { error: uploadError } = await supabase.storage
+      .from('health_files')
+      .upload(filePath, arrayBuffer, {
+        contentType: file.type,
+        upsert: false
+      });
+
+    if (uploadError) {
+      console.error('Upload error:', uploadError);
+      throw new Error('Failed to upload file: ' + uploadError.message);
+    }
 
     // Store file metadata
     const { error: dbError } = await supabase
       .from('health_files')
       .insert({
-        user_id: userId,
-        filename: file.name,
-        file_path: `temp/${userId}/${file.name}`,
-        file_type: file.type
+        filename: sanitizedFileName,
+        file_path: filePath,
+        file_type: file.type,
       });
 
     if (dbError) {
-      console.error('Error storing file metadata:', dbError);
+      console.error('Database error:', dbError);
       throw new Error('Failed to store file metadata: ' + dbError.message);
     }
+
+    console.log('File processed successfully');
 
     return new Response(
       JSON.stringify({ 
         message: 'File processed successfully',
-        userId
+        filePath
       }),
-      { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      { 
+        headers: { 
+          ...corsHeaders, 
+          'Content-Type': 'application/json' 
+        } 
+      }
     );
 
   } catch (error) {

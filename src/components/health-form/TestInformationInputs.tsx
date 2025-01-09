@@ -46,47 +46,41 @@ export const TestInformationInputs = ({
       // Create a temporary ID for the upload
       const tempUserId = crypto.randomUUID();
       
-      // Upload file to a temporary folder in storage
-      const fileExt = file.name.split('.').pop();
-      const fileName = `temp/${tempUserId}/${type}_${Date.now()}.${fileExt}`;
-      const filePath = `${type}/${fileName}`;
-
-      const { error: uploadError } = await supabase.storage
-        .from('health_files')
-        .upload(filePath, file);
-
-      if (uploadError) throw uploadError;
-
-      // Process the PDF and extract test results
-      setProcessingResults(true);
+      // Create FormData for the file upload
       const formData = new FormData();
       formData.append('file', file);
       formData.append('tempUserId', tempUserId);
       
-      // Get the current session for authorization
-      const { data: { session } } = await supabase.auth.getSession();
-      
-      const response = await supabase.functions.invoke('process-lab-results', {
-        body: formData,
-        headers: session?.access_token ? {
-          Authorization: `Bearer ${session.access_token}`
-        } : undefined
+      console.log('Uploading file:', {
+        name: file.name,
+        type: file.type,
+        size: file.size,
+        tempUserId
       });
 
-      if (response.error) throw new Error(response.error.message);
+      // Process the file using the edge function
+      const { data, error } = await supabase.functions.invoke('process-lab-results', {
+        body: formData,
+      });
+
+      if (error) {
+        throw error;
+      }
+
+      console.log('Upload response:', data);
 
       onTestChange(type === "bloodwork" ? "hasBloodwork" : "hasGeneticTesting", true);
 
       toast({
-        title: "File processed successfully",
-        description: `Your ${type === "bloodwork" ? "blood work" : "genetic testing"} results have been processed and will be associated with your account after registration.`,
+        title: "File uploaded successfully",
+        description: `Your ${type === "bloodwork" ? "blood work" : "genetic testing"} results have been uploaded and will be processed shortly.`,
       });
 
     } catch (error: any) {
-      console.error('Error:', error);
+      console.error('Upload error:', error);
       toast({
         title: "Upload failed",
-        description: error.message || "There was an error processing your file. Please try again.",
+        description: error.message || "There was an error uploading your file. Please try again.",
         variant: "destructive",
       });
     } finally {
