@@ -127,10 +127,10 @@ export const TestInformationInputs = ({
               <Label htmlFor="genetic" className="text-sm text-muted-foreground">
                 Genetic Testing Results (PDF)
               </Label>
-              <TooltipProvider>
+              <TooltipProvider delayDuration={0}>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <div className="inline-flex h-5 w-5 items-center justify-center">
+                    <div className="inline-flex h-5 w-5 items-center justify-center cursor-help">
                       <HelpCircle className="h-4 w-4 text-muted-foreground" />
                     </div>
                   </TooltipTrigger>
