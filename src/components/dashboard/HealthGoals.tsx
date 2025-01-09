@@ -4,9 +4,8 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { GoalItem } from "./goals/GoalItem";
-import { GoalsSkeleton } from "./goals/GoalsSkeleton";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Plus } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { addHealthGoal } from "@/api/healthGoalsApi";
 
 interface Goal {
@@ -20,7 +19,6 @@ interface Goal {
 
 export const HealthGoals = () => {
   const [goals, setGoals] = useState<Goal[]>([]);
-  const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const { toast } = useToast();
 
@@ -46,7 +44,6 @@ export const HealthGoals = () => {
     }));
 
     setGoals(formattedGoals);
-    setLoading(false);
   };
 
   const handleSave = () => {
@@ -151,27 +148,21 @@ export const HealthGoals = () => {
           <TabsTrigger value="other">Other</TabsTrigger>
         </TabsList>
 
-        {loading ? (
-          <GoalsSkeleton />
-        ) : (
-          <>
-            <TabsContent value="fitness" className="space-y-4">
-              {renderGoalsList('fitness')}
-            </TabsContent>
+        <TabsContent value="fitness" className="space-y-4">
+          {renderGoalsList('fitness')}
+        </TabsContent>
 
-            <TabsContent value="nutrition" className="space-y-4">
-              {renderGoalsList('nutrition')}
-            </TabsContent>
+        <TabsContent value="nutrition" className="space-y-4">
+          {renderGoalsList('nutrition')}
+        </TabsContent>
 
-            <TabsContent value="wellness" className="space-y-4">
-              {renderGoalsList('wellness')}
-            </TabsContent>
+        <TabsContent value="wellness" className="space-y-4">
+          {renderGoalsList('wellness')}
+        </TabsContent>
 
-            <TabsContent value="other" className="space-y-4">
-              {renderGoalsList('other')}
-            </TabsContent>
-          </>
-        )}
+        <TabsContent value="other" className="space-y-4">
+          {renderGoalsList('other')}
+        </TabsContent>
       </Tabs>
     </Card>
   );
