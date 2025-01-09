@@ -1,5 +1,4 @@
 import { supabase } from "@/integrations/supabase/client";
-import { ChatMessage } from "@/types/chat";
 
 export const useAIChat = () => {
   const processAIResponse = async (message: string, userId: string) => {

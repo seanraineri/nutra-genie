@@ -36,11 +36,10 @@ export const useHealthChat = () => {
     setChatHistory(prev => [...prev, userMessage]);
 
     try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error("User not authenticated");
-
+      // For testing, use a temporary user ID
+      const tempUserId = 'test-user-id';
       await persistMessage(userMessage);
-      const response = await processAIResponse(message, user.id);
+      const response = await processAIResponse(message, tempUserId);
       
       const assistantMessage: ChatMessage = { role: "assistant", content: response };
       await persistMessage(assistantMessage);
