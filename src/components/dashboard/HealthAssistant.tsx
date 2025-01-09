@@ -5,6 +5,7 @@ import { QuickReplies } from "./QuickReplies";
 import { ChatInput } from "./chat/ChatInput";
 import { useHealthChat } from "@/hooks/useHealthChat";
 import { Bot, Loader2 } from "lucide-react";
+import { useEffect, useRef } from "react";
 
 const quickReplies = [
   "Analyze my health data",
@@ -18,6 +19,15 @@ const quickReplies = [
 
 export const HealthAssistant = () => {
   const { chatHistory, isLoading, isTyping, handleSendMessage } = useHealthChat();
+  const scrollAreaRef = useRef<HTMLDivElement>(null);
+
+  // Auto-scroll to bottom when new messages are added
+  useEffect(() => {
+    if (scrollAreaRef.current) {
+      const scrollContainer = scrollAreaRef.current;
+      scrollContainer.scrollTop = scrollContainer.scrollHeight;
+    }
+  }, [chatHistory, isTyping]);
 
   return (
     <Card className="flex flex-col h-[calc(100vh-8rem)] bg-gradient-to-b from-background to-background/80 shadow-lg animate-fade-in">
@@ -30,7 +40,10 @@ export const HealthAssistant = () => {
         </div>
       </div>
 
-      <ScrollArea className="flex-1 p-6">
+      <ScrollArea 
+        className="flex-1 p-6" 
+        ref={scrollAreaRef}
+      >
         <div className="space-y-6">
           {chatHistory.map((msg, index) => (
             <ChatMessage key={index} role={msg.role} content={msg.content} />
