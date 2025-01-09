@@ -12,7 +12,6 @@ const corsHeaders = {
 };
 
 async function extractSupplementName(query: string): Promise<string> {
-  // Common patterns for supplement queries
   const patterns = [
     /search for (.*?) supplements/i,
     /find (.*?) supplements/i,
@@ -29,7 +28,6 @@ async function extractSupplementName(query: string): Promise<string> {
     }
   }
 
-  // If no pattern matches, return the query as is
   return query.toLowerCase().replace('supplements', '').trim();
 }
 
@@ -48,18 +46,17 @@ async function searchSupplementBrands(supplementName: string) {
         messages: [
           {
             role: 'system',
-            content: `You are a supplement research assistant. For ${supplementName} supplements specifically, provide:
+            content: `You are a supplement research assistant focused on US brands and products. For ${supplementName} supplements specifically, provide:
 1. Brand name and specific product name
-2. Direct product URL to purchase
-3. One key advantage of this specific product
-4. One potential drawback or consideration
-5. Approximate price
+2. One key advantage of this specific product
+3. One potential consideration
+4. Price in USD (approximate)
 
-Limit to 3 top recommendations. Format as a bullet list with clear sections.`
+Limit to 3 top US-based recommendations. Format as a clear bullet list. Do not include any URLs or links.`
           },
           {
             role: 'user',
-            content: `Find reputable ${supplementName} supplement brands and products with direct purchase links.`
+            content: `Find reputable US-based ${supplementName} supplement brands and products.`
           }
         ],
         temperature: 0.2,
@@ -93,7 +90,6 @@ serve(async (req) => {
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
     );
 
-    // Check if asking for supplement brands
     const isAskingForBrands = query.toLowerCase().includes('find supplement') || 
                              query.toLowerCase().includes('show me') ||
                              query.toLowerCase().includes('search for') ||
@@ -139,7 +135,7 @@ serve(async (req) => {
    • Who should avoid it
 
 End your response by asking:
-"Would you like me to search for specific ${extractSupplementName(query)} supplement brands?"`
+"Would you like me to search for specific ${extractSupplementName(query)} supplement brands from US companies?"`
       },
       {
         role: "user",
@@ -154,7 +150,6 @@ End your response by asking:
 
     console.log('OpenAI response received');
 
-    // Store both the user's message and AI's response
     await supabaseClient
       .from('chat_history')
       .insert([
