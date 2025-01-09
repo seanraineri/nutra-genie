@@ -1,60 +1,50 @@
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Index from "@/pages/Index";
+import DashboardPage from "@/pages/DashboardPage";
+import InputPage from "@/pages/InputPage";
+import PrivacyPage from "@/pages/PrivacyPage";
+import AboutPage from "@/pages/AboutPage";
+import FAQPage from "@/pages/FAQPage";
+import PaymentPage from "@/pages/PaymentPage";
 import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { ErrorBoundary } from "./components/ErrorBoundary";
-import { AuthWrapper } from "./components/AuthWrapper";
-import Index from "./pages/Index";
-import InputPage from "./pages/InputPage";
-import DashboardPage from "./pages/DashboardPage";
-import FAQPage from "./pages/FAQPage";
-import PaymentPage from "./pages/PaymentPage";
-import AboutPage from "./pages/AboutPage";
+import { AuthWrapper } from "@/components/AuthWrapper";
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      retry: 1,
-      refetchOnWindowFocus: false,
-      staleTime: 5 * 60 * 1000, // 5 minutes
-    },
-  },
-});
-
-const App = () => (
-  <ErrorBoundary>
-    <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <TooltipProvider delayDuration={0}>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/about" element={<AboutPage />} />
-            <Route path="/input" element={<InputPage />} />
-            <Route path="/faq" element={<FAQPage />} />
-            <Route
-              path="/dashboard"
-              element={
-                <AuthWrapper>
-                  <DashboardPage />
-                </AuthWrapper>
-              }
-            />
-            <Route
-              path="/payment"
-              element={
-                <AuthWrapper>
-                  <PaymentPage />
-                </AuthWrapper>
-              }
-            />
-          </Routes>
-          <Toaster />
-          <Sonner />
-        </TooltipProvider>
-      </BrowserRouter>
-    </QueryClientProvider>
-  </ErrorBoundary>
-);
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Index />} />
+        <Route path="/privacy" element={<PrivacyPage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/faq" element={<FAQPage />} />
+        <Route
+          path="/dashboard"
+          element={
+            <AuthWrapper>
+              <DashboardPage />
+            </AuthWrapper>
+          }
+        />
+        <Route
+          path="/input"
+          element={
+            <AuthWrapper>
+              <InputPage />
+            </AuthWrapper>
+          }
+        />
+        <Route
+          path="/payment"
+          element={
+            <AuthWrapper>
+              <PaymentPage />
+            </AuthWrapper>
+          }
+        />
+      </Routes>
+      <Toaster />
+    </Router>
+  );
+}
 
 export default App;
