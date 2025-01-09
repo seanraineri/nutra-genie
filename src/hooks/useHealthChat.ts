@@ -9,10 +9,7 @@ export const useHealthChat = () => {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
-  const [chatHistory, setChatHistory] = useState<ChatMessage[]>([{
-    role: "assistant",
-    content: "Hi! I'm your personal health assistant. How can I help!"
-  }]);
+  const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
   const { processAIResponse } = useAIChat();
 
   useEffect(() => {
