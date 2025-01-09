@@ -5,6 +5,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { GoalItem } from "./goals/GoalItem";
 import { GoalsSkeleton } from "./goals/GoalsSkeleton";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface Goal {
   id: string;
@@ -87,24 +88,89 @@ export const HealthGoals = () => {
           {isEditing ? "Save Changes" : "Edit Goals"}
         </Button>
       </div>
-      <div className="space-y-4">
+
+      <Tabs defaultValue="fitness" className="w-full">
+        <TabsList className="grid w-full grid-cols-4 mb-4">
+          <TabsTrigger value="fitness">Fitness</TabsTrigger>
+          <TabsTrigger value="nutrition">Nutrition</TabsTrigger>
+          <TabsTrigger value="wellness">Wellness</TabsTrigger>
+          <TabsTrigger value="other">Other</TabsTrigger>
+        </TabsList>
+
         {loading ? (
           <GoalsSkeleton />
-        ) : goals.length > 0 ? (
-          goals.map((goal) => (
-            <GoalItem 
-              key={goal.id} 
-              goal={goal} 
-              onUpdate={fetchGoals}
-              isEditing={isEditing}
-            />
-          ))
         ) : (
-          <p className="text-muted-foreground text-center py-4">
-            No health goals set yet. Chat with the health assistant to set your goals.
-          </p>
+          <>
+            <TabsContent value="fitness" className="space-y-4">
+              {goals.length > 0 ? (
+                goals.map((goal) => (
+                  <GoalItem 
+                    key={goal.id} 
+                    goal={goal} 
+                    onUpdate={fetchGoals}
+                    isEditing={isEditing}
+                  />
+                ))
+              ) : (
+                <p className="text-muted-foreground text-center py-4">
+                  No fitness goals set yet. Click "Edit Goals" to add some.
+                </p>
+              )}
+            </TabsContent>
+
+            <TabsContent value="nutrition" className="space-y-4">
+              {goals.length > 0 ? (
+                goals.map((goal) => (
+                  <GoalItem 
+                    key={goal.id} 
+                    goal={goal} 
+                    onUpdate={fetchGoals}
+                    isEditing={isEditing}
+                  />
+                ))
+              ) : (
+                <p className="text-muted-foreground text-center py-4">
+                  No nutrition goals set yet. Click "Edit Goals" to add some.
+                </p>
+              )}
+            </TabsContent>
+
+            <TabsContent value="wellness" className="space-y-4">
+              {goals.length > 0 ? (
+                goals.map((goal) => (
+                  <GoalItem 
+                    key={goal.id} 
+                    goal={goal} 
+                    onUpdate={fetchGoals}
+                    isEditing={isEditing}
+                  />
+                ))
+              ) : (
+                <p className="text-muted-foreground text-center py-4">
+                  No wellness goals set yet. Click "Edit Goals" to add some.
+                </p>
+              )}
+            </TabsContent>
+
+            <TabsContent value="other" className="space-y-4">
+              {goals.length > 0 ? (
+                goals.map((goal) => (
+                  <GoalItem 
+                    key={goal.id} 
+                    goal={goal} 
+                    onUpdate={fetchGoals}
+                    isEditing={isEditing}
+                  />
+                ))
+              ) : (
+                <p className="text-muted-foreground text-center py-4">
+                  No other goals set yet. Click "Edit Goals" to add some.
+                </p>
+              )}
+            </TabsContent>
+          </>
         )}
-      </div>
+      </Tabs>
     </Card>
   );
 };
