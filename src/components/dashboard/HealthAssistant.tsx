@@ -33,14 +33,14 @@ export const HealthAssistant = () => {
       <div className="px-4 py-3 md:p-6 border-b">
         <div className="flex items-center gap-3">
           <div className="p-2 bg-primary/10 rounded-lg">
-            <Bot className="h-5 w-5 text-primary" />
+            <Bot className="h-6 w-6 text-primary" />
           </div>
-          <h2 className="text-lg md:text-xl font-semibold text-secondary">Health Assistant</h2>
+          <h2 className="text-xl md:text-2xl font-semibold text-secondary">Health Assistant</h2>
         </div>
       </div>
 
       <ScrollArea 
-        className="flex-1 px-4 py-6 md:p-6" 
+        className="flex-1 px-4 py-6 md:p-6 text-base md:text-lg" 
         ref={scrollAreaRef}
       >
         <div className="space-y-6">
@@ -49,8 +49,8 @@ export const HealthAssistant = () => {
           ))}
           {isTyping && (
             <div className="flex items-center gap-2 text-muted-foreground">
-              <Loader2 className="h-4 w-4 animate-spin" />
-              <span className="text-sm">Assistant is typing...</span>
+              <Loader2 className="h-5 w-5 animate-spin" />
+              <span className="text-base">Assistant is typing...</span>
             </div>
           )}
         </div>
