@@ -17,19 +17,12 @@ function App() {
         <Route path="/privacy" element={<PrivacyPage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/faq" element={<FAQPage />} />
+        <Route path="/input" element={<InputPage />} />
         <Route
           path="/dashboard"
           element={
             <AuthWrapper>
               <DashboardPage />
-            </AuthWrapper>
-          }
-        />
-        <Route
-          path="/input"
-          element={
-            <AuthWrapper>
-              <InputPage />
             </AuthWrapper>
           }
         />
