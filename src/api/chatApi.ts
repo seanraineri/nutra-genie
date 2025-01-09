@@ -2,13 +2,14 @@ import { supabase } from "@/integrations/supabase/client";
 import { ChatMessage } from "@/types/chat";
 
 export const fetchChatHistory = async () => {
-  // For testing, use a valid UUID as temporary user ID
-  const tempUserId = '00000000-0000-0000-0000-000000000000';
+  // For testing, we'll use null instead of a UUID that doesn't exist
+  const { data: { user } } = await supabase.auth.getUser();
+  const userId = user?.id || null;
 
   const { data, error } = await supabase
     .from('chat_history')
     .select('*')
-    .eq('user_id', tempUserId)
+    .is('user_id', null)
     .order('created_at', { ascending: true });
 
   if (error) {
@@ -20,14 +21,15 @@ export const fetchChatHistory = async () => {
 };
 
 export const persistMessage = async (message: ChatMessage) => {
-  // For testing, use a valid UUID as temporary user ID
-  const tempUserId = '00000000-0000-0000-0000-000000000000';
+  // For testing, we'll use null instead of a UUID that doesn't exist
+  const { data: { user } } = await supabase.auth.getUser();
+  const userId = user?.id || null;
 
   try {
     const { error } = await supabase
       .from('chat_history')
       .insert({
-        user_id: tempUserId,
+        user_id: userId,
         message: message.content,
         role: message.role,
       });

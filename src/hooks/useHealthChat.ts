@@ -36,10 +36,11 @@ export const useHealthChat = () => {
     setChatHistory(prev => [...prev, userMessage]);
 
     try {
-      // For testing, use a valid UUID as temporary user ID
-      const tempUserId = '00000000-0000-0000-0000-000000000000';
+      const { data: { user } } = await supabase.auth.getUser();
+      const userId = user?.id || null;
+      
       await persistMessage(userMessage);
-      const response = await processAIResponse(message, tempUserId);
+      const response = await processAIResponse(message, userId || '');
       
       const assistantMessage: ChatMessage = { role: "assistant", content: response };
       await persistMessage(assistantMessage);
