@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Progress } from "@/components/ui/progress";
-import { Pencil, Save, X } from "lucide-react";
+import { Pencil } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -18,22 +18,12 @@ interface Goal {
 interface GoalItemProps {
   goal: Goal;
   onUpdate: () => void;
+  isEditing: boolean;
 }
 
-export const GoalItem = ({ goal, onUpdate }: GoalItemProps) => {
-  const [isEditing, setIsEditing] = useState(false);
-  const [editedGoal, setEditedGoal] = useState<Goal | null>(null);
+export const GoalItem = ({ goal, onUpdate, isEditing }: GoalItemProps) => {
+  const [editedGoal, setEditedGoal] = useState<Goal>(goal);
   const { toast } = useToast();
-
-  const handleEdit = () => {
-    setIsEditing(true);
-    setEditedGoal(goal);
-  };
-
-  const handleCancelEdit = () => {
-    setIsEditing(false);
-    setEditedGoal(null);
-  };
 
   const calculateProgress = (progress: number, target: number): number => {
     if (isNaN(progress) || isNaN(target) || target === 0) {
@@ -43,8 +33,6 @@ export const GoalItem = ({ goal, onUpdate }: GoalItemProps) => {
   };
 
   const handleSave = async () => {
-    if (!editedGoal) return;
-
     try {
       const { error } = await supabase
         .from('health_goals')
@@ -63,8 +51,6 @@ export const GoalItem = ({ goal, onUpdate }: GoalItemProps) => {
         description: "Your health goal has been updated successfully.",
       });
 
-      setIsEditing(false);
-      setEditedGoal(null);
       onUpdate();
     } catch (error) {
       console.error('Error updating goal:', error);
@@ -81,33 +67,30 @@ export const GoalItem = ({ goal, onUpdate }: GoalItemProps) => {
       {isEditing ? (
         <div className="space-y-2">
           <Input
-            value={editedGoal?.goal_name}
+            value={editedGoal.goal_name}
             onChange={(e) =>
-              setEditedGoal((prev) =>
-                prev ? { ...prev, goal_name: e.target.value } : null
-              )
+              setEditedGoal((prev) => ({ ...prev, goal_name: e.target.value }))
             }
             className="font-medium"
             placeholder="Goal name"
           />
           <Textarea
-            value={editedGoal?.description || ""}
+            value={editedGoal.description || ""}
             onChange={(e) =>
-              setEditedGoal((prev) =>
-                prev ? { ...prev, description: e.target.value } : null
-              )
+              setEditedGoal((prev) => ({ ...prev, description: e.target.value }))
             }
             placeholder="Add a description for your goal"
-            className="min-h-[80px]"
+            className="min-h-[80px] resize-none"
           />
           <div className="flex gap-2 items-center">
             <Input
               type="number"
-              value={editedGoal?.progress}
+              value={editedGoal.progress}
               onChange={(e) =>
-                setEditedGoal((prev) =>
-                  prev ? { ...prev, progress: Number(e.target.value) } : null
-                )
+                setEditedGoal((prev) => ({
+                  ...prev,
+                  progress: Number(e.target.value)
+                }))
               }
               className="w-32"
               placeholder="Progress"
@@ -115,34 +98,16 @@ export const GoalItem = ({ goal, onUpdate }: GoalItemProps) => {
             <span>/</span>
             <Input
               type="number"
-              value={editedGoal?.target}
+              value={editedGoal.target}
               onChange={(e) =>
-                setEditedGoal((prev) =>
-                  prev ? { ...prev, target: Number(e.target.value) } : null
-                )
+                setEditedGoal((prev) => ({
+                  ...prev,
+                  target: Number(e.target.value)
+                }))
               }
               className="w-32"
               placeholder="Target"
             />
-          </div>
-          <div className="flex gap-2">
-            <Button
-              size="sm"
-              onClick={handleSave}
-              className="flex items-center gap-1"
-            >
-              <Save className="h-4 w-4" />
-              Save
-            </Button>
-            <Button
-              size="sm"
-              variant="outline"
-              onClick={handleCancelEdit}
-              className="flex items-center gap-1"
-            >
-              <X className="h-4 w-4" />
-              Cancel
-            </Button>
           </div>
         </div>
       ) : (
@@ -156,15 +121,6 @@ export const GoalItem = ({ goal, onUpdate }: GoalItemProps) => {
                 </p>
               )}
             </div>
-            <Button
-              size="sm"
-              variant="ghost"
-              onClick={handleEdit}
-              className="flex items-center gap-1"
-            >
-              <Pencil className="h-4 w-4" />
-              Edit
-            </Button>
           </div>
           <div className="flex justify-between text-sm">
             <span className="text-muted-foreground">

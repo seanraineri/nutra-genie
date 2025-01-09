@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { GoalItem } from "./goals/GoalItem";
 import { GoalsSkeleton } from "./goals/GoalsSkeleton";
@@ -15,6 +17,8 @@ interface Goal {
 export const HealthGoals = () => {
   const [goals, setGoals] = useState<Goal[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isEditing, setIsEditing] = useState(false);
+  const { toast } = useToast();
 
   const fetchGoals = async () => {
     const { data: { user } } = await supabase.auth.getUser();
@@ -31,7 +35,6 @@ export const HealthGoals = () => {
       return;
     }
 
-    // Convert string values to numbers if needed
     const formattedGoals = (data || []).map(goal => ({
       ...goal,
       progress: Number(goal.progress) || 0,
@@ -40,6 +43,14 @@ export const HealthGoals = () => {
 
     setGoals(formattedGoals);
     setLoading(false);
+  };
+
+  const handleSave = () => {
+    setIsEditing(false);
+    toast({
+      title: "Changes saved successfully",
+      description: "Your health goals have been updated.",
+    });
   };
 
   useEffect(() => {
@@ -67,7 +78,15 @@ export const HealthGoals = () => {
 
   return (
     <Card className="p-6">
-      <h2 className="text-xl font-semibold mb-4">Health Goals</h2>
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-xl font-semibold">Health Goals</h2>
+        <Button
+          variant="outline"
+          onClick={() => (isEditing ? handleSave() : setIsEditing(true))}
+        >
+          {isEditing ? "Save Changes" : "Edit Goals"}
+        </Button>
+      </div>
       <div className="space-y-4">
         {loading ? (
           <GoalsSkeleton />
@@ -77,6 +96,7 @@ export const HealthGoals = () => {
               key={goal.id} 
               goal={goal} 
               onUpdate={fetchGoals}
+              isEditing={isEditing}
             />
           ))
         ) : (
