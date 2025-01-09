@@ -14,7 +14,7 @@ export const SupplementPlan = () => {
 
       const { data, error } = await supabase
         .from('supplement_recommendations')
-        .select('supplement_name, dosage, reason, company_name, product_url, image_url')
+        .select('id, supplement_name, dosage, reason, company_name, product_url, image_url')
         .eq('user_id', user.id)
         .order('created_at', { ascending: false });
 
