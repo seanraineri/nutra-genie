@@ -43,40 +43,52 @@ export const TestInformationInputs = ({
     setUploading(prev => ({ ...prev, [type]: true }));
 
     try {
-      // Upload file to Supabase Storage
-      const fileExt = file.name.split('.').pop();
-      const fileName = `${type}_${Date.now()}.${fileExt}`;
-      const filePath = `${type}/${fileName}`;
-
-      const { error: uploadError } = await supabase.storage
-        .from('health_files')
-        .upload(filePath, file);
-
-      if (uploadError) throw uploadError;
-
-      // Process the PDF and extract test results
-      setProcessingResults(true);
-      const formData = new FormData();
-      formData.append('file', file);
+      // Get the current user's session
+      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
       
-      const response = await supabase.functions.invoke('process-lab-results', {
-        body: formData,
-      });
+      if (sessionError || !session) {
+        // Create a temporary session for the user during onboarding
+        const tempUserId = crypto.randomUUID();
+        
+        // Upload file to a temporary folder in storage
+        const fileExt = file.name.split('.').pop();
+        const fileName = `temp/${tempUserId}/${type}_${Date.now()}.${fileExt}`;
+        const filePath = `${type}/${fileName}`;
 
-      if (response.error) throw new Error(response.error.message);
+        const { error: uploadError } = await supabase.storage
+          .from('health_files')
+          .upload(filePath, file);
 
-      onTestChange(type === "bloodwork" ? "hasBloodwork" : "hasGeneticTesting", true);
+        if (uploadError) throw uploadError;
 
-      toast({
-        title: "File processed successfully",
-        description: `Your ${type === "bloodwork" ? "blood work" : "genetic testing"} results have been processed.`,
-      });
+        // Process the PDF and extract test results
+        setProcessingResults(true);
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('tempUserId', tempUserId);
+        
+        const response = await supabase.functions.invoke('process-lab-results', {
+          body: formData,
+        });
 
-    } catch (error) {
+        if (response.error) throw new Error(response.error.message);
+
+        onTestChange(type === "bloodwork" ? "hasBloodwork" : "hasGeneticTesting", true);
+
+        toast({
+          title: "File processed successfully",
+          description: `Your ${type === "bloodwork" ? "blood work" : "genetic testing"} results have been processed and will be associated with your account after registration.`,
+        });
+
+      } else {
+        throw new Error("Unexpected state: User should not be authenticated during onboarding");
+      }
+
+    } catch (error: any) {
       console.error('Error:', error);
       toast({
         title: "Upload failed",
-        description: "There was an error processing your file. Please try again.",
+        description: error.message || "There was an error processing your file. Please try again.",
         variant: "destructive",
       });
     } finally {
