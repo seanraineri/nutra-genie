@@ -20,7 +20,7 @@ const AboutPage = () => {
 
         <div className="max-w-3xl mx-auto space-y-8">
           <div className="space-y-4">
-            <h1 className="text-4xl font-bold tracking-tight">About HealthAI</h1>
+            <h1 className="text-4xl font-bold tracking-tight">About SupplementScribe.ai</h1>
             <p className="text-muted-foreground text-lg">
               Your personal health optimization companion powered by artificial intelligence.
             </p>
