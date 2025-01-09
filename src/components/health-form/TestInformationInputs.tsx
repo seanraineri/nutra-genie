@@ -130,13 +130,14 @@ export const TestInformationInputs = ({
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Button variant="ghost" size="icon" className="h-5 w-5 p-0">
-                      <HelpCircle className="h-4 w-4" />
-                      <span className="sr-only">Why Should I Get This?</span>
-                    </Button>
+                    <div className="inline-flex h-5 w-5 items-center justify-center">
+                      <HelpCircle className="h-4 w-4 text-muted-foreground" />
+                    </div>
                   </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Helps understand your genetic profile to see how well your body processes nutrients</p>
+                  <TooltipContent className="bg-card border shadow-md">
+                    <p className="text-sm text-card-foreground">
+                      Helps understand your genetic profile to see how well your body processes nutrients
+                    </p>
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
