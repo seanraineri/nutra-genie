@@ -1,7 +1,9 @@
 import { supabase } from "@/integrations/supabase/client";
 import { ChatMessage } from "@/types/chat";
 
-export const fetchChatHistory = async () => {
+export const fetchChatHistory = async (shouldFetch: boolean = true) => {
+  if (!shouldFetch) return [];
+  
   const { data: { user } } = await supabase.auth.getUser();
   const userId = user?.id || null;
 
@@ -10,7 +12,7 @@ export const fetchChatHistory = async () => {
     .select('*')
     .is('user_id', null)
     .order('created_at', { ascending: true })
-    .limit(50); // Limit the number of messages to improve performance
+    .limit(50);
 
   if (error) {
     console.error('Error fetching chat history:', error);
@@ -36,6 +38,5 @@ export const persistMessage = async (message: ChatMessage) => {
     if (error) throw error;
   } catch (error) {
     console.error('Error persisting message:', error);
-    // Don't throw the error to prevent blocking the chat flow
   }
 };

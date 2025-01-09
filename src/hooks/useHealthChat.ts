@@ -9,21 +9,18 @@ export const useHealthChat = () => {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
-  const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
+  const [chatHistory, setChatHistory] = useState<ChatMessage[]>([{
+    role: "assistant",
+    content: "Hi! I'm your personal health assistant. How can I help!"
+  }]);
   const { processAIResponse } = useAIChat();
 
   useEffect(() => {
-    const loadChatHistory = async () => {
-      const history = await fetchChatHistory();
-      if (history && history.length > 0) {
-        setChatHistory(history.map(msg => ({
-          role: msg.role as "user" | "assistant",
-          content: msg.message
-        })));
-      }
-    };
-
-    loadChatHistory();
+    // Initialize with just the welcome message, don't fetch history
+    setChatHistory([{
+      role: "assistant",
+      content: "Hi! I'm your personal health assistant. How can I help!"
+    }]);
   }, []);
 
   const handleSendMessage = async (message: string) => {
