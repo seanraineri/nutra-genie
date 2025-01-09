@@ -135,6 +135,36 @@ export type Database = {
         }
         Relationships: []
       }
+      partnership_applications: {
+        Row: {
+          company_name: string | null
+          created_at: string | null
+          email: string
+          id: string
+          name: string
+          partnership_type: string
+          status: string | null
+        }
+        Insert: {
+          company_name?: string | null
+          created_at?: string | null
+          email: string
+          id?: string
+          name: string
+          partnership_type: string
+          status?: string | null
+        }
+        Update: {
+          company_name?: string | null
+          created_at?: string | null
+          email?: string
+          id?: string
+          name?: string
+          partnership_type?: string
+          status?: string | null
+        }
+        Relationships: []
+      }
       pending_health_profiles: {
         Row: {
           activity_level: string | null

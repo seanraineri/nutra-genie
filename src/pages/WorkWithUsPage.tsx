@@ -1,10 +1,14 @@
+import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Users, Beaker, Pill } from "lucide-react";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { PartnershipForm } from "@/components/partnership/PartnershipForm";
 
 const WorkWithUsPage = () => {
   const navigate = useNavigate();
+  const [selectedPartnership, setSelectedPartnership] = useState<'influencer' | 'lab' | 'supplement' | null>(null);
 
   return (
     <div className="min-h-screen bg-background p-6">
@@ -35,7 +39,12 @@ const WorkWithUsPage = () => {
             <p className="text-muted-foreground mb-4">
               Partner with us to promote science-based supplement recommendations to your audience.
             </p>
-            <Button className="w-full mt-auto">Learn More</Button>
+            <Button 
+              className="w-full mt-auto"
+              onClick={() => setSelectedPartnership('influencer')}
+            >
+              Learn More
+            </Button>
           </CardContent>
         </Card>
 
@@ -51,7 +60,12 @@ const WorkWithUsPage = () => {
             <p className="text-muted-foreground mb-4">
               Integrate your lab testing services with our platform for seamless results analysis.
             </p>
-            <Button className="w-full mt-auto">Learn More</Button>
+            <Button 
+              className="w-full mt-auto"
+              onClick={() => setSelectedPartnership('lab')}
+            >
+              Learn More
+            </Button>
           </CardContent>
         </Card>
 
@@ -67,10 +81,30 @@ const WorkWithUsPage = () => {
             <p className="text-muted-foreground mb-4">
               List your high-quality supplements on our platform and reach health-conscious customers.
             </p>
-            <Button className="w-full mt-auto">Learn More</Button>
+            <Button 
+              className="w-full mt-auto"
+              onClick={() => setSelectedPartnership('supplement')}
+            >
+              Learn More
+            </Button>
           </CardContent>
         </Card>
       </div>
+
+      {/* Partnership Application Dialog */}
+      <Dialog 
+        open={selectedPartnership !== null}
+        onOpenChange={(open) => !open && setSelectedPartnership(null)}
+      >
+        <DialogContent className="sm:max-w-md">
+          {selectedPartnership && (
+            <PartnershipForm
+              type={selectedPartnership}
+              onClose={() => setSelectedPartnership(null)}
+            />
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
