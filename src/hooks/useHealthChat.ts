@@ -8,6 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 export const useHealthChat = () => {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([{
     role: "assistant",
     content: "Hi! I'm your personal health assistant. How can I help!"
@@ -39,11 +40,19 @@ export const useHealthChat = () => {
       const { data: { user } } = await supabase.auth.getUser();
       const userId = user?.id || null;
       
-      await persistMessage(userMessage);
+      // Persist user message in background
+      persistMessage(userMessage).catch(console.error);
+      
+      // Show typing indicator
+      setIsTyping(true);
+      
+      // Process AI response with streaming
       const response = await processAIResponse(message, userId || '');
       
       const assistantMessage: ChatMessage = { role: "assistant", content: response };
-      await persistMessage(assistantMessage);
+      // Persist assistant message in background
+      persistMessage(assistantMessage).catch(console.error);
+      
       setChatHistory(prev => [...prev, assistantMessage]);
 
     } catch (error: any) {
@@ -61,6 +70,7 @@ export const useHealthChat = () => {
       };
       setChatHistory(prev => [...prev, errorMessage]);
     } finally {
+      setIsTyping(false);
       setIsLoading(false);
     }
   };
@@ -68,6 +78,7 @@ export const useHealthChat = () => {
   return {
     chatHistory,
     isLoading,
+    isTyping,
     handleSendMessage
   };
 };

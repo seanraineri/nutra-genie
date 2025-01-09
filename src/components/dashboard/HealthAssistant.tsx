@@ -4,7 +4,7 @@ import { ChatMessage } from "./ChatMessage";
 import { QuickReplies } from "./QuickReplies";
 import { ChatInput } from "./chat/ChatInput";
 import { useHealthChat } from "@/hooks/useHealthChat";
-import { Bot } from "lucide-react";
+import { Bot, Loader2 } from "lucide-react";
 
 const quickReplies = [
   "Analyze my health data",
@@ -17,7 +17,7 @@ const quickReplies = [
 ];
 
 export const HealthAssistant = () => {
-  const { chatHistory, isLoading, handleSendMessage } = useHealthChat();
+  const { chatHistory, isLoading, isTyping, handleSendMessage } = useHealthChat();
 
   return (
     <Card className="flex flex-col h-[calc(100vh-8rem)] bg-gradient-to-b from-background to-background/80 shadow-lg animate-fade-in">
@@ -35,6 +35,12 @@ export const HealthAssistant = () => {
           {chatHistory.map((msg, index) => (
             <ChatMessage key={index} role={msg.role} content={msg.content} />
           ))}
+          {isTyping && (
+            <div className="flex items-center gap-2 text-muted-foreground">
+              <Loader2 className="h-4 w-4 animate-spin" />
+              <span className="text-sm">Assistant is typing...</span>
+            </div>
+          )}
         </div>
       </ScrollArea>
 
