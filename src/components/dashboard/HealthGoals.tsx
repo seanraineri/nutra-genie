@@ -6,6 +6,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { GoalItem } from "./goals/GoalItem";
 import { GoalsSkeleton } from "./goals/GoalsSkeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Plus } from "lucide-react";
+import { addHealthGoal } from "@/api/healthGoalsApi";
 
 interface Goal {
   id: string;
@@ -13,6 +15,7 @@ interface Goal {
   description?: string;
   progress: number;
   target: number;
+  category: string;
 }
 
 export const HealthGoals = () => {
@@ -27,7 +30,7 @@ export const HealthGoals = () => {
 
     const { data, error } = await supabase
       .from('health_goals')
-      .select('id, goal_name, description, progress, target')
+      .select('id, goal_name, description, progress, target, category')
       .eq('user_id', user.id)
       .order('created_at', { ascending: false });
 
@@ -54,6 +57,32 @@ export const HealthGoals = () => {
     });
   };
 
+  const handleAddGoal = async (category: string) => {
+    try {
+      await addHealthGoal({
+        goal_name: "New Goal",
+        description: "Click edit to modify this goal",
+        target: 100,
+        progress: 0,
+        category
+      });
+
+      toast({
+        title: "Goal added",
+        description: "New goal has been created successfully.",
+      });
+
+      fetchGoals();
+    } catch (error) {
+      console.error('Error adding goal:', error);
+      toast({
+        title: "Error",
+        description: "Failed to add goal. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
   useEffect(() => {
     fetchGoals();
 
@@ -76,6 +105,31 @@ export const HealthGoals = () => {
       supabase.removeChannel(channel);
     };
   }, []);
+
+  const renderGoalsList = (category: string) => {
+    const filteredGoals = goals.filter(goal => goal.category === category);
+    
+    return (
+      <div className="space-y-4">
+        {filteredGoals.map((goal) => (
+          <GoalItem 
+            key={goal.id} 
+            goal={goal} 
+            onUpdate={fetchGoals}
+            isEditing={isEditing}
+          />
+        ))}
+        <Button
+          variant="ghost"
+          className="w-full border-2 border-dashed border-muted hover:border-muted-foreground p-8"
+          onClick={() => handleAddGoal(category)}
+        >
+          <Plus className="mr-2 h-4 w-4" />
+          Add New Goal
+        </Button>
+      </div>
+    );
+  };
 
   return (
     <Card className="p-6">
@@ -102,71 +156,19 @@ export const HealthGoals = () => {
         ) : (
           <>
             <TabsContent value="fitness" className="space-y-4">
-              {goals.length > 0 ? (
-                goals.map((goal) => (
-                  <GoalItem 
-                    key={goal.id} 
-                    goal={goal} 
-                    onUpdate={fetchGoals}
-                    isEditing={isEditing}
-                  />
-                ))
-              ) : (
-                <p className="text-muted-foreground text-center py-4">
-                  No fitness goals set yet. Click "Edit Goals" to add some.
-                </p>
-              )}
+              {renderGoalsList('fitness')}
             </TabsContent>
 
             <TabsContent value="nutrition" className="space-y-4">
-              {goals.length > 0 ? (
-                goals.map((goal) => (
-                  <GoalItem 
-                    key={goal.id} 
-                    goal={goal} 
-                    onUpdate={fetchGoals}
-                    isEditing={isEditing}
-                  />
-                ))
-              ) : (
-                <p className="text-muted-foreground text-center py-4">
-                  No nutrition goals set yet. Click "Edit Goals" to add some.
-                </p>
-              )}
+              {renderGoalsList('nutrition')}
             </TabsContent>
 
             <TabsContent value="wellness" className="space-y-4">
-              {goals.length > 0 ? (
-                goals.map((goal) => (
-                  <GoalItem 
-                    key={goal.id} 
-                    goal={goal} 
-                    onUpdate={fetchGoals}
-                    isEditing={isEditing}
-                  />
-                ))
-              ) : (
-                <p className="text-muted-foreground text-center py-4">
-                  No wellness goals set yet. Click "Edit Goals" to add some.
-                </p>
-              )}
+              {renderGoalsList('wellness')}
             </TabsContent>
 
             <TabsContent value="other" className="space-y-4">
-              {goals.length > 0 ? (
-                goals.map((goal) => (
-                  <GoalItem 
-                    key={goal.id} 
-                    goal={goal} 
-                    onUpdate={fetchGoals}
-                    isEditing={isEditing}
-                  />
-                ))
-              ) : (
-                <p className="text-muted-foreground text-center py-4">
-                  No other goals set yet. Click "Edit Goals" to add some.
-                </p>
-              )}
+              {renderGoalsList('other')}
             </TabsContent>
           </>
         )}

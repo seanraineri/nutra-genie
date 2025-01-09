@@ -5,6 +5,7 @@ export const addHealthGoal = async (goal: {
   description?: string;
   target?: number;
   progress?: number;
+  category: string;
 }) => {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) throw new Error("Not authenticated");
