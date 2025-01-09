@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 const PrivacyPage = () => {
   const navigate = useNavigate();
+  const lastUpdated = new Date().toLocaleDateString();
 
   return (
     <div className="min-h-screen bg-background">
@@ -22,131 +23,121 @@ const PrivacyPage = () => {
 
         <div className="prose prose-sm sm:prose lg:prose-lg mx-auto">
           <h1>Privacy Policy</h1>
-          <p className="text-muted-foreground">Last updated: {new Date().toLocaleDateString()}</p>
+          <p className="text-muted-foreground">Last Updated: {lastUpdated}</p>
 
-          <section>
-            <h2>Introduction</h2>
-            <p>
-              SupplementScribe.ai ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our service.
+          <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 my-4">
+            <p className="text-sm text-yellow-700">
+              Note: This Privacy Policy is provided for informational purposes only. While it covers key privacy considerations, 
+              it is not legal advice. Please consult with a qualified attorney to ensure that your privacy practices comply 
+              with all applicable laws and regulations in your jurisdiction.
             </p>
-          </section>
+          </div>
 
-          <section>
-            <h2>Information We Collect</h2>
-            <h3>Personal Information</h3>
-            <ul>
-              <li>Name and contact information (email address)</li>
-              <li>Demographic information (age, gender)</li>
-              <li>Health-related information (height, weight, medical conditions)</li>
-              <li>Payment information (processed securely through Stripe)</li>
-            </ul>
+          <p>
+            Thank you for using our web application ("Service"). Your privacy is extremely important to us. 
+            This Privacy Policy describes how we collect, use, store, and disclose your information when you 
+            use the Service. By accessing or using the Service, you agree to the terms of this Privacy Policy.
+          </p>
 
-            <h3>Health Data</h3>
-            <ul>
-              <li>Medical conditions and history</li>
-              <li>Current medications and supplements</li>
-              <li>Allergies and sensitivities</li>
-              <li>Laboratory test results</li>
-              <li>Genetic testing information</li>
-            </ul>
+          <h2>1. Data Collection</h2>
+          <p>We collect the following types of personal and health-related information to provide and improve our Service:</p>
 
-            <h3>Usage Data</h3>
-            <ul>
-              <li>Interaction with our services</li>
-              <li>Device and browser information</li>
-              <li>IP address and location data</li>
-            </ul>
-          </section>
+          <h3>Personal Information</h3>
+          <ul>
+            <li>Name</li>
+            <li>Email address</li>
+            <li>Age</li>
+            <li>Gender</li>
+          </ul>
 
-          <section>
-            <h2>How We Use Your Information</h2>
-            <ul>
-              <li>Provide personalized supplement recommendations</li>
-              <li>Process and analyze health data</li>
-              <li>Improve our services and user experience</li>
-              <li>Communicate with you about our services</li>
-              <li>Process payments and maintain your subscription</li>
-              <li>Comply with legal obligations</li>
-            </ul>
-          </section>
+          <h3>Health Data</h3>
+          <ul>
+            <li>Medical conditions</li>
+            <li>Current medications</li>
+            <li>Allergies</li>
+            <li>Health goals</li>
+          </ul>
 
-          <section>
-            <h2>Data Storage and Security</h2>
-            <p>
-              We use industry-standard security measures to protect your data:
+          <h3>Lab Test Results</h3>
+          <ul>
+            <li>Blood test data</li>
+            <li>Other relevant health metrics as provided by the user</li>
+          </ul>
+
+          <h3>Payment Information</h3>
+          <ul>
+            <li>Payment details (handled by Stripe)</li>
+            <li>Billing address (if applicable)</li>
+          </ul>
+
+          <h2>2. Data Storage & Security</h2>
+          <h3>Data Storage</h3>
+          <ul>
+            <li>All user data is stored securely in our database hosted on Supabase.</li>
+            <li>We use secure authentication and authorization measures to ensure that only authorized personnel can access your data.</li>
+          </ul>
+
+          <h3>Encryption Methods</h3>
+          <ul>
+            <li>Data in transit is protected using Transport Layer Security (TLS/SSL) encryption.</li>
+            <li>Where applicable, we use encryption at rest for sensitive data stored in our databases.</li>
+          </ul>
+
+          <h2>3. Data Usage</h2>
+          <p>We use the collected data for the following purposes:</p>
+          <ul>
+            <li>Generating personalized supplement recommendations</li>
+            <li>Processing health information through AI services</li>
+            <li>Payment processing through Stripe</li>
+            <li>Analytics and service improvement</li>
+          </ul>
+
+          <h2>4. Third-Party Services</h2>
+          <p>We work with trusted third-party providers:</p>
+          <ul>
+            <li>Supabase - Database and authentication</li>
+            <li>Stripe - Payment processing</li>
+            <li>OpenAI - AI-powered recommendations</li>
+            <li>AWS - Lab results processing</li>
+          </ul>
+
+          <h2>5. User Rights</h2>
+          <p>You have the right to:</p>
+          <ul>
+            <li>Access your personal data</li>
+            <li>Request deletion of your account and data</li>
+            <li>Update your information</li>
+            <li>Export your data</li>
+          </ul>
+
+          <h2>6. Compliance</h2>
+          <p>We comply with applicable data protection laws, including:</p>
+          <ul>
+            <li>HIPAA (Health Insurance Portability and Accountability Act)</li>
+            <li>GDPR (General Data Protection Regulation)</li>
+            <li>CCPA (California Consumer Privacy Act)</li>
+          </ul>
+
+          <h2>7. Contact Information</h2>
+          <p>
+            If you have questions about this Privacy Policy or our privacy practices, please contact us at:
+          </p>
+          <p>Email: privacy@supplementscribe.ai</p>
+
+          <h2>8. Changes to This Privacy Policy</h2>
+          <p>
+            We may update this Privacy Policy from time to time to reflect changes in our practices or for other 
+            operational, legal, or regulatory reasons. When we update the policy, we will revise the "Last Updated" 
+            date at the top of this page. We encourage you to review this policy periodically to stay informed 
+            about how we protect your data.
+          </p>
+
+          <div className="mt-8 p-4 bg-gray-50 rounded-lg">
+            <p className="text-sm text-gray-600">
+              By using our Service, you acknowledge that you have read and understood this Privacy Policy. 
+              If you do not agree with any part of this Policy, you should discontinue the use of our Service.
             </p>
-            <ul>
-              <li>Secure data storage through Supabase</li>
-              <li>Encryption of sensitive information</li>
-              <li>Regular security audits and updates</li>
-              <li>Strict access controls and authentication</li>
-            </ul>
-          </section>
-
-          <section>
-            <h2>Third-Party Services</h2>
-            <p>We work with trusted third-party services:</p>
-            <ul>
-              <li>Supabase - Database and authentication</li>
-              <li>Stripe - Payment processing</li>
-              <li>OpenAI - AI-powered recommendations</li>
-              <li>AWS - Document processing and storage</li>
-            </ul>
-          </section>
-
-          <section>
-            <h2>Your Rights</h2>
-            <p>You have the right to:</p>
-            <ul>
-              <li>Access your personal data</li>
-              <li>Correct inaccurate data</li>
-              <li>Request deletion of your data</li>
-              <li>Export your data</li>
-              <li>Opt-out of marketing communications</li>
-              <li>Withdraw consent for data processing</li>
-            </ul>
-          </section>
-
-          <section>
-            <h2>Data Retention</h2>
-            <p>
-              We retain your personal information for as long as necessary to provide our services and comply with legal obligations. You can request deletion of your account and associated data at any time.
-            </p>
-          </section>
-
-          <section>
-            <h2>Children's Privacy</h2>
-            <p>
-              Our services are not intended for users under 18 years of age. We do not knowingly collect information from children under 18.
-            </p>
-          </section>
-
-          <section>
-            <h2>Changes to Privacy Policy</h2>
-            <p>
-              We may update this Privacy Policy periodically. We will notify you of any material changes through our service or via email.
-            </p>
-          </section>
-
-          <section>
-            <h2>Contact Us</h2>
-            <p>
-              If you have questions about this Privacy Policy or our privacy practices, please contact us at:
-            </p>
-            <p>Email: privacy@supplementscribe.ai</p>
-          </section>
-
-          <section>
-            <h2>Compliance</h2>
-            <p>
-              We comply with applicable data protection laws, including:
-            </p>
-            <ul>
-              <li>HIPAA (Health Insurance Portability and Accountability Act)</li>
-              <li>GDPR (General Data Protection Regulation)</li>
-              <li>CCPA (California Consumer Privacy Act)</li>
-            </ul>
-          </section>
+          </div>
         </div>
       </div>
     </div>
