@@ -36,8 +36,8 @@ export const useHealthChat = () => {
     setChatHistory(prev => [...prev, userMessage]);
 
     try {
-      // For testing, use a temporary user ID
-      const tempUserId = 'test-user-id';
+      // For testing, use a valid UUID as temporary user ID
+      const tempUserId = '00000000-0000-0000-0000-000000000000';
       await persistMessage(userMessage);
       const response = await processAIResponse(message, tempUserId);
       

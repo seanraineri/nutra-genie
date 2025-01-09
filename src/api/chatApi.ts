@@ -2,8 +2,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { ChatMessage } from "@/types/chat";
 
 export const fetchChatHistory = async () => {
-  // For testing, create a temporary user ID
-  const tempUserId = 'test-user-id';
+  // For testing, use a valid UUID as temporary user ID
+  const tempUserId = '00000000-0000-0000-0000-000000000000';
 
   const { data, error } = await supabase
     .from('chat_history')
@@ -20,8 +20,8 @@ export const fetchChatHistory = async () => {
 };
 
 export const persistMessage = async (message: ChatMessage) => {
-  // For testing, use a temporary user ID
-  const tempUserId = 'test-user-id';
+  // For testing, use a valid UUID as temporary user ID
+  const tempUserId = '00000000-0000-0000-0000-000000000000';
 
   try {
     const { error } = await supabase
