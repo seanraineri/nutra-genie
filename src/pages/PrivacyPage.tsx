@@ -64,10 +64,11 @@ const PrivacyPage = () => {
             <li>Other relevant health metrics as provided by the user</li>
           </ul>
 
-          <h3>Payment Information</h3>
+          <h3>Usage Data and Analytics</h3>
           <ul>
-            <li>Payment details (handled by Stripe)</li>
-            <li>Billing address (if applicable)</li>
+            <li>Website usage patterns (pages visited, time spent on pages)</li>
+            <li>Device information (IP address, browser type)</li>
+            <li>Cookies and similar tracking technologies for analytics</li>
           </ul>
 
           <h2>2. Data Storage & Security</h2>
