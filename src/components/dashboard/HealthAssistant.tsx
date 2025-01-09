@@ -21,7 +21,6 @@ export const HealthAssistant = () => {
   const { chatHistory, isLoading, isTyping, handleSendMessage } = useHealthChat();
   const scrollAreaRef = useRef<HTMLDivElement>(null);
 
-  // Auto-scroll to bottom when new messages are added
   useEffect(() => {
     if (scrollAreaRef.current) {
       const scrollContainer = scrollAreaRef.current;
@@ -30,18 +29,18 @@ export const HealthAssistant = () => {
   }, [chatHistory, isTyping]);
 
   return (
-    <Card className="flex flex-col h-[calc(100vh-8rem)] bg-gradient-to-b from-background to-background/80 shadow-lg animate-fade-in">
-      <div className="p-6 border-b">
-        <div className="flex items-center gap-3 mb-3">
+    <Card className="flex flex-col h-[calc(100vh-14rem)] md:h-[calc(100vh-16rem)] bg-gradient-to-b from-background to-background/80 shadow-lg animate-fade-in">
+      <div className="px-4 py-3 md:p-6 border-b">
+        <div className="flex items-center gap-3">
           <div className="p-2 bg-primary/10 rounded-lg">
-            <Bot className="h-6 w-6 text-primary" />
+            <Bot className="h-5 w-5 text-primary" />
           </div>
-          <h2 className="text-2xl font-semibold text-secondary">Health Assistant</h2>
+          <h2 className="text-lg md:text-xl font-semibold text-secondary">Health Assistant</h2>
         </div>
       </div>
 
       <ScrollArea 
-        className="flex-1 p-6" 
+        className="flex-1 px-4 py-6 md:p-6" 
         ref={scrollAreaRef}
       >
         <div className="space-y-6">
@@ -57,7 +56,7 @@ export const HealthAssistant = () => {
         </div>
       </ScrollArea>
 
-      <div className="p-6 border-t bg-background/50 backdrop-blur-sm">
+      <div className="p-4 md:p-6 border-t bg-background/50 backdrop-blur-sm space-y-4">
         <QuickReplies
           replies={quickReplies}
           onSelect={handleSendMessage}
