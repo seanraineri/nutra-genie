@@ -11,24 +11,30 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
-async function getChatHistory(supabaseClient: any, userId: string, limit = 10) {
-  const { data, error } = await supabaseClient
-    .from('chat_history')
-    .select('role, message')
-    .eq('user_id', userId)
-    .order('created_at', { ascending: false })
-    .limit(limit);
+async function extractSupplementName(query: string): Promise<string> {
+  // Common patterns for supplement queries
+  const patterns = [
+    /search for (.*?) supplements/i,
+    /find (.*?) supplements/i,
+    /tell me about (.*?) supplements/i,
+    /show me (.*?) supplements/i,
+    /(.*?) benefits/i,
+    /supplements? for (.*?)/i,
+  ];
 
-  if (error) {
-    console.error('Error fetching chat history:', error);
-    return [];
+  for (const pattern of patterns) {
+    const match = query.match(pattern);
+    if (match && match[1]) {
+      return match[1].trim();
+    }
   }
 
-  return data.reverse();
+  // If no pattern matches, return the query as is
+  return query.toLowerCase().replace('supplements', '').trim();
 }
 
-async function searchSupplementBrands(query: string) {
-  console.log('Searching supplement brands with Perplexity for:', query);
+async function searchSupplementBrands(supplementName: string) {
+  console.log('Searching supplement brands for:', supplementName);
   
   try {
     const response = await fetch('https://api.perplexity.ai/chat/completions', {
@@ -42,11 +48,18 @@ async function searchSupplementBrands(query: string) {
         messages: [
           {
             role: 'system',
-            content: 'You are a supplement research assistant. For each supplement brand you find, provide: \n1. Brand name and specific product\n2. Product URL\n3. One key advantage (pro)\n4. One potential drawback (con)\n\nLimit to 3-4 top recommendations. Format as a bullet list.'
+            content: `You are a supplement research assistant. For ${supplementName} supplements specifically, provide:
+1. Brand name and specific product name
+2. Direct product URL to purchase
+3. One key advantage of this specific product
+4. One potential drawback or consideration
+5. Approximate price
+
+Limit to 3 top recommendations. Format as a bullet list with clear sections.`
           },
           {
             role: 'user',
-            content: `Find reputable supplement brands and products for: ${query}`
+            content: `Find reputable ${supplementName} supplement brands and products with direct purchase links.`
           }
         ],
         temperature: 0.2,
@@ -70,7 +83,7 @@ serve(async (req) => {
 
   try {
     const { query, userId } = await req.json();
-    console.log('Received request with query:', query, 'and userId:', userId);
+    console.log('Received request with query:', query);
 
     if (!openAiKey) throw new Error('OPENAI_API_KEY is not set');
     if (!perplexityKey) throw new Error('PERPLEXITY_API_KEY is not set');
@@ -80,23 +93,17 @@ serve(async (req) => {
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
     );
 
-    // Get chat history for context
-    const chatHistory = await getChatHistory(supabaseClient, userId);
-    console.log('Retrieved chat history:', chatHistory);
-
     // Check if asking for supplement brands
-    const isAskingForBrands = query.toLowerCase().includes('find supplement brands') || 
-                             query.toLowerCase().includes('show me brands') ||
+    const isAskingForBrands = query.toLowerCase().includes('find supplement') || 
+                             query.toLowerCase().includes('show me') ||
+                             query.toLowerCase().includes('search for') ||
                              query.toLowerCase().includes('yes');
 
     if (isAskingForBrands) {
-      const supplementSearch = query.toLowerCase().includes('find supplement brands for') 
-        ? query.split('find supplement brands for')[1].trim()
-        : query.toLowerCase().includes('show me brands for')
-          ? query.split('show me brands for')[1].trim()
-          : 'vitamin supplements';
-
-      const brandsResult = await searchSupplementBrands(supplementSearch);
+      const supplementName = await extractSupplementName(query);
+      console.log('Extracted supplement name:', supplementName);
+      
+      const brandsResult = await searchSupplementBrands(supplementName);
       return new Response(
         JSON.stringify({ 
           choices: [{ 
@@ -111,59 +118,29 @@ serve(async (req) => {
 
     const openai = new OpenAI({ apiKey: openAiKey });
 
-    // Convert chat history to OpenAI message format
     const messages = [
       {
         role: "system",
-        content: `You are a knowledgeable health assistant that provides holistic, well-structured responses focused on natural solutions, lifestyle changes, and supplementation. When addressing health concerns:
+        content: `You are a knowledgeable health assistant focused on providing accurate supplement information. When discussing supplements:
 
-1. Start with a Holistic Approach:
-   • First suggest lifestyle modifications and natural remedies
-   • Include dietary recommendations
-   • Suggest relevant exercise or movement practices
-   • Recommend stress management techniques if applicable
-   • Then provide supplement recommendations to support the natural approach
+1. Start with Basic Information:
+   • What the supplement is
+   • Its primary benefits
+   • Natural food sources
 
-2. For supplement recommendations use this format:
-   • [Supplement Name]
-   • Recommended Dosage: amount
-   • Natural Food Sources: list key food sources
-   • Benefits: list key benefits
-   • How it Helps: explain mechanism of action
-   • Complementary Supplements: list synergistic combinations
-   • Cautions: list any warnings
+2. Provide Scientific Context:
+   • How it works in the body
+   • Key research findings
+   • Recommended dosage ranges
 
-After listing all supplement recommendations, always end with:
-"Would you like me to find supplement brands for you?"
+3. Safety Information:
+   • Potential side effects
+   • Drug interactions
+   • Who should avoid it
 
-3. For general health information:
-   • Use bullet points (•) for lists
-   • Break information into clear sections
-   • Use bold for important terms by wrapping them in **asterisks**
-   • Include relevant scientific terms in parentheses
-   • End with a "Key Takeaway:" section
-
-4. For lifestyle recommendations:
-   • Number each step
-   • Provide clear, actionable advice
-   • Include timing and frequency information
-   • Suggest practical implementation tips
-   • Add habit-building strategies
-
-5. Only suggest medical consultation if:
-   • The condition is severe or potentially dangerous
-   • Natural approaches haven't helped after a reasonable time
-   • There are red flag symptoms that need immediate attention
-
-Always maintain a professional yet friendly tone, ensure information is evidence-based, and emphasize natural, holistic approaches before medical interventions.
-
-Previous conversation context:
-${chatHistory.map(msg => `${msg.role}: ${msg.message}`).join('\n')}`
+End your response by asking:
+"Would you like me to search for specific ${extractSupplementName(query)} supplement brands?"`
       },
-      ...chatHistory.map(msg => ({
-        role: msg.role,
-        content: msg.content
-      })),
       {
         role: "user",
         content: query
