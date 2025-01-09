@@ -7,7 +7,6 @@ import AboutPage from "@/pages/AboutPage";
 import FAQPage from "@/pages/FAQPage";
 import PaymentPage from "@/pages/PaymentPage";
 import { Toaster } from "@/components/ui/toaster";
-import { AuthWrapper } from "@/components/AuthWrapper";
 
 function App() {
   return (
@@ -19,14 +18,7 @@ function App() {
         <Route path="/faq" element={<FAQPage />} />
         <Route path="/input" element={<InputPage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
-        <Route
-          path="/payment"
-          element={
-            <AuthWrapper>
-              <PaymentPage />
-            </AuthWrapper>
-          }
-        />
+        <Route path="/payment" element={<PaymentPage />} />
       </Routes>
       <Toaster />
     </Router>
