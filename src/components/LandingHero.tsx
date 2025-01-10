@@ -13,19 +13,12 @@ export const LandingHero = () => {
 
   return (
     <>
-      {/* Brand name and dashboard link */}
+      {/* Brand name */}
       <div className="fixed top-0 left-0 right-0 flex justify-between items-center p-4 sm:p-6">
         <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold">
           Supplement<span className="text-primary">Scribe</span>
           <span className="text-sm sm:text-base text-muted-foreground">.ai</span>
         </h1>
-        <Button 
-          variant="ghost" 
-          onClick={handleDashboardClick}
-          className="text-muted-foreground hover:text-primary hover:bg-transparent"
-        >
-          Open Dashboard
-        </Button>
       </div>
 
       {/* Main content with image */}
@@ -57,6 +50,14 @@ export const LandingHero = () => {
                 className="hover:bg-primary/10"
               >
                 How It Works
+              </Button>
+              <Button
+                size="lg"
+                onClick={handleDashboardClick}
+                variant="outline"
+                className="hover:bg-primary/10"
+              >
+                Open Dashboard
               </Button>
             </div>
           </div>
