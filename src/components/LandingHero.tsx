@@ -62,12 +62,12 @@ export const LandingHero = () => {
             </div>
           </div>
 
-          {/* Image section - now with larger dimensions */}
-          <div className="hidden lg:block relative h-[800px] animate-fade-in">
+          {/* Image section */}
+          <div className="hidden lg:block relative h-[600px] animate-fade-in">
             <img
               src="/lovable-uploads/2f53b616-9c59-4de0-abb0-263c4a144685.png"
               alt="Vitamin supplements"
-              className="absolute inset-0 w-full h-full object-contain scale-125"
+              className="absolute inset-0 w-full h-full object-contain"
             />
           </div>
         </div>
