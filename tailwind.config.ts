@@ -54,12 +54,12 @@ export default {
             maxWidth: 'none',
             color: 'inherit',
             p: {
-              marginTop: '0.5em',
-              marginBottom: '0.5em',
+              marginTop: '1em',
+              marginBottom: '1em',
             },
             li: {
-              marginTop: '0.25em',
-              marginBottom: '0.25em',
+              marginTop: '0.5em',
+              marginBottom: '0.5em',
             },
           },
         },
