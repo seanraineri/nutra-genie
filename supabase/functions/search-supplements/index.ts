@@ -24,6 +24,11 @@ const HEALTH_ASSISTANT_PERSONA = `You are Luna, a compassionate holistic health 
    • You provide context about natural health approaches`;
 
 async function getUserSupplements(supabaseClient: any, userId: string) {
+  if (!userId) {
+    console.error('No user ID provided');
+    throw new Error('User ID is required to fetch supplements');
+  }
+
   console.log('Fetching supplements for user:', userId);
   
   const { data, error } = await supabaseClient
@@ -70,7 +75,11 @@ serve(async (req) => {
 
   try {
     const { query, userId } = await req.json();
-    console.log('Received request with query:', query);
+    console.log('Received request with query:', query, 'userId:', userId);
+
+    if (!userId) {
+      throw new Error('User ID is required');
+    }
 
     const supabaseClient = createClient(
       Deno.env.get('SUPABASE_URL') ?? '',

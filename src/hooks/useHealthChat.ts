@@ -32,7 +32,9 @@ export const useHealthChat = () => {
 
     try {
       const { data: { user } } = await supabase.auth.getUser();
-      const userId = user?.id || null;
+      if (!user) {
+        throw new Error('Please sign in to use the chat feature');
+      }
       
       // Persist user message in background
       persistMessage(userMessage).catch(console.error);
@@ -41,7 +43,7 @@ export const useHealthChat = () => {
       setIsTyping(true);
       
       // Process AI response with streaming
-      const response = await processAIResponse(message, userId || '');
+      const response = await processAIResponse(message, user.id);
       
       const assistantMessage: ChatMessage = { role: "assistant", content: response };
       // Persist assistant message in background
@@ -54,7 +56,7 @@ export const useHealthChat = () => {
       
       toast({
         title: "Error",
-        description: "I'm having trouble processing your request. Please try again.",
+        description: error.message || "I'm having trouble processing your request. Please try again.",
         variant: "destructive"
       });
       
