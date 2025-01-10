@@ -36,7 +36,7 @@ export default {
           foreground: "#FFFFFF",
         },
         accent: {
-          DEFAULT: "#F97316",
+          DEFAULT: "#22C55E", // Bright green for health focus
           foreground: "#FFFFFF",
         },
         muted: {
