@@ -67,7 +67,7 @@ export const LandingHero = () => {
             <img
               src="/lovable-uploads/2f53b616-9c59-4de0-abb0-263c4a144685.png"
               alt="Vitamin supplements"
-              className="absolute inset-0 w-full h-full object-cover scale-150"
+              className="absolute inset-0 w-full h-full object-cover scale-125"
             />
           </div>
         </div>
