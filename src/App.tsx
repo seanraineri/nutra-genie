@@ -19,14 +19,7 @@ function App() {
         <Route path="/about" element={<AboutPage />} />
         <Route path="/faq" element={<FAQPage />} />
         <Route path="/input" element={<InputPage />} />
-        <Route 
-          path="/dashboard" 
-          element={
-            <AuthWrapper>
-              <DashboardPage />
-            </AuthWrapper>
-          } 
-        />
+        <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/payment" element={<PaymentPage />} />
         <Route path="/work-with-us" element={<WorkWithUsPage />} />
       </Routes>
