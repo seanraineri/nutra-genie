@@ -2,8 +2,6 @@ import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-const perplexityKey = Deno.env.get('PERPLEXITY_API_KEY');
-
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
@@ -26,6 +24,8 @@ const HEALTH_ASSISTANT_PERSONA = `You are Luna, a compassionate holistic health 
    • You provide context about natural health approaches`;
 
 async function getUserSupplements(supabaseClient: any, userId: string) {
+  console.log('Fetching supplements for user:', userId);
+  
   const { data, error } = await supabaseClient
     .from('supplement_recommendations')
     .select('*')
@@ -45,18 +45,21 @@ async function formatSupplementPlan(supplements: any[]) {
     return "I don't see any supplement recommendations in your plan yet. Would you like me to analyze your health profile and suggest some natural supplements that might benefit you?";
   }
 
-  let response = "Here's your current supplement plan:\n\n";
+  let response = "Here's your current personalized supplement plan:\n\n";
   supplements.forEach((supp, index) => {
     response += `${index + 1}. ${supp.supplement_name}\n`;
-    response += `   • Dosage: ${supp.dosage}\n`;
+    response += `   • Recommended Dosage: ${supp.dosage}\n`;
     response += `   • Reason: ${supp.reason}\n`;
     if (supp.estimated_cost) {
       response += `   • Estimated monthly cost: $${supp.estimated_cost}\n`;
     }
+    if (supp.company_name) {
+      response += `   • Recommended brand: ${supp.company_name}\n`;
+    }
     response += '\n';
   });
 
-  response += "\nWould you like me to explain more about any of these supplements or suggest adjustments based on your current health goals?";
+  response += "\nWould you like me to explain more about any of these supplements or help you understand how they work together for your health goals?";
   return response;
 }
 
@@ -69,21 +72,48 @@ serve(async (req) => {
     const { query, userId } = await req.json();
     console.log('Received request with query:', query);
 
-    if (!perplexityKey) throw new Error('PERPLEXITY_API_KEY is not set');
-
     const supabaseClient = createClient(
       Deno.env.get('SUPABASE_URL') ?? '',
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
     );
 
     // Check if user is asking about their supplement plan
-    const planKeywords = ['my plan', 'my supplement', 'my recommendations', 'what supplements', 'view my'];
-    const isAskingAboutPlan = planKeywords.some(keyword => query.toLowerCase().includes(keyword));
+    const planKeywords = [
+      'my plan', 
+      'my supplement', 
+      'my recommendations', 
+      'what supplements', 
+      'view my', 
+      'show me my',
+      'supplements do i need',
+      'supplement plan',
+      'what should i take'
+    ];
+    
+    const isAskingAboutPlan = planKeywords.some(keyword => 
+      query.toLowerCase().includes(keyword)
+    );
 
     if (isAskingAboutPlan) {
       console.log('User is asking about their supplement plan');
       const supplements = await getUserSupplements(supabaseClient, userId);
       const planResponse = await formatSupplementPlan(supplements);
+      
+      // Store the interaction in chat history
+      await supabaseClient
+        .from('chat_history')
+        .insert([
+          {
+            user_id: userId,
+            message: query,
+            role: 'user'
+          },
+          {
+            user_id: userId,
+            message: planResponse,
+            role: 'assistant'
+          }
+        ]);
       
       return new Response(
         JSON.stringify({ 
@@ -98,6 +128,9 @@ serve(async (req) => {
     }
 
     // For other queries, proceed with Perplexity API
+    const perplexityKey = Deno.env.get('PERPLEXITY_API_KEY');
+    if (!perplexityKey) throw new Error('PERPLEXITY_API_KEY is not set');
+
     const response = await fetch('https://api.perplexity.ai/chat/completions', {
       method: 'POST',
       headers: {
