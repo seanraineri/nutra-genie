@@ -1,9 +1,8 @@
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-import OpenAI from "https://esm.sh/openai@4.20.1";
 
-const openAiKey = Deno.env.get('OPENAI_API_KEY');
+const perplexityKey = Deno.env.get('PERPLEXITY_API_KEY');
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -30,38 +29,50 @@ async function extractSupplementName(query: string): Promise<string> {
   return query.toLowerCase().replace('supplements', '').trim();
 }
 
-async function searchSupplementBrands(openai: OpenAI, supplementName: string) {
-  console.log('Searching supplement brands for:', supplementName);
+async function searchSupplementBrands(supplementName: string) {
+  console.log('Searching supplement brands with Perplexity for:', supplementName);
   
   try {
-    const completion = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
-      messages: [
-        {
-          role: "system",
-          content: `You are a supplement research assistant focused on US brands and products. For ${supplementName} supplements specifically, provide:
-1. Brand name and specific product name
-2. One key advantage of this specific product
-3. One potential consideration
-4. Price in USD (approximate)
-5. Product URL (use Amazon.com URLs when possible)
-
-Limit to 3 top US-based recommendations. Format each recommendation as:
+    const response = await fetch('https://api.perplexity.ai/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${perplexityKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: 'llama-3.1-sonar-small-128k-online',
+        messages: [
+          {
+            role: 'system',
+            content: `You are a supplement research assistant focused on US brands and products. For ${supplementName} supplements specifically, provide 3 top recommendations in this exact format:
 
 • [Brand Name - Product Name](product-url)
   - Advantage: [key advantage]
   - Consideration: [potential consideration]
-  - Price: $XX.XX`
-        },
-        {
-          role: "user",
-          content: `Find reputable US-based ${supplementName} supplement brands and products.`
-        }
-      ],
-      temperature: 0.2,
+  - Price: $XX.XX
+
+Make sure to include real, working product URLs from major retailers like Amazon, iHerb, or the manufacturer's website.`
+          },
+          {
+            role: 'user',
+            content: `Find reputable US-based ${supplementName} supplement brands and products.`
+          }
+        ],
+        temperature: 0.2,
+        max_tokens: 1000,
+        return_images: false,
+        return_related_questions: false
+      }),
     });
 
-    return completion.choices[0].message.content;
+    if (!response.ok) {
+      throw new Error(`Perplexity API error: ${response.status}`);
+    }
+
+    const data = await response.json();
+    console.log('Perplexity API response:', data);
+
+    return data.choices[0].message.content;
   } catch (error) {
     console.error('Error searching supplement brands:', error);
     throw error;
@@ -77,14 +88,12 @@ serve(async (req) => {
     const { query, userId } = await req.json();
     console.log('Received request with query:', query);
 
-    if (!openAiKey) throw new Error('OPENAI_API_KEY is not set');
+    if (!perplexityKey) throw new Error('PERPLEXITY_API_KEY is not set');
 
     const supabaseClient = createClient(
       Deno.env.get('SUPABASE_URL') ?? '',
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
     );
-
-    const openai = new OpenAI({ apiKey: openAiKey });
 
     const isAskingForBrands = query.toLowerCase().includes('find supplement') || 
                              query.toLowerCase().includes('show me') ||
@@ -95,7 +104,7 @@ serve(async (req) => {
       const supplementName = await extractSupplementName(query);
       console.log('Extracted supplement name:', supplementName);
       
-      const brandsResult = await searchSupplementBrands(openai, supplementName);
+      const brandsResult = await searchSupplementBrands(supplementName);
       return new Response(
         JSON.stringify({ 
           choices: [{ 
@@ -108,10 +117,19 @@ serve(async (req) => {
       );
     }
 
-    const messages = [
-      {
-        role: "system",
-        content: `You are a knowledgeable health assistant focused on providing accurate supplement information. When discussing supplements:
+    // For general supplement information queries
+    const response = await fetch('https://api.perplexity.ai/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${perplexityKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: 'llama-3.1-sonar-small-128k-online',
+        messages: [
+          {
+            role: 'system',
+            content: `You are a knowledgeable health assistant focused on providing accurate supplement information. When discussing supplements:
 
 1. Start with Basic Information:
    • What the supplement is
@@ -130,19 +148,25 @@ serve(async (req) => {
 
 End your response by asking:
 "Would you like me to search for specific ${extractSupplementName(query)} supplement brands from US companies?"`
-      },
-      {
-        role: "user",
-        content: query
-      }
-    ];
-
-    const completion = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
-      messages: messages,
+          },
+          {
+            role: 'user',
+            content: query
+          }
+        ],
+        temperature: 0.2,
+        max_tokens: 1000,
+        return_images: false,
+        return_related_questions: false
+      }),
     });
 
-    console.log('OpenAI response received');
+    if (!response.ok) {
+      throw new Error(`Perplexity API error: ${response.status}`);
+    }
+
+    const data = await response.json();
+    console.log('Perplexity API response:', data);
 
     await supabaseClient
       .from('chat_history')
@@ -154,7 +178,7 @@ End your response by asking:
         },
         {
           user_id: userId,
-          message: completion.choices[0].message.content,
+          message: data.choices[0].message.content,
           role: 'assistant'
         }
       ]);
@@ -162,7 +186,7 @@ End your response by asking:
     console.log('Chat history stored');
 
     return new Response(
-      JSON.stringify({ choices: [{ message: { content: completion.choices[0].message.content } }] }),
+      JSON.stringify({ choices: [{ message: { content: data.choices[0].message.content } }] }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
   } catch (error) {
