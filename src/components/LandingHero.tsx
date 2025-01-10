@@ -7,25 +7,20 @@ export const LandingHero = () => {
   const navigate = useNavigate();
   const [showHowItWorks, setShowHowItWorks] = useState(false);
 
-  const handleDashboardClick = () => {
-    navigate("/dashboard");
-  };
-
   return (
     <>
-      {/* Brand name and dashboard button */}
+      {/* Brand name and dashboard link */}
       <div className="fixed top-0 left-0 right-0 flex justify-between items-center p-4 sm:p-6">
         <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold">
           Supplement<span className="text-primary">Scribe</span>
           <span className="text-sm sm:text-base text-muted-foreground">.ai</span>
         </h1>
-        <Button
-          onClick={handleDashboardClick}
-          variant="outline"
-          className="hover:bg-primary/10"
+        <Link 
+          to="/dashboard" 
+          className="text-muted-foreground hover:text-primary transition-colors"
         >
           Open Dashboard
-        </Button>
+        </Link>
       </div>
 
       {/* Main content with image */}
