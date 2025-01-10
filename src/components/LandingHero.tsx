@@ -7,6 +7,10 @@ export const LandingHero = () => {
   const navigate = useNavigate();
   const [showHowItWorks, setShowHowItWorks] = useState(false);
 
+  const handleDashboardClick = () => {
+    navigate("/dashboard");
+  };
+
   return (
     <>
       {/* Brand name and dashboard button */}
@@ -16,7 +20,7 @@ export const LandingHero = () => {
           <span className="text-sm sm:text-base text-muted-foreground">.ai</span>
         </h1>
         <Button
-          onClick={() => navigate("/dashboard")}
+          onClick={handleDashboardClick}
           variant="outline"
           className="hover:bg-primary/10"
         >
