@@ -15,24 +15,17 @@ export const ChatMessage = ({ role, content }: ChatMessageProps) => {
   };
 
   const createClickableLinks = (text: string) => {
-    const linkPattern = /([^(]+)\((https?:\/\/[^\s)]+)\)/g;
-    
-    if (text.match(linkPattern)) {
-      return text.replace(linkPattern, (match, linkText, url) => {
-        return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-primary underline hover:text-primary/80 transition-colors">${linkText.trim()}</a>`;
-      });
-    }
-    
-    const urlPattern = /(https?:\/\/[^\s]+)/g;
-    return text.replace(urlPattern, (url) => {
-      return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-primary underline hover:text-primary/80 transition-colors">${url}</a>`;
+    // Handle markdown-style links [text](url)
+    const markdownLinkPattern = /\[(.*?)\]\((.*?)\)/g;
+    return text.replace(markdownLinkPattern, (match, linkText, url) => {
+      return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-primary underline hover:text-primary/80 transition-colors">${linkText.trim()}</a>`;
     });
   };
 
   const formatContent = (text: string) => {
     const lines = text.split('\n');
     return lines.map((line, index) => {
-      const trimmedLine = cleanMarkdown(line.trim());
+      const trimmedLine = cleanMarkdown(line);
       if (trimmedLine.startsWith('•') || trimmedLine.startsWith('-')) {
         return (
           <li 
