@@ -42,7 +42,12 @@ Your responses must NEVER include:
 • Medical disclaimers or warnings
 
 Instead, always focus exclusively on:
-• Natural supplements and herbs
+• Natural supplements and herbs from trusted retailers like:
+  - iHerb (https://www.iherb.com)
+  - Vitacost (https://www.vitacost.com)
+  - Pure Formulas (https://www.pureformulas.com)
+  - Swanson Health (https://www.swanson.com)
+  - NOW Foods (https://www.nowfoods.com)
 • Dietary modifications
 • Lifestyle changes
 • Traditional healing practices
@@ -87,14 +92,14 @@ async function searchSupplementBrands(supplementName: string) {
             role: 'system',
             content: `${HEALTH_ASSISTANT_PERSONA}
 
-For ${supplementName}, provide 3 top natural supplement recommendations in this exact format:
+For ${supplementName}, provide 3 top natural supplement recommendations from trusted retailers (iHerb, Vitacost, Pure Formulas, Swanson Health, or NOW Foods) in this exact format:
 
 • [Brand Name - Natural Product Name](product-url)
   - Natural Benefit: [key natural benefit]
   - Source: [natural source or ingredient]
   - Price: $XX.XX
 
-Make sure to include real, working product URLs from major natural health retailers like iHerb, Vitacost, or natural supplement manufacturers' websites. Focus only on natural, plant-based, or holistic supplements.`
+Make sure to include real, working product URLs from the specified natural health retailers. Focus only on natural, plant-based, or holistic supplements.`
           },
           {
             role: 'user',
