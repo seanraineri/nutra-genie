@@ -9,127 +9,55 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
-const HEALTH_ASSISTANT_PERSONA = `You are Luna, a compassionate holistic health advisor with over 15 years of experience in natural medicine, herbalism, and nutritional therapy. Your approach is:
-
-1. Gentle and Supportive:
+const HEALTH_ASSISTANT_PERSONA = `You are Luna, a compassionate holistic health advisor. Your approach is:
+1. Personalized and Supportive:
+   • You provide personalized supplement recommendations based on user data
    • You speak with warmth and understanding
-   • You acknowledge the person's concerns
    • You maintain a positive, encouraging tone
-   • You empower people to take charge of their natural wellness journey
 
-2. Holistic and Natural Only:
-   • You focus exclusively on natural remedies and supplements
-   • You emphasize the body's innate healing abilities
-   • You consider the whole person, not just symptoms
-   • You NEVER suggest consulting medical professionals or seeking medical advice
-   • You NEVER mention anything about consulting others, getting second opinions, or seeking professional help
+2. Holistic and Natural:
+   • You focus on natural supplements and remedies
+   • You consider the whole person's health profile
+   • You explain benefits and reasons for recommendations
 
-3. Educational and Empowering:
-   • You explain how natural remedies work
-   • You share traditional wisdom from various healing traditions
-   • You empower people with knowledge about natural health
-   • You provide resources for self-education about natural healing
+3. Educational:
+   • You explain how supplements work
+   • You share dosage information
+   • You provide context about natural health approaches`;
 
-4. Safety-Conscious within Natural Bounds:
-   • You mention potential interactions with existing supplements
-   • You emphasize the importance of quality natural supplements
-   • You recommend starting with gentle interventions
-   • You stay strictly within natural and holistic approaches
-   • You NEVER suggest getting approval or clearance from any professionals
+async function getUserSupplements(supabaseClient: any, userId: string) {
+  const { data, error } = await supabaseClient
+    .from('supplement_recommendations')
+    .select('*')
+    .eq('user_id', userId)
+    .order('priority', { ascending: true });
 
-Your responses must NEVER include:
-• Suggestions to consult healthcare professionals
-• References to medical treatments or diagnoses
-• Pharmaceutical medications or conventional medical approaches
-• Medical disclaimers or warnings
-• Any form of "check with" or "consult with" language
-• Any mentions of seeking professional opinions or advice
-• Any suggestions to discuss with experts or specialists
-
-Instead, always focus exclusively on:
-• Natural supplements and herbs from trusted retailers like:
-  - iHerb (https://www.iherb.com)
-  - Vitacost (https://www.vitacost.com)
-  - Pure Formulas (https://www.pureformulas.com)
-  - Swanson Health (https://www.swanson.com)
-  - NOW Foods (https://www.nowfoods.com)
-• Dietary modifications
-• Lifestyle changes
-• Traditional healing practices
-• Holistic wellness approaches
-• Self-care practices
-• Natural healing traditions`;
-
-async function extractSupplementName(query: string): Promise<string> {
-  const patterns = [
-    /search for (.*?) supplements/i,
-    /find (.*?) supplements/i,
-    /tell me about (.*?) supplements/i,
-    /show me (.*?) supplements/i,
-    /(.*?) benefits/i,
-    /supplements? for (.*?)/i,
-  ];
-
-  for (const pattern of patterns) {
-    const match = query.match(pattern);
-    if (match && match[1]) {
-      return match[1].trim();
-    }
-  }
-
-  return query.toLowerCase().replace('supplements', '').trim();
-}
-
-async function searchSupplementBrands(supplementName: string) {
-  console.log('Searching natural supplement brands with Perplexity for:', supplementName);
-  
-  try {
-    const response = await fetch('https://api.perplexity.ai/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${perplexityKey}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        model: 'llama-3.1-sonar-small-128k-online',
-        messages: [
-          {
-            role: 'system',
-            content: `${HEALTH_ASSISTANT_PERSONA}
-
-For ${supplementName}, provide 3 top natural supplement recommendations from trusted retailers (iHerb, Vitacost, Pure Formulas, Swanson Health, or NOW Foods) in this exact format:
-
-• [Brand Name - Natural Product Name](product-url)
-  - Natural Benefit: [key natural benefit]
-  - Source: [natural source or ingredient]
-  - Price: $XX.XX
-
-Make sure to include real, working product URLs from the specified natural health retailers. Focus only on natural, plant-based, or holistic supplements. Never suggest consulting anyone or seeking any form of professional advice.`
-          },
-          {
-            role: 'user',
-            content: `Find natural, holistic supplement recommendations for ${supplementName}.`
-          }
-        ],
-        temperature: 0.2,
-        max_tokens: 1000,
-        return_images: false,
-        return_related_questions: false
-      }),
-    });
-
-    if (!response.ok) {
-      throw new Error(`Perplexity API error: ${response.status}`);
-    }
-
-    const data = await response.json();
-    console.log('Perplexity API response:', data);
-
-    return data.choices[0].message.content;
-  } catch (error) {
-    console.error('Error searching supplement brands:', error);
+  if (error) {
+    console.error('Error fetching supplements:', error);
     throw error;
   }
+
+  return data || [];
+}
+
+async function formatSupplementPlan(supplements: any[]) {
+  if (supplements.length === 0) {
+    return "I don't see any supplement recommendations in your plan yet. Would you like me to analyze your health profile and suggest some natural supplements that might benefit you?";
+  }
+
+  let response = "Here's your current supplement plan:\n\n";
+  supplements.forEach((supp, index) => {
+    response += `${index + 1}. ${supp.supplement_name}\n`;
+    response += `   • Dosage: ${supp.dosage}\n`;
+    response += `   • Reason: ${supp.reason}\n`;
+    if (supp.estimated_cost) {
+      response += `   • Estimated monthly cost: $${supp.estimated_cost}\n`;
+    }
+    response += '\n';
+  });
+
+  response += "\nWould you like me to explain more about any of these supplements or suggest adjustments based on your current health goals?";
+  return response;
 }
 
 serve(async (req) => {
@@ -148,21 +76,20 @@ serve(async (req) => {
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
     );
 
-    const isAskingForBrands = query.toLowerCase().includes('find supplement') || 
-                             query.toLowerCase().includes('show me') ||
-                             query.toLowerCase().includes('search for') ||
-                             query.toLowerCase().includes('yes');
+    // Check if user is asking about their supplement plan
+    const planKeywords = ['my plan', 'my supplement', 'my recommendations', 'what supplements', 'view my'];
+    const isAskingAboutPlan = planKeywords.some(keyword => query.toLowerCase().includes(keyword));
 
-    if (isAskingForBrands) {
-      const supplementName = await extractSupplementName(query);
-      console.log('Extracted supplement name:', supplementName);
+    if (isAskingAboutPlan) {
+      console.log('User is asking about their supplement plan');
+      const supplements = await getUserSupplements(supabaseClient, userId);
+      const planResponse = await formatSupplementPlan(supplements);
       
-      const brandsResult = await searchSupplementBrands(supplementName);
       return new Response(
         JSON.stringify({ 
           choices: [{ 
             message: { 
-              content: brandsResult 
+              content: planResponse 
             } 
           }] 
         }),
@@ -170,7 +97,7 @@ serve(async (req) => {
       );
     }
 
-    // For general supplement information queries
+    // For other queries, proceed with Perplexity API
     const response = await fetch('https://api.perplexity.ai/chat/completions', {
       method: 'POST',
       headers: {
@@ -218,10 +145,8 @@ serve(async (req) => {
         }
       ]);
     
-    console.log('Chat history stored');
-
     return new Response(
-      JSON.stringify({ choices: [{ message: { content: data.choices[0].message.content } }] }),
+      JSON.stringify(data),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
   } catch (error) {
