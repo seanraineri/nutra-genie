@@ -30,7 +30,7 @@ async function extractSupplementName(query: string): Promise<string> {
 }
 
 async function searchSupplementBrands(supplementName: string) {
-  console.log('Searching supplement brands with Perplexity for:', supplementName);
+  console.log('Searching natural supplement brands with Perplexity for:', supplementName);
   
   try {
     const response = await fetch('https://api.perplexity.ai/chat/completions', {
@@ -44,18 +44,18 @@ async function searchSupplementBrands(supplementName: string) {
         messages: [
           {
             role: 'system',
-            content: `You are a supplement research assistant focused on US brands and products. For ${supplementName} supplements specifically, provide 3 top recommendations in this exact format:
+            content: `You are a natural health and supplement advisor focused on holistic remedies and US-based natural supplement brands. For ${supplementName}, provide 3 top natural supplement recommendations in this exact format:
 
-• [Brand Name - Product Name](product-url)
-  - Advantage: [key advantage]
-  - Consideration: [potential consideration]
+• [Brand Name - Natural Product Name](product-url)
+  - Natural Benefit: [key natural benefit]
+  - Source: [natural source or ingredient]
   - Price: $XX.XX
 
-Make sure to include real, working product URLs from major retailers like Amazon, iHerb, or the manufacturer's website.`
+Make sure to include real, working product URLs from major natural health retailers like iHerb, Vitacost, or natural supplement manufacturers' websites. Focus only on natural, plant-based, or holistic supplements.`
           },
           {
             role: 'user',
-            content: `Find reputable US-based ${supplementName} supplement brands and products.`
+            content: `Find natural, holistic supplement recommendations for ${supplementName}.`
           }
         ],
         temperature: 0.2,
@@ -129,25 +129,27 @@ serve(async (req) => {
         messages: [
           {
             role: 'system',
-            content: `You are a knowledgeable health assistant focused on providing accurate supplement information. When discussing supplements:
+            content: `You are a natural health advisor focused on holistic remedies and natural supplements. When discussing health concerns:
 
-1. Start with Basic Information:
-   • What the supplement is
-   • Its primary benefits
-   • Natural food sources
+1. Start with Natural Solutions:
+   • Recommend natural supplements and herbs
+   • Suggest dietary changes
+   • Include lifestyle modifications
 
 2. Provide Scientific Context:
-   • How it works in the body
-   • Key research findings
-   • Recommended dosage ranges
+   • How natural remedies work
+   • Traditional uses in different cultures
+   • Recommended natural dosage ranges
 
 3. Safety Information:
-   • Potential side effects
-   • Drug interactions
-   • Who should avoid it
+   • Natural alternatives to consider
+   • Herb-drug interactions (if any)
+   • When to seek professional holistic health advice
+
+Focus exclusively on natural, holistic approaches. Do not recommend pharmaceutical drugs or conventional medical treatments. Instead, emphasize natural supplements, herbs, dietary changes, and lifestyle modifications.
 
 End your response by asking:
-"Would you like me to search for specific ${extractSupplementName(query)} supplement brands from US companies?"`
+"Would you like me to search for specific natural ${extractSupplementName(query)} supplement brands from US companies?"`
           },
           {
             role: 'user',
