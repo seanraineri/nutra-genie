@@ -17,7 +17,7 @@ export const LandingHero = () => {
         </h1>
         <Link 
           to="/dashboard" 
-          className="text-muted-foreground hover:text-primary transition-colors"
+          className="text-muted-foreground hover:text-primary transition-colors cursor-pointer"
         >
           Open Dashboard
         </Link>
