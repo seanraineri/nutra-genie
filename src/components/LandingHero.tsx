@@ -7,6 +7,10 @@ export const LandingHero = () => {
   const navigate = useNavigate();
   const [showHowItWorks, setShowHowItWorks] = useState(false);
 
+  const handleDashboardClick = () => {
+    navigate("/dashboard");
+  };
+
   return (
     <>
       {/* Brand name and dashboard link */}
@@ -15,12 +19,13 @@ export const LandingHero = () => {
           Supplement<span className="text-primary">Scribe</span>
           <span className="text-sm sm:text-base text-muted-foreground">.ai</span>
         </h1>
-        <Link 
-          to="/dashboard" 
-          className="text-muted-foreground hover:text-primary transition-colors cursor-pointer"
+        <Button 
+          variant="ghost" 
+          onClick={handleDashboardClick}
+          className="text-muted-foreground hover:text-primary hover:bg-transparent"
         >
           Open Dashboard
-        </Link>
+        </Button>
       </div>
 
       {/* Main content with image */}
