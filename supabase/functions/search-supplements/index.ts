@@ -44,8 +44,14 @@ async function searchSupplementBrands(openai: OpenAI, supplementName: string) {
 2. One key advantage of this specific product
 3. One potential consideration
 4. Price in USD (approximate)
+5. Product URL (use Amazon.com URLs when possible)
 
-Limit to 3 top US-based recommendations. Format as a clear bullet list. Do not include any URLs or links.`
+Limit to 3 top US-based recommendations. Format each recommendation as:
+
+• [Brand Name - Product Name](product-url)
+  - Advantage: [key advantage]
+  - Consideration: [potential consideration]
+  - Price: $XX.XX`
         },
         {
           role: "user",
