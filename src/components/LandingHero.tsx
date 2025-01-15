@@ -26,7 +26,7 @@ export const LandingHero = () => {
       </div>
 
       {/* Main hero section */}
-      <div className="relative min-h-screen flex items-center justify-center px-4 pt-24 sm:pt-32">
+      <div className="relative min-h-screen flex items-center justify-center px-4 pt-16 sm:pt-24">
         <div className="w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Left column - Text content */}
           <div className="flex flex-col items-start space-y-8 animate-fade-in">
@@ -69,7 +69,7 @@ export const LandingHero = () => {
           </div>
 
           {/* Right column - Image */}
-          <div className="hidden lg:block relative h-[600px] animate-fade-in rounded-2xl overflow-hidden shadow-2xl">
+          <div className="hidden lg:block relative h-[600px] -mt-12 animate-fade-in rounded-2xl overflow-hidden shadow-2xl">
             <div className="absolute inset-0 bg-[#F2FCE2]/30"></div>
             <img
               src="/lovable-uploads/2f53b616-9c59-4de0-abb0-263c4a144685.png"
