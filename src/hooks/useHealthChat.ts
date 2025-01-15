@@ -14,7 +14,6 @@ export const useHealthChat = () => {
     content: "Hi! I'm your personal health assistant. How can I help!",
     timestamp: new Date().toISOString()
   }]);
-  const { processAIResponse } = useAIChat();
 
   const clearHistory = async () => {
     try {

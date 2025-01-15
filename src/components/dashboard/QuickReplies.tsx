@@ -3,7 +3,7 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { 
   Activity, 
   Search, 
-  Pills, 
+  Pill, 
   BookOpen, 
   LineChart, 
   Target, 
@@ -30,7 +30,7 @@ interface QuickRepliesProps {
 
 const categoryIcons: Record<string, LucideIcon> = {
   analysis: Activity,
-  supplements: Pills,
+  supplements: Pill,
   education: BookOpen,
   search: Search,
   progress: LineChart,
