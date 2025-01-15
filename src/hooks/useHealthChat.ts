@@ -15,6 +15,8 @@ export const useHealthChat = () => {
     timestamp: new Date().toISOString()
   }]);
 
+  const { processAIResponse } = useAIChat();
+
   const clearHistory = async () => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
