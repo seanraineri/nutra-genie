@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { ChatMessage } from "@/types/chat";
 import { useAIChat } from "./useAIChat";
 import { fetchChatHistory, persistMessage } from "@/api/chatApi";
@@ -11,23 +11,46 @@ export const useHealthChat = () => {
   const [isTyping, setIsTyping] = useState(false);
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([{
     role: "assistant",
-    content: "Hi! I'm your personal health assistant. How can I help!"
+    content: "Hi! I'm your personal health assistant. How can I help!",
+    timestamp: new Date().toISOString()
   }]);
   const { processAIResponse } = useAIChat();
 
-  useEffect(() => {
-    // Initialize with just the welcome message, don't fetch history
-    setChatHistory([{
-      role: "assistant",
-      content: "Hi! I'm your personal health assistant. How can I help!"
-    }]);
-  }, []);
+  const clearHistory = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("Not authenticated");
+
+      // Delete chat history from the database
+      const { error } = await supabase
+        .from('chat_history')
+        .delete()
+        .eq('user_id', user.id);
+
+      if (error) throw error;
+
+      // Reset chat history to initial state
+      setChatHistory([{
+        role: "assistant",
+        content: "Hi! I'm your personal health assistant. How can I help!",
+        timestamp: new Date().toISOString()
+      }]);
+
+    } catch (error: any) {
+      console.error('Failed to clear chat history:', error);
+      throw error;
+    }
+  };
 
   const handleSendMessage = async (message: string) => {
     if (!message.trim()) return;
     
     setIsLoading(true);
-    const userMessage: ChatMessage = { role: "user", content: message };
+    const userMessage: ChatMessage = { 
+      role: "user", 
+      content: message,
+      timestamp: new Date().toISOString()
+    };
     setChatHistory(prev => [...prev, userMessage]);
 
     try {
@@ -45,7 +68,11 @@ export const useHealthChat = () => {
       // Process AI response with streaming
       const response = await processAIResponse(message, user.id);
       
-      const assistantMessage: ChatMessage = { role: "assistant", content: response };
+      const assistantMessage: ChatMessage = { 
+        role: "assistant", 
+        content: response,
+        timestamp: new Date().toISOString()
+      };
       // Persist assistant message in background
       persistMessage(assistantMessage).catch(console.error);
       
@@ -62,7 +89,8 @@ export const useHealthChat = () => {
       
       const errorMessage: ChatMessage = { 
         role: "assistant", 
-        content: "I apologize, but I'm having trouble accessing the information right now. Please try asking your question again in a moment."
+        content: "I apologize, but I'm having trouble accessing the information right now. Please try asking your question again in a moment.",
+        timestamp: new Date().toISOString()
       };
       setChatHistory(prev => [...prev, errorMessage]);
     } finally {
@@ -75,6 +103,7 @@ export const useHealthChat = () => {
     chatHistory,
     isLoading,
     isTyping,
-    handleSendMessage
+    handleSendMessage,
+    clearHistory
   };
 };

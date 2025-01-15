@@ -1,9 +1,13 @@
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { format } from "date-fns";
+
 interface ChatMessageProps {
   role: "user" | "assistant";
   content: string;
+  timestamp: string;
 }
 
-export const ChatMessage = ({ role, content }: ChatMessageProps) => {
+export const ChatMessage = ({ role, content, timestamp }: ChatMessageProps) => {
   const cleanMarkdown = (text: string) => {
     return text
       .replace(/#{1,6}\s/g, '')
@@ -25,7 +29,6 @@ export const ChatMessage = ({ role, content }: ChatMessageProps) => {
       return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-primary underline hover:text-primary/80 transition-colors">${linkText.trim()}</a>`;
     });
     
-    // Convert plain URLs to clickable links if they're not already part of a markdown link
     processedText = processedText.replace(urlPattern, (url) => {
       if (!url.includes('</a>')) {
         return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-primary underline hover:text-primary/80 transition-colors">${url}</a>`;
@@ -65,17 +68,39 @@ export const ChatMessage = ({ role, content }: ChatMessageProps) => {
 
   return (
     <div 
-      className={`flex ${role === "user" ? "justify-end" : "justify-start"} mb-4 animate-fade-in`}
+      className={`flex ${role === "user" ? "justify-end" : "justify-start"} mb-4 animate-fade-in group`}
     >
-      <div
-        className={`max-w-[90%] rounded-lg p-4 shadow-sm ${
-          role === "user"
-            ? "bg-primary text-primary-foreground ml-12"
-            : "bg-card border border-border/50 mr-12"
-        }`}
-      >
-        <div className="prose prose-sm dark:prose-invert">
-          {formatContent(content)}
+      <div className={`flex gap-3 max-w-[90%] ${role === "user" ? "flex-row-reverse" : "flex-row"}`}>
+        <Avatar className="h-8 w-8 shrink-0">
+          {role === "user" ? (
+            <>
+              <AvatarImage src="/placeholder.svg" />
+              <AvatarFallback>U</AvatarFallback>
+            </>
+          ) : (
+            <>
+              <AvatarImage src="/lovable-uploads/2f53b616-9c59-4de0-abb0-263c4a144685.png" />
+              <AvatarFallback>AI</AvatarFallback>
+            </>
+          )}
+        </Avatar>
+        <div>
+          <div
+            className={`rounded-lg p-4 shadow-sm ${
+              role === "user"
+                ? "bg-primary text-primary-foreground"
+                : "bg-card border border-border/50"
+            }`}
+          >
+            <div className="prose prose-sm dark:prose-invert">
+              {formatContent(content)}
+            </div>
+          </div>
+          <div className="px-4 mt-1">
+            <span className="text-xs text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity">
+              {format(new Date(timestamp), "h:mm a")}
+            </span>
+          </div>
         </div>
       </div>
     </div>
