@@ -17,9 +17,23 @@ export const ChatMessage = ({ role, content }: ChatMessageProps) => {
   const createClickableLinks = (text: string) => {
     // Handle markdown-style links [text](url)
     const markdownLinkPattern = /\[(.*?)\]\((.*?)\)/g;
-    return text.replace(markdownLinkPattern, (match, linkText, url) => {
+    
+    // Handle plain URLs
+    const urlPattern = /(https?:\/\/[^\s]+)/g;
+    
+    let processedText = text.replace(markdownLinkPattern, (match, linkText, url) => {
       return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-primary underline hover:text-primary/80 transition-colors">${linkText.trim()}</a>`;
     });
+    
+    // Convert plain URLs to clickable links if they're not already part of a markdown link
+    processedText = processedText.replace(urlPattern, (url) => {
+      if (!url.includes('</a>')) {
+        return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-primary underline hover:text-primary/80 transition-colors">${url}</a>`;
+      }
+      return url;
+    });
+    
+    return processedText;
   };
 
   const formatContent = (text: string) => {
