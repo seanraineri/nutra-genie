@@ -23,7 +23,10 @@ const ContentPage = () => {
         </div>
 
         <div className="space-y-6">
-          <h1 className="text-3xl font-bold text-secondary">Educational Content</h1>
+          <div className="flex items-center justify-between">
+            <h1 className="text-3xl font-bold text-secondary">Educational Content</h1>
+            <Button variant="outline">View All Blog Posts</Button>
+          </div>
           
           <Tabs defaultValue="blogs" className="w-full">
             <TabsList className="grid w-full max-w-[400px]">
