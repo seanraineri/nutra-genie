@@ -8,6 +8,7 @@ import FAQPage from "@/pages/FAQPage";
 import PaymentPage from "@/pages/PaymentPage";
 import WorkWithUsPage from "@/pages/WorkWithUsPage";
 import FamilyPlanPage from "@/pages/FamilyPlanPage";
+import ContentPage from "@/pages/ContentPage";
 import { Toaster } from "@/components/ui/toaster";
 import { AuthWrapper } from "@/components/AuthWrapper";
 
@@ -24,6 +25,7 @@ function App() {
         <Route path="/payment" element={<PaymentPage />} />
         <Route path="/work-with-us" element={<WorkWithUsPage />} />
         <Route path="/family-plan" element={<FamilyPlanPage />} />
+        <Route path="/content" element={<ContentPage />} />
       </Routes>
       <Toaster />
     </Router>
