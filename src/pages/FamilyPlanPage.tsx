@@ -1,4 +1,3 @@
-import { HealthDataForm } from "@/components/HealthDataForm";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, Plus, Trash2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -41,6 +40,12 @@ const FamilyPlanPage = () => {
     setFamilyMembers(familyMembers.map(member => 
       member.id === id ? { ...member, [field]: value } : member
     ));
+  };
+
+  const handleContinueToPayment = () => {
+    // Get the primary member's email (first family member)
+    const primaryEmail = familyMembers[0].email;
+    navigate(`/payment?email=${encodeURIComponent(primaryEmail)}&plan=family`);
   };
 
   return (
@@ -136,12 +141,9 @@ const FamilyPlanPage = () => {
           <Button 
             className="w-full mt-8"
             size="lg"
-            onClick={() => {
-              // Handle form submission
-              console.log('Family members:', familyMembers);
-            }}
+            onClick={handleContinueToPayment}
           >
-            Continue to Health Information
+            Continue to Payment
           </Button>
         </div>
       </div>
