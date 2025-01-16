@@ -9,6 +9,7 @@ import { Form } from "@/components/ui/form";
 import { PersonalInfoInputs } from "./health-form/PersonalInfoInputs";
 import { HealthMetricsInputs } from "./health-form/HealthMetricsInputs";
 import { TestInformationInputs } from "./health-form/TestInformationInputs";
+import { BiomarkerInputs } from "./health-form/BiomarkerInputs";
 import { HealthGoalsInput } from "./health-form/HealthGoalsInput";
 import { FormSection } from "./health-form/FormSection";
 import { HealthFormData } from "@/types/health-form";
@@ -132,6 +133,12 @@ export const HealthDataForm = ({ isFamilyPlan = false }: HealthDataFormProps) =>
             <TestInformationInputs 
               formData={form.getValues() as HealthFormData}
               onTestChange={(field, value) => form.setValue(field, value)}
+            />
+            <BiomarkerInputs 
+              onChange={(biomarkers) => {
+                console.log("Biomarkers updated:", biomarkers);
+                // You can store this in form state if needed
+              }}
             />
           </FormSection>
 
