@@ -42,31 +42,33 @@ export const BiomarkerInputs = ({ onChange }: BiomarkerInputsProps) => {
       <div className="text-center text-sm text-muted-foreground">Or</div>
       <Label>Upload Biomarkers you are concerned with</Label>
       {biomarkers.map((biomarker, index) => (
-        <div key={index} className="flex gap-4">
-          <div className="flex-1">
+        <div key={index} className="grid grid-cols-[1fr_1fr_auto] gap-4">
+          <div>
             <Input
               placeholder="Biomarker name (e.g., Vitamin D)"
               value={biomarker.name}
               onChange={(e) => handleBiomarkerChange(index, "name", e.target.value)}
             />
           </div>
-          <div className="flex-1">
+          <div>
             <Input
               placeholder="Value"
               value={biomarker.value}
               onChange={(e) => handleBiomarkerChange(index, "value", e.target.value)}
             />
           </div>
-          {index > 0 && (
-            <Button
-              type="button"
-              variant="ghost"
-              size="icon"
-              onClick={() => handleRemoveBiomarker(index)}
-            >
-              <Trash2 className="h-4 w-4" />
-            </Button>
-          )}
+          <div className="w-10">
+            {index > 0 && (
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                onClick={() => handleRemoveBiomarker(index)}
+              >
+                <Trash2 className="h-4 w-4" />
+              </Button>
+            )}
+          </div>
         </div>
       ))}
       <Button
