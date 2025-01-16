@@ -1,9 +1,10 @@
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, Plus, Trash2 } from "lucide-react";
+import { ChevronLeft, Plus, Trash2, HelpCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 
 interface FamilyMember {
   id: string;
@@ -64,7 +65,21 @@ const FamilyPlanPage = () => {
         </div>
         
         <div className="max-w-2xl mx-auto mb-8">
-          <h1 className="text-3xl font-bold text-center mb-4">Family Health Plan</h1>
+          <div className="flex items-center justify-center gap-2 mb-4">
+            <h1 className="text-3xl font-bold text-center">Family Health Plan</h1>
+            <HoverCard>
+              <HoverCardTrigger asChild>
+                <Button variant="ghost" size="icon" className="rounded-full">
+                  <HelpCircle className="h-5 w-5 text-muted-foreground" />
+                </Button>
+              </HoverCardTrigger>
+              <HoverCardContent className="w-80 p-4">
+                <p className="text-sm">
+                  After you input your health metrics, invite at least two other family members to join and pay at a new rate of $15/month for each member. They will get a sign up confirmation link after payment.
+                </p>
+              </HoverCardContent>
+            </HoverCard>
+          </div>
           <p className="text-center text-muted-foreground mb-8">
             Bring Wellness to your Whole Family!
           </p>
