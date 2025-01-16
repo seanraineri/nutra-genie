@@ -31,14 +31,12 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Progress } from "@/components/ui/progress";
 
 export const HealthDataForm = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [formProgress, setFormProgress] = useState(0);
 
   const form = useForm<HealthFormSchemaType>({
     resolver: zodResolver(healthFormSchema),
@@ -61,19 +59,6 @@ export const HealthDataForm = () => {
       healthGoals: "",
       monthlyBudget: "",
     },
-  });
-
-  // Calculate form progress based on valid fields
-  const calculateProgress = () => {
-    const fields = Object.keys(form.formState.dirtyFields);
-    const validFields = fields.filter(field => !form.formState.errors[field]);
-    const progress = (validFields.length / fields.length) * 100;
-    setFormProgress(Math.round(progress));
-  };
-
-  // Update progress when form changes
-  form.watch(() => {
-    calculateProgress();
   });
 
   const onSubmit = async (data: HealthFormSchemaType) => {
@@ -113,13 +98,7 @@ export const HealthDataForm = () => {
   return (
     <Card className="w-full max-w-2xl mx-auto p-6 animate-fade-in space-y-6">
       <div className="space-y-2">
-        <div className="flex items-center justify-between">
-          <h2 className="text-2xl font-semibold text-secondary">Create Your Account</h2>
-          <span className="text-sm text-muted-foreground">
-            {formProgress}% Complete
-          </span>
-        </div>
-        <Progress value={formProgress} className="h-2" />
+        <h2 className="text-2xl font-semibold text-secondary">Create Your Account</h2>
       </div>
 
       <Form {...form}>
@@ -223,13 +202,11 @@ export const HealthDataForm = () => {
                 <Loader2 className="h-4 w-4 animate-spin" />
                 Processing...
               </div>
-            ) : formProgress === 100 ? (
+            ) : (
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="h-4 w-4" />
                 Continue to Payment
               </div>
-            ) : (
-              "Complete Form to Continue"
             )}
           </Button>
         </form>
