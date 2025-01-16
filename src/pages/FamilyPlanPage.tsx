@@ -66,7 +66,7 @@ const FamilyPlanPage = () => {
         <div className="max-w-2xl mx-auto mb-8">
           <h1 className="text-3xl font-bold text-center mb-4">Family Health Plan</h1>
           <p className="text-center text-muted-foreground mb-8">
-            Register your family members and manage everyone's health in one place.
+            Bring Wellness to your Whole Family!
           </p>
 
           <div className="space-y-6">
