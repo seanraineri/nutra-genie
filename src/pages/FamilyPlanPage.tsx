@@ -69,7 +69,7 @@ const FamilyPlanPage = () => {
             <h1 className="text-3xl font-bold text-center">Family Health Plan</h1>
             <HoverCard>
               <HoverCardTrigger asChild>
-                <Button variant="ghost" size="icon" className="rounded-full">
+                <Button variant="secondary" size="icon" className="rounded-full">
                   <HelpCircle className="h-5 w-5 text-muted-foreground" />
                 </Button>
               </HoverCardTrigger>
