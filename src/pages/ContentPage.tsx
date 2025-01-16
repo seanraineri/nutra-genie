@@ -29,9 +29,9 @@ const ContentPage = () => {
           </div>
           
           <Tabs defaultValue="blogs" className="w-full">
-            <TabsList className="grid w-full max-w-[400px]">
-              <TabsTrigger value="blogs">Blog Posts</TabsTrigger>
-              <TabsTrigger value="videos">Videos</TabsTrigger>
+            <TabsList className="inline-flex h-10 items-center justify-center rounded-md bg-muted p-1">
+              <TabsTrigger value="blogs" className="flex-1">Blog Posts</TabsTrigger>
+              <TabsTrigger value="videos" className="flex-1">Videos</TabsTrigger>
             </TabsList>
             
             <TabsContent value="blogs" className="mt-6">
