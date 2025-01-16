@@ -69,11 +69,11 @@ const FamilyPlanPage = () => {
             <h1 className="text-3xl font-bold text-center">Family Health Plan</h1>
             <HoverCard>
               <HoverCardTrigger asChild>
-                <Button variant="secondary" size="icon" className="rounded-full">
+                <Button variant="ghost" size="icon" className="rounded-full">
                   <HelpCircle className="h-5 w-5 text-muted-foreground" />
                 </Button>
               </HoverCardTrigger>
-              <HoverCardContent className="w-80 p-4">
+              <HoverCardContent className="w-80 p-4 bg-secondary text-secondary-foreground">
                 <p className="text-sm">
                   After you input your health metrics, invite at least two other family members to join and pay at a new rate of $15/month for each member. They will get a sign up confirmation link after payment.
                 </p>
