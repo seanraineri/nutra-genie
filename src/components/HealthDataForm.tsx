@@ -16,7 +16,7 @@ import { useToast } from "@/hooks/use-toast";
 import { submitHealthFormData } from "@/utils/healthFormSubmission";
 import { healthFormSchema } from "@/schemas/healthFormSchema";
 import type { HealthFormSchemaType } from "@/schemas/healthFormSchema";
-import { Loader2, CheckCircle2 } from "lucide-react";
+import { Loader2, CheckCircle2, Users } from "lucide-react";
 import { Input } from "./ui/input";
 import {
   FormControl,
@@ -32,7 +32,11 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-export const HealthDataForm = () => {
+interface HealthDataFormProps {
+  isFamilyPlan?: boolean;
+}
+
+export const HealthDataForm = ({ isFamilyPlan = false }: HealthDataFormProps) => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [acceptedTerms, setAcceptedTerms] = useState(false);
@@ -98,7 +102,9 @@ export const HealthDataForm = () => {
   return (
     <Card className="w-full max-w-2xl mx-auto p-6 animate-fade-in space-y-6">
       <div className="space-y-2">
-        <h2 className="text-2xl font-semibold text-secondary">Create Your Account</h2>
+        <h2 className="text-2xl font-semibold text-secondary">
+          {isFamilyPlan ? "Create Family Account" : "Create Your Account"}
+        </h2>
       </div>
 
       <Form {...form}>
@@ -174,22 +180,36 @@ export const HealthDataForm = () => {
             </FormSection>
           </TooltipProvider>
 
-          <div className="flex items-center space-x-2">
-            <Checkbox
-              id="terms"
-              checked={acceptedTerms}
-              onCheckedChange={(checked) => setAcceptedTerms(checked as boolean)}
-              className="data-[state=checked]:bg-primary"
-            />
-            <label
-              htmlFor="terms"
-              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-            >
-              I accept the{" "}
-              <a href="/terms" className="text-primary hover:underline">
-                terms and conditions
-              </a>
-            </label>
+          <div className="flex flex-col space-y-4">
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="terms"
+                checked={acceptedTerms}
+                onCheckedChange={(checked) => setAcceptedTerms(checked as boolean)}
+                className="data-[state=checked]:bg-primary"
+              />
+              <label
+                htmlFor="terms"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                I accept the{" "}
+                <a href="/terms" className="text-primary hover:underline">
+                  terms and conditions
+                </a>
+              </label>
+            </div>
+
+            {!isFamilyPlan && (
+              <Button
+                type="button"
+                variant="outline"
+                className="flex items-center gap-2"
+                onClick={() => navigate('/family-plan')}
+              >
+                <Users className="h-4 w-4" />
+                Want to help your family too?
+              </Button>
+            )}
           </div>
 
           <Button

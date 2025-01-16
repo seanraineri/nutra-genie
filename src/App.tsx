@@ -7,6 +7,7 @@ import AboutPage from "@/pages/AboutPage";
 import FAQPage from "@/pages/FAQPage";
 import PaymentPage from "@/pages/PaymentPage";
 import WorkWithUsPage from "@/pages/WorkWithUsPage";
+import FamilyPlanPage from "@/pages/FamilyPlanPage";
 import { Toaster } from "@/components/ui/toaster";
 import { AuthWrapper } from "@/components/AuthWrapper";
 
@@ -22,6 +23,7 @@ function App() {
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/payment" element={<PaymentPage />} />
         <Route path="/work-with-us" element={<WorkWithUsPage />} />
+        <Route path="/family-plan" element={<FamilyPlanPage />} />
       </Routes>
       <Toaster />
     </Router>
