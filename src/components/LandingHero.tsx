@@ -16,9 +16,9 @@ export const LandingHero = () => {
     <>
       {/* Navigation bar with logo */}
       <div className="fixed top-0 left-0 right-0 bg-white/80 backdrop-blur-sm z-10 border-b">
-        <div className="max-w-7xl mx-auto px-0 sm:px-2 lg:px-4">
-          <div className="flex justify-between items-center h-16">
-            <h1 className="text-2xl sm:text-3xl font-bold pl-1">
+        <div className="w-full px-0">
+          <div className="flex justify-between items-center h-16 px-2">
+            <h1 className="text-2xl sm:text-3xl font-bold">
               Supplement<span className="text-[#3498DB]">Scribe</span>
               <span className="text-sm sm:text-base text-muted-foreground">.ai</span>
             </h1>
