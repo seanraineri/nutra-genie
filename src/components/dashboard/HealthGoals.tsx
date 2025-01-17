@@ -156,7 +156,7 @@ export const HealthGoals = () => {
                 <HelpCircle className="h-4 w-4" />
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="max-w-[300px] text-sm">
+            <PopoverContent className="max-w-[300px] text-sm bg-card text-card-foreground shadow-md border">
               Track your progress towards your goals and receive weekly recaps for completing your journal everyday
             </PopoverContent>
           </Popover>
