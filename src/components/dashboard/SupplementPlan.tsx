@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Share } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Supplement } from "@/types/supplements";
 import { SupplementsGrid } from "./supplements/SupplementsGrid";
+import { useToast } from "@/components/ui/use-toast";
 
 export const SupplementPlan = () => {
   const [recommendations, setRecommendations] = useState<Supplement[]>([]);
+  const { toast } = useToast();
 
   useEffect(() => {
     const fetchSupplements = async () => {
@@ -48,9 +52,36 @@ export const SupplementPlan = () => {
     };
   }, []);
 
+  const handleShare = async () => {
+    try {
+      await navigator.share({
+        title: 'My Supplement Plan',
+        text: 'Check out my personalized supplement plan!',
+        url: window.location.href
+      });
+    } catch (error) {
+      console.error('Error sharing:', error);
+      toast({
+        title: "Sharing not supported",
+        description: "Your browser doesn't support sharing functionality.",
+        variant: "destructive"
+      });
+    }
+  };
+
   return (
     <Card className="p-6">
-      <h2 className="text-xl font-semibold mb-4">Personalized Supplement Plan</h2>
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-xl font-semibold">Personalized Supplement Plan</h2>
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={handleShare}
+          className="text-muted-foreground hover:text-foreground"
+        >
+          <Share className="h-4 w-4" />
+        </Button>
+      </div>
       <SupplementsGrid recommendations={recommendations} />
     </Card>
   );
