@@ -1,6 +1,6 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
 import { PersonalInfoSection } from "./metrics/PersonalInfoSection";
 import { HealthStatusSection } from "./metrics/HealthStatusSection";
@@ -29,25 +29,12 @@ export const HealthMetrics = () => {
     });
   };
 
-  const handleReferFriend = async () => {
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: 'Join me on Health Dashboard',
-          text: 'I\'ve been using this great health tracking app. Join me!',
-          url: window.location.origin
-        });
-      } catch (error) {
-        console.log('Error sharing:', error);
-      }
-    } else {
-      // Fallback for browsers that don't support the Web Share API
-      navigator.clipboard.writeText(window.location.origin);
-      toast({
-        title: "Link copied to clipboard",
-        description: "Share this link with your friends to invite them!",
-      });
-    }
+  const handleReferFriend = () => {
+    // This will be implemented later to generate unique referral links
+    toast({
+      title: "Coming Soon",
+      description: "The referral system will be available soon!",
+    });
   };
 
   return (
