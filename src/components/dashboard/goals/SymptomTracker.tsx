@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -14,10 +13,20 @@ import {
 } from "@/components/ui/select";
 
 export const SymptomTracker = () => {
-  const [symptom, setSymptom] = useState("");
-  const [severity, setSeverity] = useState("");
+  const [wellnessType, setWellnessType] = useState("");
+  const [rating, setRating] = useState("");
   const [notes, setNotes] = useState("");
   const { toast } = useToast();
+
+  const wellnessTypes = [
+    "Energy Level",
+    "Mental Clarity",
+    "Physical Activity",
+    "Sleep Quality",
+    "Mood",
+    "Digestion",
+    "Overall Wellness"
+  ];
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,27 +35,27 @@ export const SymptomTracker = () => {
       const { error } = await supabase
         .from('symptom_tracking')
         .insert({
-          symptom,
-          severity: parseInt(severity),
+          symptom: wellnessType,
+          severity: parseInt(rating),
           notes
         });
 
       if (error) throw error;
 
       toast({
-        title: "Symptom tracked",
-        description: "Your symptom has been recorded successfully.",
+        title: "Wellness tracked",
+        description: "Your wellness entry has been recorded successfully.",
       });
 
       // Reset form
-      setSymptom("");
-      setSeverity("");
+      setWellnessType("");
+      setRating("");
       setNotes("");
     } catch (error) {
-      console.error('Error tracking symptom:', error);
+      console.error('Error tracking wellness:', error);
       toast({
         title: "Error",
-        description: "Failed to track symptom. Please try again.",
+        description: "Failed to save wellness entry. Please try again.",
         variant: "destructive",
       });
     }
@@ -54,43 +63,58 @@ export const SymptomTracker = () => {
 
   return (
     <Card className="p-4">
-      <h3 className="text-lg font-semibold mb-4">Daily Symptom Tracker</h3>
+      <h3 className="text-lg font-semibold mb-4">Daily Wellness Journal</h3>
+      <p className="text-muted-foreground text-sm mb-4">
+        Track your daily wellness journey and celebrate your progress
+      </p>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <Input
-            placeholder="Enter symptom (e.g., headache, fatigue)"
-            value={symptom}
-            onChange={(e) => setSymptom(e.target.value)}
-            required
-          />
-        </div>
-        <div>
           <Select
-            value={severity}
-            onValueChange={setSeverity}
+            value={wellnessType}
+            onValueChange={setWellnessType}
           >
             <SelectTrigger>
-              <SelectValue placeholder="Select severity (0-10)" />
+              <SelectValue placeholder="What would you like to track?" />
             </SelectTrigger>
             <SelectContent>
-              {[...Array(11)].map((_, i) => (
-                <SelectItem key={i} value={i.toString()}>
-                  {i} - {i === 0 ? "None" : i === 10 ? "Severe" : ""}
+              {wellnessTypes.map((type) => (
+                <SelectItem key={type} value={type}>
+                  {type}
                 </SelectItem>
               ))}
             </SelectContent>
           </Select>
         </div>
         <div>
+          <Select
+            value={rating}
+            onValueChange={setRating}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="How are you feeling? (1-10)" />
+            </SelectTrigger>
+            <SelectContent>
+              {[...Array(10)].map((_, i) => {
+                const value = i + 1;
+                return (
+                  <SelectItem key={value} value={value.toString()}>
+                    {value} - {value <= 3 ? "Needs Attention" : value <= 6 ? "Good" : "Excellent!"}
+                  </SelectItem>
+                );
+              })}
+            </SelectContent>
+          </Select>
+        </div>
+        <div>
           <Textarea
-            placeholder="Additional notes (optional)"
+            placeholder="Share your wellness journey... What's working well? What makes you feel energized today?"
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
             className="min-h-[100px]"
           />
         </div>
-        <Button type="submit" className="w-full">
-          Track Symptom
+        <Button type="submit" className="w-full bg-primary hover:bg-primary/90">
+          Record Wellness Entry
         </Button>
       </form>
     </Card>
