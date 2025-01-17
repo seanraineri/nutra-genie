@@ -17,16 +17,16 @@ const RewardsPage = () => {
 
       <div className="max-w-4xl mx-auto">
         <div className="flex items-center gap-3 mb-2">
-          <Gift className="h-8 w-8 text-[#3498DB]" />
-          <h1 className="text-4xl font-bold text-gray-900">Rewards Program</h1>
+          <Gift className="h-6 w-6 text-[#3498DB]" />
+          <h1 className="text-3xl font-bold text-gray-900">Rewards Program</h1>
         </div>
-        <p className="text-gray-600 text-lg mb-8 ml-11">
+        <p className="text-gray-600 text-base mb-8 ml-9">
           We really want to get as many people healthy as possible and feel good, help us help you!
         </p>
 
         <div className="space-y-8">
           <section className="bg-white rounded-lg shadow-lg p-6">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-6">Referral Program</h2>
+            <h2 className="text-xl font-semibold text-gray-800 mb-6">Referral Program</h2>
             <div className="space-y-6">
               <div className="grid gap-6">
                 {[
@@ -38,23 +38,23 @@ const RewardsPage = () => {
                 ].map((tier, index) => (
                   <div
                     key={index}
-                    className="border rounded-lg p-6 bg-white shadow-sm hover:shadow-md transition-shadow"
+                    className="border rounded-lg p-4 bg-white shadow-sm hover:shadow-md transition-shadow"
                   >
                     <div className="flex items-center justify-between">
                       <div>
-                        <h3 className="text-xl font-semibold text-gray-800">
+                        <h3 className="text-base font-semibold text-gray-800">
                           {tier.referrals} Referrals
                         </h3>
-                        <p className="text-lg text-[#3498DB] mt-2 font-medium">
+                        <p className="text-base text-[#3498DB] mt-1 font-medium">
                           {tier.reward}
                         </p>
                       </div>
-                      <div className="h-12 w-12 bg-blue-50 rounded-full flex items-center justify-center">
-                        <span className="text-[#3498DB] font-bold">{tier.referrals}</span>
+                      <div className="h-10 w-10 bg-blue-50 rounded-full flex items-center justify-center">
+                        <span className="text-[#3498DB] font-bold text-sm">{tier.referrals}</span>
                       </div>
                     </div>
                     {tier.referrals === 25 && (
-                      <p className="text-gray-600 mt-2 text-sm">
+                      <p className="text-gray-600 mt-2 text-xs">
                         Earn 20% of the revenue from each member you refer
                       </p>
                     )}
