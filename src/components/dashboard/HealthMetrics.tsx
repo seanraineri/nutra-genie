@@ -6,6 +6,7 @@ import { PersonalInfoSection } from "./metrics/PersonalInfoSection";
 import { HealthStatusSection } from "./metrics/HealthStatusSection";
 import { VitaminMetricsSection } from "./metrics/VitaminMetricsSection";
 import { LabTestsSection } from "./metrics/LabTestsSection";
+import { Share2 } from "lucide-react";
 
 export const HealthMetrics = () => {
   const { toast } = useToast();
@@ -28,6 +29,27 @@ export const HealthMetrics = () => {
     });
   };
 
+  const handleReferFriend = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: 'Join me on Health Dashboard',
+          text: 'I\'ve been using this great health tracking app. Join me!',
+          url: window.location.origin
+        });
+      } catch (error) {
+        console.log('Error sharing:', error);
+      }
+    } else {
+      // Fallback for browsers that don't support the Web Share API
+      navigator.clipboard.writeText(window.location.origin);
+      toast({
+        title: "Link copied to clipboard",
+        description: "Share this link with your friends to invite them!",
+      });
+    }
+  };
+
   return (
     <Card className="p-4 md:p-6 h-[calc(100vh-12rem)] overflow-y-auto">
       <div className="space-y-6">
@@ -38,12 +60,22 @@ export const HealthMetrics = () => {
               Here's an overview of your health metrics and goals.
             </p>
           </div>
-          <Button
-            variant="outline"
-            onClick={() => (isEditing ? handleSave() : setIsEditing(true))}
-          >
-            {isEditing ? "Save Changes" : "Edit Information"}
-          </Button>
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              onClick={() => (isEditing ? handleSave() : setIsEditing(true))}
+            >
+              {isEditing ? "Save Changes" : "Edit Information"}
+            </Button>
+            <Button
+              variant="outline"
+              onClick={handleReferFriend}
+              className="gap-2"
+            >
+              <Share2 className="h-4 w-4" />
+              Refer a Friend
+            </Button>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
