@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, Plus, HelpCircle } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { Plus, HelpCircle } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -24,7 +23,6 @@ export const HealthGoals = () => {
   const [goals, setGoals] = useState<Goal[]>([]);
   const [isEditing, setIsEditing] = useState(false);
   const { toast } = useToast();
-  const navigate = useNavigate();
 
   const fetchGoals = async () => {
     const { data: { user } } = await supabase.auth.getUser();
@@ -136,15 +134,6 @@ export const HealthGoals = () => {
     <Card className="p-6">
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-2 md:gap-4">
-          <Button
-            variant="ghost"
-            size="sm"
-            className="shrink-0"
-            onClick={() => navigate("/")}
-          >
-            <ChevronLeft className="mr-2 h-4 w-4" />
-            Back
-          </Button>
           <h2 className="text-xl font-semibold">Health Goals</h2>
           <Popover>
             <PopoverTrigger asChild>
