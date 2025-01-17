@@ -23,29 +23,40 @@ const RewardsPage = () => {
 
         <div className="space-y-8">
           <section className="bg-white rounded-lg shadow-lg p-6">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-4">How It Works</h2>
-            <p className="text-gray-600 mb-4">
-              Earn points for every action you take to improve your health journey with SupplementScribe.ai.
-              Redeem your points for exclusive rewards, discounts on supplements, and premium features.
-            </p>
-            <div className="grid md:grid-cols-2 gap-6 mt-6">
-              <div className="border rounded-lg p-4">
-                <h3 className="font-semibold text-lg mb-2">Earn Points</h3>
-                <ul className="space-y-2 text-gray-600">
-                  <li>• Complete your health profile: 500 points</li>
-                  <li>• Upload lab results: 300 points</li>
-                  <li>• Achieve health goals: 200 points</li>
-                  <li>• Monthly check-ins: 100 points</li>
-                </ul>
-              </div>
-              <div className="border rounded-lg p-4">
-                <h3 className="font-semibold text-lg mb-2">Redeem Rewards</h3>
-                <ul className="space-y-2 text-gray-600">
-                  <li>• 10% off supplements: 1000 points</li>
-                  <li>• Premium consultation: 2000 points</li>
-                  <li>• Custom meal plan: 1500 points</li>
-                  <li>• Health coaching session: 3000 points</li>
-                </ul>
+            <h2 className="text-2xl font-semibold text-gray-800 mb-6">Referral Program</h2>
+            <div className="space-y-6">
+              <div className="grid gap-6">
+                {[
+                  { referrals: 5, reward: "1 Month Free" },
+                  { referrals: 10, reward: "3 Months Free" },
+                  { referrals: 15, reward: "1 Year Free" },
+                  { referrals: 20, reward: "Lifetime Free" },
+                  { referrals: 25, reward: "Lifetime Free + 20% Revenue Share" },
+                ].map((tier, index) => (
+                  <div
+                    key={index}
+                    className="border rounded-lg p-6 bg-white shadow-sm hover:shadow-md transition-shadow"
+                  >
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <h3 className="text-xl font-semibold text-gray-800">
+                          {tier.referrals} Referrals
+                        </h3>
+                        <p className="text-lg text-[#3498DB] mt-2 font-medium">
+                          {tier.reward}
+                        </p>
+                      </div>
+                      <div className="h-12 w-12 bg-blue-50 rounded-full flex items-center justify-center">
+                        <span className="text-[#3498DB] font-bold">{tier.referrals}</span>
+                      </div>
+                    </div>
+                    {tier.referrals === 25 && (
+                      <p className="text-gray-600 mt-2 text-sm">
+                        Earn 20% of the revenue from each member you refer
+                      </p>
+                    )}
+                  </div>
+                ))}
               </div>
             </div>
           </section>
