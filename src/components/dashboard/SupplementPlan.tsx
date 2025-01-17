@@ -74,12 +74,13 @@ export const SupplementPlan = () => {
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-semibold">Personalized Supplement Plan</h2>
         <Button
-          variant="ghost"
+          variant="outline"
           size="sm"
           onClick={handleShare}
-          className="text-muted-foreground hover:text-foreground"
+          className="gap-2"
         >
           <Share className="h-4 w-4" />
+          Share Plan
         </Button>
       </div>
       <SupplementsGrid recommendations={recommendations} />
