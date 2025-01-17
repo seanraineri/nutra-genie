@@ -7,10 +7,30 @@ import { SupplementPlan } from "./dashboard/SupplementPlan";
 import { HealthGoals } from "./dashboard/HealthGoals";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 export const Dashboard = () => {
   const navigate = useNavigate();
   const isMobile = useIsMobile();
+  const { toast } = useToast();
+
+  const handleSignUpPrompt = () => {
+    toast({
+      title: "Create an account to save your progress",
+      description: "Sign up to unlock all features and track your health journey.",
+      action: (
+        <Button
+          onClick={() => navigate("/input")}
+          variant="default"
+          size="sm"
+        >
+          Sign Up
+        </Button>
+      ),
+      duration: 5000,
+    });
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -35,24 +55,28 @@ export const Dashboard = () => {
               <TabsTrigger 
                 value="assistant" 
                 className="flex-1 md:flex-none px-3 md:px-6"
+                onClick={handleSignUpPrompt}
               >
                 Assistant
               </TabsTrigger>
               <TabsTrigger 
                 value="metrics" 
                 className="flex-1 md:flex-none px-3 md:px-6"
+                onClick={handleSignUpPrompt}
               >
                 Metrics
               </TabsTrigger>
               <TabsTrigger 
                 value="supplements" 
                 className="flex-1 md:flex-none px-3 md:px-6"
+                onClick={handleSignUpPrompt}
               >
                 Plan
               </TabsTrigger>
               <TabsTrigger 
                 value="goals" 
                 className="flex-1 md:flex-none px-3 md:px-6"
+                onClick={handleSignUpPrompt}
               >
                 Goals
               </TabsTrigger>

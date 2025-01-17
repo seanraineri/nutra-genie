@@ -27,11 +27,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: (
-      <AuthWrapper>
-        <DashboardPage />
-      </AuthWrapper>
-    ),
+    element: <DashboardPage />,
   },
   {
     path: "/payment",
