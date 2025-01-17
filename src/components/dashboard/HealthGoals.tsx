@@ -152,7 +152,7 @@ export const HealthGoals = () => {
                 <Button 
                   variant="ghost" 
                   size="icon" 
-                  className="h-8 w-8 active:bg-primary active:text-primary-foreground transition-colors"
+                  className="h-8 w-8 hover:bg-primary/10 active:bg-primary active:text-primary-foreground focus:bg-primary focus:text-primary-foreground transition-colors"
                 >
                   <HelpCircle className="h-4 w-4" />
                 </Button>

@@ -2,10 +2,10 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { useState } from "react";
-import { PersonalInfoSection } from "./metrics/PersonalInfoSection";
-import { HealthStatusSection } from "./metrics/HealthStatusSection";
-import { VitaminMetricsSection } from "./metrics/VitaminMetricsSection";
-import { LabTestsSection } from "./metrics/LabTestsSection";
+import { PersonalInfoSection } from "./PersonalInfoSection";
+import { HealthStatusSection } from "./HealthStatusSection";
+import { VitaminMetricsSection } from "./VitaminMetricsSection";
+import { LabTestsSection } from "./LabTestsSection";
 import { Share2 } from "lucide-react";
 
 export const HealthMetrics = () => {
