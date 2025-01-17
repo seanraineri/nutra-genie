@@ -16,10 +16,13 @@ const RewardsPage = () => {
       </Button>
 
       <div className="max-w-4xl mx-auto">
-        <div className="flex items-center gap-3 mb-8">
+        <div className="flex items-center gap-3 mb-2">
           <Gift className="h-8 w-8 text-[#3498DB]" />
           <h1 className="text-4xl font-bold text-gray-900">Rewards Program</h1>
         </div>
+        <p className="text-gray-600 text-lg mb-8 ml-11">
+          We really want to get as many people healthy as possible and feel good, help us help you!
+        </p>
 
         <div className="space-y-8">
           <section className="bg-white rounded-lg shadow-lg p-6">
