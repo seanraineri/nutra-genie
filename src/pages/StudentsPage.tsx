@@ -83,19 +83,16 @@ export default function StudentsPage() {
                     <h4 className="font-semibold">Program Benefits:</h4>
                     <ul className="list-disc list-inside space-y-2 text-muted-foreground">
                       <li>Free premium subscription while you're an ambassador</li>
-                      <li>Earn commissions for every referral</li>
+                      <li>Earn 15% commissions for every referral</li>
                       <li>Exclusive ambassador swag and merchandise</li>
-                      <li>Network with other health-conscious students</li>
                       <li>Add valuable experience to your resume</li>
                     </ul>
                   </div>
                   <div className="grid gap-2">
                     <h4 className="font-semibold">Requirements:</h4>
                     <ul className="list-disc list-inside space-y-2 text-muted-foreground">
-                      <li>Currently enrolled student with valid .edu email</li>
-                      <li>Passionate about health and wellness</li>
-                      <li>Strong social media presence</li>
-                      <li>Good academic standing</li>
+                      <li>Currently enrolled student</li>
+                      <li>Post at least 5 Stories or Posts a month</li>
                     </ul>
                   </div>
                   <Button
