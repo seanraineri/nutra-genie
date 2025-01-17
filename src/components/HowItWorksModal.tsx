@@ -36,7 +36,7 @@ export const HowItWorksModal = ({ open, onClose }: HowItWorksModalProps) => {
     {
       icon: <LayoutDashboard className="w-8 h-8 text-primary" />,
       title: "Track Progress",
-      description: "Monitor your health journey through your personalized dashboard",
+      description: "Monitor your health journey daily and receive recaps and insights on how you're improving",
     },
   ];
 
