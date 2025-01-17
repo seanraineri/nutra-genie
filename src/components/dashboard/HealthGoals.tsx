@@ -8,7 +8,7 @@ import { GoalItem } from "./goals/GoalItem";
 import { SymptomTracker } from "./goals/SymptomTracker";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { addHealthGoal } from "@/api/healthGoalsApi";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { useState, useEffect } from "react";
 
 interface Goal {
@@ -146,22 +146,20 @@ export const HealthGoals = () => {
             Back
           </Button>
           <h2 className="text-xl font-semibold">Health Goals</h2>
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button 
-                  variant="ghost" 
-                  size="icon" 
-                  className="h-8 w-8 hover:bg-primary/10 active:bg-primary active:text-primary-foreground focus:bg-primary focus:text-primary-foreground transition-colors"
-                >
-                  <HelpCircle className="h-4 w-4" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent className="max-w-[300px] text-sm">
-                Track your progress towards your goals and receive weekly recaps for completing your journal everyday
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="h-8 w-8 hover:bg-primary/10 active:bg-primary active:text-primary-foreground focus:bg-primary focus:text-primary-foreground transition-colors"
+              >
+                <HelpCircle className="h-4 w-4" />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="max-w-[300px] text-sm">
+              Track your progress towards your goals and receive weekly recaps for completing your journal everyday
+            </PopoverContent>
+          </Popover>
         </div>
         <Button
           variant="outline"
