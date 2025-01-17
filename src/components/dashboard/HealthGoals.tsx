@@ -1,13 +1,15 @@
-import { useEffect, useState } from "react";
-import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { ChevronLeft, Plus, HelpCircle } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { Card } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { GoalItem } from "./goals/GoalItem";
 import { SymptomTracker } from "./goals/SymptomTracker";
-import { Plus } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { addHealthGoal } from "@/api/healthGoalsApi";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { useState, useEffect } from "react";
 
 interface Goal {
   id: string;
@@ -22,6 +24,7 @@ export const HealthGoals = () => {
   const [goals, setGoals] = useState<Goal[]>([]);
   const [isEditing, setIsEditing] = useState(false);
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const fetchGoals = async () => {
     const { data: { user } } = await supabase.auth.getUser();
@@ -132,7 +135,30 @@ export const HealthGoals = () => {
   return (
     <Card className="p-6">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-xl font-semibold">Health Goals</h2>
+        <div className="flex items-center gap-2 md:gap-4">
+          <Button
+            variant="ghost"
+            size="sm"
+            className="shrink-0"
+            onClick={() => navigate("/")}
+          >
+            <ChevronLeft className="mr-2 h-4 w-4" />
+            Back
+          </Button>
+          <h2 className="text-xl font-semibold">Health Goals</h2>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="ghost" size="icon" className="h-8 w-8">
+                  <HelpCircle className="h-4 w-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent className="max-w-[300px] text-sm">
+                Track your progress towards your goals and receive weekly recaps for completing your journal everyday
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </div>
         <Button
           variant="outline"
           onClick={() => (isEditing ? handleSave() : setIsEditing(true))}
