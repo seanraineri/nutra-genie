@@ -19,12 +19,12 @@ export const Dashboard = () => {
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div className="flex items-center gap-4">
               <Button
-                variant="outline"
+                variant="ghost"
                 size="sm"
-                className="flex items-center gap-2 shrink-0"
+                className="shrink-0"
                 onClick={() => navigate("/")}
               >
-                <ChevronLeft className="h-4 w-4" />
+                <ChevronLeft className="mr-2 h-4 w-4" />
                 Back
               </Button>
               <h1 className="text-2xl md:text-3xl font-bold text-secondary truncate">
@@ -58,7 +58,6 @@ export const Dashboard = () => {
               </TabsTrigger>
             </TabsList>
           </div>
-
           <div className="mt-4 md:mt-6">
             <TabsContent value="assistant" className="m-0">
               <HealthAssistant />

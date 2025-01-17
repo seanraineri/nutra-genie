@@ -9,17 +9,15 @@ const InputPage = () => {
   return (
     <div className="min-h-screen bg-background">
       <div className="container mx-auto py-8">
-        <div className="flex items-center gap-4 mb-8">
-          <Button
-            variant="outline"
-            size="sm"
-            className="flex items-center gap-2"
-            onClick={() => navigate(-1)}
-          >
-            <ChevronLeft className="h-4 w-4" />
-            Back
-          </Button>
-        </div>
+        <Button
+          variant="ghost"
+          size="sm"
+          className="mb-6"
+          onClick={() => navigate(-1)}
+        >
+          <ChevronLeft className="mr-2 h-4 w-4" />
+          Back
+        </Button>
         <HealthDataForm />
       </div>
     </div>

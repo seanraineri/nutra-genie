@@ -10,17 +10,15 @@ const ContentPage = () => {
   return (
     <div className="min-h-screen bg-background w-full">
       <div className="w-full px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex items-center justify-between mb-8">
-          <Button
-            variant="outline"
-            size="sm"
-            className="flex items-center gap-2"
-            onClick={() => navigate(-1)}
-          >
-            <ChevronLeft className="h-4 w-4" />
-            Back
-          </Button>
-        </div>
+        <Button
+          variant="ghost"
+          size="sm"
+          className="mb-6"
+          onClick={() => navigate(-1)}
+        >
+          <ChevronLeft className="mr-2 h-4 w-4" />
+          Back
+        </Button>
 
         <div className="space-y-6">
           <div className="flex items-center justify-between">
@@ -36,7 +34,6 @@ const ContentPage = () => {
             
             <TabsContent value="blogs" className="mt-6">
               <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                {/* Example blog posts - repeated for demonstration */}
                 <Card className="p-6">
                   <h3 className="text-xl font-semibold mb-2">Understanding Vitamin D</h3>
                   <p className="text-muted-foreground">Learn about the importance of Vitamin D and how it affects your health.</p>
@@ -62,7 +59,6 @@ const ContentPage = () => {
             
             <TabsContent value="videos" className="mt-6">
               <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                {/* Example video cards - repeated for demonstration */}
                 <Card className="p-6">
                   <div className="aspect-video bg-muted mb-4 rounded-lg"></div>
                   <h3 className="text-xl font-semibold mb-2">Supplement Guide</h3>

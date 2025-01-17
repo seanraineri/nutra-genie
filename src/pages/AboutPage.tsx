@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
+import { ChevronLeft } from "lucide-react";
 
 const AboutPage = () => {
   const navigate = useNavigate();
@@ -11,10 +11,10 @@ const AboutPage = () => {
         <Button
           variant="ghost"
           size="sm"
-          className="mb-8"
+          className="mb-6"
           onClick={() => navigate(-1)}
         >
-          <ArrowLeft className="mr-2" />
+          <ChevronLeft className="mr-2 h-4 w-4" />
           Back
         </Button>
 

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Users, Beaker, Pill } from "lucide-react";
+import { ChevronLeft, Users, Beaker, Pill } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { PartnershipForm } from "@/components/partnership/PartnershipForm";
 
@@ -12,13 +12,13 @@ const WorkWithUsPage = () => {
 
   return (
     <div className="min-h-screen bg-background p-6">
-      {/* Back button */}
       <Button
         variant="ghost"
-        onClick={() => navigate(-1)}
+        size="sm"
         className="mb-6"
+        onClick={() => navigate(-1)}
       >
-        <ArrowLeft className="mr-2 h-4 w-4" />
+        <ChevronLeft className="mr-2 h-4 w-4" />
         Back
       </Button>
 

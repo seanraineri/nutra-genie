@@ -8,17 +8,15 @@ export const PrivacyHeader = () => {
 
   return (
     <div className="mb-8">
-      <div className="flex items-center gap-4 mb-6">
-        <Button
-          variant="outline"
-          size="sm"
-          className="flex items-center gap-2"
-          onClick={() => navigate(-1)}
-        >
-          <ChevronLeft className="h-4 w-4" />
-          Back
-        </Button>
-      </div>
+      <Button
+        variant="ghost"
+        size="sm"
+        className="mb-6"
+        onClick={() => navigate(-1)}
+      >
+        <ChevronLeft className="mr-2 h-4 w-4" />
+        Back
+      </Button>
       <h1 className="text-4xl font-bold mb-2">Privacy Policy</h1>
       <p className="text-muted-foreground">Last Updated: {lastUpdated}</p>
     </div>
