@@ -25,6 +25,7 @@ export const SymptomTracker = () => {
     "Sleep Quality",
     "Mood",
     "Digestion",
+    "Immune Health",
     "Overall Wellness"
   ];
 
