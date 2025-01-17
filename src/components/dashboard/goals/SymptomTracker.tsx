@@ -73,10 +73,10 @@ export const SymptomTracker = () => {
             value={wellnessType}
             onValueChange={setWellnessType}
           >
-            <SelectTrigger>
+            <SelectTrigger className="bg-background">
               <SelectValue placeholder="What would you like to track?" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="bg-background">
               {wellnessTypes.map((type) => (
                 <SelectItem key={type} value={type}>
                   {type}
@@ -90,15 +90,15 @@ export const SymptomTracker = () => {
             value={rating}
             onValueChange={setRating}
           >
-            <SelectTrigger>
+            <SelectTrigger className="bg-background">
               <SelectValue placeholder="How are you feeling? (1-10)" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="bg-background">
               {[...Array(10)].map((_, i) => {
                 const value = i + 1;
                 return (
                   <SelectItem key={value} value={value.toString()}>
-                    {value} - {value <= 3 ? "Needs Attention" : value <= 6 ? "Good" : "Excellent!"}
+                    {value}{value === 1 ? " - Poor :(" : value === 10 ? " - Amazing!" : ""}
                   </SelectItem>
                 );
               })}
