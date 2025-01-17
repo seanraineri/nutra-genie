@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { GoalItem } from "./goals/GoalItem";
+import { SymptomTracker } from "./goals/SymptomTracker";
 import { Plus } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { addHealthGoal } from "@/api/healthGoalsApi";
@@ -140,30 +141,38 @@ export const HealthGoals = () => {
         </Button>
       </div>
 
-      <Tabs defaultValue="fitness" className="w-full">
-        <TabsList className="grid w-full grid-cols-4 mb-4">
-          <TabsTrigger value="fitness">Fitness</TabsTrigger>
-          <TabsTrigger value="nutrition">Nutrition</TabsTrigger>
-          <TabsTrigger value="wellness">Wellness</TabsTrigger>
-          <TabsTrigger value="other">Other</TabsTrigger>
-        </TabsList>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="md:col-span-2">
+          <Tabs defaultValue="fitness" className="w-full">
+            <TabsList className="grid w-full grid-cols-4 mb-4">
+              <TabsTrigger value="fitness">Fitness</TabsTrigger>
+              <TabsTrigger value="nutrition">Nutrition</TabsTrigger>
+              <TabsTrigger value="wellness">Wellness</TabsTrigger>
+              <TabsTrigger value="other">Other</TabsTrigger>
+            </TabsList>
 
-        <TabsContent value="fitness" className="space-y-4">
-          {renderGoalsList('fitness')}
-        </TabsContent>
+            <TabsContent value="fitness" className="space-y-4">
+              {renderGoalsList('fitness')}
+            </TabsContent>
 
-        <TabsContent value="nutrition" className="space-y-4">
-          {renderGoalsList('nutrition')}
-        </TabsContent>
+            <TabsContent value="nutrition" className="space-y-4">
+              {renderGoalsList('nutrition')}
+            </TabsContent>
 
-        <TabsContent value="wellness" className="space-y-4">
-          {renderGoalsList('wellness')}
-        </TabsContent>
+            <TabsContent value="wellness" className="space-y-4">
+              {renderGoalsList('wellness')}
+            </TabsContent>
 
-        <TabsContent value="other" className="space-y-4">
-          {renderGoalsList('other')}
-        </TabsContent>
-      </Tabs>
+            <TabsContent value="other" className="space-y-4">
+              {renderGoalsList('other')}
+            </TabsContent>
+          </Tabs>
+        </div>
+        
+        <div className="md:col-span-1">
+          <SymptomTracker />
+        </div>
+      </div>
     </Card>
   );
 };

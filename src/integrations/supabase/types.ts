@@ -267,6 +267,36 @@ export type Database = {
         }
         Relationships: []
       }
+      symptom_tracking: {
+        Row: {
+          created_at: string | null
+          id: string
+          notes: string | null
+          severity: number | null
+          symptom: string
+          tracked_date: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          notes?: string | null
+          severity?: number | null
+          symptom: string
+          tracked_date?: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          notes?: string | null
+          severity?: number | null
+          symptom?: string
+          tracked_date?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       user_health_profiles: {
         Row: {
           age: number | null
