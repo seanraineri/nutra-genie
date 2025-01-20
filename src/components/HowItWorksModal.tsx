@@ -31,7 +31,7 @@ export const HowItWorksModal = ({ open, onClose }: HowItWorksModalProps) => {
     {
       icon: <MessageSquare className="w-8 h-8 text-primary" />,
       title: "Chat Support",
-      description: "Access our health assistant for guidance and questions",
+      description: "Access our holistic health assistant for guidance and questions",
     },
     {
       icon: <LayoutDashboard className="w-8 h-8 text-primary" />,
