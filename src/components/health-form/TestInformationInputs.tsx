@@ -136,7 +136,7 @@ export const TestInformationInputs = ({
                   </TooltipTrigger>
                   <TooltipContent className="bg-card border shadow-md">
                     <p className="text-sm text-card-foreground">
-                      Helps understand your genetic profile to see how well your body processes nutrients
+                      Helps understand your genetic profile to see how well your body processes nutrients. We can repurpose 23andme and Ancestry data too!
                     </p>
                   </TooltipContent>
                 </Tooltip>
