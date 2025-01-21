@@ -76,7 +76,7 @@ export default function PaymentPage() {
           <div className="border rounded-lg p-4">
             <div className="flex justify-between items-center mb-4">
               <h3 className="font-semibold">Health Assistant Pro</h3>
-              <span className="text-xl font-bold">$10/month</span>
+              <span className="text-xl font-bold">$20/month</span>
             </div>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li>✓ Personalized Health Recommendations</li>
