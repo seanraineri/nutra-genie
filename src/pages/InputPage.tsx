@@ -1,7 +1,8 @@
-import { HealthDataForm } from "@/components/HealthDataForm";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { StepWizard } from "@/components/health-form/StepWizard";
 
 const InputPage = () => {
   const navigate = useNavigate();
@@ -18,7 +19,7 @@ const InputPage = () => {
           <ChevronLeft className="mr-2 h-4 w-4" />
           Back
         </Button>
-        <HealthDataForm />
+        <StepWizard />
       </div>
     </div>
   );
