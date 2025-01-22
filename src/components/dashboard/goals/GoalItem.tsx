@@ -7,6 +7,7 @@ import { Pencil } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { GoalScores } from "./GoalScores";
+import { Card } from "@/components/ui/card";
 
 interface Goal {
   id: string;
@@ -138,10 +139,10 @@ export const GoalItem = ({ goal, onUpdate, isEditing }: GoalItemProps) => {
         </div>
       )}
 
-      <div className="pt-4 mt-4 border-t">
-        <h4 className="text-sm font-medium mb-2">Goal Score History</h4>
+      <Card className="mt-6 p-4 bg-gray-50">
+        <h4 className="text-sm font-semibold mb-4">Goal Score History</h4>
         <GoalScores goalId={goal.id} />
-      </div>
+      </Card>
     </div>
   );
 };

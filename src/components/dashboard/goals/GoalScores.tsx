@@ -5,6 +5,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { addGoalScore } from "@/api/healthGoalsApi";
+import { Badge } from "@/components/ui/badge";
 
 interface GoalScore {
   id: string;
@@ -88,6 +89,10 @@ export const GoalScores = ({ goalId }: GoalScoresProps) => {
     return scores.length > 0 ? scores[0].score : 0;
   };
 
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString();
+  };
+
   return (
     <div className="space-y-4">
       <div className="flex justify-between text-sm">
@@ -111,9 +116,20 @@ export const GoalScores = ({ goalId }: GoalScoresProps) => {
         </Button>
       </div>
 
-      {scores.length > 1 && (
-        <div className="text-xs text-muted-foreground mt-1">
-          Previous scores: {scores.slice(1).map(s => s.score).join(', ')}
+      {scores.length > 0 && (
+        <div className="mt-4">
+          <h5 className="text-sm font-medium mb-2">Score History</h5>
+          <div className="flex flex-wrap gap-2">
+            {scores.map((score) => (
+              <Badge 
+                key={score.id} 
+                variant="secondary"
+                className="text-xs"
+              >
+                {score.score}/100 ({formatDate(score.created_at)})
+              </Badge>
+            ))}
+          </div>
         </div>
       )}
     </div>
