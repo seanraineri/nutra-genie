@@ -44,10 +44,11 @@ export const LandingHero = () => {
                 <h1 className="text-5xl sm:text-6xl font-bold tracking-tight bg-gradient-to-r from-cyan-500 to-teal-500 bg-clip-text text-transparent">
                   Optimize Your Health with Supplements Tailored to Your Biology
                 </h1>
-                <p className="text-xl text-gray-600 leading-relaxed">
-                  Discover your perfect supplement plan in minutes—backed by your blood tests, genetics, and health goals.
-                </p>
-                <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                <div className="mt-32">
+                  <p className="text-xl text-gray-600 leading-relaxed">
+                    Discover your perfect supplement plan in minutes—backed by your blood tests, genetics, and health goals.
+                  </p>
+                  <div className="flex flex-col sm:flex-row gap-4 pt-4">
                   <Button
                     size="lg"
                     onClick={() => navigate("/input")}
@@ -75,7 +76,7 @@ export const LandingHero = () => {
               </div>
 
               {/* Image section */}
-              <div className="w-full max-w-2xl mx-auto lg:mx-0">
+              <div className="w-full max-w-2xl mx-auto lg:mx-0 mt-32">
                 <div className="relative h-[600px] rounded-2xl overflow-hidden shadow-xl transition-all duration-300 transform hover:scale-105 hover:shadow-2xl cursor-pointer">
                   <img
                     src="/lovable-uploads/2f53b616-9c59-4de0-abb0-263c4a144685.png"
