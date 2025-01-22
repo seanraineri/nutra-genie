@@ -166,7 +166,7 @@ export const HealthGoals = () => {
               <TabsTrigger value="fitness">Fitness</TabsTrigger>
               <TabsTrigger value="nutrition">Nutrition</TabsTrigger>
               <TabsTrigger value="wellness">Wellness</TabsTrigger>
-              <TabsTrigger value="other">Other</TabsTrigger>
+              <TabsTrigger value="biomarkers">Biomarkers</TabsTrigger>
             </TabsList>
 
             <TabsContent value="fitness" className="space-y-4">
@@ -181,8 +181,8 @@ export const HealthGoals = () => {
               {renderGoalsList('wellness')}
             </TabsContent>
 
-            <TabsContent value="other" className="space-y-4">
-              {renderGoalsList('other')}
+            <TabsContent value="biomarkers" className="space-y-4">
+              {renderGoalsList('biomarkers')}
             </TabsContent>
           </Tabs>
         </div>
