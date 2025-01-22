@@ -110,6 +110,9 @@ export const GoalItem = ({ goal, onUpdate, isEditing }: GoalItemProps) => {
               placeholder="Target"
             />
           </div>
+          <Button onClick={handleSave} size="sm">
+            Save Changes
+          </Button>
         </div>
       ) : (
         <div className="space-y-4">
