@@ -14,8 +14,8 @@ export const LandingHero = () => {
       <div className="fixed top-0 left-0 right-0 bg-white z-10 border-b border-gray-100">
         <div className="w-full px-4">
           <div className="flex justify-between items-center h-16 max-w-[1400px] mx-auto">
-            <h1 className="text-2xl sm:text-3xl font-bold text-black">
-              Supplement<span className="text-primary">Scribe</span>
+            <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent">
+              Supplement<span>Scribe</span>
             </h1>
             <div className="flex items-center gap-4">
               <Button
@@ -34,66 +34,66 @@ export const LandingHero = () => {
         </div>
       </div>
 
-      <div className="min-h-screen bg-[#F3F3F3]">
-        <div className="max-w-[1400px] mx-auto px-4">
-          {/* Main content grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 pt-32 pb-16">
-            {/* Left column - Main content */}
-            <div className="flex flex-col justify-center">
-              <div className="space-y-6 max-w-xl">
-                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900">
-                  The Future of Wellness
-                </h1>
-                <p className="text-lg text-gray-600 leading-relaxed">
-                  Get tailored supplement recommendations based on your blood work and genetic data. Track your progress and optimize your health journey.
-                </p>
-                <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                  <Button
-                    size="lg"
-                    onClick={() => navigate("/input")}
-                    className="bg-[#FEF7CD] hover:bg-[#FEF7CD]/90 text-black text-lg h-14 px-8"
-                  >
-                    Get Started →
-                  </Button>
-                  <Button
-                    size="lg"
-                    onClick={() => navigate("/dashboard")}
-                    variant="outline"
-                    className="border-gray-300 text-gray-700 hover:bg-gray-50 h-14"
-                  >
-                    Open Dashboard
-                  </Button>
-                  <Button
-                    size="lg"
-                    onClick={() => setShowHowItWorks(true)}
-                    variant="outline"
-                    className="border-gray-300 text-gray-700 hover:bg-gray-50 h-14"
-                  >
-                    How It Works
-                  </Button>
-                </div>
+      <div className="min-h-screen bg-gradient-to-b from-pink-50 to-purple-50">
+        <div className="max-w-[1200px] mx-auto px-4">
+          {/* Main content */}
+          <div className="flex flex-col items-center justify-center pt-32 pb-16 text-center">
+            <div className="space-y-6 max-w-3xl">
+              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent">
+                The Future of Wellness
+              </h1>
+              <p className="text-xl text-gray-600 leading-relaxed max-w-2xl mx-auto">
+                Get tailored supplement recommendations based on your blood work and genetic data. Track your progress and optimize your health journey.
+              </p>
+              <div className="flex flex-col sm:flex-row justify-center gap-4 pt-8">
+                <Button
+                  size="lg"
+                  onClick={() => navigate("/input")}
+                  className="bg-gradient-to-r from-pink-500 to-purple-500 hover:opacity-90 text-white text-lg h-14 px-8 rounded-full"
+                >
+                  Get Started →
+                </Button>
+                <Button
+                  size="lg"
+                  onClick={() => navigate("/dashboard")}
+                  variant="outline"
+                  className="border-2 border-purple-200 text-purple-700 hover:bg-purple-50 h-14 rounded-full"
+                >
+                  Open Dashboard
+                </Button>
+                <Button
+                  size="lg"
+                  onClick={() => setShowHowItWorks(true)}
+                  variant="outline"
+                  className="border-2 border-purple-200 text-purple-700 hover:bg-purple-50 h-14 rounded-full"
+                >
+                  How It Works
+                </Button>
               </div>
             </div>
 
-            {/* Right column - Image */}
-            <div className="relative h-[500px] lg:h-[600px]">
-              <img
-                src="/lovable-uploads/2f53b616-9c59-4de0-abb0-263c4a144685.png"
-                alt="Vitamin supplements"
-                className="absolute inset-0 w-full h-full object-cover rounded-xl shadow-lg"
-              />
+            {/* Image section */}
+            <div className="mt-16 w-full max-w-2xl mx-auto">
+              <div className="relative h-[400px] rounded-2xl overflow-hidden shadow-xl">
+                <img
+                  src="/lovable-uploads/2f53b616-9c59-4de0-abb0-263c4a144685.png"
+                  alt="Vitamin supplements"
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-purple-500/20 to-transparent"></div>
+              </div>
             </div>
           </div>
 
           {/* Footer links */}
           <div className="pb-8">
             <div className="flex flex-wrap justify-center gap-6 text-sm text-gray-500">
-              <Link to="/privacy" className="hover:text-gray-900 transition-colors">Privacy Policy</Link>
-              <Link to="/about" className="hover:text-gray-900 transition-colors">About</Link>
-              <Link to="/work-with-us" className="hover:text-gray-900 transition-colors">Work with Us</Link>
-              <Link to="/terms" className="hover:text-gray-900 transition-colors">Terms & Conditions</Link>
-              <Link to="/rewards" className="hover:text-gray-900 transition-colors">Rewards</Link>
-              <Link to="/students" className="hover:text-gray-900 transition-colors">Students</Link>
+              <Link to="/privacy" className="hover:text-purple-600 transition-colors">Privacy Policy</Link>
+              <Link to="/about" className="hover:text-purple-600 transition-colors">About</Link>
+              <Link to="/work-with-us" className="hover:text-purple-600 transition-colors">Work with Us</Link>
+              <Link to="/terms" className="hover:text-purple-600 transition-colors">Terms & Conditions</Link>
+              <Link to="/rewards" className="hover:text-purple-600 transition-colors">Rewards</Link>
+              <Link to="/students" className="hover:text-purple-600 transition-colors">Students</Link>
             </div>
           </div>
         </div>
