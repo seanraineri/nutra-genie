@@ -3,11 +3,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Progress } from "@/components/ui/progress";
-import { Pencil } from "lucide-react";
+import { Card } from "@/components/ui/card";
+import { GoalScores } from "./GoalScores";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { GoalScores } from "./GoalScores";
-import { Card } from "@/components/ui/card";
 
 interface Goal {
   id: string;
@@ -140,7 +139,6 @@ export const GoalItem = ({ goal, onUpdate, isEditing }: GoalItemProps) => {
       )}
 
       <Card className="mt-6 p-6 bg-gray-50/50">
-        <h4 className="text-lg font-semibold mb-6 text-secondary">Goal Progress Tracking</h4>
         <GoalScores goalId={goal.id} />
       </Card>
     </div>
