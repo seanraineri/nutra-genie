@@ -15,7 +15,7 @@ export const LandingHero = () => {
         <div className="w-full px-4">
           <div className="flex justify-between items-center h-16 max-w-[1400px] mx-auto">
             <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-cyan-500 to-teal-500 bg-clip-text text-transparent">
-              Supplement<span>Scribe</span>
+              Supplement<span>Scribe.ai</span>
             </h1>
             <div className="flex items-center gap-4">
               <Button
