@@ -37,7 +37,7 @@ export const LandingHero = () => {
       <div className="min-h-screen bg-gradient-to-b from-cyan-50 to-teal-50">
         <div className="max-w-[1200px] mx-auto px-4">
           {/* Main content */}
-          <div className="flex flex-col items-center justify-center pt-32 pb-16 text-center">
+          <div className="flex flex-col items-center justify-center pt-32 pb-8">
             <div className="space-y-6 max-w-3xl">
               <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight bg-gradient-to-r from-cyan-500 to-teal-500 bg-clip-text text-transparent">
                 The Future of Wellness
@@ -73,7 +73,7 @@ export const LandingHero = () => {
             </div>
 
             {/* Image section with hover effect */}
-            <div className="mt-16 w-full max-w-2xl mx-auto">
+            <div className="mt-12 w-full max-w-2xl mx-auto">
               <div className="relative h-[400px] rounded-2xl overflow-hidden shadow-xl transition-all duration-300 transform hover:scale-105 hover:shadow-2xl cursor-pointer">
                 <img
                   src="/lovable-uploads/2f53b616-9c59-4de0-abb0-263c4a144685.png"
@@ -86,14 +86,14 @@ export const LandingHero = () => {
           </div>
 
           {/* Footer links */}
-          <div className="pb-8">
-            <div className="flex flex-wrap justify-center gap-6 text-sm text-gray-500">
-              <Link to="/privacy" className="hover:text-teal-600 transition-colors">Privacy Policy</Link>
-              <Link to="/about" className="hover:text-teal-600 transition-colors">About</Link>
-              <Link to="/work-with-us" className="hover:text-teal-600 transition-colors">Work with Us</Link>
-              <Link to="/terms" className="hover:text-teal-600 transition-colors">Terms & Conditions</Link>
-              <Link to="/rewards" className="hover:text-teal-600 transition-colors">Rewards</Link>
-              <Link to="/students" className="hover:text-teal-600 transition-colors">Students</Link>
+          <div className="py-6 mt-4">
+            <div className="flex flex-wrap justify-center gap-x-8 gap-y-2 text-sm text-gray-500 max-w-4xl mx-auto px-4">
+              <Link to="/privacy" className="hover:text-teal-600 transition-colors whitespace-nowrap">Privacy Policy</Link>
+              <Link to="/about" className="hover:text-teal-600 transition-colors whitespace-nowrap">About</Link>
+              <Link to="/work-with-us" className="hover:text-teal-600 transition-colors whitespace-nowrap">Work with Us</Link>
+              <Link to="/terms" className="hover:text-teal-600 transition-colors whitespace-nowrap">Terms & Conditions</Link>
+              <Link to="/rewards" className="hover:text-teal-600 transition-colors whitespace-nowrap">Rewards</Link>
+              <Link to="/students" className="hover:text-teal-600 transition-colors whitespace-nowrap">Students</Link>
             </div>
           </div>
         </div>
