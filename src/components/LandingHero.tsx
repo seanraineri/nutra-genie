@@ -14,7 +14,7 @@ export const LandingHero = () => {
       <div className="fixed top-0 left-0 right-0 bg-white z-10 border-b border-gray-100">
         <div className="w-full px-4">
           <div className="flex justify-between items-center h-16 max-w-[1400px] mx-auto">
-            <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent">
+            <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-cyan-500 to-teal-500 bg-clip-text text-transparent">
               Supplement<span>Scribe</span>
             </h1>
             <div className="flex items-center gap-4">
@@ -34,12 +34,12 @@ export const LandingHero = () => {
         </div>
       </div>
 
-      <div className="min-h-screen bg-gradient-to-b from-pink-50 to-purple-50">
+      <div className="min-h-screen bg-gradient-to-b from-cyan-50 to-teal-50">
         <div className="max-w-[1200px] mx-auto px-4">
           {/* Main content */}
           <div className="flex flex-col items-center justify-center pt-32 pb-16 text-center">
             <div className="space-y-6 max-w-3xl">
-              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent">
+              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight bg-gradient-to-r from-cyan-500 to-teal-500 bg-clip-text text-transparent">
                 The Future of Wellness
               </h1>
               <p className="text-xl text-gray-600 leading-relaxed max-w-2xl mx-auto">
@@ -49,7 +49,7 @@ export const LandingHero = () => {
                 <Button
                   size="lg"
                   onClick={() => navigate("/input")}
-                  className="bg-gradient-to-r from-pink-500 to-purple-500 hover:opacity-90 text-white text-lg h-14 px-8 rounded-full"
+                  className="bg-gradient-to-r from-cyan-500 to-teal-500 hover:opacity-90 text-white text-lg h-14 px-8 rounded-full"
                 >
                   Get Started →
                 </Button>
@@ -57,7 +57,7 @@ export const LandingHero = () => {
                   size="lg"
                   onClick={() => navigate("/dashboard")}
                   variant="outline"
-                  className="border-2 border-purple-200 text-purple-700 hover:bg-purple-50 h-14 rounded-full"
+                  className="border-2 border-teal-200 text-teal-700 hover:bg-teal-50 h-14 rounded-full"
                 >
                   Open Dashboard
                 </Button>
@@ -65,7 +65,7 @@ export const LandingHero = () => {
                   size="lg"
                   onClick={() => setShowHowItWorks(true)}
                   variant="outline"
-                  className="border-2 border-purple-200 text-purple-700 hover:bg-purple-50 h-14 rounded-full"
+                  className="border-2 border-teal-200 text-teal-700 hover:bg-teal-50 h-14 rounded-full"
                 >
                   How It Works
                 </Button>
@@ -80,7 +80,7 @@ export const LandingHero = () => {
                   alt="Vitamin supplements"
                   className="absolute inset-0 w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-purple-500/20 to-transparent"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-teal-500/20 to-transparent"></div>
               </div>
             </div>
           </div>
@@ -88,12 +88,12 @@ export const LandingHero = () => {
           {/* Footer links */}
           <div className="pb-8">
             <div className="flex flex-wrap justify-center gap-6 text-sm text-gray-500">
-              <Link to="/privacy" className="hover:text-purple-600 transition-colors">Privacy Policy</Link>
-              <Link to="/about" className="hover:text-purple-600 transition-colors">About</Link>
-              <Link to="/work-with-us" className="hover:text-purple-600 transition-colors">Work with Us</Link>
-              <Link to="/terms" className="hover:text-purple-600 transition-colors">Terms & Conditions</Link>
-              <Link to="/rewards" className="hover:text-purple-600 transition-colors">Rewards</Link>
-              <Link to="/students" className="hover:text-purple-600 transition-colors">Students</Link>
+              <Link to="/privacy" className="hover:text-teal-600 transition-colors">Privacy Policy</Link>
+              <Link to="/about" className="hover:text-teal-600 transition-colors">About</Link>
+              <Link to="/work-with-us" className="hover:text-teal-600 transition-colors">Work with Us</Link>
+              <Link to="/terms" className="hover:text-teal-600 transition-colors">Terms & Conditions</Link>
+              <Link to="/rewards" className="hover:text-teal-600 transition-colors">Rewards</Link>
+              <Link to="/students" className="hover:text-teal-600 transition-colors">Students</Link>
             </div>
           </div>
         </div>
