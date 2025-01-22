@@ -49,29 +49,30 @@ export const LandingHero = () => {
                     Discover your perfect supplement plan in minutes—backed by your blood tests, genetics, and health goals.
                   </p>
                   <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                  <Button
-                    size="lg"
-                    onClick={() => navigate("/input")}
-                    className="bg-gradient-to-r from-cyan-500 to-teal-500 hover:opacity-90 text-white text-lg h-14 px-8 rounded-full"
-                  >
-                    Get Started →
-                  </Button>
-                  <Button
-                    size="lg"
-                    onClick={() => navigate("/dashboard")}
-                    variant="outline"
-                    className="border-2 border-teal-200 text-teal-700 hover:bg-teal-50 h-14 rounded-full"
-                  >
-                    Open Dashboard
-                  </Button>
-                  <Button
-                    size="lg"
-                    onClick={() => setShowHowItWorks(true)}
-                    variant="outline"
-                    className="border-2 border-teal-200 text-teal-700 hover:bg-teal-50 h-14 rounded-full"
-                  >
-                    How It Works
-                  </Button>
+                    <Button
+                      size="lg"
+                      onClick={() => navigate("/input")}
+                      className="bg-gradient-to-r from-cyan-500 to-teal-500 hover:opacity-90 text-white text-lg h-14 px-8 rounded-full"
+                    >
+                      Get Started →
+                    </Button>
+                    <Button
+                      size="lg"
+                      onClick={() => navigate("/dashboard")}
+                      variant="outline"
+                      className="border-2 border-teal-200 text-teal-700 hover:bg-teal-50 h-14 rounded-full"
+                    >
+                      Open Dashboard
+                    </Button>
+                    <Button
+                      size="lg"
+                      onClick={() => setShowHowItWorks(true)}
+                      variant="outline"
+                      className="border-2 border-teal-200 text-teal-700 hover:bg-teal-50 h-14 rounded-full"
+                    >
+                      How It Works
+                    </Button>
+                  </div>
                 </div>
               </div>
 
