@@ -37,8 +37,8 @@ export const LandingHero = () => {
       <div className="min-h-screen bg-gradient-to-b from-cyan-50 to-teal-50">
         <div className="max-w-[1400px] mx-auto px-4 flex flex-col min-h-screen">
           {/* Main content */}
-          <div className="flex-grow flex items-center justify-center py-16">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="flex-grow flex items-center justify-center pt-4 pb-16">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
               {/* Text content */}
               <div className="space-y-6 text-left">
                 <h1 className="text-5xl sm:text-6xl font-bold tracking-tight bg-gradient-to-r from-cyan-500 to-teal-500 bg-clip-text text-transparent">
@@ -75,8 +75,8 @@ export const LandingHero = () => {
               </div>
 
               {/* Image section */}
-              <div className="w-full max-w-xl mx-auto lg:mx-0">
-                <div className="relative h-[400px] rounded-2xl overflow-hidden shadow-xl transition-all duration-300 transform hover:scale-105 hover:shadow-2xl cursor-pointer">
+              <div className="w-full max-w-2xl mx-auto lg:mx-0">
+                <div className="relative h-[600px] rounded-2xl overflow-hidden shadow-xl transition-all duration-300 transform hover:scale-105 hover:shadow-2xl cursor-pointer">
                   <img
                     src="/lovable-uploads/2f53b616-9c59-4de0-abb0-263c4a144685.png"
                     alt="Vitamin supplements"
