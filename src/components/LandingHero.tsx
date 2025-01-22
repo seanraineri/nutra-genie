@@ -15,7 +15,7 @@ export const LandingHero = () => {
         <div className="w-full px-4">
           <div className="flex justify-between items-center h-16 max-w-[1400px] mx-auto">
             <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-cyan-500 to-teal-500 bg-clip-text text-transparent">
-              Supplement<span>Scribe.ai</span>
+              SupplementScribe.ai
             </h1>
             <div className="flex items-center gap-4">
               <Button
@@ -40,7 +40,7 @@ export const LandingHero = () => {
           <div className="flex-grow flex flex-col items-center justify-center pt-32 pb-4">
             <div className="space-y-6 max-w-3xl text-center mx-auto">
               <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight bg-gradient-to-r from-cyan-500 to-teal-500 bg-clip-text text-transparent mx-auto">
-                The Future of Wellness
+                Optimize Your Health with Supplements Tailored to Your Biology
               </h1>
               <p className="text-xl text-gray-600 leading-relaxed max-w-2xl mx-auto">
                 Get tailored supplement recommendations based on your blood work and genetic data. Track your progress and optimize your health journey.
