@@ -38,8 +38,8 @@ export const LandingHero = () => {
         <div className="max-w-[1200px] mx-auto px-4">
           {/* Main content */}
           <div className="flex flex-col items-center justify-center pt-32 pb-8">
-            <div className="space-y-6 max-w-3xl">
-              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight bg-gradient-to-r from-cyan-500 to-teal-500 bg-clip-text text-transparent">
+            <div className="space-y-6 max-w-3xl text-center mx-auto">
+              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight bg-gradient-to-r from-cyan-500 to-teal-500 bg-clip-text text-transparent mx-auto">
                 The Future of Wellness
               </h1>
               <p className="text-xl text-gray-600 leading-relaxed max-w-2xl mx-auto">
