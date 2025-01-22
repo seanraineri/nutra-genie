@@ -81,11 +81,11 @@ export const ChatMessage = ({ role, content, timestamp }: ChatMessageProps) => {
         </Avatar>
         <div>
           <div
-            className={`rounded-2xl px-4 py-2 shadow-sm ${
+            className={`rounded-2xl px-6 py-4 shadow-sm ${
               role === "user"
                 ? "bg-primary text-primary-foreground"
                 : "bg-gray-100"
-            }`}
+            } ${content === "Hi! I'm your personal health assistant. How can I help!" ? "text-lg" : ""}`}
           >
             <div className="prose prose-sm max-w-none">
               {formatContent(content)}
