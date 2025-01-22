@@ -72,13 +72,13 @@ export const LandingHero = () => {
               </div>
             </div>
 
-            {/* Image section */}
+            {/* Image section with hover effect */}
             <div className="mt-16 w-full max-w-2xl mx-auto">
-              <div className="relative h-[400px] rounded-2xl overflow-hidden shadow-xl">
+              <div className="relative h-[400px] rounded-2xl overflow-hidden shadow-xl transition-all duration-300 transform hover:scale-105 hover:shadow-2xl cursor-pointer">
                 <img
                   src="/lovable-uploads/2f53b616-9c59-4de0-abb0-263c4a144685.png"
                   alt="Vitamin supplements"
-                  className="absolute inset-0 w-full h-full object-cover"
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-300"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-teal-500/20 to-transparent"></div>
               </div>
