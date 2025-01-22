@@ -39,7 +39,14 @@ export const LandingHero = () => {
           {/* Feature points */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-24 mb-12">
             <div className="flex flex-col items-start space-y-2 animate-fade-in">
-              <div className="text-2xl mb-2">🔬</div>
+              <div className="flex items-center gap-3 mb-2">
+                <div className="text-2xl">🔬</div>
+                <img 
+                  src="/lovable-uploads/d5d0d938-6709-4a16-a9ef-2328658444de.png" 
+                  alt="HIPAA Compliance" 
+                  className="h-8 w-auto"
+                />
+              </div>
               <h3 className="text-lg font-semibold text-teal-700">Backed by Science</h3>
               <p className="text-gray-600">Get recommendations validated by 100+ clinical studies.</p>
             </div>
