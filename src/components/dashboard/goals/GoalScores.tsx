@@ -1,25 +1,116 @@
+import { useState, useEffect } from "react";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Trophy, TrendingUp, History } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { addGoalScore } from "@/api/healthGoalsApi";
+import { useToast } from "@/hooks/use-toast";
+
+interface GoalScore {
+  id: string;
+  score: number;
+  created_at: string;
+  notes?: string;
+}
 
 interface GoalScoresProps {
   goalId: string;
 }
 
 export const GoalScores = ({ goalId }: GoalScoresProps) => {
-  // Mock data for visualization
-  const currentScore = 75;
-  const mockScores = [
-    { id: '1', score: 75, created_at: '2024-03-20' },
-    { id: '2', score: 60, created_at: '2024-03-19' },
-    { id: '3', score: 45, created_at: '2024-03-18' },
-    { id: '4', score: 30, created_at: '2024-03-17' },
-  ];
+  const [scores, setScores] = useState<GoalScore[]>([]);
+  const [newScore, setNewScore] = useState<string>("");
+  const [isLoading, setIsLoading] = useState(false);
+  const { toast } = useToast();
+
+  const fetchScores = async () => {
+    const { data, error } = await supabase
+      .from('goal_scores')
+      .select('*')
+      .eq('goal_id', goalId)
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.error('Error fetching scores:', error);
+      return;
+    }
+
+    setScores(data || []);
+  };
+
+  useEffect(() => {
+    fetchScores();
+
+    // Subscribe to real-time updates
+    const channel = supabase
+      .channel('goal_scores_changes')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'goal_scores',
+          filter: `goal_id=eq.${goalId}`
+        },
+        () => {
+          fetchScores();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [goalId]);
+
+  const handleAddScore = async () => {
+    if (!newScore || isNaN(Number(newScore))) {
+      toast({
+        title: "Invalid score",
+        description: "Please enter a valid number between 0 and 100",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const scoreValue = Number(newScore);
+    if (scoreValue < 0 || scoreValue > 100) {
+      toast({
+        title: "Invalid score range",
+        description: "Score must be between 0 and 100",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      await addGoalScore(goalId, scoreValue);
+      setNewScore("");
+      toast({
+        title: "Score added",
+        description: "Your progress has been recorded successfully.",
+      });
+    } catch (error) {
+      console.error('Error adding score:', error);
+      toast({
+        title: "Error",
+        description: "Failed to add score. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString();
+  };
+
+  const getCurrentScore = () => {
+    return scores.length > 0 ? scores[0].score : 0;
   };
 
   return (
@@ -31,10 +122,10 @@ export const GoalScores = ({ goalId }: GoalScoresProps) => {
           <span className="text-sm font-medium text-secondary">Current Score</span>
         </div>
         <div className="flex justify-between items-center mb-2">
-          <span className="text-3xl font-bold text-primary">{currentScore}</span>
+          <span className="text-3xl font-bold text-primary">{getCurrentScore()}</span>
           <span className="text-sm text-muted-foreground">/100</span>
         </div>
-        <Progress value={currentScore} className="h-3 bg-gray-100" />
+        <Progress value={getCurrentScore()} className="h-3 bg-gray-100" />
       </div>
 
       {/* Add New Score Section */}
@@ -42,10 +133,18 @@ export const GoalScores = ({ goalId }: GoalScoresProps) => {
         <TrendingUp className="h-4 w-4 text-muted-foreground" />
         <Input
           type="number"
+          value={newScore}
+          onChange={(e) => setNewScore(e.target.value)}
           placeholder="Enter score (0-100)"
           className="w-40 bg-white"
+          min="0"
+          max="100"
         />
-        <Button className="bg-primary hover:bg-primary/90">
+        <Button 
+          onClick={handleAddScore} 
+          disabled={isLoading}
+          className="bg-primary hover:bg-primary/90"
+        >
           Add Score
         </Button>
       </div>
@@ -57,7 +156,7 @@ export const GoalScores = ({ goalId }: GoalScoresProps) => {
           <h5 className="text-sm font-medium text-secondary">Score History</h5>
         </div>
         <div className="space-y-3">
-          {mockScores.map((score) => (
+          {scores.map((score) => (
             <div 
               key={score.id}
               className="flex items-center justify-between p-2 hover:bg-gray-50 rounded-md transition-colors"
@@ -76,6 +175,11 @@ export const GoalScores = ({ goalId }: GoalScoresProps) => {
               <Progress value={score.score} className="w-24 h-2" />
             </div>
           ))}
+          {scores.length === 0 && (
+            <p className="text-sm text-muted-foreground text-center py-4">
+              No scores recorded yet
+            </p>
+          )}
         </div>
       </div>
     </div>
