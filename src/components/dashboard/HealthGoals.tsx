@@ -111,12 +111,13 @@ export const HealthGoals = () => {
     return (
       <div className="space-y-4">
         {filteredGoals.map((goal) => (
-          <GoalItem 
-            key={goal.id} 
-            goal={goal} 
-            onUpdate={fetchGoals}
-            isEditing={isEditing}
-          />
+          <Card key={goal.id} className="p-4">
+            <GoalItem 
+              goal={goal} 
+              onUpdate={fetchGoals}
+              isEditing={isEditing}
+            />
+          </Card>
         ))}
         <Button
           variant="ghost"

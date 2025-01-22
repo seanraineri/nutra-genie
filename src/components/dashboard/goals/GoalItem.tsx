@@ -133,7 +133,6 @@ export const GoalItem = ({ goal, onUpdate, isEditing }: GoalItemProps) => {
           </div>
           <Progress value={calculateProgress(goal.progress, goal.target)} />
           
-          {/* Add the scores section */}
           <div className="pt-4 border-t">
             <h4 className="text-sm font-medium mb-2">Goal Score History</h4>
             <GoalScores goalId={goal.id} />
