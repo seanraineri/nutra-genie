@@ -13,31 +13,23 @@ import { supabase } from "@/integrations/supabase/client";
 const quickReplies = [
   {
     text: "Analyze my health data",
-    category: "analysis"
+    category: "analysis",
+    description: "Get insights from your health metrics and lab results"
   },
   {
     text: "View my supplement plan",
-    category: "supplements"
+    category: "supplements",
+    description: "Check your personalized supplement recommendations"
   },
   {
     text: "Tell me about Vitamin D",
-    category: "education"
+    category: "education",
+    description: "Learn about important nutrients and supplements"
   },
   {
     text: "Search for magnesium benefits",
-    category: "search"
-  },
-  {
-    text: "Check my progress",
-    category: "progress"
-  },
-  {
-    text: "Update my goals",
-    category: "goals"
-  },
-  {
-    text: "Set monthly supplement budget",
-    category: "budget"
+    category: "search",
+    description: "Discover health benefits of specific nutrients"
   }
 ];
 
@@ -73,14 +65,21 @@ export const HealthAssistant = () => {
   };
 
   return (
-    <Card className="flex flex-col h-[calc(100vh-14rem)] md:h-[calc(100vh-16rem)] bg-gradient-to-b from-cyan-50/50 to-mint-50/30 shadow-lg animate-fade-in">
-      <div className="px-4 py-3 md:p-6 border-b bg-white/50 backdrop-blur-sm">
+    <Card className="flex flex-col h-[calc(100vh-6rem)] bg-white shadow-lg animate-fade-in">
+      <div className="px-4 py-3 md:p-6 border-b bg-gradient-to-b from-white to-gray-50">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-primary/10 rounded-lg">
               <Bot className="h-6 w-6 text-primary" />
             </div>
-            <h2 className="text-xl md:text-2xl font-semibold text-secondary">Health Assistant</h2>
+            <div className="space-y-1">
+              <h2 className="text-2xl md:text-3xl font-semibold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+                Hello, how can I help?
+              </h2>
+              <p className="text-muted-foreground text-sm md:text-base">
+                I'm your personal health assistant
+              </p>
+            </div>
           </div>
           <Button
             variant="ghost"
@@ -89,16 +88,35 @@ export const HealthAssistant = () => {
             className="text-muted-foreground hover:text-destructive"
           >
             <Trash2 className="h-4 w-4 mr-2" />
-            Clear Chat
+            Clear
           </Button>
         </div>
       </div>
 
+      {chatHistory.length === 0 && (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-6">
+          {quickReplies.map((reply, index) => (
+            <Card
+              key={index}
+              className="p-4 hover:bg-gray-50 cursor-pointer transition-colors group"
+              onClick={() => handleSendMessage(reply.text)}
+            >
+              <h3 className="font-medium text-secondary group-hover:text-primary transition-colors">
+                {reply.text}
+              </h3>
+              <p className="text-sm text-muted-foreground mt-1">
+                {reply.description}
+              </p>
+            </Card>
+          ))}
+        </div>
+      )}
+
       <ScrollArea 
-        className="flex-1 px-4 py-6 md:p-6 text-base md:text-lg bg-gradient-to-b from-cyan-50/30 to-mint-50/20" 
+        className="flex-1 px-4 py-6 md:p-6" 
         ref={scrollAreaRef}
       >
-        <div className="space-y-6">
+        <div className="space-y-6 max-w-3xl mx-auto">
           {chatHistory.map((msg, index) => (
             <ChatMessage 
               key={index} 
@@ -116,13 +134,10 @@ export const HealthAssistant = () => {
         </div>
       </ScrollArea>
 
-      <div className="p-4 md:p-6 border-t bg-white/50 backdrop-blur-sm space-y-4">
-        <QuickReplies
-          replies={quickReplies}
-          onSelect={(reply) => handleSendMessage(reply.text)}
-          disabled={isLoading}
-        />
-        <ChatInput onSendMessage={handleSendMessage} isLoading={isLoading} />
+      <div className="p-4 md:p-6 border-t bg-gradient-to-t from-gray-50 to-white">
+        <div className="max-w-3xl mx-auto">
+          <ChatInput onSendMessage={handleSendMessage} isLoading={isLoading} />
+        </div>
       </div>
     </Card>
   );

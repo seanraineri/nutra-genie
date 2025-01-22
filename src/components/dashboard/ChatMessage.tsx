@@ -19,10 +19,7 @@ export const ChatMessage = ({ role, content, timestamp }: ChatMessageProps) => {
   };
 
   const createClickableLinks = (text: string) => {
-    // Handle markdown-style links [text](url)
     const markdownLinkPattern = /\[(.*?)\]\((.*?)\)/g;
-    
-    // Handle plain URLs
     const urlPattern = /(https?:\/\/[^\s]+)/g;
     
     let processedText = text.replace(markdownLinkPattern, (match, linkText, url) => {
@@ -67,10 +64,8 @@ export const ChatMessage = ({ role, content, timestamp }: ChatMessageProps) => {
   };
 
   return (
-    <div 
-      className={`flex ${role === "user" ? "justify-end" : "justify-start"} mb-4 animate-fade-in group`}
-    >
-      <div className={`flex gap-3 max-w-[90%] ${role === "user" ? "flex-row-reverse" : "flex-row"}`}>
+    <div className={`flex ${role === "user" ? "justify-end" : "justify-start"} mb-4 animate-fade-in group`}>
+      <div className={`flex gap-3 max-w-[85%] ${role === "user" ? "flex-row-reverse" : "flex-row"}`}>
         <Avatar className="h-8 w-8 shrink-0">
           {role === "user" ? (
             <>
@@ -86,17 +81,17 @@ export const ChatMessage = ({ role, content, timestamp }: ChatMessageProps) => {
         </Avatar>
         <div>
           <div
-            className={`rounded-lg p-4 shadow-sm ${
+            className={`rounded-2xl px-4 py-2 shadow-sm ${
               role === "user"
                 ? "bg-primary text-primary-foreground"
-                : "bg-card border border-border/50"
+                : "bg-gray-100"
             }`}
           >
-            <div className="prose prose-sm dark:prose-invert">
+            <div className="prose prose-sm max-w-none">
               {formatContent(content)}
             </div>
           </div>
-          <div className="px-4 mt-1">
+          <div className="px-2 mt-1">
             <span className="text-xs text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity">
               {format(new Date(timestamp), "h:mm a")}
             </span>
