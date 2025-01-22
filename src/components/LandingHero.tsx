@@ -53,7 +53,15 @@ export const LandingHero = () => {
                     onClick={() => navigate("/input")}
                     className="bg-[#FEF7CD] hover:bg-[#FEF7CD]/90 text-black text-lg h-14 px-8"
                   >
-                    Go Shopping →
+                    Get Started →
+                  </Button>
+                  <Button
+                    size="lg"
+                    onClick={() => navigate("/dashboard")}
+                    variant="outline"
+                    className="border-gray-300 text-gray-700 hover:bg-gray-50 h-14"
+                  >
+                    Open Dashboard
                   </Button>
                   <Button
                     size="lg"
