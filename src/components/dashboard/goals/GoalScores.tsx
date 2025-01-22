@@ -1,137 +1,74 @@
-import { useState, useEffect } from "react";
 import { Progress } from "@/components/ui/progress";
-import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { addGoalScore } from "@/api/healthGoalsApi";
-import { Badge } from "@/components/ui/badge";
-
-interface GoalScore {
-  id: string;
-  score: number;
-  notes?: string;
-  created_at: string;
-}
 
 interface GoalScoresProps {
   goalId: string;
 }
 
 export const GoalScores = ({ goalId }: GoalScoresProps) => {
-  const [scores, setScores] = useState<GoalScore[]>([]);
-  const [newScore, setNewScore] = useState("");
-  const { toast } = useToast();
-
-  useEffect(() => {
-    const fetchScores = async () => {
-      const { data, error } = await supabase
-        .from('goal_scores')
-        .select('*')
-        .eq('goal_id', goalId)
-        .order('created_at', { ascending: false });
-
-      if (error) {
-        console.error('Error fetching scores:', error);
-        return;
-      }
-
-      setScores(data || []);
-    };
-
-    fetchScores();
-
-    const channel = supabase
-      .channel('schema-db-changes')
-      .on(
-        'postgres_changes',
-        {
-          event: '*',
-          schema: 'public',
-          table: 'goal_scores',
-          filter: `goal_id=eq.${goalId}`
-        },
-        () => {
-          fetchScores();
-        }
-      )
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(channel);
-    };
-  }, [goalId]);
-
-  const handleAddScore = async () => {
-    try {
-      const scoreNum = parseInt(newScore);
-      if (isNaN(scoreNum) || scoreNum < 0 || scoreNum > 100) {
-        throw new Error("Score must be between 0 and 100");
-      }
-
-      await addGoalScore(goalId, scoreNum);
-      setNewScore("");
-      
-      toast({
-        title: "Score added",
-        description: "Your goal score has been recorded successfully.",
-      });
-    } catch (error: any) {
-      toast({
-        title: "Error",
-        description: error.message || "Failed to add score. Please try again.",
-        variant: "destructive",
-      });
-    }
-  };
-
-  const getLatestScore = () => {
-    return scores.length > 0 ? scores[0].score : 0;
-  };
+  // Mock data for visualization
+  const currentScore = 75;
+  const mockScores = [
+    { id: '1', score: 75, created_at: '2024-03-20' },
+    { id: '2', score: 60, created_at: '2024-03-19' },
+    { id: '3', score: 45, created_at: '2024-03-18' },
+    { id: '4', score: 30, created_at: '2024-03-17' },
+  ];
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString();
   };
 
   return (
-    <div className="space-y-4">
-      <div className="flex justify-between text-sm">
-        <span className="text-muted-foreground">Current Score</span>
-        <span className="font-medium">{getLatestScore()}/100</span>
+    <div className="space-y-6">
+      {/* Current Score Section */}
+      <div className="bg-white p-4 rounded-lg border shadow-sm">
+        <div className="flex justify-between items-center mb-2">
+          <span className="text-sm font-medium text-secondary">Current Score</span>
+          <span className="text-2xl font-bold text-primary">{currentScore}<span className="text-sm text-muted-foreground">/100</span></span>
+        </div>
+        <Progress value={currentScore} className="h-3 bg-gray-100" />
       </div>
-      <Progress value={getLatestScore()} className="h-2" />
-      
-      <div className="flex gap-2">
+
+      {/* Add New Score Section */}
+      <div className="flex gap-2 items-center">
         <Input
           type="number"
-          min="0"
-          max="100"
-          value={newScore}
-          onChange={(e) => setNewScore(e.target.value)}
           placeholder="Enter score (0-100)"
           className="w-40"
         />
-        <Button onClick={handleAddScore} size="sm">
+        <Button className="bg-primary hover:bg-primary/90">
           Add Score
         </Button>
       </div>
 
-      {scores.length > 0 && (
-        <div className="mt-4">
-          <h5 className="text-sm font-medium mb-2">Score History</h5>
-          <div className="flex flex-wrap gap-2">
-            {scores.map((score) => (
-              <Badge 
-                key={score.id} 
-                variant="secondary"
-                className="text-xs"
-              >
-                {score.score}/100 ({formatDate(score.created_at)})
-              </Badge>
-            ))}
-          </div>
+      {/* Score History Section */}
+      <div>
+        <h5 className="text-sm font-medium text-secondary mb-3">Score History</h5>
+        <div className="grid gap-2">
+          {mockScores.map((score) => (
+            <div 
+              key={score.id}
+              className="flex items-center justify-between bg-white p-2 rounded-md border"
+            >
+              <div className="flex items-center gap-2">
+                <Badge 
+                  variant="secondary"
+                  className="h-8 w-8 rounded-full flex items-center justify-center font-medium"
+                >
+                  {score.score}
+                </Badge>
+                <span className="text-sm text-muted-foreground">
+                  {formatDate(score.created_at)}
+                </span>
+              </div>
+              <Progress value={score.score} className="w-24 h-2" />
+            </div>
+          ))}
         </div>
-      )}
+      </div>
     </div>
   );
 };

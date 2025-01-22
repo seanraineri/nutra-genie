@@ -139,8 +139,8 @@ export const GoalItem = ({ goal, onUpdate, isEditing }: GoalItemProps) => {
         </div>
       )}
 
-      <Card className="mt-6 p-4 bg-gray-50">
-        <h4 className="text-sm font-semibold mb-4">Goal Score History</h4>
+      <Card className="mt-6 p-6 bg-gray-50/50">
+        <h4 className="text-lg font-semibold mb-6 text-secondary">Goal Progress Tracking</h4>
         <GoalScores goalId={goal.id} />
       </Card>
     </div>
