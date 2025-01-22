@@ -15,6 +15,7 @@ import { HealthMetricsStep } from "./wizard-steps/HealthMetricsStep";
 import { MedicalHistoryStep } from "./wizard-steps/MedicalHistoryStep";
 import { TestResultsStep } from "./wizard-steps/TestResultsStep";
 import { FinalStep } from "./wizard-steps/FinalStep";
+import type { HealthFormData } from "@/types/health-form";
 
 const steps = [
   "Personal Information",
@@ -58,7 +59,8 @@ export const StepWizard = () => {
 
     try {
       setIsSubmitting(true);
-      const result = await submitHealthFormData(data);
+      // Cast the data to HealthFormData since we know all required fields are present
+      const result = await submitHealthFormData(data as HealthFormData);
 
       toast({
         title: "Success!",
@@ -76,6 +78,29 @@ export const StepWizard = () => {
       });
       setIsSubmitting(false);
     }
+  };
+
+  // Helper function to safely get form values as HealthFormData
+  const getFormDataValues = (): HealthFormData => {
+    const values = form.getValues();
+    return {
+      firstName: values.firstName || "",
+      lastName: values.lastName || "",
+      email: values.email || "",
+      password: values.password || "",
+      age: values.age || "",
+      gender: values.gender || "male",
+      height: values.height || "",
+      weight: values.weight || "",
+      activityLevel: values.activityLevel || "sedentary",
+      medicalConditions: values.medicalConditions || "",
+      allergies: values.allergies || "",
+      currentMedications: values.currentMedications || "",
+      hasBloodwork: values.hasBloodwork || false,
+      hasGeneticTesting: values.hasGeneticTesting || false,
+      healthGoals: values.healthGoals || "",
+      monthlyBudget: values.monthlyBudget || "",
+    };
   };
 
   const nextStep = async () => {
@@ -109,6 +134,8 @@ export const StepWizard = () => {
   };
 
   const renderStep = () => {
+    const formData = getFormDataValues();
+    
     switch (currentStep) {
       case 0:
         return <PersonalInfoStep form={form} />;
@@ -117,9 +144,9 @@ export const StepWizard = () => {
       case 2:
         return <MedicalHistoryStep form={form} />;
       case 3:
-        return <TestResultsStep form={form} />;
+        return <TestResultsStep form={form} formData={formData} />;
       case 4:
-        return <FinalStep form={form} isSubmitting={isSubmitting} />;
+        return <FinalStep form={form} formData={formData} isSubmitting={isSubmitting} />;
       default:
         return null;
     }

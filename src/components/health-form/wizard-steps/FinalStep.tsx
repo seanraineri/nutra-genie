@@ -1,5 +1,6 @@
 import { UseFormReturn } from "react-hook-form";
 import { HealthFormSchemaType } from "@/schemas/healthFormSchema";
+import { HealthFormData } from "@/types/health-form";
 import { HealthGoalsInput } from "../HealthGoalsInput";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -23,17 +24,18 @@ import { useState } from "react";
 
 interface FinalStepProps {
   form: UseFormReturn<HealthFormSchemaType>;
+  formData: HealthFormData;
   isSubmitting: boolean;
 }
 
-export const FinalStep = ({ form, isSubmitting }: FinalStepProps) => {
+export const FinalStep = ({ form, formData, isSubmitting }: FinalStepProps) => {
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const navigate = useNavigate();
 
   return (
     <div className="space-y-6">
       <HealthGoalsInput 
-        formData={form.getValues()}
+        formData={formData}
         onChange={(e) => form.setValue("healthGoals", e.target.value)}
       />
 
