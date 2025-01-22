@@ -35,9 +35,9 @@ export const LandingHero = () => {
       </div>
 
       <div className="min-h-screen bg-gradient-to-b from-cyan-50 to-teal-50">
-        <div className="max-w-[1200px] mx-auto px-4">
+        <div className="max-w-[1200px] mx-auto px-4 flex flex-col min-h-screen">
           {/* Main content */}
-          <div className="flex flex-col items-center justify-center pt-32 pb-8">
+          <div className="flex-grow flex flex-col items-center justify-center pt-32 pb-4">
             <div className="space-y-6 max-w-3xl text-center mx-auto">
               <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight bg-gradient-to-r from-cyan-500 to-teal-500 bg-clip-text text-transparent mx-auto">
                 The Future of Wellness
@@ -73,7 +73,7 @@ export const LandingHero = () => {
             </div>
 
             {/* Image section with hover effect */}
-            <div className="mt-12 w-full max-w-2xl mx-auto">
+            <div className="mt-8 w-full max-w-2xl mx-auto">
               <div className="relative h-[400px] rounded-2xl overflow-hidden shadow-xl transition-all duration-300 transform hover:scale-105 hover:shadow-2xl cursor-pointer">
                 <img
                   src="/lovable-uploads/2f53b616-9c59-4de0-abb0-263c4a144685.png"
@@ -86,7 +86,7 @@ export const LandingHero = () => {
           </div>
 
           {/* Footer links */}
-          <div className="py-6 mt-4">
+          <div className="py-4">
             <div className="flex flex-wrap justify-center gap-x-8 gap-y-2 text-sm text-gray-500 max-w-4xl mx-auto px-4">
               <Link to="/privacy" className="hover:text-teal-600 transition-colors whitespace-nowrap">Privacy Policy</Link>
               <Link to="/about" className="hover:text-teal-600 transition-colors whitespace-nowrap">About</Link>
