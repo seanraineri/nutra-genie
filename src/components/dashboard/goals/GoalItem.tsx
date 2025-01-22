@@ -6,6 +6,7 @@ import { Progress } from "@/components/ui/progress";
 import { Pencil } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { GoalScores } from "./GoalScores";
 
 interface Goal {
   id: string;
@@ -63,7 +64,7 @@ export const GoalItem = ({ goal, onUpdate, isEditing }: GoalItemProps) => {
   };
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-4">
       {isEditing ? (
         <div className="space-y-2">
           <Input
@@ -111,7 +112,7 @@ export const GoalItem = ({ goal, onUpdate, isEditing }: GoalItemProps) => {
           </div>
         </div>
       ) : (
-        <div className="space-y-2">
+        <div className="space-y-4">
           <div className="flex justify-between items-center">
             <div>
               <span className="font-medium block">{goal.goal_name}</span>
@@ -131,6 +132,12 @@ export const GoalItem = ({ goal, onUpdate, isEditing }: GoalItemProps) => {
             </span>
           </div>
           <Progress value={calculateProgress(goal.progress, goal.target)} />
+          
+          {/* Add the scores section */}
+          <div className="pt-4 border-t">
+            <h4 className="text-sm font-medium mb-2">Goal Score History</h4>
+            <GoalScores goalId={goal.id} />
+          </div>
         </div>
       )}
     </div>

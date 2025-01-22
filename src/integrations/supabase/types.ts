@@ -36,6 +36,41 @@ export type Database = {
         }
         Relationships: []
       }
+      goal_scores: {
+        Row: {
+          created_at: string | null
+          goal_id: string
+          id: string
+          notes: string | null
+          score: number
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          goal_id: string
+          id?: string
+          notes?: string | null
+          score?: number
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          goal_id?: string
+          id?: string
+          notes?: string | null
+          score?: number
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "goal_scores_goal_id_fkey"
+            columns: ["goal_id"]
+            isOneToOne: false
+            referencedRelation: "health_goals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       health_files: {
         Row: {
           file_path: string
