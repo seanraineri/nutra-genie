@@ -22,20 +22,19 @@ interface MedicalConditionsStepProps {
 
 const CONDITIONS = [
   { id: "diabetes", label: "Diabetes", requiresType: true },
-  { id: "thyroid", label: "Thyroid Issues", requiresSpecification: true },
+  { id: "thyroid", label: "Thyroid Issues" },
   { id: "cholesterol", label: "High Cholesterol" },
   { id: "blood-pressure", label: "High Blood Pressure" },
   { id: "adhd", label: "ADHD" },
   { id: "anxiety-depression", label: "Anxiety or Depression" },
   { id: "ibs", label: "IBS" },
   { id: "arthritis", label: "Arthritis" },
-  { id: "cancer", label: "Cancer", requiresSpecification: true },
+  { id: "cancer", label: "Cancer" },
   { id: "other", label: "Other", requiresSpecification: true },
 ];
 
 export const MedicalConditionsStep = ({ form }: MedicalConditionsStepProps) => {
-  const [selectedCondition, setSelectedCondition] = useState<string | null>(null);
-  const [specification, setSpecification] = useState("");
+  const [otherCondition, setOtherCondition] = useState("");
   const [noConditions, setNoConditions] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
 
@@ -49,9 +48,8 @@ export const MedicalConditionsStep = ({ form }: MedicalConditionsStepProps) => {
     
     const currentConditions = form.getValues("medicalConditions") || [];
     form.setValue("medicalConditions", [...currentConditions, newCondition]);
-    setSelectedCondition(null);
-    setSpecification("");
-    setDialogOpen(false); // Close dialog after adding
+    setOtherCondition("");
+    setDialogOpen(false);
   };
 
   const handleRemoveCondition = (index: number) => {
@@ -84,23 +82,19 @@ export const MedicalConditionsStep = ({ form }: MedicalConditionsStepProps) => {
         {!noConditions && (
           <>
             <div className="grid grid-cols-2 gap-4">
-              {CONDITIONS.map((condition) => (
-                <Dialog key={condition.id} open={dialogOpen} onOpenChange={setDialogOpen}>
-                  <DialogTrigger asChild>
-                    <Button
-                      variant="outline"
-                      className="w-full justify-start"
-                      onClick={() => setSelectedCondition(condition.label)}
-                    >
-                      {condition.label}
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent>
-                    <DialogHeader>
-                      <DialogTitle>{condition.label}</DialogTitle>
-                    </DialogHeader>
-                    <div className="space-y-4">
-                      {condition.requiresType && (
+              {CONDITIONS.map((condition) => {
+                if (condition.requiresType) {
+                  return (
+                    <Dialog key={condition.id} open={dialogOpen} onOpenChange={setDialogOpen}>
+                      <DialogTrigger asChild>
+                        <Button variant="outline" className="w-full justify-start">
+                          {condition.label}
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent>
+                        <DialogHeader>
+                          <DialogTitle>{condition.label}</DialogTitle>
+                        </DialogHeader>
                         <div className="space-y-2">
                           <Label>Type</Label>
                           <div className="space-x-2">
@@ -118,35 +112,52 @@ export const MedicalConditionsStep = ({ form }: MedicalConditionsStepProps) => {
                             </Button>
                           </div>
                         </div>
-                      )}
-                      {condition.requiresSpecification && (
+                      </DialogContent>
+                    </Dialog>
+                  );
+                } else if (condition.requiresSpecification) {
+                  return (
+                    <Dialog key={condition.id} open={dialogOpen} onOpenChange={setDialogOpen}>
+                      <DialogTrigger asChild>
+                        <Button variant="outline" className="w-full justify-start">
+                          {condition.label}
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent>
+                        <DialogHeader>
+                          <DialogTitle>{condition.label}</DialogTitle>
+                        </DialogHeader>
                         <div className="space-y-2">
                           <Label>Please specify</Label>
                           <Input
-                            value={specification}
-                            onChange={(e) => setSpecification(e.target.value)}
-                            placeholder="Enter details"
+                            value={otherCondition}
+                            onChange={(e) => setOtherCondition(e.target.value)}
+                            placeholder="Enter condition"
                           />
                           <Button
                             className="w-full"
-                            onClick={() => handleAddCondition(condition.label, specification)}
+                            onClick={() => handleAddCondition("Other", otherCondition)}
+                            disabled={!otherCondition.trim()}
                           >
                             Add
                           </Button>
                         </div>
-                      )}
-                      {!condition.requiresType && !condition.requiresSpecification && (
-                        <Button
-                          className="w-full"
-                          onClick={() => handleAddCondition(condition.label)}
-                        >
-                          Add
-                        </Button>
-                      )}
-                    </div>
-                  </DialogContent>
-                </Dialog>
-              ))}
+                      </DialogContent>
+                    </Dialog>
+                  );
+                }
+                
+                return (
+                  <Button
+                    key={condition.id}
+                    variant="outline"
+                    className="w-full justify-start"
+                    onClick={() => handleAddCondition(condition.label)}
+                  >
+                    {condition.label}
+                  </Button>
+                );
+              })}
             </div>
 
             <div className="space-y-2">

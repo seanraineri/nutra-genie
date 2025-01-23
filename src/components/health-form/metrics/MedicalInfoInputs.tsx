@@ -26,7 +26,9 @@ export const MedicalInfoInputs = ({ form }: MedicalInfoInputsProps) => {
             <FormControl>
               <Textarea
                 {...field}
-                value={field.value ? JSON.stringify(field.value) : ""}
+                value={field.value ? field.value.map(c => 
+                  `${c.condition}${c.specification ? ` - ${c.specification}` : ''}`
+                ).join(', ') : ''}
                 className="min-h-[100px] resize-y"
                 placeholder="List any current medical conditions"
               />
@@ -45,7 +47,7 @@ export const MedicalInfoInputs = ({ form }: MedicalInfoInputsProps) => {
             <FormControl>
               <Textarea
                 {...field}
-                value={field.value ? field.value.join(", ") : ""}
+                value={Array.isArray(field.value) ? field.value.join(", ") : ""}
                 className="min-h-[100px] resize-y"
                 placeholder="List any allergies you have"
               />
