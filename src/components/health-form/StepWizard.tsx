@@ -38,6 +38,7 @@ export const StepWizard = () => {
       firstName: "",
       lastName: "",
       email: "",
+      phoneNumber: "",
       password: "",
       age: "",
       gender: "male",
@@ -95,7 +96,7 @@ export const StepWizard = () => {
   const getFieldsForStep = (step: number): Array<keyof HealthFormSchemaType> => {
     switch (step) {
       case 0:
-        return ["firstName", "lastName", "email", "password"];
+        return ["firstName", "lastName", "email", "phoneNumber", "password"];
       case 1:
         return ["age", "gender", "height", "weight"];
       case 2:

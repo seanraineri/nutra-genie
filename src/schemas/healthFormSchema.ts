@@ -22,6 +22,11 @@ export const healthFormSchema = z.object({
     .email("Please enter a valid email address")
     .min(5, "Email must be at least 5 characters")
     .max(100, "Email must be less than 100 characters"),
+  phoneNumber: z
+    .string()
+    .min(10, "Phone number must be at least 10 digits")
+    .max(15, "Phone number must be less than 15 digits")
+    .regex(/^\+?[\d\s-()]+$/, "Please enter a valid phone number"),
   password: z
     .string()
     .min(8, "Password must be at least 8 characters")

@@ -5,6 +5,7 @@ export interface HealthFormData {
   firstName: string;
   lastName: string;
   email: string;
+  phoneNumber: string;
   password: string;
   age: string;
   gender: Gender;

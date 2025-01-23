@@ -61,6 +61,20 @@ export const PersonalInfoStep = ({ form }: PersonalInfoStepProps) => {
 
       <FormField
         control={form.control}
+        name="phoneNumber"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Phone Number</FormLabel>
+            <FormControl>
+              <Input type="tel" placeholder="e.g., +1 (555) 123-4567" {...field} />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        control={form.control}
         name="password"
         render={({ field }) => (
           <FormItem>
