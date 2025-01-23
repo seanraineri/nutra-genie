@@ -52,11 +52,11 @@ export const LifestyleStep = ({ form }: LifestyleStepProps) => {
             <FormLabel>Smoking/Vaping Status</FormLabel>
             <Select onValueChange={field.onChange} defaultValue={field.value}>
               <FormControl>
-                <SelectTrigger>
+                <SelectTrigger className="bg-transparent">
                   <SelectValue placeholder="Select your smoking/vaping status" />
                 </SelectTrigger>
               </FormControl>
-              <SelectContent>
+              <SelectContent className="bg-transparent backdrop-blur-md">
                 <SelectItem value="non_smoker">Non-smoker</SelectItem>
                 <SelectItem value="former_smoker">Former smoker</SelectItem>
                 <SelectItem value="current_smoker">Current smoker</SelectItem>
@@ -76,11 +76,11 @@ export const LifestyleStep = ({ form }: LifestyleStepProps) => {
             <FormLabel>Alcohol Consumption</FormLabel>
             <Select onValueChange={field.onChange} defaultValue={field.value}>
               <FormControl>
-                <SelectTrigger>
+                <SelectTrigger className="bg-transparent">
                   <SelectValue placeholder="Select your alcohol consumption" />
                 </SelectTrigger>
               </FormControl>
-              <SelectContent>
+              <SelectContent className="bg-transparent backdrop-blur-md">
                 <SelectItem value="none">None</SelectItem>
                 <SelectItem value="occasional">Occasional (1-2 drinks/week)</SelectItem>
                 <SelectItem value="moderate">Moderate (3-7 drinks/week)</SelectItem>
