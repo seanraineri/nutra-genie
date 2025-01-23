@@ -53,7 +53,7 @@ export const StepWizard = () => {
       activityLevel: "sedentary",
       medicalConditions: [],
       allergies: [],
-      currentMedications: "",
+      currentMedications: [],
       hasBloodwork: false,
       hasGeneticTesting: false,
       healthGoals: [],

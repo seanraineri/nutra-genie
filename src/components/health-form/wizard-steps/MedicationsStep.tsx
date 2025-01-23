@@ -6,12 +6,6 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Plus } from "lucide-react";
 import { HealthFormSchemaType } from "@/schemas/healthFormSchema";
-import {
-  FormField,
-  FormItem,
-  FormControl,
-  FormMessage,
-} from "@/components/ui/form";
 
 interface MedicationsStepProps {
   form: UseFormReturn<HealthFormSchemaType>;
@@ -23,7 +17,8 @@ export const MedicationsStep = ({ form }: MedicationsStepProps) => {
 
   const handleAddMedication = () => {
     if (newMedication.trim()) {
-      form.setValue("currentMedications", [...currentMedications, newMedication.trim()]);
+      const updatedMedications = [...currentMedications, newMedication.trim()];
+      form.setValue("currentMedications", updatedMedications);
       setNewMedication("");
     }
   };

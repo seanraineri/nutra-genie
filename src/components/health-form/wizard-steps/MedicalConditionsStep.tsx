@@ -13,6 +13,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogDescription,
 } from "@/components/ui/dialog";
 import type { MedicalCondition } from "@/types/health-form";
 
@@ -83,9 +84,9 @@ export const MedicalConditionsStep = ({ form }: MedicalConditionsStepProps) => {
           <>
             <div className="grid grid-cols-2 gap-4">
               {CONDITIONS.map((condition) => {
-                if (condition.requiresType) {
+                if (condition.id === "diabetes") {
                   return (
-                    <Dialog key={condition.id} open={dialogOpen} onOpenChange={setDialogOpen}>
+                    <Dialog key={condition.id}>
                       <DialogTrigger asChild>
                         <Button variant="outline" className="w-full justify-start">
                           {condition.label}
@@ -93,31 +94,31 @@ export const MedicalConditionsStep = ({ form }: MedicalConditionsStepProps) => {
                       </DialogTrigger>
                       <DialogContent>
                         <DialogHeader>
-                          <DialogTitle>{condition.label}</DialogTitle>
+                          <DialogTitle>Select Diabetes Type</DialogTitle>
+                          <DialogDescription>
+                            Please select which type of diabetes you have
+                          </DialogDescription>
                         </DialogHeader>
-                        <div className="space-y-2">
-                          <Label>Type</Label>
-                          <div className="space-x-2">
-                            <Button
-                              variant="outline"
-                              onClick={() => handleAddCondition(condition.label, "Type 1")}
-                            >
-                              Type 1
-                            </Button>
-                            <Button
-                              variant="outline"
-                              onClick={() => handleAddCondition(condition.label, "Type 2")}
-                            >
-                              Type 2
-                            </Button>
-                          </div>
+                        <div className="grid grid-cols-2 gap-4">
+                          <Button
+                            variant="outline"
+                            onClick={() => handleAddCondition("Diabetes", "Type 1")}
+                          >
+                            Type 1
+                          </Button>
+                          <Button
+                            variant="outline"
+                            onClick={() => handleAddCondition("Diabetes", "Type 2")}
+                          >
+                            Type 2
+                          </Button>
                         </div>
                       </DialogContent>
                     </Dialog>
                   );
                 } else if (condition.requiresSpecification) {
                   return (
-                    <Dialog key={condition.id} open={dialogOpen} onOpenChange={setDialogOpen}>
+                    <Dialog key={condition.id}>
                       <DialogTrigger asChild>
                         <Button variant="outline" className="w-full justify-start">
                           {condition.label}
@@ -126,9 +127,11 @@ export const MedicalConditionsStep = ({ form }: MedicalConditionsStepProps) => {
                       <DialogContent>
                         <DialogHeader>
                           <DialogTitle>{condition.label}</DialogTitle>
+                          <DialogDescription>
+                            Please specify your condition
+                          </DialogDescription>
                         </DialogHeader>
                         <div className="space-y-2">
-                          <Label>Please specify</Label>
                           <Input
                             value={otherCondition}
                             onChange={(e) => setOtherCondition(e.target.value)}
