@@ -1,5 +1,6 @@
 export type ActivityLevel = "sedentary" | "moderate" | "active" | "athlete";
 export type Gender = "male" | "female";
+export type DietType = "vegan_vegetarian" | "animal_based" | "keto" | "processed_food" | "minimal_preference";
 
 export interface MedicalCondition {
   condition: string;
@@ -25,4 +26,5 @@ export interface HealthFormData {
   healthGoals: string[];
   otherHealthGoals?: string[];
   monthlyBudget: string;
+  dietType?: DietType;
 }

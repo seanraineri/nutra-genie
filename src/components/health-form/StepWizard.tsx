@@ -17,8 +17,8 @@ import { HealthGoalsStep } from "./wizard-steps/HealthGoalsStep";
 import { AllergiesStep } from "./wizard-steps/AllergiesStep";
 import { MedicalConditionsStep } from "./wizard-steps/MedicalConditionsStep";
 import { MedicationsStep } from "./wizard-steps/MedicationsStep";
+import { DietStep } from "./wizard-steps/DietStep";
 import { FinalStep } from "./wizard-steps/FinalStep";
-import type { HealthFormData } from "@/types/health-form";
 
 const steps = [
   "Personal Information",
@@ -28,6 +28,7 @@ const steps = [
   "Allergies",
   "Medical Conditions",
   "Medications",
+  "Diet",
   "Review & Submit",
 ];
 
@@ -59,6 +60,7 @@ export const StepWizard = () => {
       healthGoals: [],
       otherHealthGoals: [],
       monthlyBudget: "",
+      dietType: undefined,
     },
   });
 
@@ -67,7 +69,7 @@ export const StepWizard = () => {
 
     try {
       setIsSubmitting(true);
-      await submitHealthFormData(data as HealthFormData);
+      await submitHealthFormData(data);
 
       toast({
         title: "Success!",
@@ -117,6 +119,8 @@ export const StepWizard = () => {
       case 6:
         return ["currentMedications"];
       case 7:
+        return ["dietType"];
+      case 8:
         return ["monthlyBudget"];
       default:
         return [];
@@ -142,7 +146,9 @@ export const StepWizard = () => {
       case 6:
         return <MedicationsStep form={form} />;
       case 7:
-        return <FinalStep form={form} formData={formData as HealthFormData} isSubmitting={isSubmitting} />;
+        return <DietStep form={form} />;
+      case 8:
+        return <FinalStep form={form} formData={formData} isSubmitting={isSubmitting} />;
       default:
         return null;
     }

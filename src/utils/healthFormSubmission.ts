@@ -42,9 +42,10 @@ export const submitHealthFormData = async (formData: HealthFormData) => {
         activity_level: formData.activityLevel,
         medical_conditions: formData.medicalConditions,
         allergies: formData.allergies,
-        current_medications: formData.currentMedications ? [formData.currentMedications] : [],
+        current_medications: formData.currentMedications,
         health_goals: formData.healthGoals,
         monthly_supplement_budget: formData.monthlyBudget ? parseFloat(formData.monthlyBudget) : 0,
+        diet_type: formData.dietType,
       }])
       .select()
       .single();

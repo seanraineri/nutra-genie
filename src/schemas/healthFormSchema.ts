@@ -67,6 +67,13 @@ export const healthFormSchema = z.object({
     .string()
     .refine((val) => !isNaN(Number(val)), "Budget must be a number")
     .refine((val) => Number(val) >= 0, "Budget must be greater than or equal to 0"),
+  dietType: z.enum([
+    "vegan_vegetarian",
+    "animal_based",
+    "keto",
+    "processed_food",
+    "minimal_preference"
+  ]).optional(),
 });
 
 export type HealthFormSchemaType = z.infer<typeof healthFormSchema>;
