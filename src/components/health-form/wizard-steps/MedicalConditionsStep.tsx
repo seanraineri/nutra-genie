@@ -5,8 +5,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
 import { X } from "lucide-react";
+import { BubbleOption } from "../BubbleOption";
 import {
   Dialog,
   DialogContent,
@@ -71,14 +71,11 @@ export const MedicalConditionsStep = ({ form }: MedicalConditionsStepProps) => {
       <div className="space-y-4">
         <h2 className="text-lg font-semibold">Do you have any medical conditions?</h2>
         
-        <div className="flex items-center space-x-2 mb-4">
-          <Checkbox
-            id="no-conditions"
-            checked={noConditions}
-            onCheckedChange={handleNoConditions}
-          />
-          <Label htmlFor="no-conditions">I don't have any medical conditions</Label>
-        </div>
+        <BubbleOption
+          label="I don't have any medical conditions"
+          isSelected={noConditions}
+          onClick={() => handleNoConditions(!noConditions)}
+        />
 
         {!noConditions && (
           <>
@@ -88,9 +85,13 @@ export const MedicalConditionsStep = ({ form }: MedicalConditionsStepProps) => {
                   return (
                     <Dialog key={condition.id}>
                       <DialogTrigger asChild>
-                        <Button variant="outline" className="w-full justify-start">
-                          {condition.label}
-                        </Button>
+                        <div>
+                          <BubbleOption
+                            label={condition.label}
+                            isSelected={conditions.some(c => c.condition === "Diabetes")}
+                            onClick={() => {}}
+                          />
+                        </div>
                       </DialogTrigger>
                       <DialogContent>
                         <DialogHeader>
@@ -100,18 +101,16 @@ export const MedicalConditionsStep = ({ form }: MedicalConditionsStepProps) => {
                           </DialogDescription>
                         </DialogHeader>
                         <div className="grid grid-cols-2 gap-4">
-                          <Button
-                            variant="outline"
+                          <BubbleOption
+                            label="Type 1"
+                            isSelected={conditions.some(c => c.condition === "Diabetes" && c.specification === "Type 1")}
                             onClick={() => handleAddCondition("Diabetes", "Type 1")}
-                          >
-                            Type 1
-                          </Button>
-                          <Button
-                            variant="outline"
+                          />
+                          <BubbleOption
+                            label="Type 2"
+                            isSelected={conditions.some(c => c.condition === "Diabetes" && c.specification === "Type 2")}
                             onClick={() => handleAddCondition("Diabetes", "Type 2")}
-                          >
-                            Type 2
-                          </Button>
+                          />
                         </div>
                       </DialogContent>
                     </Dialog>
@@ -120,9 +119,13 @@ export const MedicalConditionsStep = ({ form }: MedicalConditionsStepProps) => {
                   return (
                     <Dialog key={condition.id}>
                       <DialogTrigger asChild>
-                        <Button variant="outline" className="w-full justify-start">
-                          {condition.label}
-                        </Button>
+                        <div>
+                          <BubbleOption
+                            label={condition.label}
+                            isSelected={conditions.some(c => c.condition === "Other")}
+                            onClick={() => {}}
+                          />
+                        </div>
                       </DialogTrigger>
                       <DialogContent>
                         <DialogHeader>
@@ -151,14 +154,12 @@ export const MedicalConditionsStep = ({ form }: MedicalConditionsStepProps) => {
                 }
                 
                 return (
-                  <Button
+                  <BubbleOption
                     key={condition.id}
-                    variant="outline"
-                    className="w-full justify-start"
+                    label={condition.label}
+                    isSelected={conditions.some(c => c.condition === condition.label)}
                     onClick={() => handleAddCondition(condition.label)}
-                  >
-                    {condition.label}
-                  </Button>
+                  />
                 );
               })}
             </div>

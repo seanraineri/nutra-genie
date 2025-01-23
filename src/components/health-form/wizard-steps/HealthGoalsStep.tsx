@@ -1,18 +1,11 @@
 import { UseFormReturn } from "react-hook-form";
 import { HealthFormSchemaType } from "@/schemas/healthFormSchema";
-import {
-  FormField,
-  FormItem,
-  FormLabel,
-  FormControl,
-  FormMessage,
-} from "@/components/ui/form";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
+import { FormField, FormItem, FormLabel } from "@/components/ui/form";
+import { BubbleOption } from "../BubbleOption";
 import { Input } from "@/components/ui/input";
-import { X } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { X } from "lucide-react";
 
 interface HealthGoalsStepProps {
   form: UseFormReturn<HealthFormSchemaType>;
@@ -75,17 +68,17 @@ export const HealthGoalsStep = ({ form }: HealthGoalsStepProps) => {
 
   const handleAddCustomGoal = () => {
     if (newGoal.trim()) {
-      const currentOtherGoals = form.getValues("otherHealthGoals") || [];
-      form.setValue("otherHealthGoals", [...currentOtherGoals, newGoal.trim()]);
+      const currentGoals = form.getValues("otherHealthGoals") || [];
+      form.setValue("otherHealthGoals", [...currentGoals, newGoal.trim()]);
       setNewGoal("");
     }
   };
 
   const handleRemoveCustomGoal = (index: number) => {
-    const currentOtherGoals = form.getValues("otherHealthGoals") || [];
+    const currentGoals = form.getValues("otherHealthGoals") || [];
     form.setValue(
       "otherHealthGoals",
-      currentOtherGoals.filter((_, i) => i !== index)
+      currentGoals.filter((_, i) => i !== index)
     );
   };
 
@@ -94,41 +87,32 @@ export const HealthGoalsStep = ({ form }: HealthGoalsStepProps) => {
       <FormField
         control={form.control}
         name="healthGoals"
-        render={() => (
+        render={({ field }) => (
           <FormItem>
-            <FormLabel className="text-base">What are your health goals?</FormLabel>
-            <FormMessage />
-            <div className="grid gap-4">
+            <FormLabel>What are your health goals?</FormLabel>
+            <div className="grid grid-cols-2 gap-4">
               {healthGoalOptions.map((option) => (
-                <div key={option.value} className="flex items-start space-x-3 space-y-0">
-                  <Checkbox
-                    checked={form.getValues("healthGoals")?.includes(option.value)}
-                    onCheckedChange={(checked) => {
-                      const current = form.getValues("healthGoals") || [];
-                      const updated = checked
-                        ? [...current, option.value]
-                        : current.filter((value) => value !== option.value);
-                      form.setValue("healthGoals", updated);
-                    }}
-                  />
-                  <Label
-                    htmlFor={option.value}
-                    className="flex flex-col cursor-pointer"
-                  >
-                    <span className="font-medium">{option.label}</span>
-                    <span className="text-sm text-muted-foreground">
-                      {option.description}
-                    </span>
-                  </Label>
-                </div>
+                <BubbleOption
+                  key={option.value}
+                  label={option.label}
+                  description={option.description}
+                  isSelected={(field.value || []).includes(option.value)}
+                  onClick={() => {
+                    const current = field.value || [];
+                    const updated = current.includes(option.value)
+                      ? current.filter((value) => value !== option.value)
+                      : [...current, option.value];
+                    field.onChange(updated);
+                  }}
+                />
               ))}
             </div>
           </FormItem>
         )}
       />
 
-      <div className="space-y-4">
-        <FormLabel className="text-base">Other Health Goals</FormLabel>
+      <div className="space-y-4 pt-4 border-t">
+        <FormLabel>Other Health Goals</FormLabel>
         <div className="flex gap-2">
           <Input
             placeholder="Enter a custom health goal"
@@ -148,7 +132,7 @@ export const HealthGoalsStep = ({ form }: HealthGoalsStepProps) => {
         <div className="space-y-2">
           {form.getValues("otherHealthGoals")?.map((goal, index) => (
             <div key={index} className="flex items-center gap-2 bg-secondary/20 p-2 rounded-md">
-              <span className="flex-1">{goal}</span>
+              <span>{goal}</span>
               <Button
                 type="button"
                 variant="ghost"
