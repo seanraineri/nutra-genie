@@ -3,6 +3,9 @@ export interface MedicalCondition {
   specification?: string;
 }
 
+export type ActivityLevel = "sedentary" | "moderate" | "active" | "athlete";
+export type Gender = "male" | "female";
+
 export interface HealthFormData {
   firstName: string;
   lastName: string;
@@ -10,10 +13,10 @@ export interface HealthFormData {
   phoneNumber: string;
   password: string;
   age: string;
-  gender: "male" | "female";
+  gender: Gender;
   height: string;
   weight: string;
-  activityLevel: "sedentary" | "moderate" | "active" | "athlete";
+  activityLevel: ActivityLevel;
   medicalConditions: MedicalCondition[];
   allergies: string[];
   currentMedications: string[];
