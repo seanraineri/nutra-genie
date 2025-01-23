@@ -79,7 +79,7 @@ const WorkWithUsPage = () => {
           </CardHeader>
           <CardContent className="flex-1 flex flex-col p-4">
             <p className="text-muted-foreground h-[80px]">
-              List your high-quality supplements on our platform and reach health-conscious customers.
+              List your high-quality supplements on our platform.
             </p>
             <Button 
               className="w-full mt-auto"
@@ -100,7 +100,7 @@ const WorkWithUsPage = () => {
           </CardHeader>
           <CardContent className="flex-1 flex flex-col p-4">
             <p className="text-muted-foreground h-[80px]">
-              Join our student ambassador network for marketing experience and a chance for extra money.
+              Join our student ambassador network for marketing experience.
             </p>
             <Button 
               className="w-full mt-auto"
