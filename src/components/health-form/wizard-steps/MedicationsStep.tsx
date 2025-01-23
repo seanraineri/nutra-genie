@@ -14,9 +14,10 @@ interface MedicationsStepProps {
 export const MedicationsStep = ({ form }: MedicationsStepProps) => {
   const [newMedication, setNewMedication] = useState("");
   const currentMedications = form.watch("currentMedications") || [];
+  const [noMedications, setNoMedications] = useState(false);
 
   const handleAddMedication = () => {
-    if (newMedication.trim()) {
+    if (newMedication.trim() && !noMedications) {
       const updatedMedications = [...currentMedications, newMedication.trim()];
       form.setValue("currentMedications", updatedMedications);
       setNewMedication("");
@@ -29,6 +30,7 @@ export const MedicationsStep = ({ form }: MedicationsStepProps) => {
   };
 
   const handleNoMedications = (checked: boolean) => {
+    setNoMedications(checked);
     if (checked) {
       form.setValue("currentMedications", []);
     }
@@ -44,6 +46,7 @@ export const MedicationsStep = ({ form }: MedicationsStepProps) => {
             placeholder="Enter medication name"
             value={newMedication}
             onChange={(e) => setNewMedication(e.target.value)}
+            disabled={noMedications}
             onKeyPress={(e) => {
               if (e.key === 'Enter') {
                 e.preventDefault();
@@ -54,7 +57,7 @@ export const MedicationsStep = ({ form }: MedicationsStepProps) => {
           <Button
             type="button"
             onClick={handleAddMedication}
-            disabled={!newMedication.trim()}
+            disabled={!newMedication.trim() || noMedications}
           >
             <Plus className="h-4 w-4 mr-1" />
             Add
@@ -64,7 +67,7 @@ export const MedicationsStep = ({ form }: MedicationsStepProps) => {
         <div className="flex items-center space-x-2">
           <Checkbox
             id="noMedications"
-            checked={currentMedications.length === 0}
+            checked={noMedications}
             onCheckedChange={handleNoMedications}
           />
           <Label htmlFor="noMedications">
