@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { useNavigate, Link } from "react-router-dom";
 import { HowItWorksModal } from "./HowItWorksModal";
 import { useState } from "react";
-import { BookOpen, Menu } from "lucide-react";
+import { BookOpen, Menu, ShieldCheck } from "lucide-react";
 
 export const LandingHero = () => {
   const navigate = useNavigate();
@@ -37,16 +37,9 @@ export const LandingHero = () => {
       <div className="min-h-screen bg-gradient-to-b from-cyan-50 to-teal-50">
         <div className="max-w-[1400px] mx-auto px-4 flex flex-col min-h-screen">
           {/* Feature points */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-24 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mt-24 mb-12">
             <div className="flex flex-col items-start space-y-2 animate-fade-in">
-              <div className="flex items-center gap-3 mb-2">
-                <div className="text-2xl">🔬</div>
-                <img 
-                  src="/lovable-uploads/d5d0d938-6709-4a16-a9ef-2328658444de.png" 
-                  alt="HIPAA Compliance" 
-                  className="h-8 w-auto"
-                />
-              </div>
+              <div className="text-2xl mb-2">🔬</div>
               <h3 className="text-lg font-semibold text-teal-700">Backed by Science</h3>
               <p className="text-gray-600">Get recommendations validated by 100+ clinical studies.</p>
             </div>
@@ -59,6 +52,13 @@ export const LandingHero = () => {
               <div className="text-2xl mb-2">📈</div>
               <h3 className="text-lg font-semibold text-teal-700">Track Your Progress</h3>
               <p className="text-gray-600">Monitor improvements in energy, sleep, and more over time.</p>
+            </div>
+            <div className="flex flex-col items-start space-y-2 animate-fade-in [animation-delay:600ms]">
+              <div className="text-2xl mb-2">
+                <ShieldCheck className="h-8 w-8 text-teal-600" />
+              </div>
+              <h3 className="text-lg font-semibold text-teal-700">HIPAA Compliant</h3>
+              <p className="text-gray-600">All health data is encrypted and private.</p>
             </div>
           </div>
 
