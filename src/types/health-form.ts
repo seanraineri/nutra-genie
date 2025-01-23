@@ -1,16 +1,3 @@
-export type ActivityLevel = "sedentary" | "moderate" | "active" | "athlete";
-export type Gender = "male" | "female";
-export type DietType = 
-  | "vegan_vegetarian"
-  | "animal_based"
-  | "keto"
-  | "processed_food"
-  | "fair_average"
-  | "healthy_balanced";
-
-export type SmokingStatus = "non_smoker" | "former_smoker" | "current_smoker" | "vaper";
-export type AlcoholConsumption = "none" | "occasional" | "moderate" | "frequent";
-
 export interface MedicalCondition {
   condition: string;
   specification?: string;
@@ -23,10 +10,10 @@ export interface HealthFormData {
   phoneNumber: string;
   password: string;
   age: string;
-  gender: Gender;
+  gender: "male" | "female";
   height: string;
   weight: string;
-  activityLevel: ActivityLevel;
+  activityLevel: "sedentary" | "moderate" | "active" | "athlete";
   medicalConditions: MedicalCondition[];
   allergies: string[];
   currentMedications: string[];
@@ -35,8 +22,8 @@ export interface HealthFormData {
   healthGoals: string[];
   otherHealthGoals?: string[];
   monthlyBudget: string;
-  dietType?: DietType;
+  dietType?: "vegan_vegetarian" | "animal_based" | "keto" | "processed_food" | "fair_average" | "healthy_balanced";
   sleepHours: string;
-  smokingStatus: SmokingStatus;
-  alcoholConsumption: AlcoholConsumption;
+  smokingStatus: "non_smoker" | "former_smoker" | "current_smoker" | "vaper";
+  alcoholConsumption: "none" | "occasional" | "moderate" | "frequent";
 }
