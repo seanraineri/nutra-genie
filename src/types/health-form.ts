@@ -8,6 +8,9 @@ export type DietType =
   | "fair_average"
   | "healthy_balanced";
 
+export type SmokingStatus = "non_smoker" | "former_smoker" | "current_smoker" | "vaper";
+export type AlcoholConsumption = "none" | "occasional" | "moderate" | "frequent";
+
 export interface MedicalCondition {
   condition: string;
   specification?: string;
@@ -33,4 +36,7 @@ export interface HealthFormData {
   otherHealthGoals?: string[];
   monthlyBudget: string;
   dietType?: DietType;
+  sleepHours: string;
+  smokingStatus: SmokingStatus;
+  alcoholConsumption: AlcoholConsumption;
 }

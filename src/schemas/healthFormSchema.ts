@@ -75,6 +75,15 @@ export const healthFormSchema = z.object({
     "fair_average",
     "healthy_balanced"
   ]).optional(),
+  sleepHours: z
+    .string()
+    .refine((val) => !isNaN(Number(val)), "Sleep hours must be a number")
+    .refine(
+      (val) => Number(val) >= 0 && Number(val) <= 24,
+      "Sleep hours must be between 0 and 24"
+    ),
+  smokingStatus: z.enum(["non_smoker", "former_smoker", "current_smoker", "vaper"]),
+  alcoholConsumption: z.enum(["none", "occasional", "moderate", "frequent"]),
 });
 
 export type HealthFormSchemaType = z.infer<typeof healthFormSchema>;

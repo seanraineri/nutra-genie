@@ -19,6 +19,7 @@ import { MedicalConditionsStep } from "./wizard-steps/MedicalConditionsStep";
 import { MedicationsStep } from "./wizard-steps/MedicationsStep";
 import { DietStep } from "./wizard-steps/DietStep";
 import { FinalStep } from "./wizard-steps/FinalStep";
+import { LifestyleStep } from "./wizard-steps/LifestyleStep";
 
 const steps = [
   "Personal Information",
@@ -29,6 +30,7 @@ const steps = [
   "Medical Conditions",
   "Medications",
   "Diet",
+  "Lifestyle",
   "Review & Submit",
 ];
 
@@ -61,6 +63,9 @@ export const StepWizard = () => {
       otherHealthGoals: [],
       monthlyBudget: "",
       dietType: undefined,
+      sleepHours: "",
+      smokingStatus: "non_smoker",
+      alcoholConsumption: "none",
     },
   });
 
@@ -121,6 +126,8 @@ export const StepWizard = () => {
       case 7:
         return ["dietType"];
       case 8:
+        return ["sleepHours", "smokingStatus", "alcoholConsumption"];
+      case 9:
         return ["monthlyBudget"];
       default:
         return [];
@@ -148,6 +155,8 @@ export const StepWizard = () => {
       case 7:
         return <DietStep form={form} />;
       case 8:
+        return <LifestyleStep form={form} />;
+      case 9:
         return <FinalStep form={form} formData={formData} isSubmitting={isSubmitting} />;
       default:
         return null;

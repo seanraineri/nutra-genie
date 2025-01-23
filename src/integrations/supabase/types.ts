@@ -204,6 +204,7 @@ export type Database = {
         Row: {
           activity_level: string | null
           age: number | null
+          alcohol_consumption: string | null
           allergies: string[] | null
           created_at: string | null
           current_medications: string[] | null
@@ -218,11 +219,14 @@ export type Database = {
           medical_conditions: string[] | null
           monthly_supplement_budget: number | null
           password: string
+          sleep_hours: number | null
+          smoking_status: string | null
           weight: number | null
         }
         Insert: {
           activity_level?: string | null
           age?: number | null
+          alcohol_consumption?: string | null
           allergies?: string[] | null
           created_at?: string | null
           current_medications?: string[] | null
@@ -237,11 +241,14 @@ export type Database = {
           medical_conditions?: string[] | null
           monthly_supplement_budget?: number | null
           password: string
+          sleep_hours?: number | null
+          smoking_status?: string | null
           weight?: number | null
         }
         Update: {
           activity_level?: string | null
           age?: number | null
+          alcohol_consumption?: string | null
           allergies?: string[] | null
           created_at?: string | null
           current_medications?: string[] | null
@@ -256,6 +263,8 @@ export type Database = {
           medical_conditions?: string[] | null
           monthly_supplement_budget?: number | null
           password?: string
+          sleep_hours?: number | null
+          smoking_status?: string | null
           weight?: number | null
         }
         Relationships: []
@@ -335,6 +344,7 @@ export type Database = {
       user_health_profiles: {
         Row: {
           age: number | null
+          alcohol_consumption: string | null
           allergies: string[] | null
           created_at: string | null
           current_medications: string[] | null
@@ -343,12 +353,15 @@ export type Database = {
           id: string
           medical_conditions: string[] | null
           monthly_supplement_budget: number | null
+          sleep_hours: number | null
+          smoking_status: string | null
           updated_at: string | null
           user_id: string | null
           weight: number | null
         }
         Insert: {
           age?: number | null
+          alcohol_consumption?: string | null
           allergies?: string[] | null
           created_at?: string | null
           current_medications?: string[] | null
@@ -357,12 +370,15 @@ export type Database = {
           id?: string
           medical_conditions?: string[] | null
           monthly_supplement_budget?: number | null
+          sleep_hours?: number | null
+          smoking_status?: string | null
           updated_at?: string | null
           user_id?: string | null
           weight?: number | null
         }
         Update: {
           age?: number | null
+          alcohol_consumption?: string | null
           allergies?: string[] | null
           created_at?: string | null
           current_medications?: string[] | null
@@ -371,6 +387,8 @@ export type Database = {
           id?: string
           medical_conditions?: string[] | null
           monthly_supplement_budget?: number | null
+          sleep_hours?: number | null
+          smoking_status?: string | null
           updated_at?: string | null
           user_id?: string | null
           weight?: number | null
