@@ -1,6 +1,7 @@
 import { UseFormReturn } from "react-hook-form";
 import { HealthFormSchemaType } from "@/schemas/healthFormSchema";
 import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import {
@@ -34,17 +35,15 @@ export const AllergiesStep = ({ form }: AllergiesStepProps) => {
     }
   };
 
-  const handleAllergyChange = (allergy: string) => {
+  const handleAllergyChange = (allergy: string, checked: boolean) => {
     const currentAllergies = form.getValues("allergies") || [];
-    const isSelected = currentAllergies.includes(allergy);
-    
-    if (isSelected) {
+    if (checked) {
+      form.setValue("allergies", [...currentAllergies, allergy]);
+    } else {
       form.setValue(
         "allergies",
         currentAllergies.filter((a) => a !== allergy)
       );
-    } else {
-      form.setValue("allergies", [...currentAllergies, allergy]);
     }
   };
 
@@ -57,49 +56,39 @@ export const AllergiesStep = ({ form }: AllergiesStepProps) => {
   };
 
   return (
-    <div className="space-y-6 p-6 bg-white rounded-xl">
+    <div className="space-y-6">
       <div className="space-y-4">
         <h2 className="text-xl font-semibold">Do you have any allergies?</h2>
         
         <div className="space-y-2">
-          <div 
-            className={`
-              cursor-pointer rounded-xl p-4 transition-all duration-200
-              ${hasNoAllergies 
-                ? 'bg-primary/10 border-2 border-primary shadow-md' 
-                : 'bg-gray-50 border-2 border-transparent hover:border-primary/30 hover:bg-gray-100'
-              }
-            `}
-            onClick={() => handleNoAllergiesChange(!hasNoAllergies)}
-          >
-            <Label>I have no allergies</Label>
+          <div className="flex items-center space-x-2">
+            <Checkbox
+              id="no-allergies"
+              checked={hasNoAllergies}
+              onCheckedChange={(checked) => handleNoAllergiesChange(checked as boolean)}
+            />
+            <Label htmlFor="no-allergies">I have no allergies</Label>
           </div>
         </div>
 
         {!hasNoAllergies && (
           <>
             <div className="grid grid-cols-2 gap-4">
-              {ALLERGY_OPTIONS.map((allergy) => {
-                const isSelected = (form.getValues("allergies") || []).includes(allergy);
-                return (
-                  <div
-                    key={allergy}
-                    onClick={() => handleAllergyChange(allergy)}
-                    className={`
-                      cursor-pointer rounded-xl p-4 transition-all duration-200
-                      ${isSelected 
-                        ? 'bg-primary/10 border-2 border-primary shadow-md transform scale-[1.02]' 
-                        : 'bg-gray-50 border-2 border-transparent hover:border-primary/30 hover:bg-gray-100'
-                      }
-                    `}
-                  >
-                    <Label>{allergy}</Label>
-                  </div>
-                );
-              })}
+              {ALLERGY_OPTIONS.map((allergy) => (
+                <div key={allergy} className="flex items-center space-x-2">
+                  <Checkbox
+                    id={allergy}
+                    checked={(form.getValues("allergies") || []).includes(allergy)}
+                    onCheckedChange={(checked) =>
+                      handleAllergyChange(allergy, checked as boolean)
+                    }
+                  />
+                  <Label htmlFor={allergy}>{allergy}</Label>
+                </div>
+              ))}
             </div>
 
-            <div className="space-y-2 pt-4 border-t">
+            <div className="space-y-2">
               <Label>Other Allergies</Label>
               <div className="flex space-x-2">
                 <Input
@@ -138,7 +127,9 @@ export const AllergiesStep = ({ form }: AllergiesStepProps) => {
                           <span>{allergy}</span>
                           <button
                             type="button"
-                            onClick={() => handleAllergyChange(allergy)}
+                            onClick={() =>
+                              handleAllergyChange(allergy, false)
+                            }
                             className="text-destructive hover:text-destructive/80"
                           >
                             ×

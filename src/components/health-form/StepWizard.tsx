@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router-dom";
+import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
@@ -16,19 +17,13 @@ import { HealthGoalsStep } from "./wizard-steps/HealthGoalsStep";
 import { TestResultsStep } from "./wizard-steps/TestResultsStep";
 import { BudgetStep } from "./wizard-steps/BudgetStep";
 import { FinalStep } from "./wizard-steps/FinalStep";
-import { LifestyleStep } from "./wizard-steps/LifestyleStep";
-import { MedicalConditionsStep } from "./wizard-steps/MedicalConditionsStep";
-import { MedicationsStep } from "./wizard-steps/MedicationsStep";
 import { ProgressIndicator } from "./ProgressIndicator";
-import type { HealthFormData, MedicalCondition } from "@/types/health-form";
+import type { HealthFormData } from "@/types/health-form";
 
 const steps = [
   "Personal",
   "Metrics",
   "Activity",
-  "Lifestyle",
-  "Medical Conditions",
-  "Medications",
   "Goals",
   "Tests",
   "Budget",
@@ -55,7 +50,7 @@ export const StepWizard = () => {
       height: "",
       weight: "",
       activityLevel: "sedentary",
-      medicalConditions: [] as MedicalCondition[],
+      medicalConditions: [],
       allergies: [],
       currentMedications: [],
       hasBloodwork: false,
@@ -79,7 +74,7 @@ export const StepWizard = () => {
         firstName: data.firstName,
         lastName: data.lastName,
         email: data.email,
-        phoneNumber: data.phoneNumber || "",
+        phoneNumber: data.phoneNumber,
         password: data.password,
         age: data.age,
         gender: data.gender,
@@ -131,21 +126,24 @@ export const StepWizard = () => {
       case 2:
         return <ActivityLevelStep form={form} />;
       case 3:
-        return <LifestyleStep form={form} />;
-      case 4:
-        return <MedicalConditionsStep form={form} />;
-      case 5:
-        return <MedicationsStep form={form} />;
-      case 6:
         return <HealthGoalsStep form={form} />;
-      case 7:
+      case 4:
         return <TestResultsStep form={form} />;
-      case 8:
+      case 5:
         return <BudgetStep form={form} />;
-      case 9:
+      case 6:
         return <FinalStep form={form} formData={formData} isSubmitting={isSubmitting} />;
       default:
         return null;
+    }
+  };
+
+  const handleNextStep = async () => {
+    const currentFields = getCurrentStepFields();
+    const isValid = await form.trigger(currentFields);
+    
+    if (isValid) {
+      setCurrentStep((prev) => Math.min(prev + 1, steps.length - 1));
     }
   };
 
@@ -158,28 +156,13 @@ export const StepWizard = () => {
       case 2:
         return ["activityLevel"];
       case 3:
-        return ["sleepHours", "smokingStatus", "alcoholConsumption"];
-      case 4:
-        return ["medicalConditions"];
-      case 5:
-        return ["currentMedications"];
-      case 6:
         return ["healthGoals"];
-      case 7:
+      case 4:
         return ["hasBloodwork", "hasGeneticTesting"];
-      case 8:
+      case 5:
         return ["monthlyBudget"];
       default:
         return [];
-    }
-  };
-
-  const handleNextStep = async () => {
-    const currentFields = getCurrentStepFields();
-    const isValid = await form.trigger(currentFields as any);
-    
-    if (isValid) {
-      setCurrentStep((prev) => Math.min(prev + 1, steps.length - 1));
     }
   };
 
