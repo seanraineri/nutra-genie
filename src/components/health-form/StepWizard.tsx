@@ -22,20 +22,17 @@ import { LifestyleStep } from "./wizard-steps/LifestyleStep";
 import { TestResultsStep } from "./wizard-steps/TestResultsStep";
 import { BudgetStep } from "./wizard-steps/BudgetStep";
 import { FinalStep } from "./wizard-steps/FinalStep";
+import { ProgressIndicator } from "./ProgressIndicator";
 
 const steps = [
-  "Personal Information",
-  "Health Metrics",
-  "Activity Level",
-  "Health Goals",
-  "Allergies",
-  "Medical Conditions",
-  "Medications",
-  "Diet",
-  "Lifestyle",
-  "Test Results",
-  "Monthly Budget",
-  "Review & Submit",
+  "Personal",
+  "Metrics",
+  "Activity",
+  "Goals",
+  "Health",
+  "Tests",
+  "Budget",
+  "Review",
 ];
 
 export const StepWizard = () => {
@@ -140,100 +137,97 @@ export const StepWizard = () => {
       case 3:
         return <HealthGoalsStep form={form} />;
       case 4:
-        return <AllergiesStep form={form} />;
+        return (
+          <div className="space-y-6">
+            <AllergiesStep form={form} />
+            <MedicalConditionsStep form={form} />
+            <MedicationsStep form={form} />
+          </div>
+        );
       case 5:
-        return <MedicalConditionsStep form={form} />;
-      case 6:
-        return <MedicationsStep form={form} />;
-      case 7:
-        return <DietStep form={form} />;
-      case 8:
-        return <LifestyleStep form={form} />;
-      case 9:
         return <TestResultsStep form={form} />;
-      case 10:
+      case 6:
         return <BudgetStep form={form} />;
-      case 11:
+      case 7:
         return <FinalStep form={form} formData={formData} isSubmitting={isSubmitting} />;
       default:
         return null;
     }
   };
 
-  // ... keep existing code (navigation and render functions)
-
   return (
-    <Card className="w-full max-w-2xl mx-auto p-6 animate-fade-in space-y-6">
-      <div className="space-y-2">
-        <h2 className="text-2xl font-semibold text-secondary">
-          {steps[currentStep]}
-        </h2>
-        <div className="flex gap-2">
-          {steps.map((_, index) => (
-            <div
-              key={index}
-              className={`h-1 flex-1 rounded-full ${
-                index <= currentStep ? "bg-primary" : "bg-muted"
-              }`}
-            />
-          ))}
+    <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8 animate-fade-in">
+      <ProgressIndicator steps={steps} currentStep={currentStep} />
+      
+      <Card className="onboarding-card w-full max-w-2xl mx-auto p-6 space-y-6">
+        <div className="space-y-2">
+          <h2 className="text-2xl font-semibold text-secondary">
+            {steps[currentStep]}
+          </h2>
+          <p className="text-muted-foreground">
+            {currentStep === steps.length - 1
+              ? "Review your information and submit"
+              : "Tell us about yourself"}
+          </p>
         </div>
-      </div>
 
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          {renderStep()}
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <div className="min-h-[300px]">
+              {renderStep()}
+            </div>
 
-          <div className="flex justify-between pt-4">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => setCurrentStep((prev) => Math.max(prev - 1, 0))}
-              disabled={currentStep === 0}
-              className="flex items-center gap-2"
-            >
-              <ArrowLeft className="h-4 w-4" />
-              Previous
-            </Button>
-
-            {currentStep < steps.length - 1 ? (
+            <div className="flex justify-between pt-4">
               <Button
                 type="button"
-                onClick={() => {
-                  const fields = getFieldsForStep(currentStep);
-                  form.trigger(fields).then((isValid) => {
-                    if (isValid) {
-                      setCurrentStep((prev) => Math.min(prev + 1, steps.length - 1));
-                    }
-                  });
-                }}
-                className="flex items-center gap-2"
+                variant="outline"
+                onClick={() => setCurrentStep((prev) => Math.max(prev - 1, 0))}
+                disabled={currentStep === 0}
+                className="onboarding-button-secondary"
               >
-                Next
-                <ArrowRight className="h-4 w-4" />
+                <ArrowLeft className="mr-2 h-4 w-4" />
+                Previous
               </Button>
-            ) : (
-              <Button
-                type="submit"
-                disabled={isSubmitting}
-                className="flex items-center gap-2"
-              >
-                {isSubmitting ? (
-                  <>
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                    Processing...
-                  </>
-                ) : (
-                  <>
-                    Continue to Payment
-                    <ArrowRight className="h-4 w-4" />
-                  </>
-                )}
-              </Button>
-            )}
-          </div>
-        </form>
-      </Form>
-    </Card>
+
+              {currentStep < steps.length - 1 ? (
+                <Button
+                  type="button"
+                  onClick={() => {
+                    const fields = getFieldsForStep(currentStep);
+                    form.trigger(fields).then((isValid) => {
+                      if (isValid) {
+                        setCurrentStep((prev) => Math.min(prev + 1, steps.length - 1));
+                      }
+                    });
+                  }}
+                  className="onboarding-button-primary"
+                >
+                  Next
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              ) : (
+                <Button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="onboarding-button-primary"
+                >
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Processing...
+                    </>
+                  ) : (
+                    <>
+                      Continue to Payment
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </>
+                  )}
+                </Button>
+              )}
+            </div>
+          </form>
+        </Form>
+      </Card>
+    </div>
   );
 };
