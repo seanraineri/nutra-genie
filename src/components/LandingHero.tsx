@@ -93,7 +93,7 @@ export const LandingHero = () => {
             <div className="flex flex-col items-start space-y-2 animate-fade-in">
               <div className="text-2xl mb-2">🔬</div>
               <h3 className="text-lg font-semibold text-teal-700">Backed by Science</h3>
-              <p className="text-gray-600">Get recommendations validated by 100+ clinical studies.</p>
+              <p className="text-gray-600">Get recommendations validated by thousands of clinical studies.</p>
             </div>
             <div className="flex flex-col items-start space-y-2 animate-fade-in [animation-delay:200ms]">
               <div className="text-2xl mb-2">🧬</div>
