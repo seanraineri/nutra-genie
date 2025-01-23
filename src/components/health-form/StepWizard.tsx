@@ -14,11 +14,6 @@ import { PersonalInfoStep } from "./wizard-steps/PersonalInfoStep";
 import { HealthMetricsStep } from "./wizard-steps/HealthMetricsStep";
 import { ActivityLevelStep } from "./wizard-steps/ActivityLevelStep";
 import { HealthGoalsStep } from "./wizard-steps/HealthGoalsStep";
-import { AllergiesStep } from "./wizard-steps/AllergiesStep";
-import { MedicalConditionsStep } from "./wizard-steps/MedicalConditionsStep";
-import { MedicationsStep } from "./wizard-steps/MedicationsStep";
-import { DietStep } from "./wizard-steps/DietStep";
-import { LifestyleStep } from "./wizard-steps/LifestyleStep";
 import { TestResultsStep } from "./wizard-steps/TestResultsStep";
 import { BudgetStep } from "./wizard-steps/BudgetStep";
 import { FinalStep } from "./wizard-steps/FinalStep";
@@ -29,7 +24,6 @@ const steps = [
   "Metrics",
   "Activity",
   "Goals",
-  "Health",
   "Tests",
   "Budget",
   "Review",
@@ -75,7 +69,10 @@ export const StepWizard = () => {
 
     try {
       setIsSubmitting(true);
-      await submitHealthFormData(data);
+      await submitHealthFormData({
+        ...data,
+        healthGoals: Array.isArray(data.healthGoals) ? data.healthGoals : [data.healthGoals],
+      });
 
       toast({
         title: "Success!",
@@ -95,35 +92,6 @@ export const StepWizard = () => {
     }
   };
 
-  const getFieldsForStep = (step: number): Array<keyof HealthFormSchemaType> => {
-    switch (step) {
-      case 0:
-        return ["firstName", "lastName", "email", "phoneNumber", "password"];
-      case 1:
-        return ["age", "gender", "height", "weight"];
-      case 2:
-        return ["activityLevel"];
-      case 3:
-        return ["healthGoals"];
-      case 4:
-        return ["allergies"];
-      case 5:
-        return ["medicalConditions"];
-      case 6:
-        return ["currentMedications"];
-      case 7:
-        return ["dietType"];
-      case 8:
-        return ["sleepHours", "smokingStatus", "alcoholConsumption"];
-      case 9:
-        return ["hasBloodwork", "hasGeneticTesting"];
-      case 10:
-        return ["monthlyBudget"];
-      default:
-        return [];
-    }
-  };
-
   const renderStep = () => {
     const formData = form.getValues();
     
@@ -137,18 +105,10 @@ export const StepWizard = () => {
       case 3:
         return <HealthGoalsStep form={form} />;
       case 4:
-        return (
-          <div className="space-y-6">
-            <AllergiesStep form={form} />
-            <MedicalConditionsStep form={form} />
-            <MedicationsStep form={form} />
-          </div>
-        );
-      case 5:
         return <TestResultsStep form={form} />;
-      case 6:
+      case 5:
         return <BudgetStep form={form} />;
-      case 7:
+      case 6:
         return <FinalStep form={form} formData={formData} isSubmitting={isSubmitting} />;
       default:
         return null;
@@ -156,10 +116,10 @@ export const StepWizard = () => {
   };
 
   return (
-    <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8 animate-fade-in">
+    <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8 font-sans">
       <ProgressIndicator steps={steps} currentStep={currentStep} />
       
-      <Card className="onboarding-card w-full max-w-2xl mx-auto p-6 space-y-6">
+      <Card className="onboarding-card w-full max-w-2xl mx-auto p-6 space-y-6 animate-fade-in">
         <div className="space-y-2">
           <h2 className="text-2xl font-semibold text-secondary">
             {steps[currentStep]}
@@ -173,7 +133,7 @@ export const StepWizard = () => {
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <div className="min-h-[300px]">
+            <div className="min-h-[300px] transition-all duration-300 ease-in-out">
               {renderStep()}
             </div>
 
@@ -183,7 +143,7 @@ export const StepWizard = () => {
                 variant="outline"
                 onClick={() => setCurrentStep((prev) => Math.max(prev - 1, 0))}
                 disabled={currentStep === 0}
-                className="onboarding-button-secondary"
+                className="onboarding-button-secondary transition-all duration-200 hover:-translate-x-1"
               >
                 <ArrowLeft className="mr-2 h-4 w-4" />
                 Previous
@@ -193,14 +153,14 @@ export const StepWizard = () => {
                 <Button
                   type="button"
                   onClick={() => {
-                    const fields = getFieldsForStep(currentStep);
-                    form.trigger(fields).then((isValid) => {
+                    const fields = Object.keys(form.getValues());
+                    form.trigger(fields as any).then((isValid) => {
                       if (isValid) {
                         setCurrentStep((prev) => Math.min(prev + 1, steps.length - 1));
                       }
                     });
                   }}
-                  className="onboarding-button-primary"
+                  className="onboarding-button-primary transition-all duration-200 hover:translate-x-1"
                 >
                   Next
                   <ArrowRight className="ml-2 h-4 w-4" />
@@ -209,7 +169,7 @@ export const StepWizard = () => {
                 <Button
                   type="submit"
                   disabled={isSubmitting}
-                  className="onboarding-button-primary"
+                  className="onboarding-button-primary transition-all duration-200 hover:translate-x-1"
                 >
                   {isSubmitting ? (
                     <>

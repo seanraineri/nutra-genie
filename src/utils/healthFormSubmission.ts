@@ -27,6 +27,11 @@ export const submitHealthFormData = async (formData: HealthFormData) => {
       throw new Error('An account with this email already exists');
     }
 
+    // Convert medical conditions array to string array for database storage
+    const medicalConditionsArray = formData.medicalConditions.map(mc => 
+      typeof mc === 'string' ? mc : mc.condition
+    );
+
     // Insert new profile
     const { data, error } = await supabase
       .from('pending_health_profiles')
@@ -40,12 +45,14 @@ export const submitHealthFormData = async (formData: HealthFormData) => {
         height: parseFloat(formData.height),
         weight: parseFloat(formData.weight),
         activity_level: formData.activityLevel,
-        medical_conditions: formData.medicalConditions,
+        medical_conditions: medicalConditionsArray,
         allergies: formData.allergies,
         current_medications: formData.currentMedications,
-        health_goals: formData.healthGoals.join(','),
+        health_goals: Array.isArray(formData.healthGoals) ? formData.healthGoals.join(',') : formData.healthGoals,
         monthly_supplement_budget: formData.monthlyBudget ? parseFloat(formData.monthlyBudget) : 0,
-        diet_type: formData.dietType,
+        sleep_hours: formData.sleepHours ? parseFloat(formData.sleepHours) : null,
+        smoking_status: formData.smokingStatus,
+        alcohol_consumption: formData.alcoholConsumption,
       })
       .select()
       .single();
