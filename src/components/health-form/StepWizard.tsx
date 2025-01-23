@@ -20,6 +20,7 @@ import { MedicationsStep } from "./wizard-steps/MedicationsStep";
 import { DietStep } from "./wizard-steps/DietStep";
 import { LifestyleStep } from "./wizard-steps/LifestyleStep";
 import { TestResultsStep } from "./wizard-steps/TestResultsStep";
+import { BudgetStep } from "./wizard-steps/BudgetStep";
 import { FinalStep } from "./wizard-steps/FinalStep";
 
 const steps = [
@@ -33,6 +34,7 @@ const steps = [
   "Diet",
   "Lifestyle",
   "Test Results",
+  "Monthly Budget",
   "Review & Submit",
 ];
 
@@ -150,6 +152,8 @@ export const StepWizard = () => {
       case 9:
         return <TestResultsStep form={form} />;
       case 10:
+        return <BudgetStep form={form} />;
+      case 11:
         return <FinalStep form={form} formData={formData} isSubmitting={isSubmitting} />;
       default:
         return null;

@@ -63,10 +63,7 @@ export const healthFormSchema = z.object({
   hasGeneticTesting: z.boolean().default(false),
   healthGoals: z.array(z.string()).min(1, "Please select at least one health goal"),
   otherHealthGoals: z.array(z.string()).optional(),
-  monthlyBudget: z
-    .string()
-    .refine((val) => !isNaN(Number(val)), "Budget must be a number")
-    .refine((val) => Number(val) >= 0, "Budget must be greater than or equal to 0"),
+  monthlyBudget: z.string().min(1, "Please select a monthly budget"),
   dietType: z.enum([
     "vegan_vegetarian",
     "animal_based",
