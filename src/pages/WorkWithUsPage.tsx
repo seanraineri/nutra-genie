@@ -28,19 +28,19 @@ const WorkWithUsPage = () => {
       {/* Categories grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
         {/* Influencers Card */}
-        <Card className="hover:shadow-lg transition-shadow h-full flex flex-col">
-          <CardHeader>
+        <Card className="hover:shadow-lg transition-shadow min-h-[280px] flex flex-col">
+          <CardHeader className="p-6">
             <CardTitle className="flex items-center gap-2">
               <Users className="h-6 w-6 text-primary" />
               Influencers
             </CardTitle>
           </CardHeader>
-          <CardContent className="flex-1 flex flex-col">
-            <p className="text-muted-foreground h-[80px]">
+          <CardContent className="flex-1 flex flex-col p-6">
+            <p className="text-muted-foreground flex-grow">
               Partner with us to promote science-based supplement recommendations to your audience.
             </p>
             <Button 
-              className="w-full mt-auto"
+              className="w-full mt-6"
               onClick={() => setSelectedPartnership('influencer')}
             >
               Learn More
@@ -49,19 +49,19 @@ const WorkWithUsPage = () => {
         </Card>
 
         {/* Lab Companies Card */}
-        <Card className="hover:shadow-lg transition-shadow h-full flex flex-col">
-          <CardHeader>
+        <Card className="hover:shadow-lg transition-shadow min-h-[280px] flex flex-col">
+          <CardHeader className="p-6">
             <CardTitle className="flex items-center gap-2">
               <Beaker className="h-6 w-6 text-primary" />
               Lab Companies
             </CardTitle>
           </CardHeader>
-          <CardContent className="flex-1 flex flex-col">
-            <p className="text-muted-foreground h-[80px]">
+          <CardContent className="flex-1 flex flex-col p-6">
+            <p className="text-muted-foreground flex-grow">
               Integrate your lab testing services with our platform for seamless results analysis.
             </p>
             <Button 
-              className="w-full mt-auto"
+              className="w-full mt-6"
               onClick={() => setSelectedPartnership('lab')}
             >
               Learn More
@@ -70,19 +70,19 @@ const WorkWithUsPage = () => {
         </Card>
 
         {/* Supplement Companies Card */}
-        <Card className="hover:shadow-lg transition-shadow h-full flex flex-col">
-          <CardHeader className="p-4 pb-0">
+        <Card className="hover:shadow-lg transition-shadow min-h-[280px] flex flex-col">
+          <CardHeader className="p-6">
             <CardTitle className="flex items-center gap-2">
               <Pill className="h-6 w-6 text-primary" />
               Supplement Companies
             </CardTitle>
           </CardHeader>
-          <CardContent className="flex-1 flex flex-col p-4">
-            <p className="text-muted-foreground h-[80px]">
+          <CardContent className="flex-1 flex flex-col p-6">
+            <p className="text-muted-foreground flex-grow">
               List your high-quality supplements on our platform.
             </p>
             <Button 
-              className="w-full mt-auto"
+              className="w-full mt-6"
               onClick={() => setSelectedPartnership('supplement')}
             >
               Learn More
@@ -91,19 +91,19 @@ const WorkWithUsPage = () => {
         </Card>
 
         {/* Student Ambassadors Card */}
-        <Card className="hover:shadow-lg transition-shadow h-full flex flex-col">
-          <CardHeader className="p-4 pb-0">
+        <Card className="hover:shadow-lg transition-shadow min-h-[280px] flex flex-col">
+          <CardHeader className="p-6">
             <CardTitle className="flex items-center gap-2">
               <GraduationCap className="h-6 w-6 text-primary" />
               Student Ambassadors
             </CardTitle>
           </CardHeader>
-          <CardContent className="flex-1 flex flex-col p-4">
-            <p className="text-muted-foreground h-[80px]">
+          <CardContent className="flex-1 flex flex-col p-6">
+            <p className="text-muted-foreground flex-grow">
               Join our student ambassador network for marketing experience.
             </p>
             <Button 
-              className="w-full mt-auto"
+              className="w-full mt-6"
               onClick={() => setSelectedPartnership('student')}
             >
               Learn More
