@@ -7,14 +7,19 @@ import {
   FormControl,
   FormMessage,
 } from "@/components/ui/form";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { X } from "lucide-react";
+import { useState } from "react";
 
 interface HealthGoalsStepProps {
   form: UseFormReturn<HealthFormSchemaType>;
 }
 
 export const HealthGoalsStep = ({ form }: HealthGoalsStepProps) => {
+  const [newGoal, setNewGoal] = useState("");
   const healthGoalOptions = [
     {
       value: "weight_management",
@@ -41,27 +46,66 @@ export const HealthGoalsStep = ({ form }: HealthGoalsStepProps) => {
       label: "Fitness Performance",
       description: "Enhance workout results and recovery",
     },
+    {
+      value: "mental_health",
+      label: "Mental Health",
+      description: "Support cognitive function and emotional well-being",
+    },
+    {
+      value: "hormone_balance",
+      label: "Hormone Balance",
+      description: "Optimize hormone levels naturally",
+    },
+    {
+      value: "longevity",
+      label: "Longevity",
+      description: "Support healthy aging and cellular health",
+    },
+    {
+      value: "chronic_conditions",
+      label: "Manage Chronic Conditions",
+      description: "Support overall health with existing conditions",
+    },
   ];
 
+  const handleAddCustomGoal = () => {
+    if (newGoal.trim()) {
+      const currentOtherGoals = form.getValues("otherHealthGoals") || [];
+      form.setValue("otherHealthGoals", [...currentOtherGoals, newGoal.trim()]);
+      setNewGoal("");
+    }
+  };
+
+  const handleRemoveCustomGoal = (index: number) => {
+    const currentOtherGoals = form.getValues("otherHealthGoals") || [];
+    form.setValue(
+      "otherHealthGoals",
+      currentOtherGoals.filter((_, i) => i !== index)
+    );
+  };
+
   return (
-    <FormField
-      control={form.control}
-      name="healthGoals"
-      render={({ field }) => (
-        <FormItem className="space-y-3">
-          <FormLabel>What is your primary health goal?</FormLabel>
-          <FormControl>
-            <RadioGroup
-              onValueChange={field.onChange}
-              defaultValue={field.value}
-              className="space-y-3"
-            >
+    <div className="space-y-6">
+      <FormField
+        control={form.control}
+        name="healthGoals"
+        render={() => (
+          <FormItem>
+            <FormLabel className="text-base">What are your health goals?</FormLabel>
+            <FormMessage />
+            <div className="grid gap-4">
               {healthGoalOptions.map((option) => (
-                <div
-                  key={option.value}
-                  className="flex items-center space-x-3 space-y-0"
-                >
-                  <RadioGroupItem value={option.value} id={option.value} />
+                <div key={option.value} className="flex items-start space-x-3 space-y-0">
+                  <Checkbox
+                    checked={form.getValues("healthGoals")?.includes(option.value)}
+                    onCheckedChange={(checked) => {
+                      const current = form.getValues("healthGoals") || [];
+                      const updated = checked
+                        ? [...current, option.value]
+                        : current.filter((value) => value !== option.value);
+                      form.setValue("healthGoals", updated);
+                    }}
+                  />
                   <Label
                     htmlFor={option.value}
                     className="flex flex-col cursor-pointer"
@@ -73,11 +117,45 @@ export const HealthGoalsStep = ({ form }: HealthGoalsStepProps) => {
                   </Label>
                 </div>
               ))}
-            </RadioGroup>
-          </FormControl>
-          <FormMessage />
-        </FormItem>
-      )}
-    />
+            </div>
+          </FormItem>
+        )}
+      />
+
+      <div className="space-y-4">
+        <FormLabel className="text-base">Other Health Goals</FormLabel>
+        <div className="flex gap-2">
+          <Input
+            placeholder="Enter a custom health goal"
+            value={newGoal}
+            onChange={(e) => setNewGoal(e.target.value)}
+            onKeyPress={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault();
+                handleAddCustomGoal();
+              }
+            }}
+          />
+          <Button type="button" onClick={handleAddCustomGoal}>
+            Add
+          </Button>
+        </div>
+        <div className="space-y-2">
+          {form.getValues("otherHealthGoals")?.map((goal, index) => (
+            <div key={index} className="flex items-center gap-2 bg-secondary/20 p-2 rounded-md">
+              <span className="flex-1">{goal}</span>
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                onClick={() => handleRemoveCustomGoal(index)}
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
   );
 };

@@ -50,7 +50,8 @@ export const StepWizard = () => {
       currentMedications: "",
       hasBloodwork: false,
       hasGeneticTesting: false,
-      healthGoals: "weight_management",
+      healthGoals: [],
+      otherHealthGoals: [],
       monthlyBudget: "",
     },
   });

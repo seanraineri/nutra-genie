@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { ActivityLevel, Gender } from "@/types/health-form";
 
 const passwordRegex = {
   uppercase: /[A-Z]/,
@@ -57,7 +56,8 @@ export const healthFormSchema = z.object({
   currentMedications: z.string().optional(),
   hasBloodwork: z.boolean(),
   hasGeneticTesting: z.boolean(),
-  healthGoals: z.string(),
+  healthGoals: z.array(z.string()).min(1, "Please select at least one health goal"),
+  otherHealthGoals: z.array(z.string()).optional(),
   monthlyBudget: z
     .string()
     .refine((val) => !isNaN(Number(val)), "Budget must be a number")

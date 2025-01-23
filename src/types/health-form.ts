@@ -17,6 +17,7 @@ export interface HealthFormData {
   currentMedications: string;
   hasBloodwork: boolean;
   hasGeneticTesting: boolean;
-  healthGoals: string;
+  healthGoals: string[];
+  otherHealthGoals?: string[];
   monthlyBudget: string;
 }
