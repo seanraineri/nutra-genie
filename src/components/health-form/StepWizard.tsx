@@ -12,17 +12,17 @@ import { submitHealthFormData } from "@/utils/healthFormSubmission";
 import { Loader2, ArrowLeft, ArrowRight } from "lucide-react";
 import { PersonalInfoStep } from "./wizard-steps/PersonalInfoStep";
 import { HealthMetricsStep } from "./wizard-steps/HealthMetricsStep";
-import { MedicalHistoryStep } from "./wizard-steps/MedicalHistoryStep";
-import { TestResultsStep } from "./wizard-steps/TestResultsStep";
+import { ActivityLevelStep } from "./wizard-steps/ActivityLevelStep";
+import { HealthGoalsStep } from "./wizard-steps/HealthGoalsStep";
 import { FinalStep } from "./wizard-steps/FinalStep";
 import type { HealthFormData } from "@/types/health-form";
 
 const steps = [
   "Personal Information",
   "Health Metrics",
-  "Medical History",
-  "Test Results",
-  "Goals & Terms",
+  "Activity Level",
+  "Health Goals",
+  "Review & Submit",
 ];
 
 export const StepWizard = () => {
@@ -49,7 +49,7 @@ export const StepWizard = () => {
       currentMedications: "",
       hasBloodwork: false,
       hasGeneticTesting: false,
-      healthGoals: "",
+      healthGoals: "weight_management",
       monthlyBudget: "",
     },
   });
@@ -59,8 +59,7 @@ export const StepWizard = () => {
 
     try {
       setIsSubmitting(true);
-      // Cast the data to HealthFormData since we know all required fields are present
-      const result = await submitHealthFormData(data as HealthFormData);
+      await submitHealthFormData(data as HealthFormData);
 
       toast({
         title: "Success!",
@@ -78,29 +77,6 @@ export const StepWizard = () => {
       });
       setIsSubmitting(false);
     }
-  };
-
-  // Helper function to safely get form values as HealthFormData
-  const getFormDataValues = (): HealthFormData => {
-    const values = form.getValues();
-    return {
-      firstName: values.firstName || "",
-      lastName: values.lastName || "",
-      email: values.email || "",
-      password: values.password || "",
-      age: values.age || "",
-      gender: values.gender || "male",
-      height: values.height || "",
-      weight: values.weight || "",
-      activityLevel: values.activityLevel || "sedentary",
-      medicalConditions: values.medicalConditions || "",
-      allergies: values.allergies || "",
-      currentMedications: values.currentMedications || "",
-      hasBloodwork: values.hasBloodwork || false,
-      hasGeneticTesting: values.hasGeneticTesting || false,
-      healthGoals: values.healthGoals || "",
-      monthlyBudget: values.monthlyBudget || "",
-    };
   };
 
   const nextStep = async () => {
@@ -121,20 +97,20 @@ export const StepWizard = () => {
       case 0:
         return ["firstName", "lastName", "email", "password"];
       case 1:
-        return ["age", "gender", "height", "weight", "activityLevel"];
+        return ["age", "gender", "height", "weight"];
       case 2:
-        return ["medicalConditions", "allergies", "currentMedications"];
+        return ["activityLevel"];
       case 3:
-        return ["hasBloodwork", "hasGeneticTesting"];
+        return ["healthGoals"];
       case 4:
-        return ["healthGoals", "monthlyBudget"];
+        return ["monthlyBudget"];
       default:
         return [];
     }
   };
 
   const renderStep = () => {
-    const formData = getFormDataValues();
+    const formData = form.getValues();
     
     switch (currentStep) {
       case 0:
@@ -142,9 +118,9 @@ export const StepWizard = () => {
       case 1:
         return <HealthMetricsStep form={form} />;
       case 2:
-        return <MedicalHistoryStep form={form} />;
+        return <ActivityLevelStep form={form} />;
       case 3:
-        return <TestResultsStep form={form} formData={formData} />;
+        return <HealthGoalsStep form={form} />;
       case 4:
         return <FinalStep form={form} formData={formData} isSubmitting={isSubmitting} />;
       default:
