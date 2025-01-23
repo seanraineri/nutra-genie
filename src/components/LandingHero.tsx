@@ -122,7 +122,6 @@ export const LandingHero = () => {
               <Link to="/work-with-us" className="hover:text-teal-600 transition-colors whitespace-nowrap">Work with Us</Link>
               <Link to="/terms" className="hover:text-teal-600 transition-colors whitespace-nowrap">Terms & Conditions</Link>
               <Link to="/rewards" className="hover:text-teal-600 transition-colors whitespace-nowrap">Rewards</Link>
-              <Link to="/students" className="hover:text-teal-600 transition-colors whitespace-nowrap">Students</Link>
             </div>
           </div>
         </div>
