@@ -71,13 +71,13 @@ const WorkWithUsPage = () => {
 
         {/* Supplement Companies Card */}
         <Card className="hover:shadow-lg transition-shadow h-full flex flex-col">
-          <CardHeader className="pb-2">
+          <CardHeader className="p-4 pb-0">
             <CardTitle className="flex items-center gap-2">
               <Pill className="h-6 w-6 text-primary" />
               Supplement Companies
             </CardTitle>
           </CardHeader>
-          <CardContent className="flex-1 flex flex-col pt-2">
+          <CardContent className="flex-1 flex flex-col p-4">
             <p className="text-muted-foreground h-[80px]">
               List your high-quality supplements on our platform and reach health-conscious customers.
             </p>
@@ -92,13 +92,13 @@ const WorkWithUsPage = () => {
 
         {/* Student Ambassadors Card */}
         <Card className="hover:shadow-lg transition-shadow h-full flex flex-col">
-          <CardHeader className="pb-2">
+          <CardHeader className="p-4 pb-0">
             <CardTitle className="flex items-center gap-2">
               <GraduationCap className="h-6 w-6 text-primary" />
               Student Ambassadors
             </CardTitle>
           </CardHeader>
-          <CardContent className="flex-1 flex flex-col pt-2">
+          <CardContent className="flex-1 flex flex-col p-4">
             <p className="text-muted-foreground h-[80px]">
               Join our student ambassador network for marketing experience and a chance for extra money.
             </p>
