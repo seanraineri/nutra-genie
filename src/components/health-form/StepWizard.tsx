@@ -18,8 +18,9 @@ import { AllergiesStep } from "./wizard-steps/AllergiesStep";
 import { MedicalConditionsStep } from "./wizard-steps/MedicalConditionsStep";
 import { MedicationsStep } from "./wizard-steps/MedicationsStep";
 import { DietStep } from "./wizard-steps/DietStep";
-import { FinalStep } from "./wizard-steps/FinalStep";
 import { LifestyleStep } from "./wizard-steps/LifestyleStep";
+import { TestResultsStep } from "./wizard-steps/TestResultsStep";
+import { FinalStep } from "./wizard-steps/FinalStep";
 
 const steps = [
   "Personal Information",
@@ -31,6 +32,7 @@ const steps = [
   "Medications",
   "Diet",
   "Lifestyle",
+  "Test Results",
   "Review & Submit",
 ];
 
@@ -94,19 +96,6 @@ export const StepWizard = () => {
     }
   };
 
-  const nextStep = async () => {
-    const fields = getFieldsForStep(currentStep);
-    const isValid = await form.trigger(fields);
-    
-    if (isValid) {
-      setCurrentStep((prev) => Math.min(prev + 1, steps.length - 1));
-    }
-  };
-
-  const previousStep = () => {
-    setCurrentStep((prev) => Math.max(prev - 1, 0));
-  };
-
   const getFieldsForStep = (step: number): Array<keyof HealthFormSchemaType> => {
     switch (step) {
       case 0:
@@ -128,6 +117,8 @@ export const StepWizard = () => {
       case 8:
         return ["sleepHours", "smokingStatus", "alcoholConsumption"];
       case 9:
+        return ["hasBloodwork", "hasGeneticTesting"];
+      case 10:
         return ["monthlyBudget"];
       default:
         return [];
@@ -157,11 +148,15 @@ export const StepWizard = () => {
       case 8:
         return <LifestyleStep form={form} />;
       case 9:
+        return <TestResultsStep form={form} />;
+      case 10:
         return <FinalStep form={form} formData={formData} isSubmitting={isSubmitting} />;
       default:
         return null;
     }
   };
+
+  // ... keep existing code (navigation and render functions)
 
   return (
     <Card className="w-full max-w-2xl mx-auto p-6 animate-fade-in space-y-6">
@@ -189,7 +184,7 @@ export const StepWizard = () => {
             <Button
               type="button"
               variant="outline"
-              onClick={previousStep}
+              onClick={() => setCurrentStep((prev) => Math.max(prev - 1, 0))}
               disabled={currentStep === 0}
               className="flex items-center gap-2"
             >
@@ -200,7 +195,14 @@ export const StepWizard = () => {
             {currentStep < steps.length - 1 ? (
               <Button
                 type="button"
-                onClick={nextStep}
+                onClick={() => {
+                  const fields = getFieldsForStep(currentStep);
+                  form.trigger(fields).then((isValid) => {
+                    if (isValid) {
+                      setCurrentStep((prev) => Math.min(prev + 1, steps.length - 1));
+                    }
+                  });
+                }}
                 className="flex items-center gap-2"
               >
                 Next

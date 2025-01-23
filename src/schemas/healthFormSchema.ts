@@ -59,8 +59,8 @@ export const healthFormSchema = z.object({
   medicalConditions: z.array(medicalConditionSchema).default([]),
   allergies: z.array(z.string()).default([]),
   currentMedications: z.array(z.string()).default([]),
-  hasBloodwork: z.boolean(),
-  hasGeneticTesting: z.boolean(),
+  hasBloodwork: z.boolean().default(false),
+  hasGeneticTesting: z.boolean().default(false),
   healthGoals: z.array(z.string()).min(1, "Please select at least one health goal"),
   otherHealthGoals: z.array(z.string()).optional(),
   monthlyBudget: z
