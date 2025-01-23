@@ -18,6 +18,7 @@ import { TestResultsStep } from "./wizard-steps/TestResultsStep";
 import { BudgetStep } from "./wizard-steps/BudgetStep";
 import { FinalStep } from "./wizard-steps/FinalStep";
 import { ProgressIndicator } from "./ProgressIndicator";
+import type { HealthFormData } from "@/types/health-form";
 
 const steps = [
   "Personal",
@@ -69,10 +70,32 @@ export const StepWizard = () => {
 
     try {
       setIsSubmitting(true);
-      await submitHealthFormData({
-        ...data,
-        healthGoals: Array.isArray(data.healthGoals) ? data.healthGoals : [data.healthGoals],
-      });
+      const formData: HealthFormData = {
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: data.email,
+        phoneNumber: data.phoneNumber,
+        password: data.password,
+        age: data.age,
+        gender: data.gender,
+        height: data.height,
+        weight: data.weight,
+        activityLevel: data.activityLevel,
+        medicalConditions: data.medicalConditions,
+        allergies: data.allergies || [],
+        currentMedications: data.currentMedications,
+        hasBloodwork: data.hasBloodwork,
+        hasGeneticTesting: data.hasGeneticTesting,
+        healthGoals: data.healthGoals,
+        otherHealthGoals: data.otherHealthGoals,
+        monthlyBudget: data.monthlyBudget,
+        dietType: data.dietType,
+        sleepHours: data.sleepHours,
+        smokingStatus: data.smokingStatus,
+        alcoholConsumption: data.alcoholConsumption,
+      };
+
+      await submitHealthFormData(formData);
 
       toast({
         title: "Success!",
@@ -115,6 +138,34 @@ export const StepWizard = () => {
     }
   };
 
+  const handleNextStep = async () => {
+    const currentFields = getCurrentStepFields();
+    const isValid = await form.trigger(currentFields);
+    
+    if (isValid) {
+      setCurrentStep((prev) => Math.min(prev + 1, steps.length - 1));
+    }
+  };
+
+  const getCurrentStepFields = () => {
+    switch (currentStep) {
+      case 0:
+        return ["firstName", "lastName", "email", "phoneNumber", "password"];
+      case 1:
+        return ["age", "gender", "height", "weight"];
+      case 2:
+        return ["activityLevel"];
+      case 3:
+        return ["healthGoals"];
+      case 4:
+        return ["hasBloodwork", "hasGeneticTesting"];
+      case 5:
+        return ["monthlyBudget"];
+      default:
+        return [];
+    }
+  };
+
   return (
     <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8 font-sans">
       <ProgressIndicator steps={steps} currentStep={currentStep} />
@@ -152,14 +203,7 @@ export const StepWizard = () => {
               {currentStep < steps.length - 1 ? (
                 <Button
                   type="button"
-                  onClick={() => {
-                    const fields = Object.keys(form.getValues());
-                    form.trigger(fields as any).then((isValid) => {
-                      if (isValid) {
-                        setCurrentStep((prev) => Math.min(prev + 1, steps.length - 1));
-                      }
-                    });
-                  }}
+                  onClick={handleNextStep}
                   className="onboarding-button-primary transition-all duration-200 hover:translate-x-1"
                 >
                   Next
