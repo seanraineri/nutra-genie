@@ -123,7 +123,7 @@ export const StepWizard = () => {
       case 3:
         return <HealthGoalsStep form={form} />;
       case 4:
-        return <FinalStep form={form} formData={formData} isSubmitting={isSubmitting} />;
+        return <FinalStep form={form} formData={formData as HealthFormData} isSubmitting={isSubmitting} />;
       default:
         return null;
     }
