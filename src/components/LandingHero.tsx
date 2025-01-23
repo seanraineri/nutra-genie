@@ -36,34 +36,8 @@ export const LandingHero = () => {
 
       <div className="min-h-screen bg-gradient-to-b from-cyan-50 to-teal-50">
         <div className="max-w-[1400px] mx-auto px-4 flex flex-col min-h-screen">
-          {/* Feature points */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mt-24 mb-12">
-            <div className="flex flex-col items-start space-y-2 animate-fade-in">
-              <div className="text-2xl mb-2">🔬</div>
-              <h3 className="text-lg font-semibold text-teal-700">Backed by Science</h3>
-              <p className="text-gray-600">Get recommendations validated by 100+ clinical studies.</p>
-            </div>
-            <div className="flex flex-col items-start space-y-2 animate-fade-in [animation-delay:200ms]">
-              <div className="text-2xl mb-2">🧬</div>
-              <h3 className="text-lg font-semibold text-teal-700">Personalized to You</h3>
-              <p className="text-gray-600">Analyze your bloodwork, DNA, and lifestyle for a plan that fits.</p>
-            </div>
-            <div className="flex flex-col items-start space-y-2 animate-fade-in [animation-delay:400ms]">
-              <div className="text-2xl mb-2">📈</div>
-              <h3 className="text-lg font-semibold text-teal-700">Track Your Progress</h3>
-              <p className="text-gray-600">Monitor improvements in energy, sleep, and more over time.</p>
-            </div>
-            <div className="flex flex-col items-start space-y-2 animate-fade-in [animation-delay:600ms]">
-              <div className="text-2xl mb-2">
-                <ShieldCheck className="h-8 w-8 text-teal-600" />
-              </div>
-              <h3 className="text-lg font-semibold text-teal-700">HIPAA Compliant</h3>
-              <p className="text-gray-600">All health data is encrypted and private.</p>
-            </div>
-          </div>
-
           {/* Main content */}
-          <div className="flex-grow flex items-center justify-center py-16">
+          <div className="flex-grow flex items-center justify-center py-16 mt-16">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               {/* Text content */}
               <div className="space-y-6 text-left">
@@ -111,6 +85,32 @@ export const LandingHero = () => {
                   <div className="absolute inset-0 bg-gradient-to-t from-teal-500/20 to-transparent"></div>
                 </div>
               </div>
+            </div>
+          </div>
+
+          {/* Feature points */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+            <div className="flex flex-col items-start space-y-2 animate-fade-in">
+              <div className="text-2xl mb-2">🔬</div>
+              <h3 className="text-lg font-semibold text-teal-700">Backed by Science</h3>
+              <p className="text-gray-600">Get recommendations validated by 100+ clinical studies.</p>
+            </div>
+            <div className="flex flex-col items-start space-y-2 animate-fade-in [animation-delay:200ms]">
+              <div className="text-2xl mb-2">🧬</div>
+              <h3 className="text-lg font-semibold text-teal-700">Personalized to You</h3>
+              <p className="text-gray-600">Analyze your bloodwork, DNA, and lifestyle for a plan that fits.</p>
+            </div>
+            <div className="flex flex-col items-start space-y-2 animate-fade-in [animation-delay:400ms]">
+              <div className="text-2xl mb-2">📈</div>
+              <h3 className="text-lg font-semibold text-teal-700">Track Your Progress</h3>
+              <p className="text-gray-600">Monitor improvements in energy, sleep, and more over time.</p>
+            </div>
+            <div className="flex flex-col items-start space-y-2 animate-fade-in [animation-delay:600ms]">
+              <div className="text-2xl mb-2">
+                <ShieldCheck className="h-8 w-8 text-teal-600" />
+              </div>
+              <h3 className="text-lg font-semibold text-teal-700">HIPAA Compliant</h3>
+              <p className="text-gray-600">All health data is encrypted and private.</p>
             </div>
           </div>
 
