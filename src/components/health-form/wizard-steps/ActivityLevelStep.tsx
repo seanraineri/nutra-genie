@@ -7,8 +7,6 @@ import {
   FormControl,
   FormMessage,
 } from "@/components/ui/form";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Label } from "@/components/ui/label";
 
 interface ActivityLevelStepProps {
   form: UseFormReturn<HealthFormSchemaType>;
@@ -44,31 +42,33 @@ export const ActivityLevelStep = ({ form }: ActivityLevelStepProps) => {
       name="activityLevel"
       render={({ field }) => (
         <FormItem className="space-y-3">
-          <FormLabel>What is your activity level?</FormLabel>
+          <FormLabel className="text-lg font-semibold">What is your activity level?</FormLabel>
           <FormControl>
-            <RadioGroup
-              onValueChange={field.onChange}
-              defaultValue={field.value}
-              className="space-y-3"
-            >
-              {activityLevels.map((level) => (
-                <div
-                  key={level.value}
-                  className="flex items-center space-x-3 space-y-0"
-                >
-                  <RadioGroupItem value={level.value} id={level.value} />
-                  <Label
-                    htmlFor={level.value}
-                    className="flex flex-col cursor-pointer"
+            <div className="grid grid-cols-2 gap-4">
+              {activityLevels.map((level) => {
+                const isSelected = field.value === level.value;
+                return (
+                  <div
+                    key={level.value}
+                    onClick={() => field.onChange(level.value)}
+                    className={`
+                      cursor-pointer rounded-xl p-4 transition-all duration-200
+                      ${isSelected 
+                        ? 'bg-primary/10 border-2 border-primary shadow-md transform scale-[1.02]' 
+                        : 'bg-gray-50 border-2 border-transparent hover:border-primary/30 hover:bg-gray-100'
+                      }
+                    `}
                   >
-                    <span className="font-medium">{level.label}</span>
-                    <span className="text-sm text-muted-foreground">
-                      {level.description}
-                    </span>
-                  </Label>
-                </div>
-              ))}
-            </RadioGroup>
+                    <div className="flex flex-col space-y-1">
+                      <span className="font-medium">{level.label}</span>
+                      <span className="text-sm text-muted-foreground">
+                        {level.description}
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </FormControl>
           <FormMessage />
         </FormItem>
