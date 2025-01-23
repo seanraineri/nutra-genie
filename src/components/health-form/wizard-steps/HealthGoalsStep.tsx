@@ -66,6 +66,11 @@ export const HealthGoalsStep = ({ form }: HealthGoalsStepProps) => {
       label: "Manage Chronic Conditions",
       description: "Support overall health with existing conditions",
     },
+    {
+      value: "beauty",
+      label: "Beauty & Aesthetics",
+      description: "Support skin health and natural beauty from within",
+    },
   ];
 
   const handleAddCustomGoal = () => {
