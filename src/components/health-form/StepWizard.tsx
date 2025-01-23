@@ -14,20 +14,28 @@ import { PersonalInfoStep } from "./wizard-steps/PersonalInfoStep";
 import { HealthMetricsStep } from "./wizard-steps/HealthMetricsStep";
 import { ActivityLevelStep } from "./wizard-steps/ActivityLevelStep";
 import { HealthGoalsStep } from "./wizard-steps/HealthGoalsStep";
+import { AllergiesStep } from "./wizard-steps/AllergiesStep";
+import { MedicalConditionsStep } from "./wizard-steps/MedicalConditionsStep";
+import { MedicationsStep } from "./wizard-steps/MedicationsStep";
+import { DietStep } from "./wizard-steps/DietStep";
+import { LifestyleStep } from "./wizard-steps/LifestyleStep";
 import { TestResultsStep } from "./wizard-steps/TestResultsStep";
 import { BudgetStep } from "./wizard-steps/BudgetStep";
 import { FinalStep } from "./wizard-steps/FinalStep";
-import { ProgressIndicator } from "./ProgressIndicator";
-import type { HealthFormData } from "@/types/health-form";
 
 const steps = [
-  "Personal",
-  "Metrics",
-  "Activity",
-  "Goals",
-  "Tests",
-  "Budget",
-  "Review",
+  "Personal Information",
+  "Health Metrics",
+  "Activity Level",
+  "Health Goals",
+  "Allergies",
+  "Medical Conditions",
+  "Medications",
+  "Diet",
+  "Lifestyle",
+  "Test Results",
+  "Monthly Budget",
+  "Review & Submit",
 ];
 
 export const StepWizard = () => {
@@ -70,32 +78,7 @@ export const StepWizard = () => {
 
     try {
       setIsSubmitting(true);
-      const formData: HealthFormData = {
-        firstName: data.firstName,
-        lastName: data.lastName,
-        email: data.email,
-        phoneNumber: data.phoneNumber,
-        password: data.password,
-        age: data.age,
-        gender: data.gender,
-        height: data.height,
-        weight: data.weight,
-        activityLevel: data.activityLevel,
-        medicalConditions: data.medicalConditions,
-        allergies: data.allergies || [],
-        currentMedications: data.currentMedications,
-        hasBloodwork: data.hasBloodwork,
-        hasGeneticTesting: data.hasGeneticTesting,
-        healthGoals: data.healthGoals,
-        otherHealthGoals: data.otherHealthGoals,
-        monthlyBudget: data.monthlyBudget,
-        dietType: data.dietType,
-        sleepHours: data.sleepHours,
-        smokingStatus: data.smokingStatus,
-        alcoholConsumption: data.alcoholConsumption,
-      };
-
-      await submitHealthFormData(formData);
+      await submitHealthFormData(data);
 
       toast({
         title: "Success!",
@@ -115,6 +98,35 @@ export const StepWizard = () => {
     }
   };
 
+  const getFieldsForStep = (step: number): Array<keyof HealthFormSchemaType> => {
+    switch (step) {
+      case 0:
+        return ["firstName", "lastName", "email", "phoneNumber", "password"];
+      case 1:
+        return ["age", "gender", "height", "weight"];
+      case 2:
+        return ["activityLevel"];
+      case 3:
+        return ["healthGoals"];
+      case 4:
+        return ["allergies"];
+      case 5:
+        return ["medicalConditions"];
+      case 6:
+        return ["currentMedications"];
+      case 7:
+        return ["dietType"];
+      case 8:
+        return ["sleepHours", "smokingStatus", "alcoholConsumption"];
+      case 9:
+        return ["hasBloodwork", "hasGeneticTesting"];
+      case 10:
+        return ["monthlyBudget"];
+      default:
+        return [];
+    }
+  };
+
   const renderStep = () => {
     const formData = form.getValues();
     
@@ -128,110 +140,100 @@ export const StepWizard = () => {
       case 3:
         return <HealthGoalsStep form={form} />;
       case 4:
-        return <TestResultsStep form={form} />;
+        return <AllergiesStep form={form} />;
       case 5:
-        return <BudgetStep form={form} />;
+        return <MedicalConditionsStep form={form} />;
       case 6:
+        return <MedicationsStep form={form} />;
+      case 7:
+        return <DietStep form={form} />;
+      case 8:
+        return <LifestyleStep form={form} />;
+      case 9:
+        return <TestResultsStep form={form} />;
+      case 10:
+        return <BudgetStep form={form} />;
+      case 11:
         return <FinalStep form={form} formData={formData} isSubmitting={isSubmitting} />;
       default:
         return null;
     }
   };
 
-  const handleNextStep = async () => {
-    const currentFields = getCurrentStepFields();
-    const isValid = await form.trigger(currentFields);
-    
-    if (isValid) {
-      setCurrentStep((prev) => Math.min(prev + 1, steps.length - 1));
-    }
-  };
-
-  const getCurrentStepFields = () => {
-    switch (currentStep) {
-      case 0:
-        return ["firstName", "lastName", "email", "phoneNumber", "password"];
-      case 1:
-        return ["age", "gender", "height", "weight"];
-      case 2:
-        return ["activityLevel"];
-      case 3:
-        return ["healthGoals"];
-      case 4:
-        return ["hasBloodwork", "hasGeneticTesting"];
-      case 5:
-        return ["monthlyBudget"];
-      default:
-        return [];
-    }
-  };
+  // ... keep existing code (navigation and render functions)
 
   return (
-    <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8 font-sans">
-      <ProgressIndicator steps={steps} currentStep={currentStep} />
-      
-      <Card className="onboarding-card w-full max-w-2xl mx-auto p-6 space-y-6 animate-fade-in">
-        <div className="space-y-2">
-          <h2 className="text-2xl font-semibold text-secondary">
-            {steps[currentStep]}
-          </h2>
-          <p className="text-muted-foreground">
-            {currentStep === steps.length - 1
-              ? "Review your information and submit"
-              : "Tell us about yourself"}
-          </p>
+    <Card className="w-full max-w-2xl mx-auto p-6 animate-fade-in space-y-6">
+      <div className="space-y-2">
+        <h2 className="text-2xl font-semibold text-secondary">
+          {steps[currentStep]}
+        </h2>
+        <div className="flex gap-2">
+          {steps.map((_, index) => (
+            <div
+              key={index}
+              className={`h-1 flex-1 rounded-full ${
+                index <= currentStep ? "bg-primary" : "bg-muted"
+              }`}
+            />
+          ))}
         </div>
+      </div>
 
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <div className="min-h-[300px] transition-all duration-300 ease-in-out">
-              {renderStep()}
-            </div>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          {renderStep()}
 
-            <div className="flex justify-between pt-4">
+          <div className="flex justify-between pt-4">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => setCurrentStep((prev) => Math.max(prev - 1, 0))}
+              disabled={currentStep === 0}
+              className="flex items-center gap-2"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              Previous
+            </Button>
+
+            {currentStep < steps.length - 1 ? (
               <Button
                 type="button"
-                variant="outline"
-                onClick={() => setCurrentStep((prev) => Math.max(prev - 1, 0))}
-                disabled={currentStep === 0}
-                className="onboarding-button-secondary transition-all duration-200 hover:-translate-x-1"
+                onClick={() => {
+                  const fields = getFieldsForStep(currentStep);
+                  form.trigger(fields).then((isValid) => {
+                    if (isValid) {
+                      setCurrentStep((prev) => Math.min(prev + 1, steps.length - 1));
+                    }
+                  });
+                }}
+                className="flex items-center gap-2"
               >
-                <ArrowLeft className="mr-2 h-4 w-4" />
-                Previous
+                Next
+                <ArrowRight className="h-4 w-4" />
               </Button>
-
-              {currentStep < steps.length - 1 ? (
-                <Button
-                  type="button"
-                  onClick={handleNextStep}
-                  className="onboarding-button-primary transition-all duration-200 hover:translate-x-1"
-                >
-                  Next
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              ) : (
-                <Button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="onboarding-button-primary transition-all duration-200 hover:translate-x-1"
-                >
-                  {isSubmitting ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Processing...
-                    </>
-                  ) : (
-                    <>
-                      Continue to Payment
-                      <ArrowRight className="ml-2 h-4 w-4" />
-                    </>
-                  )}
-                </Button>
-              )}
-            </div>
-          </form>
-        </Form>
-      </Card>
-    </div>
+            ) : (
+              <Button
+                type="submit"
+                disabled={isSubmitting}
+                className="flex items-center gap-2"
+              >
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    Processing...
+                  </>
+                ) : (
+                  <>
+                    Continue to Payment
+                    <ArrowRight className="h-4 w-4" />
+                  </>
+                )}
+              </Button>
+            )}
+          </div>
+        </form>
+      </Form>
+    </Card>
   );
 };

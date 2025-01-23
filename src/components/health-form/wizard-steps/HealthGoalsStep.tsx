@@ -7,6 +7,7 @@ import {
   FormControl,
   FormMessage,
 } from "@/components/ui/form";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -62,13 +63,13 @@ export const HealthGoalsStep = ({ form }: HealthGoalsStepProps) => {
     },
     {
       value: "chronic_conditions",
-      label: "Manage Conditions",
+      label: "Manage Chronic Conditions",
       description: "Support overall health with existing conditions",
     },
     {
       value: "beauty",
       label: "Beauty & Aesthetics",
-      description: "Support skin health and natural beauty",
+      description: "Support skin health and natural beauty from within",
     },
   ];
 
@@ -89,51 +90,45 @@ export const HealthGoalsStep = ({ form }: HealthGoalsStepProps) => {
   };
 
   return (
-    <div className="space-y-8 p-6 bg-white rounded-xl shadow-sm">
+    <div className="space-y-6">
       <FormField
         control={form.control}
         name="healthGoals"
         render={() => (
           <FormItem>
-            <FormLabel className="text-lg font-semibold mb-4">What are your health goals?</FormLabel>
+            <FormLabel className="text-base">What are your health goals?</FormLabel>
             <FormMessage />
-            <div className="grid grid-cols-2 gap-4 mt-6">
-              {healthGoalOptions.map((option) => {
-                const isSelected = form.getValues("healthGoals")?.includes(option.value);
-                return (
-                  <div
-                    key={option.value}
-                    onClick={() => {
+            <div className="grid gap-4">
+              {healthGoalOptions.map((option) => (
+                <div key={option.value} className="flex items-start space-x-3 space-y-0">
+                  <Checkbox
+                    checked={form.getValues("healthGoals")?.includes(option.value)}
+                    onCheckedChange={(checked) => {
                       const current = form.getValues("healthGoals") || [];
-                      const updated = isSelected
-                        ? current.filter((value) => value !== option.value)
-                        : [...current, option.value];
+                      const updated = checked
+                        ? [...current, option.value]
+                        : current.filter((value) => value !== option.value);
                       form.setValue("healthGoals", updated);
                     }}
-                    className={`
-                      cursor-pointer rounded-2xl p-4 transition-all duration-200
-                      ${isSelected 
-                        ? 'bg-primary/10 border-2 border-primary shadow-md transform scale-[1.02]' 
-                        : 'bg-gray-50 border-2 border-transparent hover:border-primary/30 hover:bg-gray-100'
-                      }
-                    `}
+                  />
+                  <Label
+                    htmlFor={option.value}
+                    className="flex flex-col cursor-pointer"
                   >
-                    <div className="flex flex-col space-y-1">
-                      <span className="font-medium">{option.label}</span>
-                      <span className="text-sm text-muted-foreground">
-                        {option.description}
-                      </span>
-                    </div>
-                  </div>
-                );
-              })}
+                    <span className="font-medium">{option.label}</span>
+                    <span className="text-sm text-muted-foreground">
+                      {option.description}
+                    </span>
+                  </Label>
+                </div>
+              ))}
             </div>
           </FormItem>
         )}
       />
 
-      <div className="space-y-4 mt-8 pt-6 border-t">
-        <FormLabel className="text-lg font-semibold">Other Health Goals</FormLabel>
+      <div className="space-y-4">
+        <FormLabel className="text-base">Other Health Goals</FormLabel>
         <div className="flex gap-2">
           <Input
             placeholder="Enter a custom health goal"
@@ -145,26 +140,20 @@ export const HealthGoalsStep = ({ form }: HealthGoalsStepProps) => {
                 handleAddCustomGoal();
               }
             }}
-            className="flex-1"
           />
-          <Button 
-            type="button" 
-            onClick={handleAddCustomGoal}
-            className="bg-primary hover:bg-primary/90"
-          >
+          <Button type="button" onClick={handleAddCustomGoal}>
             Add
           </Button>
         </div>
         <div className="space-y-2">
           {form.getValues("otherHealthGoals")?.map((goal, index) => (
-            <div key={index} className="flex items-center gap-2 bg-gray-50 p-2 rounded-lg">
+            <div key={index} className="flex items-center gap-2 bg-secondary/20 p-2 rounded-md">
               <span className="flex-1">{goal}</span>
               <Button
                 type="button"
                 variant="ghost"
                 size="sm"
                 onClick={() => handleRemoveCustomGoal(index)}
-                className="hover:bg-gray-200"
               >
                 <X className="h-4 w-4" />
               </Button>

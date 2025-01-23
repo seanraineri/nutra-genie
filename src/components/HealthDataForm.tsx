@@ -61,7 +61,7 @@ export const HealthDataForm = ({ isFamilyPlan = false }: HealthDataFormProps) =>
       currentMedications: [],
       hasBloodwork: false,
       hasGeneticTesting: false,
-      healthGoals: [],
+      healthGoals: "",
       monthlyBudget: "",
     },
   });
@@ -80,31 +80,7 @@ export const HealthDataForm = ({ isFamilyPlan = false }: HealthDataFormProps) =>
 
     try {
       setIsSubmitting(true);
-      const formData: HealthFormData = {
-        firstName: data.firstName,
-        lastName: data.lastName,
-        email: data.email,
-        phoneNumber: data.phoneNumber || "",
-        password: data.password,
-        age: data.age,
-        gender: data.gender,
-        height: data.height,
-        weight: data.weight,
-        activityLevel: data.activityLevel,
-        medicalConditions: data.medicalConditions,
-        allergies: data.allergies || [],
-        currentMedications: data.currentMedications,
-        hasBloodwork: data.hasBloodwork,
-        hasGeneticTesting: data.hasGeneticTesting,
-        healthGoals: data.healthGoals,
-        monthlyBudget: data.monthlyBudget,
-        dietType: data.dietType,
-        sleepHours: data.sleepHours || "",
-        smokingStatus: data.smokingStatus || "non_smoker",
-        alcoholConsumption: data.alcoholConsumption || "none",
-      };
-
-      await submitHealthFormData(formData);
+      const result = await submitHealthFormData(data as HealthFormData);
 
       toast({
         title: "Success!",
