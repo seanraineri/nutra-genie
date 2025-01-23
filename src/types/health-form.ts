@@ -1,6 +1,11 @@
 export type ActivityLevel = "sedentary" | "moderate" | "active" | "athlete";
 export type Gender = "male" | "female";
 
+export interface MedicalCondition {
+  condition: string;
+  specification?: string;
+}
+
 export interface HealthFormData {
   firstName: string;
   lastName: string;
@@ -12,8 +17,8 @@ export interface HealthFormData {
   height: string;
   weight: string;
   activityLevel: ActivityLevel;
-  medicalConditions: string;
-  allergies: string;
+  medicalConditions: MedicalCondition[];
+  allergies: string[];
   currentMedications: string;
   hasBloodwork: boolean;
   hasGeneticTesting: boolean;

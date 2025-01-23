@@ -7,6 +7,11 @@ const passwordRegex = {
   special: /[^A-Za-z0-9]/,
 };
 
+const medicalConditionSchema = z.object({
+  condition: z.string(),
+  specification: z.string().optional(),
+});
+
 export const healthFormSchema = z.object({
   firstName: z
     .string()
@@ -51,7 +56,7 @@ export const healthFormSchema = z.object({
     .refine((val) => !isNaN(Number(val)), "Weight must be a number")
     .refine((val) => Number(val) > 0, "Weight must be greater than 0"),
   activityLevel: z.enum(["sedentary", "moderate", "active", "athlete"] as const),
-  medicalConditions: z.string().optional(),
+  medicalConditions: z.array(medicalConditionSchema).default([]),
   allergies: z.array(z.string()).default([]),
   currentMedications: z.string().optional(),
   hasBloodwork: z.boolean(),
