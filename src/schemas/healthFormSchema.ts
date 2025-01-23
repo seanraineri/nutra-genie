@@ -52,7 +52,7 @@ export const healthFormSchema = z.object({
     .refine((val) => Number(val) > 0, "Weight must be greater than 0"),
   activityLevel: z.enum(["sedentary", "moderate", "active", "athlete"] as const),
   medicalConditions: z.string().optional(),
-  allergies: z.string().optional(),
+  allergies: z.array(z.string()).default([]),
   currentMedications: z.string().optional(),
   hasBloodwork: z.boolean(),
   hasGeneticTesting: z.boolean(),

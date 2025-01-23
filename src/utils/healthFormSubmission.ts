@@ -5,10 +5,6 @@ export const submitHealthFormData = async (formData: HealthFormData) => {
   try {
     console.log('Starting form submission with data:', formData);
 
-    // Convert strings to arrays by splitting on commas and trimming whitespace
-    const convertToArray = (str: string) => 
-      str.trim() ? str.split(',').map(item => item.trim()) : [];
-
     // First clean up expired profiles
     await supabase
       .from('pending_health_profiles')
@@ -34,24 +30,22 @@ export const submitHealthFormData = async (formData: HealthFormData) => {
     // Insert new profile
     const { data, error } = await supabase
       .from('pending_health_profiles')
-      .insert([
-        {
-          email: formData.email,
-          password: formData.password,
-          first_name: formData.firstName,
-          last_name: formData.lastName,
-          age: parseInt(formData.age),
-          gender: formData.gender,
-          height: parseFloat(formData.height),
-          weight: parseFloat(formData.weight),
-          activity_level: formData.activityLevel,
-          medical_conditions: convertToArray(formData.medicalConditions),
-          allergies: convertToArray(formData.allergies),
-          current_medications: convertToArray(formData.currentMedications),
-          health_goals: formData.healthGoals,
-          monthly_supplement_budget: parseFloat(formData.monthlyBudget),
-        }
-      ])
+      .insert({
+        email: formData.email,
+        password: formData.password,
+        first_name: formData.firstName,
+        last_name: formData.lastName,
+        age: parseInt(formData.age),
+        gender: formData.gender,
+        height: parseFloat(formData.height),
+        weight: parseFloat(formData.weight),
+        activity_level: formData.activityLevel,
+        medical_conditions: formData.medicalConditions ? [formData.medicalConditions] : [],
+        allergies: formData.allergies,
+        current_medications: formData.currentMedications ? [formData.currentMedications] : [],
+        health_goals: formData.healthGoals,
+        monthly_supplement_budget: formData.monthlyBudget ? parseFloat(formData.monthlyBudget) : 0,
+      })
       .select()
       .single();
 

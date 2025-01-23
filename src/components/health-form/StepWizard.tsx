@@ -14,6 +14,7 @@ import { PersonalInfoStep } from "./wizard-steps/PersonalInfoStep";
 import { HealthMetricsStep } from "./wizard-steps/HealthMetricsStep";
 import { ActivityLevelStep } from "./wizard-steps/ActivityLevelStep";
 import { HealthGoalsStep } from "./wizard-steps/HealthGoalsStep";
+import { AllergiesStep } from "./wizard-steps/AllergiesStep";
 import { FinalStep } from "./wizard-steps/FinalStep";
 import type { HealthFormData } from "@/types/health-form";
 
@@ -22,6 +23,7 @@ const steps = [
   "Health Metrics",
   "Activity Level",
   "Health Goals",
+  "Allergies",
   "Review & Submit",
 ];
 
@@ -46,7 +48,7 @@ export const StepWizard = () => {
       weight: "",
       activityLevel: "sedentary",
       medicalConditions: "",
-      allergies: "",
+      allergies: [],
       currentMedications: "",
       hasBloodwork: false,
       hasGeneticTesting: false,
@@ -105,6 +107,8 @@ export const StepWizard = () => {
       case 3:
         return ["healthGoals"];
       case 4:
+        return ["allergies"];
+      case 5:
         return ["monthlyBudget"];
       default:
         return [];
@@ -124,6 +128,8 @@ export const StepWizard = () => {
       case 3:
         return <HealthGoalsStep form={form} />;
       case 4:
+        return <AllergiesStep form={form} />;
+      case 5:
         return <FinalStep form={form} formData={formData as HealthFormData} isSubmitting={isSubmitting} />;
       default:
         return null;
