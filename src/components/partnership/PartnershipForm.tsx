@@ -6,7 +6,7 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 
 interface PartnershipFormProps {
-  type: 'influencer' | 'lab' | 'supplement';
+  type: 'influencer' | 'lab' | 'supplement' | 'student';
   onClose: () => void;
 }
 
@@ -80,7 +80,7 @@ export const PartnershipForm = ({ type, onClose }: PartnershipFormProps) => {
           />
         </div>
 
-        {type !== 'influencer' && (
+        {type !== 'influencer' && type !== 'student' && (
           <div>
             <label htmlFor="companyName" className="block text-sm font-medium mb-1">
               Company Name

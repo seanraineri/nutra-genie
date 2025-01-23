@@ -35,8 +35,8 @@ const WorkWithUsPage = () => {
               Influencers
             </CardTitle>
           </CardHeader>
-          <CardContent className="flex-1 flex flex-col justify-between">
-            <p className="text-muted-foreground mb-4">
+          <CardContent className="flex-1 flex flex-col">
+            <p className="text-muted-foreground h-[80px]">
               Partner with us to promote science-based supplement recommendations to your audience.
             </p>
             <Button 
@@ -56,8 +56,8 @@ const WorkWithUsPage = () => {
               Lab Companies
             </CardTitle>
           </CardHeader>
-          <CardContent className="flex-1 flex flex-col justify-between">
-            <p className="text-muted-foreground mb-4">
+          <CardContent className="flex-1 flex flex-col">
+            <p className="text-muted-foreground h-[80px]">
               Integrate your lab testing services with our platform for seamless results analysis.
             </p>
             <Button 
@@ -77,8 +77,8 @@ const WorkWithUsPage = () => {
               Supplement Companies
             </CardTitle>
           </CardHeader>
-          <CardContent className="flex-1 flex flex-col justify-between">
-            <p className="text-muted-foreground mb-4">
+          <CardContent className="flex-1 flex flex-col">
+            <p className="text-muted-foreground h-[80px]">
               List your high-quality supplements on our platform and reach health-conscious customers.
             </p>
             <Button 
@@ -98,8 +98,8 @@ const WorkWithUsPage = () => {
               Student Ambassadors
             </CardTitle>
           </CardHeader>
-          <CardContent className="flex-1 flex flex-col justify-between">
-            <p className="text-muted-foreground mb-4">
+          <CardContent className="flex-1 flex flex-col">
+            <p className="text-muted-foreground h-[80px]">
               Join our student ambassador network for marketing experience and a chance for extra money.
             </p>
             <Button 
