@@ -30,7 +30,7 @@ export const submitHealthFormData = async (formData: HealthFormData) => {
     // Insert new profile
     const { data, error } = await supabase
       .from('pending_health_profiles')
-      .insert({
+      .insert([{
         email: formData.email,
         password: formData.password,
         first_name: formData.firstName,
@@ -40,12 +40,12 @@ export const submitHealthFormData = async (formData: HealthFormData) => {
         height: parseFloat(formData.height),
         weight: parseFloat(formData.weight),
         activity_level: formData.activityLevel,
-        medical_conditions: formData.medicalConditions ? [formData.medicalConditions] : [],
+        medical_conditions: formData.medicalConditions,
         allergies: formData.allergies,
         current_medications: formData.currentMedications ? [formData.currentMedications] : [],
         health_goals: formData.healthGoals,
         monthly_supplement_budget: formData.monthlyBudget ? parseFloat(formData.monthlyBudget) : 0,
-      })
+      }])
       .select()
       .single();
 

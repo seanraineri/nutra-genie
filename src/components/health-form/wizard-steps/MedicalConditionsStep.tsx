@@ -37,6 +37,7 @@ export const MedicalConditionsStep = ({ form }: MedicalConditionsStepProps) => {
   const [selectedCondition, setSelectedCondition] = useState<string | null>(null);
   const [specification, setSpecification] = useState("");
   const [noConditions, setNoConditions] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   const conditions = form.watch("medicalConditions") || [];
 
@@ -50,6 +51,7 @@ export const MedicalConditionsStep = ({ form }: MedicalConditionsStepProps) => {
     form.setValue("medicalConditions", [...currentConditions, newCondition]);
     setSelectedCondition(null);
     setSpecification("");
+    setDialogOpen(false); // Close dialog after adding
   };
 
   const handleRemoveCondition = (index: number) => {
@@ -83,7 +85,7 @@ export const MedicalConditionsStep = ({ form }: MedicalConditionsStepProps) => {
           <>
             <div className="grid grid-cols-2 gap-4">
               {CONDITIONS.map((condition) => (
-                <Dialog key={condition.id}>
+                <Dialog key={condition.id} open={dialogOpen} onOpenChange={setDialogOpen}>
                   <DialogTrigger asChild>
                     <Button
                       variant="outline"
