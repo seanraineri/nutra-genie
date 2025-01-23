@@ -44,17 +44,6 @@ export const MedicationsStep = ({ form }: MedicationsStepProps) => {
       <div className="space-y-4">
         <h3 className="text-lg font-medium">Are you taking any medications?</h3>
         
-        <div className="flex items-center space-x-2 mb-4">
-          <Checkbox
-            id="noMedications"
-            checked={currentMedications.length === 0}
-            onCheckedChange={handleNoMedications}
-          />
-          <Label htmlFor="noMedications">
-            I am not currently taking any medications
-          </Label>
-        </div>
-
         <div className="flex gap-2">
           <Input
             placeholder="Enter medication name"
@@ -66,16 +55,26 @@ export const MedicationsStep = ({ form }: MedicationsStepProps) => {
                 handleAddMedication();
               }
             }}
-            disabled={currentMedications.length === 0}
           />
           <Button
             type="button"
             onClick={handleAddMedication}
-            disabled={!newMedication.trim() || currentMedications.length === 0}
+            disabled={!newMedication.trim()}
           >
             <Plus className="h-4 w-4 mr-1" />
             Add
           </Button>
+        </div>
+
+        <div className="flex items-center space-x-2">
+          <Checkbox
+            id="noMedications"
+            checked={currentMedications.length === 0}
+            onCheckedChange={handleNoMedications}
+          />
+          <Label htmlFor="noMedications">
+            I am not currently taking any medications
+          </Label>
         </div>
 
         {currentMedications.length > 0 && (

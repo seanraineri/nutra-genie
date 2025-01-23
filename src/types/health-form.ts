@@ -19,7 +19,7 @@ export interface HealthFormData {
   activityLevel: ActivityLevel;
   medicalConditions: MedicalCondition[];
   allergies: string[];
-  currentMedications: string;
+  currentMedications: string[];
   hasBloodwork: boolean;
   hasGeneticTesting: boolean;
   healthGoals: string[];
