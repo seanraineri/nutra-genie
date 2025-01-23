@@ -18,7 +18,7 @@ export const DietStep = ({ form }: DietStepProps) => {
 
         <RadioGroup
           defaultValue={form.getValues("dietType")}
-          onValueChange={(value) => form.setValue("dietType", value)}
+          onValueChange={(value: any) => form.setValue("dietType", value)}
           className="grid gap-4"
         >
           {[
@@ -26,7 +26,8 @@ export const DietStep = ({ form }: DietStepProps) => {
             { value: "animal_based", label: "Animal Based" },
             { value: "keto", label: "Keto" },
             { value: "processed_food", label: "Fast/Processed Food Often" },
-            { value: "minimal_preference", label: "Fair/Minimal Preference" },
+            { value: "fair_average", label: "A fair average diet" },
+            { value: "healthy_balanced", label: "Healthy, minimally processed with protein and fruits and vegetables often" },
           ].map((diet) => (
             <div key={diet.value} className="flex items-center space-x-2">
               <RadioGroupItem value={diet.value} id={diet.value} />

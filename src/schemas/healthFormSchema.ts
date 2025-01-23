@@ -72,7 +72,8 @@ export const healthFormSchema = z.object({
     "animal_based",
     "keto",
     "processed_food",
-    "minimal_preference"
+    "fair_average",
+    "healthy_balanced"
   ]).optional(),
 });
 
