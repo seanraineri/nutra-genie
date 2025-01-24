@@ -107,9 +107,9 @@ export const HealthDataForm = ({ isFamilyPlan = false }: HealthDataFormProps) =>
   };
 
   return (
-    <Card className="w-full max-w-2xl mx-auto p-6 animate-fade-in space-y-6">
+    <Card className="w-full max-w-2xl mx-auto p-6 animate-fade-in space-y-6 bg-gradient-to-br from-cyan-500/10 to-teal-500/10 backdrop-blur-sm border border-cyan-200/20">
       <div className="space-y-2">
-        <h2 className="text-2xl font-semibold text-secondary">
+        <h2 className="text-2xl font-semibold bg-gradient-to-r from-cyan-600 to-teal-600 bg-clip-text text-transparent">
           {isFamilyPlan ? "Create Family Account" : "Create Your Account"}
         </h2>
       </div>
@@ -143,7 +143,6 @@ export const HealthDataForm = ({ isFamilyPlan = false }: HealthDataFormProps) =>
             <BiomarkerInputs 
               onChange={(biomarkers) => {
                 console.log("Biomarkers updated:", biomarkers);
-                // You can store this in form state if needed
               }}
             />
           </FormSection>
@@ -154,7 +153,7 @@ export const HealthDataForm = ({ isFamilyPlan = false }: HealthDataFormProps) =>
           >
             <HealthGoalsInput 
               formData={form.getValues() as HealthFormData}
-              onChange={(e) => form.setValue("healthGoals", e.target.value)}
+              onChange={(goals) => form.setValue("healthGoals", goals)}
             />
           </FormSection>
 
@@ -216,7 +215,7 @@ export const HealthDataForm = ({ isFamilyPlan = false }: HealthDataFormProps) =>
               <Button
                 type="button"
                 variant="outline"
-                className="flex items-center gap-2"
+                className="flex items-center gap-2 bg-gradient-to-r from-cyan-500/10 to-teal-500/10 hover:from-cyan-500/20 hover:to-teal-500/20"
                 onClick={() => navigate('/family-plan')}
               >
                 <Users className="h-4 w-4" />
@@ -227,7 +226,7 @@ export const HealthDataForm = ({ isFamilyPlan = false }: HealthDataFormProps) =>
 
           <Button
             type="submit"
-            className="w-full transition-all hover:shadow-lg disabled:opacity-50"
+            className="w-full transition-all hover:shadow-lg disabled:opacity-50 bg-gradient-to-r from-cyan-500 to-teal-500 hover:from-cyan-600 hover:to-teal-600"
             disabled={isSubmitting || !acceptedTerms}
           >
             {isSubmitting ? (
