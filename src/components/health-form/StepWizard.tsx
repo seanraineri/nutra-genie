@@ -59,7 +59,7 @@ export const StepWizard = () => {
       weight: "",
       activityLevel: "sedentary",
       medicalConditions: [],
-      allergies: [], // Initialize as empty array
+      allergies: [],
       currentMedications: [],
       hasBloodwork: false,
       hasGeneticTesting: false,

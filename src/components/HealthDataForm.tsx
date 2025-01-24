@@ -50,6 +50,7 @@ export const HealthDataForm = ({ isFamilyPlan = false }: HealthDataFormProps) =>
       firstName: "",
       lastName: "",
       email: "",
+      phoneNumber: "",
       password: "",
       age: "",
       gender: "male",
@@ -57,7 +58,7 @@ export const HealthDataForm = ({ isFamilyPlan = false }: HealthDataFormProps) =>
       weight: "",
       activityLevel: "sedentary",
       medicalConditions: [],
-      allergies: [], // Initialize as empty array
+      allergies: [],
       currentMedications: [],
       hasBloodwork: false,
       hasGeneticTesting: false,
