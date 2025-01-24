@@ -61,8 +61,13 @@ export const HealthDataForm = ({ isFamilyPlan = false }: HealthDataFormProps) =>
       currentMedications: [],
       hasBloodwork: false,
       hasGeneticTesting: false,
-      healthGoals: "",
+      healthGoals: [],
+      otherHealthGoals: [],
       monthlyBudget: "",
+      dietType: undefined,
+      sleepHours: "",
+      smokingStatus: "non_smoker",
+      alcoholConsumption: "none",
     },
   });
 

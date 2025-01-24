@@ -160,8 +160,6 @@ export const StepWizard = () => {
     }
   };
 
-  // ... keep existing code (navigation and render functions)
-
   return (
     <Card className="w-full max-w-2xl mx-auto p-6 animate-fade-in space-y-6">
       <div className="space-y-2">
