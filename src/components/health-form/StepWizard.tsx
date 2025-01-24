@@ -66,11 +66,11 @@ export const StepWizard = () => {
       healthGoals: [],
       otherHealthGoals: [],
       monthlyBudget: "",
-      dietType: undefined,
+      dietType: "healthy_balanced",
       sleepHours: "",
       smokingStatus: "non_smoker",
       alcoholConsumption: "none",
-    },
+    } as HealthFormSchemaType,
   });
 
   const onSubmit = async (data: HealthFormSchemaType) => {
