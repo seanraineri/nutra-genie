@@ -205,7 +205,7 @@ export const StepWizard = () => {
                     }
                   });
                 }}
-                className="flex items-center gap-2"
+                className="flex items-center gap-2 transition-all duration-300 hover:pr-6 hover:pl-6 hover:gap-3"
               >
                 Next
                 <ArrowRight className="h-4 w-4" />
@@ -214,7 +214,7 @@ export const StepWizard = () => {
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="flex items-center gap-2"
+                className="flex items-center gap-2 transition-all duration-300 hover:pr-6 hover:pl-6 hover:gap-3"
               >
                 {isSubmitting ? (
                   <>
