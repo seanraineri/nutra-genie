@@ -23,7 +23,7 @@ export const ChatInput = ({ onSendMessage, isLoading }: ChatInputProps) => {
     <div className="flex gap-2">
       <Input
         ref={inputRef}
-        placeholder="Message your health assistant..."
+        placeholder="Ask me anything about your health journey..."
         value={message}
         onChange={(e) => setMessage(e.target.value)}
         onKeyDown={(e) => {
@@ -33,13 +33,13 @@ export const ChatInput = ({ onSendMessage, isLoading }: ChatInputProps) => {
           }
         }}
         disabled={isLoading}
-        className="bg-gray-50 border-0 focus-visible:ring-1 focus-visible:ring-primary/20 shadow-sm"
+        className="bg-white border-0 focus-visible:ring-1 focus-visible:ring-primary/20 shadow-sm"
       />
       <Button
         onClick={handleSubmit}
         disabled={isLoading || !message.trim()}
         size="icon"
-        className="shrink-0 bg-primary/10 hover:bg-primary/20 text-primary"
+        className="shrink-0 bg-gradient-to-r from-primary to-secondary hover:opacity-90 transition-opacity shadow-sm"
       >
         {isLoading ? (
           <Loader2 className="h-4 w-4 animate-spin" />

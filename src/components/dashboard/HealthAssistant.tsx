@@ -12,24 +12,24 @@ import { supabase } from "@/integrations/supabase/client";
 
 const quickReplies = [
   {
-    text: "Analyze my health data",
-    category: "analysis",
-    description: "Get insights from your health metrics and lab results"
-  },
-  {
-    text: "View my supplement plan",
+    text: "Review my supplement plan",
     category: "supplements",
     description: "Check your personalized supplement recommendations"
   },
   {
-    text: "Tell me about Vitamin D",
-    category: "education",
-    description: "Learn about important nutrients and supplements"
+    text: "Log my daily journal",
+    category: "journal",
+    description: "Track your daily health and wellness activities"
   },
   {
-    text: "Search for magnesium benefits",
-    category: "search",
-    description: "Discover health benefits of specific nutrients"
+    text: "Check my health metrics",
+    category: "metrics",
+    description: "View your latest health data and progress"
+  },
+  {
+    text: "Set new health goals",
+    category: "goals",
+    description: "Create or update your wellness objectives"
   }
 ];
 
@@ -65,19 +65,19 @@ export const HealthAssistant = () => {
   };
 
   return (
-    <Card className="flex flex-col h-[calc(100vh-6rem)] bg-white shadow-lg animate-fade-in">
-      <div className="px-4 py-3 md:p-6 border-b bg-gradient-to-b from-white to-gray-50">
+    <Card className="flex flex-col h-[calc(100vh-6rem)] bg-gradient-to-b from-white via-white to-blue-50/30 shadow-lg animate-fade-in">
+      <div className="px-4 py-3 md:p-6 border-b bg-gradient-to-r from-primary/10 via-secondary/10 to-accent/10">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-primary/10 rounded-lg">
-              <Bot className="h-6 w-6 text-primary" />
+            <div className="p-2 bg-gradient-to-br from-primary to-secondary rounded-lg shadow-md">
+              <Bot className="h-6 w-6 text-white" />
             </div>
             <div className="space-y-1">
               <h2 className="text-2xl md:text-3xl font-semibold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-                Hello, how can I help?
+                Welcome to Your Health Journey
               </h2>
               <p className="text-muted-foreground text-sm md:text-base">
-                I'm your personal health assistant
+                I'm your personal health assistant, ready to help you achieve your wellness goals
               </p>
             </div>
           </div>
@@ -85,7 +85,7 @@ export const HealthAssistant = () => {
             variant="ghost"
             size="sm"
             onClick={handleClearChat}
-            className="text-muted-foreground hover:text-destructive"
+            className="text-muted-foreground hover:text-destructive transition-colors"
           >
             <Trash2 className="h-4 w-4 mr-2" />
             Clear
@@ -98,9 +98,10 @@ export const HealthAssistant = () => {
           {quickReplies.map((reply, index) => (
             <Card
               key={index}
-              className="p-4 hover:bg-gray-50 cursor-pointer transition-colors group"
+              className="group relative overflow-hidden p-4 transition-all duration-300 hover:shadow-md hover:scale-[1.02] cursor-pointer bg-gradient-to-br from-white to-blue-50/50"
               onClick={() => handleSendMessage(reply.text)}
             >
+              <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-secondary/5 to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity" />
               <h3 className="font-medium text-secondary group-hover:text-primary transition-colors">
                 {reply.text}
               </h3>
@@ -128,13 +129,13 @@ export const HealthAssistant = () => {
           {isTyping && (
             <div className="flex items-center gap-2 text-muted-foreground animate-pulse">
               <Loader2 className="h-5 w-5 animate-spin" />
-              <span className="text-base">Assistant is typing...</span>
+              <span className="text-base">Assistant is thinking...</span>
             </div>
           )}
         </div>
       </ScrollArea>
 
-      <div className="p-4 md:p-6 border-t bg-gradient-to-t from-gray-50 to-white">
+      <div className="p-4 md:p-6 border-t bg-gradient-to-t from-blue-50/30 to-white">
         <div className="max-w-3xl mx-auto">
           <ChatInput onSendMessage={handleSendMessage} isLoading={isLoading} />
         </div>

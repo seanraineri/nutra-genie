@@ -70,22 +70,22 @@ export const ChatMessage = ({ role, content, timestamp }: ChatMessageProps) => {
           {role === "user" ? (
             <>
               <AvatarImage src="/placeholder.svg" />
-              <AvatarFallback>U</AvatarFallback>
+              <AvatarFallback className="bg-primary text-primary-foreground">U</AvatarFallback>
             </>
           ) : (
             <>
               <AvatarImage src="/lovable-uploads/2f53b616-9c59-4de0-abb0-263c4a144685.png" />
-              <AvatarFallback>AI</AvatarFallback>
+              <AvatarFallback className="bg-secondary text-secondary-foreground">AI</AvatarFallback>
             </>
           )}
         </Avatar>
         <div>
           <div
-            className={`rounded-2xl px-6 py-4 shadow-sm ${
+            className={`rounded-2xl px-6 py-4 shadow-sm transition-all duration-300 hover:shadow-md ${
               role === "user"
-                ? "bg-primary text-primary-foreground"
-                : "bg-gray-100"
-            } ${content === "Hi! I'm your personal health assistant. How can I help!" ? "text-lg" : ""}`}
+                ? "bg-gradient-to-r from-primary to-secondary text-white"
+                : "bg-gradient-to-r from-gray-50 to-blue-50/50"
+            }`}
           >
             <div className="prose prose-sm max-w-none">
               {formatContent(content)}
