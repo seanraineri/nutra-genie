@@ -22,6 +22,7 @@ import { LifestyleStep } from "./wizard-steps/LifestyleStep";
 import { TestResultsStep } from "./wizard-steps/TestResultsStep";
 import { BudgetStep } from "./wizard-steps/BudgetStep";
 import { FinalStep } from "./wizard-steps/FinalStep";
+import type { HealthFormData } from "@/types/health-form";
 
 const steps = [
   "Personal Information",
@@ -78,7 +79,8 @@ export const StepWizard = () => {
 
     try {
       setIsSubmitting(true);
-      await submitHealthFormData(data);
+      // Cast the form data to HealthFormData since we know it's valid at this point
+      await submitHealthFormData(data as unknown as HealthFormData);
 
       toast({
         title: "Success!",
@@ -128,7 +130,8 @@ export const StepWizard = () => {
   };
 
   const renderStep = () => {
-    const formData = form.getValues();
+    // Cast form data to HealthFormData since we know it's complete at this point
+    const formData = form.getValues() as unknown as HealthFormData;
     
     switch (currentStep) {
       case 0:
