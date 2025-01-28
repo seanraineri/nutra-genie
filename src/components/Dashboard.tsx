@@ -35,16 +35,16 @@ export const Dashboard = () => {
   return (
     <div className="min-h-screen bg-[#D3E4FD] text-white">
       {/* Sidebar */}
-      <div className="fixed left-0 top-0 h-full w-20 bg-[#2E7D32] flex flex-col items-center py-6 space-y-8">
-        <div className="w-12 h-12 rounded-lg bg-primary flex items-center justify-center">
-          <BookOpen className="h-6 w-6" />
+      <div className="fixed left-0 top-0 h-full w-20 bg-gradient-to-b from-cyan-500 to-teal-500 flex flex-col items-center py-6 space-y-8">
+        <div className="w-12 h-12 rounded-lg bg-white/10 backdrop-blur-sm flex items-center justify-center">
+          <BookOpen className="h-6 w-6 text-white" />
         </div>
         
         <nav className="flex-1 flex flex-col items-center space-y-6">
           <Button 
             variant="ghost" 
             size="icon"
-            className="w-12 h-12 rounded-xl hover:bg-primary/20 text-white"
+            className="w-12 h-12 rounded-xl hover:bg-white/10 text-white"
             onClick={() => navigate("/")}
           >
             <Home className="h-6 w-6" />
@@ -53,7 +53,7 @@ export const Dashboard = () => {
           <Button 
             variant="ghost" 
             size="icon"
-            className="w-12 h-12 rounded-xl hover:bg-primary/20 text-white"
+            className="w-12 h-12 rounded-xl hover:bg-white/10 text-white"
             onClick={handleSignUpPrompt}
           >
             <Trophy className="h-6 w-6" />
@@ -62,7 +62,7 @@ export const Dashboard = () => {
           <Button 
             variant="ghost" 
             size="icon"
-            className="w-12 h-12 rounded-xl hover:bg-primary/20 text-white"
+            className="w-12 h-12 rounded-xl hover:bg-white/10 text-white"
             onClick={handleSignUpPrompt}
           >
             <Gift className="h-6 w-6" />
@@ -71,7 +71,7 @@ export const Dashboard = () => {
           <Button 
             variant="ghost" 
             size="icon"
-            className="w-12 h-12 rounded-xl hover:bg-primary/20 text-white"
+            className="w-12 h-12 rounded-xl hover:bg-white/10 text-white"
             onClick={handleSignUpPrompt}
           >
             <User className="h-6 w-6" />
@@ -80,7 +80,7 @@ export const Dashboard = () => {
           <Button 
             variant="ghost" 
             size="icon"
-            className="w-12 h-12 rounded-xl hover:bg-primary/20 text-white"
+            className="w-12 h-12 rounded-xl hover:bg-white/10 text-white"
             onClick={handleSignUpPrompt}
           >
             <MoreHorizontal className="h-6 w-6" />
