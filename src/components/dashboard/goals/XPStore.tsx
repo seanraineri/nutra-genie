@@ -1,0 +1,165 @@
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { useToast } from "@/hooks/use-toast";
+import { Award, Gift, ShoppingCart, Star } from "lucide-react";
+import { useState, useEffect } from "react";
+import { supabase } from "@/integrations/supabase/client";
+
+interface Reward {
+  name: string;
+  cost: number;
+  icon: JSX.Element;
+}
+
+const REWARDS: Reward[] = [
+  { name: "Free Supplement Bottle", cost: 5000, icon: <ShoppingCart className="h-5 w-5" /> },
+  { name: "Custom Water Bottle", cost: 10000, icon: <Gift className="h-5 w-5" /> },
+  { name: "Custom Merch of the Month", cost: 15000, icon: <Star className="h-5 w-5" /> },
+  { name: "Fitness Class (F45/Barry's/Spincycle)", cost: 20000, icon: <Award className="h-5 w-5" /> },
+];
+
+export const XPStore = () => {
+  const { toast } = useToast();
+  const [userXP, setUserXP] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    fetchUserXP();
+  }, []);
+
+  const fetchUserXP = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const { data, error } = await supabase
+        .from('user_xp')
+        .select('total_xp')
+        .eq('user_id', user.id)
+        .single();
+
+      if (error) throw error;
+      setUserXP(data?.total_xp || 0);
+    } catch (error) {
+      console.error('Error fetching XP:', error);
+    }
+  };
+
+  const handleRedeemReward = async (reward: Reward) => {
+    setIsLoading(true);
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error('Not authenticated');
+
+      if (userXP < reward.cost) {
+        toast({
+          title: "Insufficient XP",
+          description: `You need ${reward.cost - userXP} more XP to redeem this reward.`,
+          variant: "destructive",
+        });
+        return;
+      }
+
+      const { error: redemptionError } = await supabase
+        .from('reward_redemptions')
+        .insert({
+          user_id: user.id,
+          reward_type: reward.name,
+          xp_cost: reward.cost,
+        });
+
+      if (redemptionError) throw redemptionError;
+
+      const { error: updateError } = await supabase
+        .from('user_xp')
+        .update({ total_xp: userXP - reward.cost })
+        .eq('user_id', user.id);
+
+      if (updateError) throw updateError;
+
+      await fetchUserXP();
+      
+      toast({
+        title: "Reward Redeemed!",
+        description: `You've successfully redeemed ${reward.name}. Our team will contact you soon.`,
+      });
+    } catch (error: any) {
+      console.error('Error redeeming reward:', error);
+      toast({
+        title: "Error",
+        description: "Failed to redeem reward. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h3 className="text-lg font-semibold">XP Store</h3>
+          <p className="text-sm text-muted-foreground">
+            Redeem your XP for exclusive rewards
+          </p>
+        </div>
+        <div className="flex items-center gap-2 bg-primary/10 px-4 py-2 rounded-lg">
+          <Star className="h-5 w-5 text-primary" />
+          <span className="font-semibold">{userXP} XP</span>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {REWARDS.map((reward, index) => (
+          <Card key={index} className="p-4">
+            <div className="flex items-start justify-between">
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-primary/10 rounded-lg">
+                  {reward.icon}
+                </div>
+                <div>
+                  <h4 className="font-medium">{reward.name}</h4>
+                  <p className="text-sm text-muted-foreground">
+                    {reward.cost} XP
+                  </p>
+                </div>
+              </div>
+              <Button
+                variant="outline"
+                size="sm"
+                disabled={isLoading || userXP < reward.cost}
+                onClick={() => handleRedeemReward(reward)}
+              >
+                Redeem
+              </Button>
+            </div>
+          </Card>
+        ))}
+      </div>
+
+      <div className="bg-muted/50 rounded-lg p-4 space-y-2">
+        <h4 className="font-medium">How to Earn XP</h4>
+        <ul className="space-y-2 text-sm">
+          <li className="flex items-center justify-between">
+            <span>Daily Supplement Log</span>
+            <span className="font-medium">10 XP</span>
+          </li>
+          <li className="flex items-center justify-between">
+            <span>Daily Quiz</span>
+            <span className="font-medium">50 XP</span>
+          </li>
+          <li className="flex items-center justify-between">
+            <span>Share Plan</span>
+            <span className="font-medium">100 XP</span>
+          </li>
+          <li className="flex items-center justify-between">
+            <span>Refer a Friend</span>
+            <span className="font-medium">500 XP</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </Card>
+);
+};

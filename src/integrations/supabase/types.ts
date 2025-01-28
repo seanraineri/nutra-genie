@@ -269,6 +269,33 @@ export type Database = {
         }
         Relationships: []
       }
+      reward_redemptions: {
+        Row: {
+          created_at: string | null
+          id: string
+          reward_type: string
+          status: string | null
+          user_id: string | null
+          xp_cost: number
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          reward_type: string
+          status?: string | null
+          user_id?: string | null
+          xp_cost: number
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          reward_type?: string
+          status?: string | null
+          user_id?: string | null
+          xp_cost?: number
+        }
+        Relationships: []
+      }
       supplement_recommendations: {
         Row: {
           company_name: string | null
@@ -395,6 +422,30 @@ export type Database = {
         }
         Relationships: []
       }
+      user_xp: {
+        Row: {
+          created_at: string | null
+          id: string
+          total_xp: number | null
+          updated_at: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          total_xp?: number | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          total_xp?: number | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       webhook_events: {
         Row: {
           id: string
@@ -413,6 +464,30 @@ export type Database = {
           processed_at?: string | null
           stripe_event_id?: string | null
           type?: string | null
+        }
+        Relationships: []
+      }
+      xp_transactions: {
+        Row: {
+          activity_type: string
+          created_at: string | null
+          id: string
+          user_id: string | null
+          xp_amount: number
+        }
+        Insert: {
+          activity_type: string
+          created_at?: string | null
+          id?: string
+          user_id?: string | null
+          xp_amount: number
+        }
+        Update: {
+          activity_type?: string
+          created_at?: string | null
+          id?: string
+          user_id?: string | null
+          xp_amount?: number
         }
         Relationships: []
       }

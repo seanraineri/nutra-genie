@@ -5,6 +5,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { GoalItem } from "./goals/GoalItem";
 import { SymptomTracker } from "./goals/SymptomTracker";
+import { XPStore } from "./goals/XPStore";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { addHealthGoal } from "@/api/healthGoalsApi";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -147,7 +148,7 @@ export const HealthGoals = () => {
               </Button>
             </PopoverTrigger>
             <PopoverContent className="max-w-[300px] text-sm bg-card text-card-foreground shadow-md border">
-              Track your progress towards your goals and receive weekly recaps for completing your journal everyday
+              Track your progress towards your goals and earn XP for completing activities
             </PopoverContent>
           </Popover>
         </div>
@@ -187,8 +188,13 @@ export const HealthGoals = () => {
           </Tabs>
         </div>
         
-        <div className="md:col-span-1">
-          <SymptomTracker />
+        <div className="md:col-span-1 space-y-6">
+          <Card className="p-4">
+            <SymptomTracker />
+          </Card>
+          <Card className="p-4">
+            <XPStore />
+          </Card>
         </div>
       </div>
     </Card>
