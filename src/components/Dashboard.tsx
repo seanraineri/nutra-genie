@@ -54,7 +54,7 @@ export const Dashboard = () => {
             variant="ghost" 
             size="icon"
             className="w-12 h-12 rounded-xl hover:bg-white/10 text-white"
-            onClick={() => navigate("/goals")}
+            onClick={() => navigate("/supplements")}
           >
             <Trophy className="h-6 w-6" />
           </Button>
@@ -63,7 +63,7 @@ export const Dashboard = () => {
             variant="ghost" 
             size="icon"
             className="w-12 h-12 rounded-xl hover:bg-white/10 text-white"
-            onClick={() => navigate("/supplements")}
+            onClick={() => navigate("/rewards")}
           >
             <Gift className="h-6 w-6" />
           </Button>
@@ -72,18 +72,9 @@ export const Dashboard = () => {
             variant="ghost" 
             size="icon"
             className="w-12 h-12 rounded-xl hover:bg-white/10 text-white"
-            onClick={() => navigate("/profile")}
+            onClick={() => navigate("/metrics")}
           >
             <User className="h-6 w-6" />
-          </Button>
-          
-          <Button 
-            variant="ghost" 
-            size="icon"
-            className="w-12 h-12 rounded-xl hover:bg-white/10 text-white"
-            onClick={() => navigate("/rewards")}
-          >
-            <MoreHorizontal className="h-6 w-6" />
           </Button>
         </nav>
       </div>
