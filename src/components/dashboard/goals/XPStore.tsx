@@ -96,70 +96,71 @@ export const XPStore = () => {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h3 className="text-lg font-semibold">XP Store</h3>
-          <p className="text-sm text-muted-foreground">
-            Redeem your XP for exclusive rewards
-          </p>
+    <Card className="p-4">
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h3 className="text-lg font-semibold">XP Store</h3>
+            <p className="text-sm text-muted-foreground">
+              Redeem your XP for exclusive rewards
+            </p>
+          </div>
+          <div className="flex items-center gap-2 bg-primary/10 px-4 py-2 rounded-lg">
+            <Star className="h-5 w-5 text-primary" />
+            <span className="font-semibold">{userXP} XP</span>
+          </div>
         </div>
-        <div className="flex items-center gap-2 bg-primary/10 px-4 py-2 rounded-lg">
-          <Star className="h-5 w-5 text-primary" />
-          <span className="font-semibold">{userXP} XP</span>
-        </div>
-      </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {REWARDS.map((reward, index) => (
-          <Card key={index} className="p-4">
-            <div className="flex items-start justify-between">
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-primary/10 rounded-lg">
-                  {reward.icon}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {REWARDS.map((reward, index) => (
+            <Card key={index} className="p-4">
+              <div className="flex items-start justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-primary/10 rounded-lg">
+                    {reward.icon}
+                  </div>
+                  <div>
+                    <h4 className="font-medium">{reward.name}</h4>
+                    <p className="text-sm text-muted-foreground">
+                      {reward.cost} XP
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h4 className="font-medium">{reward.name}</h4>
-                  <p className="text-sm text-muted-foreground">
-                    {reward.cost} XP
-                  </p>
-                </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  disabled={isLoading || userXP < reward.cost}
+                  onClick={() => handleRedeemReward(reward)}
+                >
+                  Redeem
+                </Button>
               </div>
-              <Button
-                variant="outline"
-                size="sm"
-                disabled={isLoading || userXP < reward.cost}
-                onClick={() => handleRedeemReward(reward)}
-              >
-                Redeem
-              </Button>
-            </div>
-          </Card>
-        ))}
-      </div>
+            </Card>
+          ))}
+        </div>
 
-      <div className="bg-muted/50 rounded-lg p-4 space-y-2">
-        <h4 className="font-medium">How to Earn XP</h4>
-        <ul className="space-y-2 text-sm">
-          <li className="flex items-center justify-between">
-            <span>Daily Supplement Log</span>
-            <span className="font-medium">10 XP</span>
-          </li>
-          <li className="flex items-center justify-between">
-            <span>Daily Quiz</span>
-            <span className="font-medium">50 XP</span>
-          </li>
-          <li className="flex items-center justify-between">
-            <span>Share Plan</span>
-            <span className="font-medium">100 XP</span>
-          </li>
-          <li className="flex items-center justify-between">
-            <span>Refer a Friend</span>
-            <span className="font-medium">500 XP</span>
-          </li>
-        </ul>
+        <div className="bg-muted/50 rounded-lg p-4 space-y-2">
+          <h4 className="font-medium">How to Earn XP</h4>
+          <ul className="space-y-2 text-sm">
+            <li className="flex items-center justify-between">
+              <span>Daily Supplement Log</span>
+              <span className="font-medium">10 XP</span>
+            </li>
+            <li className="flex items-center justify-between">
+              <span>Daily Quiz</span>
+              <span className="font-medium">50 XP</span>
+            </li>
+            <li className="flex items-center justify-between">
+              <span>Share Plan</span>
+              <span className="font-medium">100 XP</span>
+            </li>
+            <li className="flex items-center justify-between">
+              <span>Refer a Friend</span>
+              <span className="font-medium">500 XP</span>
+            </li>
+          </ul>
+        </div>
       </div>
-    </div>
-  </Card>
-);
+    </Card>
+  );
 };
