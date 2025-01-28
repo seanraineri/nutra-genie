@@ -88,7 +88,7 @@ export const Dashboard = () => {
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="text-white"
+                  className="text-[#1C3B4B]" // Updated to a darker color for better visibility
                   onClick={() => navigate("/")}
                 >
                   <ChevronLeft className="mr-2 h-4 w-4" />
