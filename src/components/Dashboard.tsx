@@ -33,7 +33,7 @@ export const Dashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#0A2533] text-white">
+    <div className="min-h-screen bg-[#D3E4FD] text-white">
       {/* Sidebar */}
       <div className="fixed left-0 top-0 h-full w-20 bg-[#1C3B4B] flex flex-col items-center py-6 space-y-8">
         <div className="w-12 h-12 rounded-lg bg-primary flex items-center justify-center">
