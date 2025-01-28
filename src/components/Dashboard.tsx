@@ -2,7 +2,6 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft, Home, Trophy, Gift, User, MoreHorizontal, BookOpen } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { HealthAssistant } from "./dashboard/HealthAssistant";
-import { HealthMetrics } from "./dashboard/HealthMetrics";
 import { SupplementPlan } from "./dashboard/SupplementPlan";
 import { HealthGoals } from "./dashboard/HealthGoals";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -72,7 +71,7 @@ export const Dashboard = () => {
             variant="ghost" 
             size="icon"
             className="w-12 h-12 rounded-xl hover:bg-white/10 text-white"
-            onClick={handleSignUpPrompt}
+            onClick={() => navigate("/metrics")}
           >
             <User className="h-6 w-6" />
           </Button>
@@ -103,9 +102,6 @@ export const Dashboard = () => {
                   <ChevronLeft className="mr-2 h-4 w-4" />
                   Back
                 </Button>
-                <h1 className="text-2xl md:text-3xl font-bold text-white truncate">
-                  Your Health Journey
-                </h1>
               </div>
               <TabsList className="bg-[#1C3B4B] border-none w-full md:w-auto">
                 <TabsTrigger 
@@ -114,13 +110,6 @@ export const Dashboard = () => {
                   onClick={handleSignUpPrompt}
                 >
                   Assistant
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="metrics" 
-                  className="flex-1 md:flex-none px-3 md:px-6 text-white data-[state=active]:bg-primary"
-                  onClick={handleSignUpPrompt}
-                >
-                  Metrics
                 </TabsTrigger>
                 <TabsTrigger 
                   value="supplements" 
@@ -141,10 +130,6 @@ export const Dashboard = () => {
             <div className="mt-4 md:mt-6">
               <TabsContent value="assistant" className="m-0">
                 <HealthAssistant />
-              </TabsContent>
-
-              <TabsContent value="metrics" className="m-0">
-                <HealthMetrics />
               </TabsContent>
 
               <TabsContent value="supplements" className="m-0">
