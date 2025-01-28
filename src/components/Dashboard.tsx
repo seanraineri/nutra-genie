@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, Home, Trophy, Gift, User, MoreHorizontal, BookOpen } from "lucide-react";
+import { ChevronLeft, Home, Trophy, Gift, User, BookOpen } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { HealthAssistant } from "./dashboard/HealthAssistant";
 import { HealthMetrics } from "./dashboard/HealthMetrics";
@@ -72,7 +72,7 @@ export const Dashboard = () => {
             variant="ghost" 
             size="icon"
             className="w-12 h-12 rounded-xl hover:bg-white/10 text-white"
-            onClick={() => navigate("/metrics")}
+            onClick={() => navigate("/dashboard")}
           >
             <User className="h-6 w-6" />
           </Button>
