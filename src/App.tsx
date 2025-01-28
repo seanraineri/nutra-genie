@@ -1,21 +1,77 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Toaster } from "@/components/ui/toaster";
 import { AuthWrapper } from "@/components/AuthWrapper";
-import DashboardPage from "@/pages/DashboardPage";
-import { ProfilePage } from "@/pages/ProfilePage";
-import Index from "@/pages/Index";
+import { Suspense, lazy } from "react";
+import { LoadingSpinner } from "./components/ui/loading-spinner";
 
-export default function App() {
+// Lazy load pages
+const Index = lazy(() => import("@/pages/Index"));
+const InputPage = lazy(() => import("@/pages/InputPage"));
+const DashboardPage = lazy(() => import("@/pages/DashboardPage"));
+const PaymentPage = lazy(() => import("@/pages/PaymentPage"));
+const ContentPage = lazy(() => import("@/pages/ContentPage"));
+const AboutPage = lazy(() => import("@/pages/AboutPage"));
+const PrivacyPage = lazy(() => import("@/pages/PrivacyPage"));
+const WorkWithUsPage = lazy(() => import("@/pages/WorkWithUsPage"));
+const RewardsPage = lazy(() => import("@/pages/RewardsPage"));
+const StudentsPage = lazy(() => import("@/pages/StudentsPage"));
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Index />,
+  },
+  {
+    path: "/input",
+    element: <InputPage />,
+  },
+  {
+    path: "/dashboard",
+    element: <DashboardPage />,
+  },
+  {
+    path: "/payment",
+    element: <PaymentPage />,
+  },
+  {
+    path: "/content",
+    element: <ContentPage />,
+  },
+  {
+    path: "/about",
+    element: <AboutPage />,
+  },
+  {
+    path: "/privacy",
+    element: <PrivacyPage />,
+  },
+  {
+    path: "/work-with-us",
+    element: <WorkWithUsPage />,
+  },
+  {
+    path: "/rewards",
+    element: <RewardsPage />,
+  },
+  {
+    path: "/students",
+    element: <StudentsPage />,
+  },
+]);
+
+function App() {
   return (
-    <Router>
-      <AuthWrapper>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/dashboard" element={<DashboardPage />} />
-          <Route path="/profile" element={<ProfilePage />} />
-        </Routes>
-      </AuthWrapper>
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center">
+          <LoadingSpinner className="h-8 w-8" />
+        </div>
+      }
+    >
+      <RouterProvider router={router} />
       <Toaster />
-    </Router>
+    </Suspense>
   );
 }
+
+export default App;
