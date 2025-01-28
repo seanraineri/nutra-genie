@@ -72,7 +72,7 @@ export const Dashboard = () => {
             variant="ghost" 
             size="icon"
             className="w-12 h-12 rounded-xl hover:bg-white/10 text-white"
-            onClick={() => navigate("/dashboard")}
+            onClick={() => navigate("/metrics")}
           >
             <User className="h-6 w-6" />
           </Button>
@@ -88,7 +88,7 @@ export const Dashboard = () => {
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="shrink-0 text-white"
+                  className="text-white"
                   onClick={() => navigate("/")}
                 >
                   <ChevronLeft className="mr-2 h-4 w-4" />
