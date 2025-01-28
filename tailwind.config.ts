@@ -25,18 +25,18 @@ export default {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
-        background: "#FEF7CD", // Warm light yellow background
-        foreground: "#4A4A4A", // Softer text color
+        background: "#D3E4FD", // Light, soft blue background
+        foreground: "#4A4A4A", // Keeping the softer text color
         primary: {
-          DEFAULT: "#FEC6A1", // Soft orange
+          DEFAULT: "#33C3F0", // Bright sky blue
           foreground: "#4A4A4A",
         },
         secondary: {
-          DEFAULT: "#FDE1D3", // Soft peach
+          DEFAULT: "#E6F4FF", // Very light blue
           foreground: "#4A4A4A",
         },
         accent: {
-          DEFAULT: "#E5DEFF", // Soft purple
+          DEFAULT: "#B4D8FF", // Medium light blue
           foreground: "#4A4A4A",
         },
         muted: {
@@ -44,7 +44,7 @@ export default {
           foreground: "#4A4A4A",
         },
         card: {
-          DEFAULT: "#FFF9E6", // Warmer card background
+          DEFAULT: "#EDF5FF", // Light blue card background
           foreground: "#4A4A4A",
         },
       },
