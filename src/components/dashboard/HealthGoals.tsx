@@ -133,70 +133,72 @@ export const HealthGoals = () => {
   };
 
   return (
-    <Card className="p-6">
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center gap-2 md:gap-4">
-          <h2 className="text-xl font-semibold">Health Goals</h2>
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                className="h-8 w-8 hover:bg-primary/10 active:bg-primary active:text-primary-foreground focus:bg-primary focus:text-primary-foreground transition-colors"
-              >
-                <HelpCircle className="h-4 w-4" />
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="max-w-[300px] text-sm bg-card text-card-foreground shadow-md border">
-              Track your progress towards your goals and earn XP for completing activities
-            </PopoverContent>
-          </Popover>
+    <div className="space-y-6">
+      <Card className="p-6">
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center gap-2 md:gap-4">
+            <h2 className="text-xl font-semibold">Health Goals</h2>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  className="h-8 w-8 hover:bg-primary/10 active:bg-primary active:text-primary-foreground focus:bg-primary focus:text-primary-foreground transition-colors"
+                >
+                  <HelpCircle className="h-4 w-4" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="max-w-[300px] text-sm bg-card text-card-foreground shadow-md border">
+                Track your progress towards your goals and earn XP for completing activities
+              </PopoverContent>
+            </Popover>
+          </div>
+          <Button
+            variant="outline"
+            onClick={() => (isEditing ? handleSave() : setIsEditing(true))}
+          >
+            {isEditing ? "Save Changes" : "Edit Goals"}
+          </Button>
         </div>
-        <Button
-          variant="outline"
-          onClick={() => (isEditing ? handleSave() : setIsEditing(true))}
-        >
-          {isEditing ? "Save Changes" : "Edit Goals"}
-        </Button>
-      </div>
+
+        <Tabs defaultValue="fitness" className="w-full">
+          <TabsList className="grid w-full grid-cols-4 mb-4">
+            <TabsTrigger value="fitness">Fitness</TabsTrigger>
+            <TabsTrigger value="nutrition">Nutrition</TabsTrigger>
+            <TabsTrigger value="wellness">Wellness</TabsTrigger>
+            <TabsTrigger value="biomarkers">Biomarkers</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="fitness" className="space-y-4">
+            {renderGoalsList('fitness')}
+          </TabsContent>
+
+          <TabsContent value="nutrition" className="space-y-4">
+            {renderGoalsList('nutrition')}
+          </TabsContent>
+
+          <TabsContent value="wellness" className="space-y-4">
+            {renderGoalsList('wellness')}
+          </TabsContent>
+
+          <TabsContent value="biomarkers" className="space-y-4">
+            {renderGoalsList('biomarkers')}
+          </TabsContent>
+        </Tabs>
+      </Card>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="md:col-span-2">
-          <Tabs defaultValue="fitness" className="w-full">
-            <TabsList className="grid w-full grid-cols-4 mb-4">
-              <TabsTrigger value="fitness">Fitness</TabsTrigger>
-              <TabsTrigger value="nutrition">Nutrition</TabsTrigger>
-              <TabsTrigger value="wellness">Wellness</TabsTrigger>
-              <TabsTrigger value="biomarkers">Biomarkers</TabsTrigger>
-            </TabsList>
-
-            <TabsContent value="fitness" className="space-y-4">
-              {renderGoalsList('fitness')}
-            </TabsContent>
-
-            <TabsContent value="nutrition" className="space-y-4">
-              {renderGoalsList('nutrition')}
-            </TabsContent>
-
-            <TabsContent value="wellness" className="space-y-4">
-              {renderGoalsList('wellness')}
-            </TabsContent>
-
-            <TabsContent value="biomarkers" className="space-y-4">
-              {renderGoalsList('biomarkers')}
-            </TabsContent>
-          </Tabs>
-        </div>
-        
-        <div className="md:col-span-1 space-y-6">
-          <Card className="p-4">
-            <SymptomTracker />
-          </Card>
           <Card className="p-4">
             <XPStore />
           </Card>
         </div>
+        <div className="md:col-span-1 space-y-6">
+          <Card className="p-4">
+            <SymptomTracker />
+          </Card>
+        </div>
       </div>
-    </Card>
+    </div>
   );
 };
