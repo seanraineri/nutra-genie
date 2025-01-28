@@ -94,7 +94,7 @@ export const Dashboard = () => {
                   <ChevronLeft className="mr-2 h-4 w-4" />
                   Back
                 </Button>
-                <h1 className="text-2xl md:text-3xl font-bold text-white truncate">
+                <h1 className="text-2xl md:text-3xl font-bold text-[#333] truncate">
                   Dashboard
                 </h1>
               </div>
