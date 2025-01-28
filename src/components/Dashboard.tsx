@@ -95,7 +95,7 @@ export const Dashboard = () => {
                   Back
                 </Button>
                 <h1 className="text-2xl md:text-3xl font-bold text-white truncate">
-                  Your Health Journey
+                  Dashboard
                 </h1>
               </div>
               <TabsList className="bg-[#1C3B4B] border-none w-full md:w-auto">
