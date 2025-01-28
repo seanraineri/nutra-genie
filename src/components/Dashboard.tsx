@@ -35,7 +35,7 @@ export const Dashboard = () => {
   return (
     <div className="min-h-screen bg-[#D3E4FD] text-white">
       {/* Sidebar */}
-      <div className="fixed left-0 top-0 h-full w-20 bg-[#F2FCE2] flex flex-col items-center py-6 space-y-8">
+      <div className="fixed left-0 top-0 h-full w-20 bg-[#2E7D32] flex flex-col items-center py-6 space-y-8">
         <div className="w-12 h-12 rounded-lg bg-primary flex items-center justify-center">
           <BookOpen className="h-6 w-6" />
         </div>
@@ -44,7 +44,7 @@ export const Dashboard = () => {
           <Button 
             variant="ghost" 
             size="icon"
-            className="w-12 h-12 rounded-xl hover:bg-primary/20 text-foreground"
+            className="w-12 h-12 rounded-xl hover:bg-primary/20 text-white"
             onClick={() => navigate("/")}
           >
             <Home className="h-6 w-6" />
@@ -53,7 +53,7 @@ export const Dashboard = () => {
           <Button 
             variant="ghost" 
             size="icon"
-            className="w-12 h-12 rounded-xl hover:bg-primary/20 text-foreground"
+            className="w-12 h-12 rounded-xl hover:bg-primary/20 text-white"
             onClick={handleSignUpPrompt}
           >
             <Trophy className="h-6 w-6" />
@@ -62,7 +62,7 @@ export const Dashboard = () => {
           <Button 
             variant="ghost" 
             size="icon"
-            className="w-12 h-12 rounded-xl hover:bg-primary/20 text-foreground"
+            className="w-12 h-12 rounded-xl hover:bg-primary/20 text-white"
             onClick={handleSignUpPrompt}
           >
             <Gift className="h-6 w-6" />
@@ -71,7 +71,7 @@ export const Dashboard = () => {
           <Button 
             variant="ghost" 
             size="icon"
-            className="w-12 h-12 rounded-xl hover:bg-primary/20 text-foreground"
+            className="w-12 h-12 rounded-xl hover:bg-primary/20 text-white"
             onClick={handleSignUpPrompt}
           >
             <User className="h-6 w-6" />
@@ -80,7 +80,7 @@ export const Dashboard = () => {
           <Button 
             variant="ghost" 
             size="icon"
-            className="w-12 h-12 rounded-xl hover:bg-primary/20 text-foreground"
+            className="w-12 h-12 rounded-xl hover:bg-primary/20 text-white"
             onClick={handleSignUpPrompt}
           >
             <MoreHorizontal className="h-6 w-6" />
