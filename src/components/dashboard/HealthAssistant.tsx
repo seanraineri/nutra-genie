@@ -76,7 +76,7 @@ export const HealthAssistant = () => {
               <h2 className="text-2xl md:text-3xl font-semibold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
                 Welcome to Your Health Journey
               </h2>
-              <p className="text-muted-foreground text-sm md:text-base">
+              <p className="text-[#8B5CF6] text-sm md:text-base">
                 I'm your personal health assistant, ready to help you achieve your wellness goals
               </p>
             </div>
