@@ -47,6 +47,11 @@ export default {
           DEFAULT: "#FFFFFF",
           foreground: "#334155",
         },
+        gradient: {
+          start: "#0066cc",
+          mid: "#00a3cc",
+          end: "#00cc9a",
+        }
       },
       typography: {
         DEFAULT: {
