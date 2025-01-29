@@ -173,6 +173,18 @@ export const TestResultsStep = ({ form }: TestResultsStepProps) => {
         </div>
       </div>
 
+      {/* Compatible Providers Section */}
+      <div className="pt-6 pb-2">
+        <p className="text-sm text-muted-foreground text-center mb-4">Compatible with</p>
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-6 items-center justify-items-center">
+          <img src="/lovable-uploads/03119af2-aa67-4d99-a2be-27cafcd9b180.png" alt="23andMe" className="h-8 object-contain opacity-80 hover:opacity-100 transition-opacity" />
+          <img src="/lovable-uploads/923a937b-18b3-441a-97d7-2cec053e2ce7.png" alt="Ancestry" className="h-8 object-contain opacity-80 hover:opacity-100 transition-opacity" />
+          <img src="/lovable-uploads/f449a758-e06b-436b-b983-f8760bff832e.png" alt="MyHeritage DNA" className="h-8 object-contain opacity-80 hover:opacity-100 transition-opacity" />
+          <img src="/lovable-uploads/6b7ac4fe-e19b-4bc2-a906-0b9146f1c637.png" alt="Quest Diagnostics" className="h-8 object-contain opacity-80 hover:opacity-100 transition-opacity" />
+          <img src="/lovable-uploads/15cb73cf-57ff-4716-a01d-e8548a470723.png" alt="Labcorp" className="h-8 object-contain opacity-80 hover:opacity-100 transition-opacity" />
+        </div>
+      </div>
+
       <div className="space-y-4 pt-4">
         <div className="flex items-center space-x-2">
           <Checkbox
