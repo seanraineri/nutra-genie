@@ -19,7 +19,7 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        sans: ['Montserrat', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -28,15 +28,15 @@ export default {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "#0066cc",
+          DEFAULT: "#0891B2",
           foreground: "#FFFFFF",
         },
         secondary: {
-          DEFAULT: "#004999",
+          DEFAULT: "#164E63",
           foreground: "#FFFFFF",
         },
         accent: {
-          DEFAULT: "#0066cc",
+          DEFAULT: "#F97316",
           foreground: "#FFFFFF",
         },
         muted: {
@@ -47,11 +47,6 @@ export default {
           DEFAULT: "#FFFFFF",
           foreground: "#334155",
         },
-        gradient: {
-          start: "#0066cc",
-          mid: "#00a3cc",
-          end: "#00cc9a",
-        }
       },
       typography: {
         DEFAULT: {
@@ -59,12 +54,12 @@ export default {
             maxWidth: 'none',
             color: 'inherit',
             p: {
-              marginTop: '1em',
-              marginBottom: '1em',
-            },
-            li: {
               marginTop: '0.5em',
               marginBottom: '0.5em',
+            },
+            li: {
+              marginTop: '0.25em',
+              marginBottom: '0.25em',
             },
           },
         },
