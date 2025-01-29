@@ -65,7 +65,7 @@ export const HealthAssistant = () => {
   };
 
   return (
-    <Card className="flex flex-col h-[calc(100vh-11rem)] md:h-[calc(100vh-8rem)] bg-gradient-to-b from-white via-white to-blue-50/30 shadow-lg animate-fade-in">
+    <Card className="flex flex-col h-[calc(100vh-6rem)] bg-gradient-to-b from-white via-white to-blue-50/30 shadow-lg animate-fade-in">
       <div className="px-4 py-3 md:p-6 border-b bg-gradient-to-r from-primary/10 via-secondary/10 to-accent/10">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -73,10 +73,10 @@ export const HealthAssistant = () => {
               <Bot className="h-6 w-6 text-white" />
             </div>
             <div className="space-y-1">
-              <h2 className="text-2xl md:text-3xl font-semibold bg-gradient-to-r from-cyan-500 to-teal-500 bg-clip-text text-transparent">
-                Welcome
+              <h2 className="text-2xl md:text-3xl font-semibold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+                Welcome to Your Health Journey
               </h2>
-              <p className="bg-gradient-to-r from-cyan-500 to-teal-500 bg-clip-text text-transparent text-sm md:text-base">
+              <p className="text-muted-foreground text-sm md:text-base">
                 I'm your personal health assistant, ready to help you achieve your wellness goals
               </p>
             </div>
@@ -94,7 +94,7 @@ export const HealthAssistant = () => {
       </div>
 
       {chatHistory.length === 0 && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-6">
           {quickReplies.map((reply, index) => (
             <Card
               key={index}
@@ -114,10 +114,10 @@ export const HealthAssistant = () => {
       )}
 
       <ScrollArea 
-        className="flex-1 px-4 py-4 md:p-6" 
+        className="flex-1 px-4 py-6 md:p-6" 
         ref={scrollAreaRef}
       >
-        <div className="space-y-4 max-w-3xl mx-auto">
+        <div className="space-y-6 max-w-3xl mx-auto">
           {chatHistory.map((msg, index) => (
             <ChatMessage 
               key={index} 

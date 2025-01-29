@@ -15,8 +15,6 @@ const PrivacyPage = lazy(() => import("@/pages/PrivacyPage"));
 const WorkWithUsPage = lazy(() => import("@/pages/WorkWithUsPage"));
 const RewardsPage = lazy(() => import("@/pages/RewardsPage"));
 const StudentsPage = lazy(() => import("@/pages/StudentsPage"));
-const MetricsPage = lazy(() => import("@/pages/MetricsPage"));
-const GoalsPage = lazy(() => import("@/pages/GoalsPage"));
 
 const router = createBrowserRouter([
   {
@@ -58,14 +56,6 @@ const router = createBrowserRouter([
   {
     path: "/students",
     element: <StudentsPage />,
-  },
-  {
-    path: "/metrics",
-    element: <MetricsPage />,
-  },
-  {
-    path: "/goals",
-    element: <GoalsPage />,
   },
 ]);
 
