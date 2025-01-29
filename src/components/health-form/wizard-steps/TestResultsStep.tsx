@@ -85,7 +85,7 @@ export const TestResultsStep = ({ form }: TestResultsStepProps) => {
             <Upload className="mx-auto h-12 w-12 text-muted-foreground" />
             <div>
               <Label htmlFor="bloodwork" className="text-sm text-muted-foreground">
-                Upload your blood test results (PDF)
+                Upload your blood test results
               </Label>
               <input
                 type="file"
@@ -110,7 +110,7 @@ export const TestResultsStep = ({ form }: TestResultsStepProps) => {
               ) : (
                 <>
                   <Upload className="mr-2 h-4 w-4" />
-                  Choose PDF File
+                  Choose File
                 </>
               )}
             </Button>
@@ -140,7 +140,7 @@ export const TestResultsStep = ({ form }: TestResultsStepProps) => {
             <Upload className="mx-auto h-12 w-12 text-muted-foreground" />
             <div>
               <Label htmlFor="genetic" className="text-sm text-muted-foreground">
-                Upload your genetic test results (PDF)
+                Upload your genetic test results
               </Label>
               <input
                 type="file"
@@ -165,7 +165,7 @@ export const TestResultsStep = ({ form }: TestResultsStepProps) => {
               ) : (
                 <>
                   <Upload className="mr-2 h-4 w-4" />
-                  Choose PDF File
+                  Choose File
                 </>
               )}
             </Button>
