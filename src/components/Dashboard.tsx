@@ -119,9 +119,9 @@ export const Dashboard = () => {
       </div>
 
       {/* Main Content */}
-      <div className="md:ml-20 pb-20 md:pb-0">
-        <div className="container mx-auto py-4 px-4 md:py-8 md:px-6 animate-fade-in">
-          <Tabs defaultValue="assistant" className="w-full space-y-4 md:space-y-6">
+      <div className="md:ml-20 pb-16 md:pb-0">
+        <div className="container mx-auto py-2 px-4 md:py-8 md:px-6 animate-fade-in">
+          <Tabs defaultValue="assistant" className="w-full space-y-4">
             <div className="flex flex-col space-y-4 md:flex-row md:items-center md:justify-between md:space-y-0">
               <div className="flex items-center gap-2 md:gap-4">
                 <Button
@@ -151,7 +151,7 @@ export const Dashboard = () => {
                 </TabsTrigger>
               </TabsList>
             </div>
-            <div className="mt-4">
+            <div className="mt-2">
               <TabsContent value="assistant" className="m-0">
                 <HealthAssistant />
               </TabsContent>
