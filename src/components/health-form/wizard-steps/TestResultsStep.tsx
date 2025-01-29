@@ -183,6 +183,7 @@ export const TestResultsStep = ({ form }: TestResultsStepProps) => {
           <img src="/lovable-uploads/8b6280c2-d85c-4cbd-9e8a-d810abd1c513.png" alt="Quest Diagnostics" className="h-12 object-contain opacity-80 hover:opacity-100 transition-opacity" />
           <img src="/lovable-uploads/b138a134-e9bc-41a7-bde1-534fa554868d.png" alt="Labcorp" className="h-12 object-contain opacity-80 hover:opacity-100 transition-opacity" />
         </div>
+        <p className="text-sm text-muted-foreground text-center mt-4 italic">+ many more!</p>
       </div>
 
       <div className="space-y-4 pt-4">
