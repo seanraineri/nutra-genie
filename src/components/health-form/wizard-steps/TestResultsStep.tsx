@@ -4,9 +4,15 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Upload, ExternalLink, Loader2 } from "lucide-react";
+import { Upload, ExternalLink, Loader2, HelpCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface TestResultsStepProps {
   form: UseFormReturn<HealthFormSchemaType>;
@@ -113,7 +119,23 @@ export const TestResultsStep = ({ form }: TestResultsStepProps) => {
 
         {/* Genetic Test Upload Section */}
         <div className="space-y-4">
-          <Label className="text-base">Genetic Test Results</Label>
+          <div className="flex items-center gap-2">
+            <Label className="text-base">Genetic Test Results</Label>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button variant="ghost" className="p-0 h-6 w-6">
+                    <HelpCircle className="h-4 w-4 text-muted-foreground hover:text-primary transition-colors" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent className="max-w-xs p-4 bg-white shadow-lg rounded-lg border">
+                  <p className="text-sm text-gray-700">
+                    Already completed any DNA test? Download the raw file and upload it here. We can analyze it and find which supplements are best for you.
+                  </p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
           <div className="border-2 border-dashed rounded-lg p-6 text-center space-y-4">
             <Upload className="mx-auto h-12 w-12 text-muted-foreground" />
             <div>
