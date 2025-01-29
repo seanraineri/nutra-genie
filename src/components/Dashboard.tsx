@@ -146,25 +146,11 @@ export const Dashboard = () => {
                   Assistant
                 </TabsTrigger>
                 <TabsTrigger 
-                  value="metrics" 
-                  className="px-2 md:px-6 text-sm md:text-base text-white data-[state=active]:bg-primary"
-                  onClick={handleSignUpPrompt}
-                >
-                  Metrics
-                </TabsTrigger>
-                <TabsTrigger 
                   value="supplements" 
                   className="px-2 md:px-6 text-sm md:text-base text-white data-[state=active]:bg-primary"
                   onClick={handleSignUpPrompt}
                 >
                   Plan
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="goals" 
-                  className="px-2 md:px-6 text-sm md:text-base text-white data-[state=active]:bg-primary"
-                  onClick={handleSignUpPrompt}
-                >
-                  Goals
                 </TabsTrigger>
               </TabsList>
             </div>
@@ -173,16 +159,8 @@ export const Dashboard = () => {
                 <HealthAssistant />
               </TabsContent>
 
-              <TabsContent value="metrics" className="m-0">
-                <HealthMetrics />
-              </TabsContent>
-
               <TabsContent value="supplements" className="m-0">
                 <SupplementPlan />
-              </TabsContent>
-
-              <TabsContent value="goals" className="m-0">
-                <HealthGoals />
               </TabsContent>
             </div>
           </Tabs>
