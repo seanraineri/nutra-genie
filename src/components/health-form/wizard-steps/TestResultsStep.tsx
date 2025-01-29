@@ -124,11 +124,11 @@ export const TestResultsStep = ({ form }: TestResultsStepProps) => {
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Button variant="ghost" className="p-0 h-6 w-6">
+                  <div className="inline-flex h-5 w-5 items-center justify-center cursor-help">
                     <HelpCircle className="h-4 w-4 text-muted-foreground hover:text-primary transition-colors" />
-                  </Button>
+                  </div>
                 </TooltipTrigger>
-                <TooltipContent className="max-w-xs p-4 bg-white shadow-lg rounded-lg border">
+                <TooltipContent side="right" className="max-w-[280px] p-3 bg-white/95 backdrop-blur-sm border shadow-lg rounded-lg">
                   <p className="text-sm text-gray-700">
                     Already completed any DNA test? Download the raw file and upload it here. We can analyze it and find which supplements are best for you.
                   </p>
