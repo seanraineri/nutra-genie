@@ -174,14 +174,14 @@ export const TestResultsStep = ({ form }: TestResultsStepProps) => {
       </div>
 
       {/* Compatible Providers Section */}
-      <div className="pt-6 pb-2">
-        <p className="text-sm text-muted-foreground text-center mb-4">Compatible with</p>
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-6 items-center justify-items-center">
-          <img src="/lovable-uploads/f306116a-14e2-4cde-9391-3837d0e33c33.png" alt="23andMe" className="h-8 object-contain opacity-80 hover:opacity-100 transition-opacity" />
-          <img src="/lovable-uploads/fef01f2d-4c40-475e-9199-767409519525.png" alt="Ancestry" className="h-8 object-contain opacity-80 hover:opacity-100 transition-opacity" />
-          <img src="/lovable-uploads/151ff454-649a-4fcb-8142-f989d5ebebde.png" alt="MyHeritage DNA" className="h-8 object-contain opacity-80 hover:opacity-100 transition-opacity" />
-          <img src="/lovable-uploads/8b6280c2-d85c-4cbd-9e8a-d810abd1c513.png" alt="Quest Diagnostics" className="h-8 object-contain opacity-80 hover:opacity-100 transition-opacity" />
-          <img src="/lovable-uploads/b138a134-e9bc-41a7-bde1-534fa554868d.png" alt="Labcorp" className="h-8 object-contain opacity-80 hover:opacity-100 transition-opacity" />
+      <div className="pt-8 pb-4">
+        <p className="text-sm text-muted-foreground text-center mb-6">Compatible with</p>
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-8 items-center justify-items-center px-4">
+          <img src="/lovable-uploads/f306116a-14e2-4cde-9391-3837d0e33c33.png" alt="23andMe" className="h-12 object-contain opacity-80 hover:opacity-100 transition-opacity" />
+          <img src="/lovable-uploads/fef01f2d-4c40-475e-9199-767409519525.png" alt="Ancestry" className="h-12 object-contain opacity-80 hover:opacity-100 transition-opacity" />
+          <img src="/lovable-uploads/151ff454-649a-4fcb-8142-f989d5ebebde.png" alt="MyHeritage DNA" className="h-12 object-contain opacity-80 hover:opacity-100 transition-opacity" />
+          <img src="/lovable-uploads/8b6280c2-d85c-4cbd-9e8a-d810abd1c513.png" alt="Quest Diagnostics" className="h-12 object-contain opacity-80 hover:opacity-100 transition-opacity" />
+          <img src="/lovable-uploads/b138a134-e9bc-41a7-bde1-534fa554868d.png" alt="Labcorp" className="h-12 object-contain opacity-80 hover:opacity-100 transition-opacity" />
         </div>
       </div>
 
