@@ -133,9 +133,6 @@ export const Dashboard = () => {
                   <ChevronLeft className="mr-2 h-4 w-4" />
                   Back
                 </Button>
-                <h1 className="text-xl md:text-3xl font-bold text-[#333] truncate">
-                  Dashboard
-                </h1>
               </div>
               <TabsList className="bg-[#1C3B4B] border-none w-full md:w-auto grid grid-cols-2 gap-1 md:flex">
                 <TabsTrigger 
