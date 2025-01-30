@@ -9,7 +9,7 @@ import { useToast } from "@/hooks/use-toast";
 import { healthFormSchema } from "@/schemas/healthFormSchema";
 import type { HealthFormSchemaType } from "@/schemas/healthFormSchema";
 import { submitHealthFormData } from "@/utils/healthFormSubmission";
-import { Loader2, ArrowLeft, ArrowRight, Mic } from "lucide-react";
+import { Loader2, ArrowLeft, ArrowRight } from "lucide-react";
 import { PersonalInfoStep } from "./wizard-steps/PersonalInfoStep";
 import { HealthMetricsStep } from "./wizard-steps/HealthMetricsStep";
 import { ActivityLevelStep } from "./wizard-steps/ActivityLevelStep";
@@ -41,7 +41,6 @@ const steps = [
 export const StepWizard = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isRecording, setIsRecording] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -96,25 +95,6 @@ export const StepWizard = () => {
         variant: "destructive",
       });
       setIsSubmitting(false);
-    }
-  };
-
-  const handleVoiceInput = async () => {
-    try {
-      setIsRecording(true);
-      // Voice input logic would go here
-      toast({
-        title: "Voice Input",
-        description: "Voice input feature coming soon!",
-      });
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Could not start voice input. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsRecording(false);
     }
   };
 
@@ -205,17 +185,6 @@ export const StepWizard = () => {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <div className="relative">
               {renderStep()}
-              <Button
-                type="button"
-                variant="ghost"
-                size="icon"
-                className={`absolute top-0 right-0 ${
-                  isRecording ? "text-red-500" : "text-muted-foreground"
-                }`}
-                onClick={handleVoiceInput}
-              >
-                <Mic className="h-4 w-4" />
-              </Button>
             </div>
 
             <div className="flex justify-between pt-4">
