@@ -1,6 +1,8 @@
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry';
+import { FontLoader } from 'three/examples/jsm/loaders/FontLoader';
 
 export const DnaAnimation = () => {
   const mountRef = useRef<HTMLDivElement>(null);
@@ -52,6 +54,31 @@ export const DnaAnimation = () => {
 
     pillGroup.add(capsule);
     pillGroup.add(highlight);
+
+    // Add text to the pill
+    const loader = new FontLoader();
+    loader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', function(font) {
+      const textGeometry = new TextGeometry('SupplementScribe', {
+        font: font,
+        size: 0.15,
+        height: 0.02,
+      });
+      
+      const textMaterial = new THREE.MeshPhongMaterial({ 
+        color: 0xffffff,
+        shininess: 100,
+      });
+      
+      const textMesh = new THREE.Mesh(textGeometry, textMaterial);
+      
+      // Center the text
+      textGeometry.computeBoundingBox();
+      const textWidth = textGeometry.boundingBox!.max.x - textGeometry.boundingBox!.min.x;
+      textMesh.position.set(-textWidth/2, 0, 0.52);
+      textMesh.rotation.z = Math.PI / 6;
+      
+      pillGroup.add(textMesh);
+    });
     
     // Rotate pill to match the reference image
     pillGroup.rotation.z = Math.PI / 6;
@@ -113,7 +140,7 @@ export const DnaAnimation = () => {
     <div 
       ref={mountRef} 
       className="w-full h-[400px] rounded-lg overflow-hidden"
-      aria-label="3D Floating Pill Animation"
+      aria-label="3D Floating Pill Animation with SupplementScribe Text"
     />
   );
 };
