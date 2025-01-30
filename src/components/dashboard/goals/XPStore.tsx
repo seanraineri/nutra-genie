@@ -11,6 +11,7 @@ interface Reward {
   cost: number;
   icon: JSX.Element;
   image?: string;
+  emoji?: string;
 }
 
 const REWARDS: Reward[] = [
@@ -27,7 +28,12 @@ const REWARDS: Reward[] = [
     image: "/lovable-uploads/2515256d-8000-427b-b8a4-8bc622a57ae2.png"
   },
   { name: "Custom Merch of the Month", cost: 15000, icon: <Star className="h-5 w-5" /> },
-  { name: "Fitness Class (F45/Barry's/Spincycle)", cost: 20000, icon: <Award className="h-5 w-5" /> },
+  { 
+    name: "Fitness Class (F45/Barry's/Spincycle)", 
+    cost: 20000, 
+    icon: <Award className="h-5 w-5" />,
+    emoji: "🚲"
+  },
 ];
 
 export const XPStore = () => {
@@ -107,7 +113,7 @@ export const XPStore = () => {
     }
   };
 
-  return (
+return (
     <Card className="p-4">
       <div className="space-y-6">
         <div className="flex items-center justify-between">
@@ -152,7 +158,10 @@ export const XPStore = () => {
                   </div>
                 )}
                 <div className="text-center w-full">
-                  <h4 className="font-medium mb-1">{reward.name}</h4>
+                  <h4 className="font-medium mb-1">
+                    {reward.name}
+                    {reward.emoji && <span className="ml-2">{reward.emoji}</span>}
+                  </h4>
                   <p className="text-sm text-muted-foreground mb-3">
                     {reward.cost} XP
                   </p>
