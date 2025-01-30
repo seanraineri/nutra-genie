@@ -83,7 +83,7 @@ export const HealthAssistant = () => {
                 <Bot className="h-5 w-5 md:h-6 md:w-6 text-white" />
               </div>
               <div className="space-y-0.5 md:space-y-1">
-                <h2 className="text-xl md:text-3xl font-semibold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+                <h2 className="text-xl md:text-3xl font-bold bg-gradient-to-r from-[#0EA5E9] via-[#38BDF8] to-[#7DD3FC] bg-clip-text text-transparent drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)] tracking-wide">
                   Welcome to Your Health Journey
                 </h2>
               </div>
