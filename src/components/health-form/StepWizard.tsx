@@ -98,35 +98,6 @@ export const StepWizard = () => {
     }
   };
 
-  const getFieldsForStep = (step: number): Array<keyof HealthFormSchemaType> => {
-    switch (step) {
-      case 0:
-        return ["firstName", "lastName", "email", "phoneNumber", "password"];
-      case 1:
-        return ["age", "gender", "height", "weight"];
-      case 2:
-        return ["activityLevel"];
-      case 3:
-        return ["healthGoals"];
-      case 4:
-        return ["allergies"];
-      case 5:
-        return ["medicalConditions"];
-      case 6:
-        return ["currentMedications"];
-      case 7:
-        return ["dietType"];
-      case 8:
-        return ["sleepHours", "smokingStatus", "alcoholConsumption"];
-      case 9:
-        return ["hasBloodwork", "hasGeneticTesting"];
-      case 10:
-        return ["monthlyBudget"];
-      default:
-        return [];
-    }
-  };
-
   const renderStep = () => {
     const formData = form.getValues();
     
@@ -161,10 +132,10 @@ export const StepWizard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-cyan-900/10 to-teal-900/10 backdrop-blur-sm py-8">
-      <Card className="w-full max-w-2xl mx-auto p-6 space-y-6 bg-gradient-to-br from-cyan-500/5 to-teal-500/5 backdrop-blur-sm border border-cyan-200/20 shadow-xl hover:shadow-cyan-500/10 transition-all duration-500">
+    <div className="min-h-screen py-8">
+      <Card className="w-full max-w-2xl mx-auto p-6 space-y-6 bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-lg border border-cyan-200/20 shadow-xl hover:shadow-cyan-500/10 transition-all duration-500">
         <div className="space-y-2">
-          <h2 className="text-2xl font-semibold bg-gradient-to-r from-cyan-400 to-teal-400 bg-clip-text text-transparent animate-text-shimmer">
+          <h2 className="text-2xl font-semibold bg-gradient-to-r from-cyan-400 to-teal-400 bg-clip-text text-transparent">
             {steps[currentStep]}
           </h2>
           <div className="flex gap-2">
@@ -173,7 +144,7 @@ export const StepWizard = () => {
                 key={index}
                 className={`h-1 flex-1 rounded-full transition-all duration-500 ${
                   index <= currentStep 
-                    ? "bg-gradient-to-r from-cyan-500 to-teal-500 animate-pulse" 
+                    ? "bg-gradient-to-r from-cyan-500 to-teal-500" 
                     : "bg-muted"
                 }`}
               />
@@ -210,7 +181,7 @@ export const StepWizard = () => {
                       }
                     });
                   }}
-                  className="flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-teal-500 hover:from-cyan-600 hover:to-teal-600 transition-all duration-300 hover:pr-6 hover:pl-6 hover:gap-3"
+                  className="flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-teal-500 hover:from-cyan-600 hover:to-teal-600 transition-all duration-300"
                 >
                   Next
                   <ArrowRight className="h-4 w-4" />
@@ -219,7 +190,7 @@ export const StepWizard = () => {
                 <Button
                   type="submit"
                   disabled={isSubmitting}
-                  className="flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-teal-500 hover:from-cyan-600 hover:to-teal-600 transition-all duration-300 hover:pr-6 hover:pl-6 hover:gap-3"
+                  className="flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-teal-500 hover:from-cyan-600 hover:to-teal-600 transition-all duration-300"
                 >
                   {isSubmitting ? (
                     <>
