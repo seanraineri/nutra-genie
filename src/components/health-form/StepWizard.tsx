@@ -9,7 +9,7 @@ import { useToast } from "@/hooks/use-toast";
 import { healthFormSchema } from "@/schemas/healthFormSchema";
 import type { HealthFormSchemaType } from "@/schemas/healthFormSchema";
 import { submitHealthFormData } from "@/utils/healthFormSubmission";
-import { Loader2, ArrowLeft, ArrowRight } from "lucide-react";
+import { Loader2, ArrowLeft, ArrowRight, Mic } from "lucide-react";
 import { PersonalInfoStep } from "./wizard-steps/PersonalInfoStep";
 import { HealthMetricsStep } from "./wizard-steps/HealthMetricsStep";
 import { ActivityLevelStep } from "./wizard-steps/ActivityLevelStep";
@@ -41,6 +41,7 @@ const steps = [
 export const StepWizard = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isRecording, setIsRecording] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -95,6 +96,25 @@ export const StepWizard = () => {
         variant: "destructive",
       });
       setIsSubmitting(false);
+    }
+  };
+
+  const handleVoiceInput = async () => {
+    try {
+      setIsRecording(true);
+      // Voice input logic would go here
+      toast({
+        title: "Voice Input",
+        description: "Voice input feature coming soon!",
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Could not start voice input. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsRecording(false);
     }
   };
 
@@ -161,77 +181,94 @@ export const StepWizard = () => {
   };
 
   return (
-    <Card className="w-full max-w-2xl mx-auto p-6 animate-fade-in space-y-6">
-      <div className="space-y-2">
-        <h2 className="text-2xl font-semibold text-secondary">
-          {steps[currentStep]}
-        </h2>
-        <div className="flex gap-2">
-          {steps.map((_, index) => (
-            <div
-              key={index}
-              className={`h-1 flex-1 rounded-full ${
-                index <= currentStep ? "bg-primary" : "bg-muted"
-              }`}
-            />
-          ))}
+    <div className="min-h-screen bg-gradient-to-br from-cyan-900/10 to-teal-900/10 backdrop-blur-sm py-8">
+      <Card className="w-full max-w-2xl mx-auto p-6 animate-float-in-place space-y-6 bg-gradient-to-br from-cyan-500/5 to-teal-500/5 backdrop-blur-sm border border-cyan-200/20 shadow-xl hover:shadow-cyan-500/10 transition-all duration-500">
+        <div className="space-y-2">
+          <h2 className="text-2xl font-semibold bg-gradient-to-r from-cyan-400 to-teal-400 bg-clip-text text-transparent animate-text-shimmer">
+            {steps[currentStep]}
+          </h2>
+          <div className="flex gap-2">
+            {steps.map((_, index) => (
+              <div
+                key={index}
+                className={`h-1 flex-1 rounded-full transition-all duration-500 ${
+                  index <= currentStep 
+                    ? "bg-gradient-to-r from-cyan-500 to-teal-500 animate-pulse" 
+                    : "bg-muted"
+                }`}
+              />
+            ))}
+          </div>
         </div>
-      </div>
 
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          {renderStep()}
-
-          <div className="flex justify-between pt-4">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => setCurrentStep((prev) => Math.max(prev - 1, 0))}
-              disabled={currentStep === 0}
-              className="flex items-center gap-2"
-            >
-              <ArrowLeft className="h-4 w-4" />
-              Previous
-            </Button>
-
-            {currentStep < steps.length - 1 ? (
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <div className="relative">
+              {renderStep()}
               <Button
                 type="button"
-                onClick={() => {
-                  const fields = getFieldsForStep(currentStep);
-                  form.trigger(fields).then((isValid) => {
-                    if (isValid) {
-                      setCurrentStep((prev) => Math.min(prev + 1, steps.length - 1));
-                    }
-                  });
-                }}
-                className="flex items-center gap-2 transition-all duration-300 hover:pr-6 hover:pl-6 hover:gap-3"
+                variant="ghost"
+                size="icon"
+                className={`absolute top-0 right-0 animate-pulse ${
+                  isRecording ? "text-red-500" : "text-muted-foreground"
+                }`}
+                onClick={handleVoiceInput}
               >
-                Next
-                <ArrowRight className="h-4 w-4" />
+                <Mic className="h-4 w-4" />
               </Button>
-            ) : (
+            </div>
+
+            <div className="flex justify-between pt-4">
               <Button
-                type="submit"
-                disabled={isSubmitting}
-                className="flex items-center gap-2 transition-all duration-300 hover:pr-6 hover:pl-6 hover:gap-3"
+                type="button"
+                variant="outline"
+                onClick={() => setCurrentStep((prev) => Math.max(prev - 1, 0))}
+                disabled={currentStep === 0}
+                className="flex items-center gap-2 bg-gradient-to-r from-cyan-500/10 to-teal-500/10 hover:from-cyan-500/20 hover:to-teal-500/20 border-cyan-200/20 animate-float-circular"
               >
-                {isSubmitting ? (
-                  <>
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                    Processing...
-                  </>
-                ) : (
-                  <>
-                    Continue to Payment
-                    <ArrowRight className="h-4 w-4" />
-                  </>
-                )}
+                <ArrowLeft className="h-4 w-4" />
+                Previous
               </Button>
-            )}
-          </div>
-        </form>
-      </Form>
-    </Card>
+
+              {currentStep < steps.length - 1 ? (
+                <Button
+                  type="button"
+                  onClick={() => {
+                    const fields = getFieldsForStep(currentStep);
+                    form.trigger(fields).then((isValid) => {
+                      if (isValid) {
+                        setCurrentStep((prev) => Math.min(prev + 1, steps.length - 1));
+                      }
+                    });
+                  }}
+                  className="flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-teal-500 hover:from-cyan-600 hover:to-teal-600 animate-button-glow transition-all duration-300 hover:pr-6 hover:pl-6 hover:gap-3"
+                >
+                  Next
+                  <ArrowRight className="h-4 w-4" />
+                </Button>
+              ) : (
+                <Button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-teal-500 hover:from-cyan-600 hover:to-teal-600 animate-button-glow transition-all duration-300 hover:pr-6 hover:pl-6 hover:gap-3"
+                >
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                      Processing...
+                    </>
+                  ) : (
+                    <>
+                      Continue to Payment
+                      <ArrowRight className="h-4 w-4" />
+                    </>
+                  )}
+                </Button>
+              )}
+            </div>
+          </form>
+        </Form>
+      </Card>
+    </div>
   );
 };
