@@ -26,8 +26,8 @@ export const DnaCapsuleMorph = () => {
     containerRef.current.appendChild(renderer.domElement);
     rendererRef.current = renderer;
 
-    // DNA helix creation
-    const dnaGeometry = new THREE.ParametricBufferGeometry((u, v, target) => {
+    // DNA helix creation using ParametricGeometry
+    const dnaGeometry = new THREE.ParametricGeometry((u, v, target) => {
       const radius = 2;
       const height = 5;
       const turns = 2;
@@ -123,6 +123,8 @@ export const DnaCapsuleMorph = () => {
       }
       cancelAnimationFrame(frame);
       window.removeEventListener('resize', handleResize);
+      dnaGeometry.dispose();
+      dnaMaterial.dispose();
     };
   }, [inView]);
 
