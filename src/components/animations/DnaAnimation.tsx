@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
-import { OrbitControls } from '@react-three/drei/core/OrbitControls';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 export const DnaAnimation = () => {
   const mountRef = useRef<HTMLDivElement>(null);
