@@ -3,7 +3,7 @@ import { GridBackground } from "@/components/backgrounds/GridBackground";
 
 const Index = () => {
   return (
-    <div className="min-h-screen relative bg-slate-950">
+    <div className="min-h-screen relative">
       <GridBackground />
       <LandingHero />
     </div>

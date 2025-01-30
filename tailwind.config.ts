@@ -22,9 +22,6 @@ export default {
         sans: ['Poppins', 'sans-serif'],
         orbitron: ['Orbitron', 'sans-serif'],
       },
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -51,6 +48,27 @@ export default {
           DEFAULT: "#FFFFFF",
           foreground: "#334155",
         },
+      },
+      typography: {
+        DEFAULT: {
+          css: {
+            maxWidth: 'none',
+            color: 'inherit',
+            p: {
+              marginTop: '0.5em',
+              marginBottom: '0.5em',
+            },
+            li: {
+              marginTop: '0.25em',
+              marginBottom: '0.25em',
+            },
+          },
+        },
+      },
+      borderRadius: {
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
       },
       keyframes: {
         "accordion-down": {
@@ -93,20 +111,19 @@ export default {
         },
         "float-circular": {
           "0%": {
-            transform: "translate(0, 0) scale(1)",
-            opacity: "0.5"
+            transform: "translate(-2px, -2px)"
           },
-          "33%": {
-            transform: "translate(10px, 10px) scale(1.05)",
-            opacity: "0.6"
+          "25%": {
+            transform: "translate(2px, -2px)"
           },
-          "66%": {
-            transform: "translate(-10px, 10px) scale(1)",
-            opacity: "0.5"
+          "50%": {
+            transform: "translate(2px, 2px)"
+          },
+          "75%": {
+            transform: "translate(-2px, 2px)"
           },
           "100%": {
-            transform: "translate(0, 0) scale(1)",
-            opacity: "0.5"
+            transform: "translate(-2px, -2px)"
           }
         },
         "button-glow": {
@@ -138,7 +155,7 @@ export default {
         "text-shimmer": "text-shimmer 3s ease-in-out infinite",
         "glow-pulse": "glow-pulse 3s ease-in-out infinite",
         "float-in-place": "float-in-place 3s ease-in-out infinite",
-        "float-circular": "float-circular 20s ease-in-out infinite",
+        "float-circular": "float-circular 4s ease-in-out infinite",
         "button-glow": "button-glow 3s ease-in-out infinite",
         "gradient-flow": "gradient-flow 3s ease infinite"
       },
