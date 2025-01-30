@@ -148,7 +148,7 @@ export const HealthGoals = () => {
           <div className="p-6">
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-2 md:gap-4">
-                <h2 className="text-2xl font-bold tracking-wider bg-gradient-to-r from-[#0EA5E9] via-[#38BDF8] to-[#7DD3FC] bg-clip-text text-transparent drop-shadow-[0_2px_2px_rgba(8,145,178,0.3)] animate-text-shimmer">
+                <h2 className="text-2xl font-bold tracking-wider text-white drop-shadow-[0_2px_2px_rgba(0,0,0,0.5)]">
                   Health Goals
                 </h2>
                 <Popover>
@@ -156,12 +156,12 @@ export const HealthGoals = () => {
                     <Button 
                       variant="ghost" 
                       size="icon" 
-                      className="h-8 w-8 hover:bg-primary/10 active:bg-primary active:text-primary-foreground focus:bg-primary focus:text-primary-foreground transition-colors"
+                      className="h-8 w-8 text-white hover:bg-white/20 active:bg-white/30"
                     >
                       <HelpCircle className="h-4 w-4" />
                     </Button>
                   </PopoverTrigger>
-                  <PopoverContent className="max-w-[300px] text-sm bg-card/90 backdrop-blur-sm text-card-foreground shadow-lg border border-[#0EA5E9]/20">
+                  <PopoverContent className="max-w-[300px] text-sm bg-white/90 backdrop-blur-sm text-gray-800 shadow-lg border border-[#0EA5E9]/20">
                     Track your progress towards your goals and earn XP for completing activities
                   </PopoverContent>
                 </Popover>
@@ -169,35 +169,35 @@ export const HealthGoals = () => {
               <Button
                 variant="outline"
                 onClick={() => (isEditing ? handleSave() : setIsEditing(true))}
-                className="bg-transparent border border-[#0EA5E9]/50 hover:border-[#0EA5E9] hover:bg-[#0EA5E9]/10 transition-all duration-300"
+                className="bg-white/10 text-white border border-white/30 hover:bg-white/20 hover:border-white/50"
               >
                 {isEditing ? "Save Changes" : "Edit Goals"}
               </Button>
             </div>
 
             <Tabs defaultValue="fitness" className="w-full">
-              <TabsList className="grid w-full grid-cols-4 mb-6 bg-white/5 backdrop-blur-sm border border-[#0EA5E9]/20 rounded-lg p-1">
+              <TabsList className="grid w-full grid-cols-4 mb-6 bg-white/5 backdrop-blur-sm border border-white/20 rounded-lg p-1">
                 <TabsTrigger 
                   value="fitness"
-                  className="data-[state=active]:bg-[#0EA5E9] data-[state=active]:text-white transition-all duration-300 font-medium tracking-wide"
+                  className="text-white data-[state=active]:bg-[#0EA5E9] data-[state=active]:text-white transition-all duration-300 font-medium tracking-wide"
                 >
                   Fitness
                 </TabsTrigger>
                 <TabsTrigger 
                   value="nutrition"
-                  className="data-[state=active]:bg-[#0EA5E9] data-[state=active]:text-white transition-all duration-300 font-medium tracking-wide"
+                  className="text-white data-[state=active]:bg-[#0EA5E9] data-[state=active]:text-white transition-all duration-300 font-medium tracking-wide"
                 >
                   Nutrition
                 </TabsTrigger>
                 <TabsTrigger 
                   value="wellness"
-                  className="data-[state=active]:bg-[#0EA5E9] data-[state=active]:text-white transition-all duration-300 font-medium tracking-wide"
+                  className="text-white data-[state=active]:bg-[#0EA5E9] data-[state=active]:text-white transition-all duration-300 font-medium tracking-wide"
                 >
                   Wellness
                 </TabsTrigger>
                 <TabsTrigger 
                   value="biomarkers"
-                  className="data-[state=active]:bg-[#0EA5E9] data-[state=active]:text-white transition-all duration-300 font-medium tracking-wide"
+                  className="text-white data-[state=active]:bg-[#0EA5E9] data-[state=active]:text-white transition-all duration-300 font-medium tracking-wide"
                 >
                   Biomarkers
                 </TabsTrigger>
