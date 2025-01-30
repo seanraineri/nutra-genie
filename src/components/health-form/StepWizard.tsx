@@ -70,7 +70,7 @@ export const StepWizard = () => {
       sleepHours: "",
       smokingStatus: "non_smoker",
       alcoholConsumption: "none",
-    },
+    } as HealthFormSchemaType,
   });
 
   const onSubmit = async (data: HealthFormSchemaType) => {
@@ -193,7 +193,7 @@ export const StepWizard = () => {
                 variant="outline"
                 onClick={() => setCurrentStep((prev) => Math.max(prev - 1, 0))}
                 disabled={currentStep === 0}
-                className="flex items-center gap-2 bg-gradient-to-r from-cyan-500/10 to-teal-500/10 hover:from-cyan-500/20 hover:to-teal-500/20 border-cyan-200/20"
+                className="flex items-center gap-2 bg-gradient-to-r from-cyan-500/10 to-teal-500/10 hover:from-cyan-500/20 hover:to-teal-500/20 border-cyan-200/20 w-[120px] justify-center"
               >
                 <ArrowLeft className="h-4 w-4" />
                 Previous
@@ -210,7 +210,7 @@ export const StepWizard = () => {
                       }
                     });
                   }}
-                  className="flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-teal-500 hover:from-cyan-600 hover:to-teal-600 transition-all duration-300"
+                  className="flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-teal-500 hover:from-cyan-600 hover:to-teal-600 transition-colors w-[120px] justify-center"
                 >
                   Next
                   <ArrowRight className="h-4 w-4" />
@@ -219,18 +219,18 @@ export const StepWizard = () => {
                 <Button
                   type="submit"
                   disabled={isSubmitting}
-                  className="flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-teal-500 hover:from-cyan-600 hover:to-teal-600 transition-all duration-300 min-w-[180px] justify-center"
+                  className="flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-teal-500 hover:from-cyan-600 hover:to-teal-600 transition-colors w-[180px] justify-center h-10"
                 >
                   {isSubmitting ? (
-                    <>
+                    <div className="flex items-center gap-2">
                       <Loader2 className="h-4 w-4 animate-spin" />
-                      <span className="ml-2">Processing...</span>
-                    </>
+                      Processing...
+                    </div>
                   ) : (
-                    <>
+                    <div className="flex items-center gap-2">
                       Continue to Payment
                       <ArrowRight className="h-4 w-4" />
-                    </>
+                    </div>
                   )}
                 </Button>
               )}
