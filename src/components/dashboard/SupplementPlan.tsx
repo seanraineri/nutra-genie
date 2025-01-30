@@ -70,20 +70,38 @@ export const SupplementPlan = () => {
   };
 
   return (
-    <Card className="p-6">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-semibold">Personalized Supplement Plan</h2>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={handleShare}
-          className="gap-2"
-        >
-          <Share className="h-4 w-4" />
-          Share Plan
-        </Button>
+    <div className="relative min-h-screen overflow-hidden">
+      {/* Animated background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-[#1A1F2C] to-[#2A1F3C] overflow-hidden">
+        <div className="absolute inset-0 opacity-30">
+          <div className="absolute w-full h-full bg-[radial-gradient(circle_at_50%_50%,_#8B5CF6_0%,_transparent_50%)] animate-pulse" />
+          <div className="absolute w-full h-full bg-[radial-gradient(circle_at_80%_20%,_#D946EF_0%,_transparent_50%)] animate-pulse" style={{ animationDelay: "1s" }} />
+          <div className="absolute w-full h-full bg-[radial-gradient(circle_at_20%_80%,_#0EA5E9_0%,_transparent_50%)] animate-pulse" style={{ animationDelay: "2s" }} />
+        </div>
       </div>
-      <SupplementsGrid recommendations={recommendations} />
-    </Card>
+
+      <Card className="relative z-10 m-6 backdrop-blur-xl bg-white/10 border-[#8B5CF6]/20 overflow-hidden">
+        <div className="p-6 space-y-6">
+          <div className="flex justify-between items-center">
+            <h2 className="text-3xl font-orbitron bg-gradient-to-r from-[#D946EF] via-[#8B5CF6] to-[#0EA5E9] bg-clip-text text-transparent animate-text-shimmer">
+              Your Carnival of Supplements
+            </h2>
+            <Button
+              variant="outline"
+              onClick={handleShare}
+              className="group relative overflow-hidden bg-transparent border border-[#8B5CF6]/50 hover:border-[#8B5CF6] transition-all duration-300"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-[#8B5CF6] via-[#D946EF] to-[#0EA5E9] opacity-0 group-hover:opacity-20 transition-opacity duration-300" />
+              <Share className="w-4 h-4 mr-2 text-[#8B5CF6] group-hover:text-[#D946EF] transition-colors duration-300" />
+              <span className="text-[#8B5CF6] group-hover:text-[#D946EF] transition-colors duration-300">
+                Share Plan
+              </span>
+            </Button>
+          </div>
+          
+          <SupplementsGrid recommendations={recommendations} />
+        </div>
+      </Card>
+    </div>
   );
 };
