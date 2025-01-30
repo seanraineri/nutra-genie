@@ -22,14 +22,6 @@ export const LandingHero = () => {
             <div className="flex items-center gap-4">
               <Button
                 variant="ghost"
-                onClick={() => setShowFamilyPlan(true)}
-                className="text-gray-600 hover:text-black flex items-center gap-2"
-              >
-                <Users className="h-4 w-4" />
-                Family Plan
-              </Button>
-              <Button
-                variant="ghost"
                 onClick={() => navigate("/content")}
                 className="text-gray-600 hover:text-black flex items-center gap-2"
               >
@@ -75,6 +67,15 @@ export const LandingHero = () => {
                   </Button>
                   <Button
                     size="lg"
+                    onClick={() => setShowFamilyPlan(true)}
+                    variant="outline"
+                    className="border-2 border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/10 h-14 rounded-full text-lg font-medium transition-all duration-300 hover:border-cyan-400 hover:text-cyan-300 flex items-center gap-2"
+                  >
+                    <Users className="h-5 w-5" />
+                    Family Plan
+                  </Button>
+                  <Button
+                    size="lg"
                     onClick={() => setShowHowItWorks(true)}
                     variant="outline"
                     className="border-2 border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/10 h-14 rounded-full text-lg font-medium transition-all duration-300 hover:border-cyan-400 hover:text-cyan-300"
@@ -95,10 +96,8 @@ export const LandingHero = () => {
                   <div className="absolute inset-0 bg-gradient-to-t from-cyan-500/20 to-transparent"></div>
                 </div>
               </div>
-            </div>
-          </div>
 
-          {/* Feature points */}
+              {/* Feature points */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
             <div className="flex flex-col items-center space-y-4 animate-fade-in bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10">
               <div className="flex items-center justify-center h-16 w-16">
@@ -130,7 +129,7 @@ export const LandingHero = () => {
             </div>
           </div>
 
-          {/* Footer links */}
+              {/* Footer links */}
           <div className="py-4">
             <div className="flex flex-wrap justify-center gap-x-8 gap-y-2 text-sm text-gray-400 max-w-4xl mx-auto px-4">
               <Link to="/privacy" className="hover:text-teal-200 transition-colors whitespace-nowrap">Privacy Policy</Link>
@@ -138,6 +137,8 @@ export const LandingHero = () => {
               <Link to="/work-with-us" className="hover:text-teal-200 transition-colors whitespace-nowrap">Work with Us</Link>
               <Link to="/terms" className="hover:text-teal-200 transition-colors whitespace-nowrap">Terms & Conditions</Link>
               <Link to="/rewards" className="hover:text-teal-200 transition-colors whitespace-nowrap">Rewards</Link>
+            </div>
+          </div>
             </div>
           </div>
         </div>
