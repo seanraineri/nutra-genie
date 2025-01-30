@@ -157,6 +157,10 @@ return (
                       />
                     </DialogContent>
                   </Dialog>
+                ) : reward.emoji ? (
+                  <div className="text-6xl mb-2 animate-bounce">
+                    {reward.emoji}
+                  </div>
                 ) : (
                   <div className="p-3 bg-primary/10 rounded-lg mb-2">
                     {reward.icon}
@@ -165,7 +169,6 @@ return (
                 <div className="text-center w-full">
                   <h4 className="font-medium mb-1">
                     {reward.name}
-                    {reward.emoji && <span className="ml-2">{reward.emoji}</span>}
                   </h4>
                   <p className="text-sm text-muted-foreground mb-3">
                     {reward.cost} XP
