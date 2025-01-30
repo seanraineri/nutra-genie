@@ -22,6 +22,14 @@ export const LandingHero = () => {
             <div className="flex items-center gap-4">
               <Button
                 variant="ghost"
+                onClick={() => setShowFamilyPlan(true)}
+                className="text-gray-600 hover:text-black flex items-center gap-2"
+              >
+                <Users className="h-4 w-4" />
+                Family Plan
+              </Button>
+              <Button
+                variant="ghost"
                 onClick={() => navigate("/content")}
                 className="text-gray-600 hover:text-black flex items-center gap-2"
               >
@@ -72,15 +80,6 @@ export const LandingHero = () => {
                     className="border-2 border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/10 h-14 rounded-full text-lg font-medium transition-all duration-300 hover:border-cyan-400 hover:text-cyan-300"
                   >
                     How It Works
-                  </Button>
-                  <Button
-                    size="lg"
-                    onClick={() => setShowFamilyPlan(true)}
-                    variant="outline"
-                    className="border-2 border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/10 h-14 rounded-full text-lg font-medium transition-all duration-300 hover:border-cyan-400 hover:text-cyan-300 flex items-center gap-2"
-                  >
-                    <Users className="h-5 w-5" />
-                    Family Plan
                   </Button>
                 </div>
               </div>
