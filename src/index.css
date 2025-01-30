@@ -84,3 +84,35 @@
     transform: rotateX(60deg) translateZ(-95px);
   }
 }
+
+@keyframes grid-scroll-y {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 0 4rem;
+  }
+}
+
+@keyframes grid-scroll-x {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 4rem 0;
+  }
+}
+
+@layer utilities {
+  .animate-grid-scroll-y {
+    animation: grid-scroll-y 8s linear infinite;
+  }
+  
+  .animate-grid-scroll-x {
+    animation: grid-scroll-x 12s linear infinite;
+  }
+  
+  .animate-grid-pulse {
+    animation: grid-pulse 4s ease-in-out infinite;
+  }
+}
