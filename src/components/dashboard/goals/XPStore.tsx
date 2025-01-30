@@ -137,7 +137,7 @@ return (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {REWARDS.map((reward, index) => (
             <Card key={index} className="p-4 relative overflow-hidden bg-white">
-              <div className="flex flex-col items-center gap-3">
+              <div className="flex flex-col items-center">
                 {reward.image ? (
                   <Dialog>
                     <DialogTrigger asChild>
@@ -166,7 +166,7 @@ return (
                     {reward.icon}
                   </div>
                 )}
-                <div className="text-center w-full">
+                <div className="text-center w-full mt-auto">
                   <h4 className="font-medium mb-1">
                     {reward.name}
                   </h4>
