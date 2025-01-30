@@ -70,7 +70,7 @@ export const StepWizard = () => {
       sleepHours: "",
       smokingStatus: "non_smoker",
       alcoholConsumption: "none",
-    },
+    } as HealthFormSchemaType,
   });
 
   const onSubmit = async (data: HealthFormSchemaType) => {
@@ -161,8 +161,8 @@ export const StepWizard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-cyan-900/10 to-teal-900/10 backdrop-blur-sm py-8">
-      <Card className="w-full max-w-2xl mx-auto p-6 space-y-6 bg-gradient-to-br from-cyan-500/5 to-teal-500/5 backdrop-blur-sm border border-cyan-200/20 shadow-xl hover:shadow-cyan-500/10 transition-all duration-500">
+    <div className="min-h-screen py-8">
+      <Card className="w-full max-w-2xl mx-auto p-6 space-y-6 bg-white/5 backdrop-blur-sm border-white/10 shadow-xl hover:shadow-cyan-500/10 transition-all duration-500">
         <div className="space-y-2">
           <h2 className="text-2xl font-semibold bg-gradient-to-r from-cyan-400 to-teal-400 bg-clip-text text-transparent animate-text-shimmer">
             {steps[currentStep]}
@@ -173,8 +173,8 @@ export const StepWizard = () => {
                 key={index}
                 className={`h-1 flex-1 rounded-full transition-all duration-500 ${
                   index <= currentStep 
-                    ? "bg-gradient-to-r from-cyan-500 to-teal-500 animate-pulse" 
-                    : "bg-muted"
+                    ? "bg-gradient-to-r from-cyan-500/50 to-teal-500/50" 
+                    : "bg-white/10"
                 }`}
               />
             ))}
@@ -190,10 +190,10 @@ export const StepWizard = () => {
             <div className="flex justify-between pt-4">
               <Button
                 type="button"
-                variant="outline"
+                variant="ghost"
                 onClick={() => setCurrentStep((prev) => Math.max(prev - 1, 0))}
                 disabled={currentStep === 0}
-                className="flex items-center gap-2 bg-gradient-to-r from-cyan-500/10 to-teal-500/10 hover:from-cyan-500/20 hover:to-teal-500/20 border-cyan-200/20"
+                className="flex items-center gap-2 hover:bg-white/10 text-white/80"
               >
                 <ArrowLeft className="h-4 w-4" />
                 Previous
@@ -210,7 +210,7 @@ export const StepWizard = () => {
                       }
                     });
                   }}
-                  className="flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-teal-500 hover:from-cyan-600 hover:to-teal-600 transition-all duration-300 hover:pr-6 hover:pl-6 hover:gap-3"
+                  className="flex items-center gap-2 bg-gradient-to-r from-cyan-500/80 to-teal-500/80 hover:from-cyan-500 hover:to-teal-500 transition-all duration-300"
                 >
                   Next
                   <ArrowRight className="h-4 w-4" />
@@ -219,7 +219,7 @@ export const StepWizard = () => {
                 <Button
                   type="submit"
                   disabled={isSubmitting}
-                  className="flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-teal-500 hover:from-cyan-600 hover:to-teal-600 transition-all duration-300 hover:pr-6 hover:pl-6 hover:gap-3"
+                  className="flex items-center gap-2 bg-gradient-to-r from-cyan-500/80 to-teal-500/80 hover:from-cyan-500 hover:to-teal-500 transition-all duration-300"
                 >
                   {isSubmitting ? (
                     <>
