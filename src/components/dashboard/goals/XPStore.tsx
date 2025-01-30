@@ -119,7 +119,7 @@ export const XPStore = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {REWARDS.map((reward, index) => (
-            <Card key={index} className="p-4 relative overflow-hidden group">
+            <Card key={index} className="p-4 relative overflow-hidden bg-white">
               <div className="flex flex-col items-center gap-3">
                 {reward.image ? (
                   <div className="w-32 h-32 relative mb-4">
@@ -134,7 +134,7 @@ export const XPStore = () => {
                     {reward.icon}
                   </div>
                 )}
-                <div className="text-center">
+                <div className="text-center w-full">
                   <h4 className="font-medium mb-1">{reward.name}</h4>
                   <p className="text-sm text-muted-foreground mb-3">
                     {reward.cost} XP
@@ -144,7 +144,7 @@ export const XPStore = () => {
                     size="sm"
                     disabled={isLoading || userXP < reward.cost}
                     onClick={() => handleRedeemReward(reward)}
-                    className="w-full bg-transparent border border-[#0EA5E9]/50 hover:border-[#0EA5E9] hover:bg-[#0EA5E9]/10 transition-all duration-300 animate-button-glow"
+                    className="w-full bg-[#22C55E] hover:bg-[#16A34A] text-white border-0 transition-colors"
                   >
                     Redeem
                   </Button>
