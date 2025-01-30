@@ -72,28 +72,28 @@ export const SupplementPlan = () => {
   return (
     <div className="relative min-h-screen overflow-hidden">
       {/* Animated background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#1A1F2C] to-[#2A1F3C] overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-br from-[#1A1F2C] to-[#1E293B] overflow-hidden">
         <div className="absolute inset-0 opacity-30">
-          <div className="absolute w-full h-full bg-[radial-gradient(circle_at_50%_50%,_#8B5CF6_0%,_transparent_50%)] animate-pulse" />
-          <div className="absolute w-full h-full bg-[radial-gradient(circle_at_80%_20%,_#D946EF_0%,_transparent_50%)] animate-pulse" style={{ animationDelay: "1s" }} />
-          <div className="absolute w-full h-full bg-[radial-gradient(circle_at_20%_80%,_#0EA5E9_0%,_transparent_50%)] animate-pulse" style={{ animationDelay: "2s" }} />
+          <div className="absolute w-full h-full bg-[radial-gradient(circle_at_50%_50%,_#0EA5E9_0%,_transparent_50%)] animate-[pulse_6s_ease-in-out_infinite]" />
+          <div className="absolute w-full h-full bg-[radial-gradient(circle_at_80%_20%,_#10B981_0%,_transparent_50%)] animate-[pulse_6s_ease-in-out_infinite]" style={{ animationDelay: "2s" }} />
+          <div className="absolute w-full h-full bg-[radial-gradient(circle_at_20%_80%,_#0EA5E9_0%,_transparent_50%)] animate-[pulse_6s_ease-in-out_infinite]" style={{ animationDelay: "4s" }} />
         </div>
       </div>
 
-      <Card className="relative z-10 m-6 backdrop-blur-xl bg-white/10 border-[#8B5CF6]/20 overflow-hidden">
+      <Card className="relative z-10 m-6 backdrop-blur-xl bg-white/10 border-[#0EA5E9]/20 overflow-hidden">
         <div className="p-6 space-y-6">
           <div className="flex justify-between items-center">
-            <h2 className="text-3xl font-bold bg-gradient-to-r from-[#D946EF] via-[#8B5CF6] to-[#0EA5E9] bg-clip-text text-transparent animate-text-shimmer">
+            <h2 className="text-3xl font-bold bg-gradient-to-r from-[#10B981] via-[#0EA5E9] to-[#0EA5E9] bg-clip-text text-transparent animate-[text-shimmer_4s_ease-in-out_infinite]">
               Personalized Supplement Plan
             </h2>
             <Button
               variant="outline"
               onClick={handleShare}
-              className="group relative overflow-hidden bg-transparent border border-[#8B5CF6]/50 hover:border-[#8B5CF6] transition-all duration-300"
+              className="group relative overflow-hidden bg-transparent border border-[#0EA5E9]/50 hover:border-[#0EA5E9] transition-all duration-500"
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-[#8B5CF6] via-[#D946EF] to-[#0EA5E9] opacity-0 group-hover:opacity-20 transition-opacity duration-300" />
-              <Share className="w-4 h-4 mr-2 text-[#8B5CF6] group-hover:text-[#D946EF] transition-colors duration-300" />
-              <span className="text-[#8B5CF6] group-hover:text-[#D946EF] transition-colors duration-300">
+              <div className="absolute inset-0 bg-gradient-to-r from-[#0EA5E9] via-[#10B981] to-[#0EA5E9] opacity-0 group-hover:opacity-20 transition-opacity duration-500" />
+              <Share className="w-4 h-4 mr-2 text-[#0EA5E9] group-hover:text-[#10B981] transition-colors duration-500" />
+              <span className="text-[#0EA5E9] group-hover:text-[#10B981] transition-colors duration-500">
                 Share Plan
               </span>
             </Button>
