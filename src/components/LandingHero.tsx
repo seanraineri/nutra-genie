@@ -59,7 +59,7 @@ export const LandingHero = () => {
                     size="lg"
                     onClick={() => navigate("/dashboard")}
                     variant="outline"
-                    className="border-2 border-teal-200/20 text-teal-200 hover:bg-teal-500/10 h-14 rounded-full"
+                    className="border-2 border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/10 h-14 rounded-full text-lg font-medium transition-all duration-300 hover:border-cyan-400 hover:text-cyan-300"
                   >
                     Open Dashboard
                   </Button>
@@ -67,7 +67,7 @@ export const LandingHero = () => {
                     size="lg"
                     onClick={() => setShowHowItWorks(true)}
                     variant="outline"
-                    className="border-2 border-teal-200/20 text-teal-200 hover:bg-teal-500/10 h-14 rounded-full"
+                    className="border-2 border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/10 h-14 rounded-full text-lg font-medium transition-all duration-300 hover:border-cyan-400 hover:text-cyan-300"
                   >
                     How It Works
                   </Button>
