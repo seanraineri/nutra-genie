@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import { Award, Gift, ShoppingCart, Star } from "lucide-react";
 import { useState, useEffect } from "react";
@@ -127,13 +128,24 @@ export const XPStore = () => {
             <Card key={index} className="p-4 relative overflow-hidden bg-white">
               <div className="flex flex-col items-center gap-3">
                 {reward.image ? (
-                  <div className="w-32 h-32 relative mb-4">
-                    <img 
-                      src={reward.image} 
-                      alt={reward.name}
-                      className="w-full h-full object-contain filter drop-shadow-lg"
-                    />
-                  </div>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <div className="w-32 h-32 relative mb-4 cursor-pointer transition-transform hover:scale-105">
+                        <img 
+                          src={reward.image} 
+                          alt={reward.name}
+                          className="w-full h-full object-contain filter drop-shadow-lg"
+                        />
+                      </div>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-md flex items-center justify-center">
+                      <img 
+                        src={reward.image} 
+                        alt={reward.name}
+                        className="max-h-[80vh] w-auto object-contain"
+                      />
+                    </DialogContent>
+                  </Dialog>
                 ) : (
                   <div className="p-3 bg-primary/10 rounded-lg mb-2">
                     {reward.icon}
