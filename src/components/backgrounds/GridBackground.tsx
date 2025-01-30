@@ -3,6 +3,9 @@ import React from 'react';
 export const GridBackground = () => {
   return (
     <div className="fixed inset-0 -z-10 overflow-hidden">
+      {/* Background color gradient */}
+      <div className="absolute inset-0 bg-gradient-to-b from-cyan-950 to-slate-950" />
+      
       {/* Base grid container with perspective */}
       <div className="absolute inset-0" style={{ perspective: '1000px', transformStyle: 'preserve-3d' }}>
         {/* Horizontal grid lines with intersection highlights */}
@@ -23,9 +26,6 @@ export const GridBackground = () => {
           style={{ transform: 'rotateX(60deg) translateZ(-100px)' }}
         />
       </div>
-
-      {/* Background color gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-cyan-950 to-slate-950" style={{ mixBlendMode: 'multiply' }} />
       
       {/* Top ambient glow */}
       <div className="absolute inset-0 bg-gradient-to-b from-cyan-500/20 via-transparent to-transparent" />
