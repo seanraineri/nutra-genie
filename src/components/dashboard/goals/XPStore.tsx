@@ -19,7 +19,12 @@ const REWARDS: Reward[] = [
     icon: <ShoppingCart className="h-5 w-5" />,
     image: "/lovable-uploads/1b0c4728-5664-4329-864c-55fa2a245e8c.png"
   },
-  { name: "Custom Water Bottle", cost: 10000, icon: <Gift className="h-5 w-5" /> },
+  { 
+    name: "Custom Water Bottle", 
+    cost: 10000, 
+    icon: <Gift className="h-5 w-5" />,
+    image: "/lovable-uploads/2515256d-8000-427b-b8a4-8bc622a57ae2.png"
+  },
   { name: "Custom Merch of the Month", cost: 15000, icon: <Star className="h-5 w-5" /> },
   { name: "Fitness Class (F45/Barry's/Spincycle)", cost: 20000, icon: <Award className="h-5 w-5" /> },
 ];
