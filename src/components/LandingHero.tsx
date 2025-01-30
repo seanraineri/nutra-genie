@@ -45,7 +45,7 @@ export const LandingHero = () => {
                   Optimize Your Health with Supplements Tailored to Your Biology
                 </h1>
                 <p className="text-xl text-gray-200 leading-relaxed font-light">
-                  Discover your perfect supplement plan in minutes—backed by your blood tests, genetics, and health goals.
+                  Feel better, naturally. Discover your perfect supplement plan in minutes—backed by your blood tests, genetics, and health goals.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 pt-4">
                   <Button
