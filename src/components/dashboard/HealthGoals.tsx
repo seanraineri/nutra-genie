@@ -133,70 +133,88 @@ export const HealthGoals = () => {
   };
 
   return (
-    <div className="space-y-6">
-      <Card className="p-6">
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-2 md:gap-4">
-            <h2 className="text-xl font-semibold">Health Goals</h2>
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button 
-                  variant="ghost" 
-                  size="icon" 
-                  className="h-8 w-8 hover:bg-primary/10 active:bg-primary active:text-primary-foreground focus:bg-primary focus:text-primary-foreground transition-colors"
-                >
-                  <HelpCircle className="h-4 w-4" />
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="max-w-[300px] text-sm bg-card text-card-foreground shadow-md border">
-                Track your progress towards your goals and earn XP for completing activities
-              </PopoverContent>
-            </Popover>
+    <div className="relative min-h-screen overflow-hidden">
+      {/* Animated background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-[#1A1F2C] to-[#1E293B] overflow-hidden">
+        <div className="absolute inset-0 opacity-30">
+          <div className="absolute w-full h-full bg-[radial-gradient(circle_at_50%_50%,_#0EA5E9_0%,_transparent_50%)] animate-[pulse_6s_ease-in-out_infinite]" />
+          <div className="absolute w-full h-full bg-[radial-gradient(circle_at_80%_20%,_#10B981_0%,_transparent_50%)] animate-[pulse_6s_ease-in-out_infinite]" style={{ animationDelay: "2s" }} />
+          <div className="absolute w-full h-full bg-[radial-gradient(circle_at_20%_80%,_#0EA5E9_0%,_transparent_50%)] animate-[pulse_6s_ease-in-out_infinite]" style={{ animationDelay: "4s" }} />
+        </div>
+      </div>
+
+      <div className="relative z-10 space-y-6">
+        <Card className="m-6 backdrop-blur-xl bg-white/10 border-[#0EA5E9]/20">
+          <div className="p-6">
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-2 md:gap-4">
+                <h2 className="text-xl font-semibold bg-gradient-to-r from-[#0EA5E9] via-[#38BDF8] to-[#7DD3FC] bg-clip-text text-transparent">Health Goals</h2>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button 
+                      variant="ghost" 
+                      size="icon" 
+                      className="h-8 w-8 hover:bg-primary/10 active:bg-primary active:text-primary-foreground focus:bg-primary focus:text-primary-foreground transition-colors"
+                    >
+                      <HelpCircle className="h-4 w-4" />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="max-w-[300px] text-sm bg-card text-card-foreground shadow-md border">
+                    Track your progress towards your goals and earn XP for completing activities
+                  </PopoverContent>
+                </Popover>
+              </div>
+              <Button
+                variant="outline"
+                onClick={() => (isEditing ? handleSave() : setIsEditing(true))}
+                className="bg-transparent border border-[#0EA5E9]/50 hover:border-[#0EA5E9] transition-all duration-500"
+              >
+                {isEditing ? "Save Changes" : "Edit Goals"}
+              </Button>
+            </div>
+
+            <Tabs defaultValue="fitness" className="w-full">
+              <TabsList className="grid w-full grid-cols-4 mb-4 bg-background/50 backdrop-blur-sm">
+                <TabsTrigger value="fitness">Fitness</TabsTrigger>
+                <TabsTrigger value="nutrition">Nutrition</TabsTrigger>
+                <TabsTrigger value="wellness">Wellness</TabsTrigger>
+                <TabsTrigger value="biomarkers">Biomarkers</TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="fitness" className="space-y-4">
+                {renderGoalsList('fitness')}
+              </TabsContent>
+
+              <TabsContent value="nutrition" className="space-y-4">
+                {renderGoalsList('nutrition')}
+              </TabsContent>
+
+              <TabsContent value="wellness" className="space-y-4">
+                {renderGoalsList('wellness')}
+              </TabsContent>
+
+              <TabsContent value="biomarkers" className="space-y-4">
+                {renderGoalsList('biomarkers')}
+              </TabsContent>
+            </Tabs>
           </div>
-          <Button
-            variant="outline"
-            onClick={() => (isEditing ? handleSave() : setIsEditing(true))}
-          >
-            {isEditing ? "Save Changes" : "Edit Goals"}
-          </Button>
-        </div>
+        </Card>
 
-        <Tabs defaultValue="fitness" className="w-full">
-          <TabsList className="grid w-full grid-cols-4 mb-4">
-            <TabsTrigger value="fitness">Fitness</TabsTrigger>
-            <TabsTrigger value="nutrition">Nutrition</TabsTrigger>
-            <TabsTrigger value="wellness">Wellness</TabsTrigger>
-            <TabsTrigger value="biomarkers">Biomarkers</TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="fitness" className="space-y-4">
-            {renderGoalsList('fitness')}
-          </TabsContent>
-
-          <TabsContent value="nutrition" className="space-y-4">
-            {renderGoalsList('nutrition')}
-          </TabsContent>
-
-          <TabsContent value="wellness" className="space-y-4">
-            {renderGoalsList('wellness')}
-          </TabsContent>
-
-          <TabsContent value="biomarkers" className="space-y-4">
-            {renderGoalsList('biomarkers')}
-          </TabsContent>
-        </Tabs>
-      </Card>
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="md:col-span-2">
-          <Card className="p-4">
-            <XPStore />
-          </Card>
-        </div>
-        <div className="md:col-span-1 space-y-6">
-          <Card className="p-4">
-            <SymptomTracker />
-          </Card>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mx-6 mb-6">
+          <div className="md:col-span-2">
+            <Card className="backdrop-blur-xl bg-white/10 border-[#0EA5E9]/20">
+              <div className="p-4">
+                <XPStore />
+              </div>
+            </Card>
+          </div>
+          <div className="md:col-span-1">
+            <Card className="backdrop-blur-xl bg-white/10 border-[#0EA5E9]/20">
+              <div className="p-4">
+                <SymptomTracker />
+              </div>
+            </Card>
+          </div>
         </div>
       </div>
     </div>
