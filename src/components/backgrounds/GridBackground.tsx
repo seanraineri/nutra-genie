@@ -3,11 +3,11 @@ import React from 'react';
 export const GridBackground = () => {
   return (
     <div className="fixed inset-0 -z-10 overflow-hidden">
-      {/* Background color gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-cyan-950 to-slate-950" />
-      
       {/* Base grid container with perspective */}
       <div className="absolute inset-0" style={{ perspective: '1000px', transformStyle: 'preserve-3d' }}>
+        {/* Background color gradient under the grid */}
+        <div className="absolute inset-0 bg-gradient-to-b from-cyan-950 to-slate-950" />
+        
         {/* Horizontal grid lines with intersection highlights */}
         <div 
           className="absolute inset-0 bg-[linear-gradient(0deg,transparent_47%,rgba(14,165,233,0.08)_48%,rgba(14,165,233,0.15)_50%,rgba(14,165,233,0.08)_52%,transparent_53%)] bg-[length:100%_4rem] animate-grid-scroll-y"
@@ -27,15 +27,18 @@ export const GridBackground = () => {
         />
       </div>
       
-      {/* Top ambient glow */}
-      <div className="absolute inset-0 bg-gradient-to-b from-cyan-500/20 via-transparent to-transparent" />
-      
-      {/* Bottom ambient glow */}
-      <div className="absolute inset-0 bg-gradient-to-t from-cyan-500/20 via-transparent to-transparent" />
-      
-      {/* Dynamic perspective effects */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_30%,rgba(14,165,233,0.25),transparent_70%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_70%,rgba(14,165,233,0.25),transparent_70%)]" />
+      {/* Ambient glow overlays */}
+      <div className="absolute inset-0">
+        {/* Top ambient glow */}
+        <div className="absolute inset-0 bg-gradient-to-b from-cyan-500/20 via-transparent to-transparent" />
+        
+        {/* Bottom ambient glow */}
+        <div className="absolute inset-0 bg-gradient-to-t from-cyan-500/20 via-transparent to-transparent" />
+        
+        {/* Dynamic perspective effects */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_30%,rgba(14,165,233,0.25),transparent_70%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_70%,rgba(14,165,233,0.25),transparent_70%)]" />
+      </div>
       
       {/* Subtle scan lines */}
       <div className="absolute inset-0 bg-[linear-gradient(0deg,transparent_98%,rgba(14,165,233,0.08)_99%,rgba(14,165,233,0.1)_100%)] bg-[length:100%_0.2rem]" />
