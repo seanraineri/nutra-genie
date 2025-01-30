@@ -158,7 +158,7 @@ return (
                     </DialogContent>
                   </Dialog>
                 ) : reward.emoji ? (
-                  <div className="text-6xl mb-2 animate-bounce">
+                  <div className="text-6xl mb-4">
                     {reward.emoji}
                   </div>
                 ) : (
