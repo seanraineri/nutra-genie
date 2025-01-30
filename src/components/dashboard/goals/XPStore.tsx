@@ -40,6 +40,12 @@ const REWARDS: Reward[] = [
     emoji: "🚲"
   },
   { 
+    name: "$100 Alo Gift Card", 
+    cost: 25000, 
+    icon: <Gift className="h-5 w-5" />,
+    image: "/lovable-uploads/ba53a790-7dea-48a9-b64d-4f89bb788530.png"
+  },
+  { 
     name: "Ninja Creami Ice Cream Maker", 
     cost: 30000, 
     icon: <IceCream className="h-5 w-5" />,
