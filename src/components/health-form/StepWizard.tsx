@@ -38,6 +38,35 @@ const steps = [
   "Review & Submit",
 ];
 
+const getFieldsForStep = (step: number): Array<keyof HealthFormSchemaType> => {
+  switch (step) {
+    case 0:
+      return ["firstName", "lastName", "email", "phoneNumber", "password"];
+    case 1:
+      return ["age", "gender", "height", "weight"];
+    case 2:
+      return ["activityLevel"];
+    case 3:
+      return ["healthGoals"];
+    case 4:
+      return ["allergies"];
+    case 5:
+      return ["medicalConditions"];
+    case 6:
+      return ["currentMedications"];
+    case 7:
+      return ["dietType"];
+    case 8:
+      return ["sleepHours", "smokingStatus", "alcoholConsumption"];
+    case 9:
+      return ["hasBloodwork", "hasGeneticTesting"];
+    case 10:
+      return ["monthlyBudget"];
+    default:
+      return [];
+  }
+};
+
 export const StepWizard = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
