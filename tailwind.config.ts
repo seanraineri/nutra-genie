@@ -19,7 +19,7 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['Poppins', 'sans-serif'],
+        sans: ['Roboto', 'sans-serif'],
         orbitron: ['Orbitron', 'sans-serif'],
       },
       colors: {
