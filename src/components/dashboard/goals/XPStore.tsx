@@ -200,10 +200,6 @@ return (
               <span className="font-medium">50 XP</span>
             </li>
             <li className="flex items-center justify-between">
-              <span>Share Plan</span>
-              <span className="font-medium">100 XP</span>
-            </li>
-            <li className="flex items-center justify-between">
               <span>Refer a Friend</span>
               <span className="font-medium">500 XP</span>
             </li>
