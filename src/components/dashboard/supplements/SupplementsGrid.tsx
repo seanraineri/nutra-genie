@@ -9,8 +9,8 @@ export const SupplementsGrid = ({ recommendations }: SupplementsGridProps) => {
   if (recommendations.length === 0) {
     return (
       <div className="text-center py-8">
-        <p className="text-xl font-orbitron text-[#8B5CF6] animate-pulse">
-          Step right up! Your supplement recommendations will appear here.
+        <p className="text-xl text-[#8B5CF6]">
+          Your supplement recommendations will appear here.
         </p>
       </div>
     );
@@ -21,7 +21,13 @@ export const SupplementsGrid = ({ recommendations }: SupplementsGridProps) => {
       {recommendations.map((supplement) => (
         <SupplementCard
           key={supplement.id}
-          {...supplement}
+          name={supplement.supplement_name}
+          dosage={supplement.dosage}
+          reason={supplement.reason}
+          cost={supplement.estimated_cost}
+          company={supplement.company_name}
+          productUrl={supplement.product_url}
+          imageUrl={supplement.image_url}
         />
       ))}
     </div>

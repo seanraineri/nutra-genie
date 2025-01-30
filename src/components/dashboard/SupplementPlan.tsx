@@ -83,8 +83,8 @@ export const SupplementPlan = () => {
       <Card className="relative z-10 m-6 backdrop-blur-xl bg-white/10 border-[#8B5CF6]/20 overflow-hidden">
         <div className="p-6 space-y-6">
           <div className="flex justify-between items-center">
-            <h2 className="text-3xl font-orbitron bg-gradient-to-r from-[#D946EF] via-[#8B5CF6] to-[#0EA5E9] bg-clip-text text-transparent animate-text-shimmer">
-              Your Carnival of Supplements
+            <h2 className="text-3xl font-bold bg-gradient-to-r from-[#D946EF] via-[#8B5CF6] to-[#0EA5E9] bg-clip-text text-transparent animate-text-shimmer">
+              Personalized Supplement Plan
             </h2>
             <Button
               variant="outline"
