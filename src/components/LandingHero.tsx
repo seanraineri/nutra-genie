@@ -14,7 +14,7 @@ export const LandingHero = () => {
       <div className="fixed top-0 left-0 right-0 bg-white/80 backdrop-blur-sm z-10 border-b border-gray-100/50">
         <div className="w-full px-4">
           <div className="flex justify-between items-center h-16 max-w-[1400px] mx-auto">
-            <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-cyan-500 to-teal-500 bg-clip-text text-transparent">
+            <h1 className="text-2xl sm:text-3xl font-bold font-orbitron bg-gradient-to-r from-cyan-500 to-teal-500 bg-clip-text text-transparent">
               SupplementScribe.ai
             </h1>
             <div className="flex items-center gap-4">
@@ -41,7 +41,7 @@ export const LandingHero = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               {/* Text content */}
               <div className="space-y-6 text-left">
-                <h1 className="text-5xl sm:text-6xl font-bold tracking-tight bg-gradient-to-r from-cyan-500 to-teal-500 bg-clip-text text-transparent">
+                <h1 className="text-5xl sm:text-6xl font-bold font-orbitron tracking-tight bg-gradient-to-r from-cyan-500 to-teal-500 bg-clip-text text-transparent">
                   Optimize Your Health with Supplements Tailored to Your Biology
                 </h1>
                 <p className="text-xl text-gray-200 leading-relaxed">
@@ -51,7 +51,7 @@ export const LandingHero = () => {
                   <Button
                     size="lg"
                     onClick={() => navigate("/input")}
-                    className="bg-gradient-to-r from-cyan-500 to-teal-500 hover:opacity-90 text-white text-lg h-14 px-8 rounded-full"
+                    className="bg-gradient-to-r from-cyan-500 to-teal-500 hover:opacity-90 text-white text-lg h-14 px-8 rounded-full font-orbitron"
                   >
                     Get Started →
                   </Button>
@@ -92,24 +92,24 @@ export const LandingHero = () => {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
             <div className="flex flex-col items-start space-y-2 animate-fade-in bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10">
               <div className="text-2xl mb-2">🔬</div>
-              <h3 className="text-lg font-semibold text-teal-200">Backed by Science</h3>
+              <h3 className="text-lg font-semibold text-teal-200 font-orbitron">Backed by Science</h3>
               <p className="text-gray-300">Get recommendations validated by thousands of clinical studies.</p>
             </div>
             <div className="flex flex-col items-start space-y-2 animate-fade-in [animation-delay:200ms] bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10">
               <div className="text-2xl mb-2">🧬</div>
-              <h3 className="text-lg font-semibold text-teal-200">Personalized to You</h3>
+              <h3 className="text-lg font-semibold text-teal-200 font-orbitron">Personalized to You</h3>
               <p className="text-gray-300">Analyze your bloodwork, DNA, and lifestyle for a plan that fits.</p>
             </div>
             <div className="flex flex-col items-start space-y-2 animate-fade-in [animation-delay:400ms] bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10">
               <div className="text-2xl mb-2">📈</div>
-              <h3 className="text-lg font-semibold text-teal-200">Track Your Progress</h3>
+              <h3 className="text-lg font-semibold text-teal-200 font-orbitron">Track Your Progress</h3>
               <p className="text-gray-300">Monitor improvements in energy, sleep, and more over time.</p>
             </div>
             <div className="flex flex-col items-start space-y-2 animate-fade-in [animation-delay:600ms] bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10">
               <div className="text-2xl mb-2">
                 <ShieldCheck className="h-8 w-8 text-teal-200" />
               </div>
-              <h3 className="text-lg font-semibold text-teal-200">HIPAA Compliant</h3>
+              <h3 className="text-lg font-semibold text-teal-200 font-orbitron">HIPAA Compliant</h3>
               <p className="text-gray-300">All health data is encrypted and private.</p>
             </div>
           </div>
