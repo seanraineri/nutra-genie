@@ -37,11 +37,11 @@ export const LandingHero = () => {
       <div className="min-h-screen">
         <div className="max-w-[1400px] mx-auto px-4 flex flex-col min-h-screen">
           {/* Main content */}
-          <div className="flex-grow flex items-center justify-center py-16 mt-16">
+          <div className="flex-grow flex items-center justify-center py-8 mt-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               {/* Text content */}
               <div className="space-y-6 text-left">
-                <h1 className="text-5xl sm:text-6xl font-bold tracking-tight bg-gradient-to-r from-cyan-500 to-teal-500 bg-clip-text text-transparent animate-text-shimmer animate-glow-pulse">
+                <h1 className="text-5xl sm:text-6xl font-bold tracking-tight bg-gradient-to-r from-cyan-500 to-teal-500 bg-clip-text text-transparent animate-text-shimmer animate-glow-pulse leading-[1.2] pb-4">
                   Optimize Your Health with Supplements Tailored to Your Biology
                 </h1>
                 <p className="text-xl text-gray-200 leading-relaxed font-light">
