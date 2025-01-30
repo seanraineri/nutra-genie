@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { useNavigate, Link } from "react-router-dom";
 import { HowItWorksModal } from "./HowItWorksModal";
 import { useState } from "react";
-import { BookOpen, Menu, ShieldCheck, Users } from "lucide-react";
+import { BookOpen, Menu, ShieldCheck } from "lucide-react";
 
 export const LandingHero = () => {
   const navigate = useNavigate();
@@ -51,7 +51,7 @@ export const LandingHero = () => {
                   <Button
                     size="lg"
                     onClick={() => navigate("/input")}
-                    className="bg-gradient-to-r from-cyan-500 to-teal-500 text-white text-lg h-14 px-8 rounded-full transition-all duration-300 transform hover:scale-105 hover:opacity-90"
+                    className="bg-gradient-to-r from-cyan-500 via-teal-500 to-cyan-500 bg-[length:200%_200%] hover:opacity-90 text-white text-lg h-14 px-8 rounded-full animate-gradient-flow animate-button-glow transition-all duration-300 transform hover:scale-105"
                   >
                     Get Started →
                   </Button>
@@ -62,15 +62,6 @@ export const LandingHero = () => {
                     className="border-2 border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/10 h-14 rounded-full text-lg font-medium transition-all duration-300 hover:border-cyan-400 hover:text-cyan-300"
                   >
                     Open Dashboard
-                  </Button>
-                  <Button
-                    size="lg"
-                    onClick={() => navigate("/family-plan")}
-                    variant="outline"
-                    className="border-2 border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/10 h-14 rounded-full text-lg font-medium transition-all duration-300 hover:border-cyan-400 hover:text-cyan-300 flex items-center gap-2"
-                  >
-                    <Users className="h-5 w-5" />
-                    Family Plan
                   </Button>
                   <Button
                     size="lg"
