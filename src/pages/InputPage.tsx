@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -9,8 +8,14 @@ const InputPage = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen relative bg-gradient-to-b from-cyan-950 to-slate-950">
+    <div className="min-h-screen relative">
+      {/* Gradient overlay */}
+      <div className="fixed inset-0 bg-gradient-radial from-cyan-500/10 via-cyan-900/30 to-slate-950 pointer-events-none" />
+      
+      {/* Grid background */}
       <GridBackground />
+      
+      {/* Content */}
       <div className="relative z-10">
         <div className="container mx-auto py-8">
           <Button
