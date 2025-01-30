@@ -170,7 +170,7 @@ export const XPStore = () => {
                     </DialogContent>
                   </Dialog>
                 ) : reward.emoji ? (
-                  <div className="text-6xl mb-4">
+                  <div className="text-7xl mb-4 flex items-center justify-center h-32">
                     {reward.emoji}
                   </div>
                 ) : (
