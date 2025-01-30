@@ -27,7 +27,12 @@ const REWARDS: Reward[] = [
     icon: <Gift className="h-5 w-5" />,
     image: "/lovable-uploads/2515256d-8000-427b-b8a4-8bc622a57ae2.png"
   },
-  { name: "Custom Merch of the Month", cost: 15000, icon: <Star className="h-5 w-5" /> },
+  { 
+    name: "Custom Merch of the Month", 
+    cost: 15000, 
+    icon: <Star className="h-5 w-5" />,
+    image: "/lovable-uploads/024b60df-4690-4eb2-a127-e145724032d2.png"
+  },
   { 
     name: "Fitness Class (F45/Barry's/Spincycle)", 
     cost: 20000, 
