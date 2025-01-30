@@ -9,10 +9,16 @@ interface Reward {
   name: string;
   cost: number;
   icon: JSX.Element;
+  image?: string;
 }
 
 const REWARDS: Reward[] = [
-  { name: "Free Supplement Bottle", cost: 5000, icon: <ShoppingCart className="h-5 w-5" /> },
+  { 
+    name: "Free Supplement Bottle", 
+    cost: 5000, 
+    icon: <ShoppingCart className="h-5 w-5" />,
+    image: "/lovable-uploads/1b0c4728-5664-4329-864c-55fa2a245e8c.png"
+  },
   { name: "Custom Water Bottle", cost: 10000, icon: <Gift className="h-5 w-5" /> },
   { name: "Custom Merch of the Month", cost: 15000, icon: <Star className="h-5 w-5" /> },
   { name: "Fitness Class (F45/Barry's/Spincycle)", cost: 20000, icon: <Award className="h-5 w-5" /> },
@@ -113,27 +119,36 @@ export const XPStore = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {REWARDS.map((reward, index) => (
-            <Card key={index} className="p-4">
-              <div className="flex items-start justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="p-2 bg-primary/10 rounded-lg">
+            <Card key={index} className="p-4 relative overflow-hidden group">
+              <div className="flex flex-col items-center gap-3">
+                {reward.image ? (
+                  <div className="w-32 h-32 relative mb-4">
+                    <img 
+                      src={reward.image} 
+                      alt={reward.name}
+                      className="w-full h-full object-contain animate-float-circular filter drop-shadow-lg"
+                    />
+                  </div>
+                ) : (
+                  <div className="p-3 bg-primary/10 rounded-lg mb-2">
                     {reward.icon}
                   </div>
-                  <div>
-                    <h4 className="font-medium">{reward.name}</h4>
-                    <p className="text-sm text-muted-foreground">
-                      {reward.cost} XP
-                    </p>
-                  </div>
+                )}
+                <div className="text-center">
+                  <h4 className="font-medium mb-1">{reward.name}</h4>
+                  <p className="text-sm text-muted-foreground mb-3">
+                    {reward.cost} XP
+                  </p>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    disabled={isLoading || userXP < reward.cost}
+                    onClick={() => handleRedeemReward(reward)}
+                    className="w-full bg-transparent border border-[#0EA5E9]/50 hover:border-[#0EA5E9] hover:bg-[#0EA5E9]/10 transition-all duration-300 animate-button-glow"
+                  >
+                    Redeem
+                  </Button>
                 </div>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  disabled={isLoading || userXP < reward.cost}
-                  onClick={() => handleRedeemReward(reward)}
-                >
-                  Redeem
-                </Button>
               </div>
             </Card>
           ))}
