@@ -91,23 +91,23 @@ export const LandingHero = () => {
           {/* Feature points */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
             <div className="flex flex-col items-start space-y-2 animate-fade-in bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10">
-              <div className="text-2xl mb-2">🔬</div>
+              <div className="text-2xl mb-2 animate-float">🔬</div>
               <h3 className="text-lg font-semibold text-teal-200 animate-glow-pulse">Backed by Science</h3>
               <p className="text-gray-300 font-light">Get recommendations validated by thousands of clinical studies.</p>
             </div>
             <div className="flex flex-col items-start space-y-2 animate-fade-in [animation-delay:200ms] bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10">
-              <div className="text-2xl mb-2">🧬</div>
+              <div className="text-2xl mb-2 animate-float-delayed">🧬</div>
               <h3 className="text-lg font-semibold text-teal-200 animate-glow-pulse">Personalized to You</h3>
               <p className="text-gray-300 font-light">Analyze your bloodwork, DNA, and lifestyle for a plan that fits.</p>
             </div>
             <div className="flex flex-col items-start space-y-2 animate-fade-in [animation-delay:400ms] bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10">
-              <div className="text-2xl mb-2">📈</div>
+              <div className="text-2xl mb-2 animate-float-circular">📈</div>
               <h3 className="text-lg font-semibold text-teal-200 animate-glow-pulse">Track Your Progress</h3>
               <p className="text-gray-300 font-light">Monitor improvements in energy, sleep, and more over time.</p>
             </div>
             <div className="flex flex-col items-start space-y-2 animate-fade-in [animation-delay:600ms] bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10">
               <div className="text-2xl mb-2">
-                <ShieldCheck className="h-8 w-8 text-teal-200" />
+                <ShieldCheck className="h-8 w-8 text-teal-200 animate-float" />
               </div>
               <h3 className="text-lg font-semibold text-teal-200 animate-glow-pulse">HIPAA Compliant</h3>
               <p className="text-gray-300 font-light">All health data is encrypted and private.</p>
