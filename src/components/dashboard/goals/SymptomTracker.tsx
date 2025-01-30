@@ -11,11 +11,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
 
 export const SymptomTracker = () => {
   const [wellnessType, setWellnessType] = useState("");
   const [rating, setRating] = useState("");
   const [notes, setNotes] = useState("");
+  const [tookSupplements, setTookSupplements] = useState<string>("");
   const { toast } = useToast();
 
   const wellnessTypes = [
@@ -38,7 +41,7 @@ export const SymptomTracker = () => {
         .insert({
           symptom: wellnessType,
           severity: parseInt(rating),
-          notes
+          notes: `Supplements taken: ${tookSupplements}. Notes: ${notes}`,
         });
 
       if (error) throw error;
@@ -52,6 +55,7 @@ export const SymptomTracker = () => {
       setWellnessType("");
       setRating("");
       setNotes("");
+      setTookSupplements("");
     } catch (error) {
       console.error('Error tracking wellness:', error);
       toast({
@@ -105,6 +109,23 @@ export const SymptomTracker = () => {
               })}
             </SelectContent>
           </Select>
+        </div>
+        <div className="space-y-3">
+          <Label>Did you take your supplements today?</Label>
+          <RadioGroup
+            value={tookSupplements}
+            onValueChange={setTookSupplements}
+            className="flex gap-4"
+          >
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem value="yes" id="yes" />
+              <Label htmlFor="yes">Yes</Label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem value="no" id="no" />
+              <Label htmlFor="no">No</Label>
+            </div>
+          </RadioGroup>
         </div>
         <div>
           <Textarea
