@@ -75,6 +75,12 @@
 }
 
 @keyframes grid-pulse {
-  0%, 100% { opacity: 0.5; }
-  50% { opacity: 1; }
+  0%, 100% { 
+    opacity: 0.6;
+    transform: rotateX(60deg) translateZ(-100px);
+  }
+  50% { 
+    opacity: 0.8;
+    transform: rotateX(60deg) translateZ(-95px);
+  }
 }
