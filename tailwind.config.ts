@@ -83,11 +83,31 @@ export default {
           "0%": { opacity: "0", transform: "translateY(10px)" },
           "100%": { opacity: "1", transform: "translateY(0)" },
         },
+        "text-shimmer": {
+          "0%, 100%": {
+            "background-size": "200% 200%",
+            "background-position": "left center"
+          },
+          "50%": {
+            "background-size": "200% 200%",
+            "background-position": "right center"
+          }
+        },
+        "glow-pulse": {
+          "0%, 100%": {
+            "text-shadow": "0 0 15px rgba(8, 145, 178, 0.4), 0 0 30px rgba(8, 145, 178, 0.2)"
+          },
+          "50%": {
+            "text-shadow": "0 0 25px rgba(8, 145, 178, 0.6), 0 0 50px rgba(8, 145, 178, 0.3)"
+          }
+        }
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "fade-in": "fade-in 0.5s ease-out",
+        "text-shimmer": "text-shimmer 3s ease-in-out infinite",
+        "glow-pulse": "glow-pulse 3s ease-in-out infinite"
       },
     },
   },
