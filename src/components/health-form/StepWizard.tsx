@@ -174,7 +174,7 @@ export const StepWizard = () => {
       case 10:
         return <BudgetStep form={form} />;
       case 11:
-        return <FinalStep form={form} formData={formData} isSubmitting={isSubmitting} />;
+        return <FinalStep formData={formData} form={form} isSubmitting={isSubmitting} />;
       default:
         return null;
     }
@@ -182,7 +182,7 @@ export const StepWizard = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-cyan-900/10 to-teal-900/10 backdrop-blur-sm py-8">
-      <Card className="w-full max-w-2xl mx-auto p-6 animate-float-in-place space-y-6 bg-gradient-to-br from-cyan-500/5 to-teal-500/5 backdrop-blur-sm border border-cyan-200/20 shadow-xl hover:shadow-cyan-500/10 transition-all duration-500">
+      <Card className="w-full max-w-2xl mx-auto p-6 space-y-6 bg-gradient-to-br from-cyan-500/5 to-teal-500/5 backdrop-blur-sm border border-cyan-200/20 shadow-xl hover:shadow-cyan-500/10 transition-all duration-500">
         <div className="space-y-2">
           <h2 className="text-2xl font-semibold bg-gradient-to-r from-cyan-400 to-teal-400 bg-clip-text text-transparent animate-text-shimmer">
             {steps[currentStep]}
