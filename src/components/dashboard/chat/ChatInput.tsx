@@ -33,13 +33,13 @@ export const ChatInput = ({ onSendMessage, isLoading }: ChatInputProps) => {
           }
         }}
         disabled={isLoading}
-        className="bg-white/50 border-0 focus-visible:ring-2 focus-visible:ring-primary/20 shadow-sm backdrop-blur-sm transition-all duration-300 hover:shadow-md"
+        className="bg-white border-0 focus-visible:ring-1 focus-visible:ring-primary/20 shadow-sm"
       />
       <Button
         onClick={handleSubmit}
         disabled={isLoading || !message.trim()}
         size="icon"
-        className="shrink-0 bg-gradient-to-r from-primary to-secondary hover:opacity-90 transition-all duration-300 shadow-sm hover:shadow-md animate-button-glow disabled:animate-none"
+        className="shrink-0 bg-gradient-to-r from-primary to-secondary hover:opacity-90 transition-opacity shadow-sm"
       >
         {isLoading ? (
           <Loader2 className="h-4 w-4 animate-spin" />

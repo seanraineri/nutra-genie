@@ -70,10 +70,10 @@ export const HealthAssistant = () => {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2 md:gap-3">
             <div className="p-2 bg-gradient-to-br from-primary to-secondary rounded-lg shadow-md">
-              <Bot className="h-5 w-5 md:h-6 md:w-6 text-white animate-float-in-place" />
+              <Bot className="h-5 w-5 md:h-6 md:w-6 text-white" />
             </div>
             <div className="space-y-0.5 md:space-y-1">
-              <h2 className="text-xl md:text-3xl font-semibold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent animate-text-shimmer">
+              <h2 className="text-xl md:text-3xl font-semibold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
                 Welcome to Your Health Journey
               </h2>
             </div>
@@ -134,11 +134,6 @@ export const HealthAssistant = () => {
 
       <div className="p-3 md:p-6 border-t bg-gradient-to-t from-blue-50/30 to-white">
         <div className="max-w-3xl mx-auto">
-          <QuickReplies
-            replies={quickReplies}
-            onSelect={(reply) => handleSendMessage(reply.text)}
-            disabled={isLoading}
-          />
           <ChatInput onSendMessage={handleSendMessage} isLoading={isLoading} />
         </div>
       </div>

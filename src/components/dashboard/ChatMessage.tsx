@@ -66,32 +66,32 @@ export const ChatMessage = ({ role, content, timestamp }: ChatMessageProps) => {
   return (
     <div className={`flex ${role === "user" ? "justify-end" : "justify-start"} mb-4 animate-fade-in group`}>
       <div className={`flex gap-3 max-w-[85%] ${role === "user" ? "flex-row-reverse" : "flex-row"}`}>
-        <Avatar className={`h-8 w-8 shrink-0 animate-float-circular ${role === "assistant" ? "bg-gradient-to-br from-primary to-secondary" : ""}`}>
+        <Avatar className="h-8 w-8 shrink-0">
           {role === "user" ? (
             <>
               <AvatarImage src="/placeholder.svg" />
-              <AvatarFallback className="bg-gradient-to-br from-accent to-secondary text-white">U</AvatarFallback>
+              <AvatarFallback className="bg-primary text-primary-foreground">U</AvatarFallback>
             </>
           ) : (
             <>
-              <AvatarImage src="/lovable-uploads/2f53b616-9c59-4de0-abb0-263c4a144685.png" className="animate-pulse" />
-              <AvatarFallback className="bg-gradient-to-br from-primary to-secondary text-white">AI</AvatarFallback>
+              <AvatarImage src="/lovable-uploads/2f53b616-9c59-4de0-abb0-263c4a144685.png" />
+              <AvatarFallback className="bg-secondary text-secondary-foreground">AI</AvatarFallback>
             </>
           )}
         </Avatar>
-        <div className="space-y-1">
+        <div>
           <div
-            className={`rounded-2xl px-6 py-4 shadow-lg transition-all duration-300 hover:shadow-xl ${
+            className={`rounded-2xl px-6 py-4 shadow-sm transition-all duration-300 hover:shadow-md ${
               role === "user"
                 ? "bg-gradient-to-r from-primary to-secondary text-white"
-                : "bg-gradient-to-r from-gray-50 to-blue-50/50 backdrop-blur-sm"
+                : "bg-gradient-to-r from-gray-50 to-blue-50/50"
             }`}
           >
             <div className="prose prose-sm max-w-none">
               {formatContent(content)}
             </div>
           </div>
-          <div className="px-2">
+          <div className="px-2 mt-1">
             <span className="text-xs text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity">
               {format(new Date(timestamp), "h:mm a")}
             </span>
