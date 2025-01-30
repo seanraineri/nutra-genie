@@ -126,7 +126,7 @@ export const XPStore = () => {
                     <img 
                       src={reward.image} 
                       alt={reward.name}
-                      className="w-full h-full object-contain animate-float-circular filter drop-shadow-lg"
+                      className="w-full h-full object-contain filter drop-shadow-lg"
                     />
                   </div>
                 ) : (
