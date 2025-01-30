@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { HowItWorksModal } from "./HowItWorksModal";
 import { useState } from "react";
 import { BookOpen, Menu, ShieldCheck } from "lucide-react";
+import { DnaCapsuleMorph } from "./animations/DnaCapsuleMorph";
 
 export const LandingHero = () => {
   const navigate = useNavigate();
@@ -74,16 +75,9 @@ export const LandingHero = () => {
                 </div>
               </div>
 
-              {/* Image section */}
+              {/* Animation section */}
               <div className="w-full max-w-xl mx-auto lg:mx-0">
-                <div className="relative h-[400px] rounded-2xl overflow-hidden shadow-xl transition-all duration-300 transform hover:scale-105 hover:shadow-2xl cursor-pointer">
-                  <img
-                    src="/lovable-uploads/2f53b616-9c59-4de0-abb0-263c4a144685.png"
-                    alt="Vitamin supplements"
-                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-300"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-teal-500/20 to-transparent"></div>
-                </div>
+                <DnaCapsuleMorph />
               </div>
             </div>
           </div>
