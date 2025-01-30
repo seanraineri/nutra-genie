@@ -1,52 +1,59 @@
-import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Send, Loader2 } from "lucide-react";
+import { PaperclipIcon, SendIcon } from "lucide-react";
+import { useState } from "react";
 
 interface ChatInputProps {
   onSendMessage: (message: string) => void;
-  isLoading: boolean;
+  isLoading?: boolean;
 }
 
 export const ChatInput = ({ onSendMessage, isLoading }: ChatInputProps) => {
   const [message, setMessage] = useState("");
-  const inputRef = useRef<HTMLInputElement>(null);
 
-  const handleSubmit = () => {
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
     if (message.trim() && !isLoading) {
-      onSendMessage(message);
+      onSendMessage(message.trim());
       setMessage("");
     }
   };
 
   return (
-    <div className="flex gap-2">
-      <Input
-        ref={inputRef}
-        placeholder="Ask me anything about your health journey..."
-        value={message}
-        onChange={(e) => setMessage(e.target.value)}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" && !e.shiftKey && !isLoading) {
-            e.preventDefault();
-            handleSubmit();
-          }
-        }}
-        disabled={isLoading}
-        className="bg-white border-0 focus-visible:ring-1 focus-visible:ring-primary/20 shadow-sm"
-      />
-      <Button
-        onClick={handleSubmit}
-        disabled={isLoading || !message.trim()}
-        size="icon"
-        className="shrink-0 bg-gradient-to-r from-primary to-secondary hover:opacity-90 transition-opacity shadow-sm"
-      >
-        {isLoading ? (
-          <Loader2 className="h-4 w-4 animate-spin" />
-        ) : (
-          <Send className="h-4 w-4" />
-        )}
-      </Button>
-    </div>
+    <form onSubmit={handleSubmit} className="relative">
+      <div className="relative flex items-center gap-2 rounded-2xl bg-[#1A1F2C]/90 backdrop-blur-sm p-2 border border-white/10">
+        <Button
+          type="button"
+          variant="ghost"
+          size="icon"
+          className="shrink-0 text-muted-foreground hover:text-primary transition-colors"
+        >
+          <PaperclipIcon className="h-5 w-5" />
+          <span className="sr-only">Attach file</span>
+        </Button>
+        
+        <Input
+          type="text"
+          placeholder="Ask anything"
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          className="flex-1 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 text-white placeholder:text-gray-400 text-base"
+        />
+        
+        <Button
+          type="submit"
+          size="icon"
+          disabled={!message.trim() || isLoading}
+          className={`shrink-0 ${
+            message.trim() && !isLoading
+              ? "bg-primary hover:bg-primary/90"
+              : "bg-muted/50 hover:bg-muted/60"
+          } text-white rounded-xl transition-colors`}
+        >
+          <SendIcon className="h-5 w-5" />
+          <span className="sr-only">Send message</span>
+        </Button>
+      </div>
+    </form>
   );
 };

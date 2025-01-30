@@ -142,7 +142,7 @@ export const HealthAssistant = () => {
           </div>
         </ScrollArea>
 
-        <div className="p-3 md:p-6 border-t bg-gradient-to-t from-blue-50/30 to-white">
+        <div className="p-3 md:p-6">
           <div className="max-w-3xl mx-auto">
             <ChatInput onSendMessage={handleSendMessage} isLoading={isLoading} />
           </div>
