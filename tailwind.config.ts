@@ -146,14 +146,6 @@ export default {
           "100%": {
             "background-position": "0% 50%"
           }
-        },
-        "rotate-y-12": {
-          "0%, 100%": { transform: "rotateY(0deg)" },
-          "50%": { transform: "rotateY(12deg)" }
-        },
-        "perspective-shift": {
-          "0%, 100%": { perspective: "1000px" },
-          "50%": { perspective: "2000px" }
         }
       },
       animation: {
@@ -165,9 +157,7 @@ export default {
         "float-in-place": "float-in-place 3s ease-in-out infinite",
         "float-circular": "float-circular 4s ease-in-out infinite",
         "button-glow": "button-glow 3s ease-in-out infinite",
-        "gradient-flow": "gradient-flow 3s ease infinite",
-        "rotate-y": "rotate-y-12 5s ease-in-out infinite",
-        "perspective": "perspective-shift 8s ease-in-out infinite"
+        "gradient-flow": "gradient-flow 3s ease infinite"
       },
     },
   },
