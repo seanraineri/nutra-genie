@@ -22,6 +22,7 @@ import { LifestyleStep } from "./wizard-steps/LifestyleStep";
 import { TestResultsStep } from "./wizard-steps/TestResultsStep";
 import { BudgetStep } from "./wizard-steps/BudgetStep";
 import { FinalStep } from "./wizard-steps/FinalStep";
+import type { HealthFormData } from "@/types/health-form";
 
 const steps = [
   "Personal Information",
@@ -78,7 +79,32 @@ export const StepWizard = () => {
 
     try {
       setIsSubmitting(true);
-      await submitHealthFormData(data);
+      const formData: HealthFormData = {
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: data.email,
+        phoneNumber: data.phoneNumber,
+        password: data.password,
+        age: data.age,
+        gender: data.gender,
+        height: data.height,
+        weight: data.weight,
+        activityLevel: data.activityLevel,
+        medicalConditions: data.medicalConditions,
+        allergies: data.allergies,
+        currentMedications: data.currentMedications,
+        hasBloodwork: data.hasBloodwork,
+        hasGeneticTesting: data.hasGeneticTesting,
+        healthGoals: data.healthGoals,
+        otherHealthGoals: data.otherHealthGoals || [],
+        monthlyBudget: data.monthlyBudget,
+        dietType: data.dietType,
+        sleepHours: data.sleepHours,
+        smokingStatus: data.smokingStatus,
+        alcoholConsumption: data.alcoholConsumption,
+      };
+
+      await submitHealthFormData(formData);
 
       toast({
         title: "Success!",
