@@ -2,18 +2,14 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { StepWizard } from "@/components/health-form/StepWizard";
-import { GridBackground } from "@/components/backgrounds/GridBackground";
 
 const InputPage = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen relative">
-      {/* Softer gradient overlay */}
-      <div className="fixed inset-0 bg-gradient-radial from-cyan-500/5 via-cyan-900/20 to-slate-950/90 pointer-events-none" />
-      
-      {/* Grid background */}
-      <GridBackground />
+    <div className="min-h-screen relative overflow-hidden">
+      {/* Soft gradient background */}
+      <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_top,rgba(14,165,233,0.15),rgba(20,184,166,0.15)_30%,rgba(15,23,42,0.95))]" />
       
       {/* Content */}
       <div className="relative z-10">
@@ -29,6 +25,12 @@ const InputPage = () => {
           </Button>
           <StepWizard />
         </div>
+      </div>
+      
+      {/* Subtle floating orbs for depth */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl animate-float-circular" />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-teal-500/5 rounded-full blur-3xl animate-float-circular" style={{ animationDelay: '-2s' }} />
       </div>
     </div>
   );
