@@ -74,15 +74,38 @@ export const LandingHero = () => {
                 </div>
               </div>
 
-              {/* Image section */}
+              {/* Enhanced Image section */}
               <div className="w-full max-w-xl mx-auto lg:mx-0">
-                <div className="relative h-[400px] rounded-2xl overflow-hidden shadow-xl transition-all duration-300 transform hover:scale-105 hover:shadow-2xl cursor-pointer bg-white/5 backdrop-blur-sm border border-white/10">
-                  <img
-                    src="/lovable-uploads/2f53b616-9c59-4de0-abb0-263c4a144685.png"
-                    alt="Vitamin supplements"
-                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-300"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-cyan-500/20 to-transparent"></div>
+                <div className="relative h-[400px] group perspective-1000">
+                  {/* Holographic overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-tr from-cyan-500/10 via-transparent to-teal-500/10 mix-blend-overlay animate-gradient-flow rounded-2xl"></div>
+                  
+                  {/* Main image container with enhanced effects */}
+                  <div className="relative h-full rounded-2xl overflow-hidden shadow-xl transition-all duration-500 transform hover:scale-105 group-hover:rotate-y-12 cursor-pointer bg-white/5 backdrop-blur-sm border border-white/10">
+                    {/* Particle effects */}
+                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_transparent_1px,_rgba(8,145,178,0.1)_1px)] bg-[length:8px_8px] animate-float-circular opacity-50"></div>
+                    
+                    {/* Main image with animations */}
+                    <img
+                      src="/lovable-uploads/2f53b616-9c59-4de0-abb0-263c4a144685.png"
+                      alt="Vitamin supplements"
+                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 animate-float-in-place"
+                    />
+                    
+                    {/* Neon glow overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-cyan-500/20 to-transparent">
+                      <div className="absolute inset-0 animate-glow-pulse bg-gradient-to-r from-cyan-500/0 via-cyan-500/10 to-cyan-500/0"></div>
+                    </div>
+                    
+                    {/* Light trails */}
+                    <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500/0 via-cyan-500/30 to-cyan-500/0 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
+                    
+                    {/* Reflective highlights */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  </div>
+                  
+                  {/* Dynamic background element */}
+                  <div className="absolute -inset-4 -z-10 bg-gradient-to-r from-cyan-500/20 via-teal-500/20 to-cyan-500/20 rounded-3xl blur-xl animate-pulse opacity-50"></div>
                 </div>
               </div>
             </div>
