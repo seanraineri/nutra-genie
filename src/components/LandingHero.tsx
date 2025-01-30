@@ -51,7 +51,7 @@ export const LandingHero = () => {
                   <Button
                     size="lg"
                     onClick={() => navigate("/input")}
-                    className="bg-gradient-to-r from-cyan-500 to-teal-500 hover:opacity-90 text-white text-lg h-14 px-8 rounded-full"
+                    className="bg-gradient-to-r from-cyan-500 via-teal-500 to-cyan-500 bg-[length:200%_200%] hover:opacity-90 text-white text-lg h-14 px-8 rounded-full animate-gradient-flow animate-button-glow transition-all duration-300 transform hover:scale-105"
                   >
                     Get Started →
                   </Button>
