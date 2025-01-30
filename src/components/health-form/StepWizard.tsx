@@ -210,7 +210,7 @@ export const StepWizard = () => {
                       }
                     });
                   }}
-                  className="flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-teal-500 hover:from-cyan-600 hover:to-teal-600 transition-all duration-300 hover:pr-6 hover:pl-6 hover:gap-3"
+                  className="flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-teal-500 hover:from-cyan-600 hover:to-teal-600 transition-all duration-300"
                 >
                   Next
                   <ArrowRight className="h-4 w-4" />
@@ -219,12 +219,12 @@ export const StepWizard = () => {
                 <Button
                   type="submit"
                   disabled={isSubmitting}
-                  className="flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-teal-500 hover:from-cyan-600 hover:to-teal-600 transition-all duration-300 hover:pr-6 hover:pl-6 hover:gap-3"
+                  className="flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-teal-500 hover:from-cyan-600 hover:to-teal-600 transition-all duration-300 min-w-[180px] justify-center"
                 >
                   {isSubmitting ? (
                     <>
                       <Loader2 className="h-4 w-4 animate-spin" />
-                      Processing...
+                      <span className="ml-2">Processing...</span>
                     </>
                   ) : (
                     <>
