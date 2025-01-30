@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { OrbitControls } from '@react-three/drei/core/OrbitControls';
 
 export const DnaAnimation = () => {
   const mountRef = useRef<HTMLDivElement>(null);
@@ -10,6 +10,7 @@ export const DnaAnimation = () => {
 
     // Scene setup
     const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0xd1fae5); // Mint green background
     const camera = new THREE.PerspectiveCamera(75, mountRef.current.clientWidth / mountRef.current.clientHeight, 0.1, 1000);
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     
@@ -17,44 +18,44 @@ export const DnaAnimation = () => {
     mountRef.current.appendChild(renderer.domElement);
 
     // Add lighting
-    const ambientLight = new THREE.AmbientLight(0x404040);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
     scene.add(ambientLight);
     
-    const directionalLight = new THREE.DirectionalLight(0x1D4ED8, 1);
-    directionalLight.position.set(1, 1, 1);
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+    directionalLight.position.set(5, 5, 5);
     scene.add(directionalLight);
 
-    // Create DNA helix
-    const dnaGroup = new THREE.Group();
-    const curve = new THREE.CatmullRomCurve3([
-      new THREE.Vector3(-2, -2, 0),
-      new THREE.Vector3(2, 2, 0),
-    ]);
+    // Create pill capsule
+    const pillGroup = new THREE.Group();
 
-    const points = curve.getPoints(50);
-    const geometry = new THREE.BufferGeometry().setFromPoints(points);
+    // Create the main body of the pill
+    const capsuleGeometry = new THREE.CapsuleGeometry(0.5, 1.5, 20, 30);
+    const capsuleMaterial = new THREE.MeshPhongMaterial({ 
+      color: 0x15803d, // Dark green
+      shininess: 100,
+      specular: 0x666666
+    });
+    const capsule = new THREE.Mesh(capsuleGeometry, capsuleMaterial);
     
-    // Create two strands
-    const strand1Material = new THREE.LineBasicMaterial({ color: 0x1D4ED8 });
-    const strand2Material = new THREE.LineBasicMaterial({ color: 0x60A5FA });
-    
-    const strand1 = new THREE.Line(geometry, strand1Material);
-    const strand2 = new THREE.Line(geometry, strand2Material);
-    
-    dnaGroup.add(strand1);
-    dnaGroup.add(strand2);
-    
-    // Add spheres for base pairs
-    const sphereGeometry = new THREE.SphereGeometry(0.1, 32, 32);
-    const sphereMaterial = new THREE.MeshPhongMaterial({ color: 0xF59E0B });
-    
-    for (let i = 0; i < points.length; i++) {
-      const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
-      sphere.position.copy(points[i]);
-      dnaGroup.add(sphere);
-    }
+    // Create the highlight/reflection effect
+    const highlightGeometry = new THREE.CapsuleGeometry(0.48, 1.45, 20, 30);
+    const highlightMaterial = new THREE.MeshPhongMaterial({
+      color: 0x22c55e, // Lighter green
+      shininess: 200,
+      opacity: 0.3,
+      transparent: true
+    });
+    const highlight = new THREE.Mesh(highlightGeometry, highlightMaterial);
+    highlight.position.z = 0.1;
+    highlight.position.x = -0.1;
+    highlight.position.y = 0;
 
-    scene.add(dnaGroup);
+    pillGroup.add(capsule);
+    pillGroup.add(highlight);
+    
+    // Rotate pill to match the reference image
+    pillGroup.rotation.z = Math.PI / 6;
+    scene.add(pillGroup);
 
     // Position camera
     camera.position.z = 5;
@@ -63,11 +64,26 @@ export const DnaAnimation = () => {
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.dampingFactor = 0.05;
+    controls.enableZoom = true;
+    controls.autoRotate = true;
+    controls.autoRotateSpeed = 2;
+
+    // Animation variables
+    let time = 0;
+    const floatSpeed = 0.001;
+    const floatAmplitude = 0.2;
 
     // Animation loop
     const animate = () => {
       requestAnimationFrame(animate);
-      dnaGroup.rotation.y += 0.01;
+      
+      // Floating motion
+      time += floatSpeed;
+      pillGroup.position.y = Math.sin(time) * floatAmplitude;
+      
+      // Subtle rotation
+      pillGroup.rotation.x = Math.sin(time * 0.5) * 0.1;
+      
       controls.update();
       renderer.render(scene, camera);
     };
@@ -96,8 +112,8 @@ export const DnaAnimation = () => {
   return (
     <div 
       ref={mountRef} 
-      className="w-full h-[400px] rounded-lg overflow-hidden bg-black/5 backdrop-blur-sm"
-      aria-label="DNA 3D Animation"
+      className="w-full h-[400px] rounded-lg overflow-hidden"
+      aria-label="3D Floating Pill Animation"
     />
   );
 };
