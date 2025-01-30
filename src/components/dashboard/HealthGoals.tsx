@@ -122,10 +122,10 @@ export const HealthGoals = () => {
         ))}
         <Button
           variant="ghost"
-          className="w-full border-2 border-dashed border-muted hover:border-muted-foreground p-8"
+          className="w-full border-2 border-dashed border-[#0EA5E9]/30 hover:border-[#0EA5E9] hover:bg-[#0EA5E9]/10 transition-all duration-300 p-8 group"
           onClick={() => handleAddGoal(category)}
         >
-          <Plus className="mr-2 h-4 w-4" />
+          <Plus className="mr-2 h-4 w-4 group-hover:scale-110 transition-transform" />
           Add New Goal
         </Button>
       </div>
@@ -148,7 +148,9 @@ export const HealthGoals = () => {
           <div className="p-6">
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-2 md:gap-4">
-                <h2 className="text-xl font-semibold bg-gradient-to-r from-[#0EA5E9] via-[#38BDF8] to-[#7DD3FC] bg-clip-text text-transparent">Health Goals</h2>
+                <h2 className="text-2xl font-bold tracking-wider bg-gradient-to-r from-[#0EA5E9] via-[#38BDF8] to-[#7DD3FC] bg-clip-text text-transparent drop-shadow-[0_2px_2px_rgba(8,145,178,0.3)] animate-text-shimmer">
+                  Health Goals
+                </h2>
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button 
@@ -159,7 +161,7 @@ export const HealthGoals = () => {
                       <HelpCircle className="h-4 w-4" />
                     </Button>
                   </PopoverTrigger>
-                  <PopoverContent className="max-w-[300px] text-sm bg-card text-card-foreground shadow-md border">
+                  <PopoverContent className="max-w-[300px] text-sm bg-card/90 backdrop-blur-sm text-card-foreground shadow-lg border border-[#0EA5E9]/20">
                     Track your progress towards your goals and earn XP for completing activities
                   </PopoverContent>
                 </Popover>
@@ -167,18 +169,38 @@ export const HealthGoals = () => {
               <Button
                 variant="outline"
                 onClick={() => (isEditing ? handleSave() : setIsEditing(true))}
-                className="bg-transparent border border-[#0EA5E9]/50 hover:border-[#0EA5E9] transition-all duration-500"
+                className="bg-transparent border border-[#0EA5E9]/50 hover:border-[#0EA5E9] hover:bg-[#0EA5E9]/10 transition-all duration-300"
               >
                 {isEditing ? "Save Changes" : "Edit Goals"}
               </Button>
             </div>
 
             <Tabs defaultValue="fitness" className="w-full">
-              <TabsList className="grid w-full grid-cols-4 mb-4 bg-background/50 backdrop-blur-sm">
-                <TabsTrigger value="fitness">Fitness</TabsTrigger>
-                <TabsTrigger value="nutrition">Nutrition</TabsTrigger>
-                <TabsTrigger value="wellness">Wellness</TabsTrigger>
-                <TabsTrigger value="biomarkers">Biomarkers</TabsTrigger>
+              <TabsList className="grid w-full grid-cols-4 mb-6 bg-white/5 backdrop-blur-sm border border-[#0EA5E9]/20 rounded-lg p-1">
+                <TabsTrigger 
+                  value="fitness"
+                  className="data-[state=active]:bg-[#0EA5E9] data-[state=active]:text-white transition-all duration-300 font-medium tracking-wide"
+                >
+                  Fitness
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="nutrition"
+                  className="data-[state=active]:bg-[#0EA5E9] data-[state=active]:text-white transition-all duration-300 font-medium tracking-wide"
+                >
+                  Nutrition
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="wellness"
+                  className="data-[state=active]:bg-[#0EA5E9] data-[state=active]:text-white transition-all duration-300 font-medium tracking-wide"
+                >
+                  Wellness
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="biomarkers"
+                  className="data-[state=active]:bg-[#0EA5E9] data-[state=active]:text-white transition-all duration-300 font-medium tracking-wide"
+                >
+                  Biomarkers
+                </TabsTrigger>
               </TabsList>
 
               <TabsContent value="fitness" className="space-y-4">
