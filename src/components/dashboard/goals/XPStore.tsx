@@ -130,7 +130,7 @@ export const XPStore = () => {
     }
   };
 
-return (
+  return (
     <Card className="p-4">
       <div className="space-y-6">
         <div className="flex items-center justify-between">
@@ -149,7 +149,7 @@ return (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {REWARDS.map((reward, index) => (
             <Card key={index} className="p-4 relative overflow-hidden bg-white">
-              <div className="flex flex-col items-center">
+              <div className="flex flex-col items-center h-full">
                 {reward.image ? (
                   <Dialog>
                     <DialogTrigger asChild>
