@@ -9,8 +9,8 @@ const InputPage = () => {
 
   return (
     <div className="min-h-screen relative">
-      {/* Gradient overlay */}
-      <div className="fixed inset-0 bg-gradient-radial from-cyan-500/10 via-cyan-900/30 to-slate-950 pointer-events-none" />
+      {/* Softer gradient overlay */}
+      <div className="fixed inset-0 bg-gradient-radial from-cyan-500/5 via-cyan-900/20 to-slate-950/90 pointer-events-none" />
       
       {/* Grid background */}
       <GridBackground />
