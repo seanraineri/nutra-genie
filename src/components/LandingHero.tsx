@@ -1,12 +1,14 @@
 import { Button } from "@/components/ui/button";
 import { useNavigate, Link } from "react-router-dom";
 import { HowItWorksModal } from "./HowItWorksModal";
+import { FamilyPlanModal } from "./FamilyPlanModal";
 import { useState } from "react";
-import { BookOpen, Menu, ShieldCheck } from "lucide-react";
+import { BookOpen, Menu, ShieldCheck, Users } from "lucide-react";
 
 export const LandingHero = () => {
   const navigate = useNavigate();
   const [showHowItWorks, setShowHowItWorks] = useState(false);
+  const [showFamilyPlan, setShowFamilyPlan] = useState(false);
 
   return (
     <>
@@ -71,6 +73,15 @@ export const LandingHero = () => {
                   >
                     How It Works
                   </Button>
+                  <Button
+                    size="lg"
+                    onClick={() => setShowFamilyPlan(true)}
+                    variant="outline"
+                    className="border-2 border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/10 h-14 rounded-full text-lg font-medium transition-all duration-300 hover:border-cyan-400 hover:text-cyan-300 flex items-center gap-2"
+                  >
+                    <Users className="h-5 w-5" />
+                    Family Plan
+                  </Button>
                 </div>
               </div>
 
@@ -134,6 +145,7 @@ export const LandingHero = () => {
       </div>
 
       <HowItWorksModal open={showHowItWorks} onClose={() => setShowHowItWorks(false)} />
+      <FamilyPlanModal open={showFamilyPlan} onClose={() => setShowFamilyPlan(false)} />
     </>
   );
 };
