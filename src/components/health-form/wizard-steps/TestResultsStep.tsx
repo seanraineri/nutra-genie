@@ -243,7 +243,7 @@ export const TestResultsStep = ({ form }: TestResultsStepProps) => {
         <Button
           variant="outline"
           className="w-full font-semibold"
-          onClick={() => window.open("/purchase-tests", "_self")}
+          onClick={() => window.open("/purchase-tests", "_blank")}
         >
           <ExternalLink className="mr-2 h-4 w-4" />
           Purchase Tests from Our Partners
