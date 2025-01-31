@@ -7,6 +7,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Upload, ExternalLink, Loader2, HelpCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Tooltip,
   TooltipContent,
@@ -25,6 +26,7 @@ export const TestResultsStep = ({ form }: TestResultsStepProps) => {
     genetic: false
   });
   const [noTestsYet, setNoTestsYet] = useState(false);
+  const [biomarkerConcerns, setBiomarkerConcerns] = useState("");
 
   const handleFileUpload = async (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -171,6 +173,19 @@ export const TestResultsStep = ({ form }: TestResultsStepProps) => {
             </Button>
           </div>
         </div>
+      </div>
+
+      {/* Biomarker Concerns Section */}
+      <div className="space-y-4 pt-6">
+        <Label className="text-base font-bold">
+          Describe any Biomarkers or Genetic Data you are concerned with specifically
+        </Label>
+        <Textarea
+          placeholder="E.g., Vitamin D levels, MTHFR gene mutation, cholesterol levels..."
+          value={biomarkerConcerns}
+          onChange={(e) => setBiomarkerConcerns(e.target.value)}
+          className="min-h-[100px] resize-none"
+        />
       </div>
 
       {/* Compatible Providers Section */}
