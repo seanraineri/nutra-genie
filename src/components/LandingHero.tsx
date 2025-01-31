@@ -80,11 +80,7 @@ export const LandingHero = () => {
                   <img
                     src="/lovable-uploads/2f53b616-9c59-4de0-abb0-263c4a144685.png"
                     alt="Vitamin supplements"
-                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 animate-float-very-slow"
-                    style={{
-                      animation: "floatVerySlowly 8s ease-in-out infinite",
-                      transformOrigin: "center center",
-                    }}
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-300"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-cyan-500/20 to-transparent"></div>
                 </div>
@@ -138,20 +134,6 @@ export const LandingHero = () => {
       </div>
 
       <HowItWorksModal open={showHowItWorks} onClose={() => setShowHowItWorks(false)} />
-
-      {/* Add the keyframes animation */}
-      <style>
-        {`
-          @keyframes floatVerySlowly {
-            0%, 100% {
-              transform: translateY(0px);
-            }
-            50% {
-              transform: translateY(-15px);
-            }
-          }
-        `}
-      </style>
     </>
   );
 };
