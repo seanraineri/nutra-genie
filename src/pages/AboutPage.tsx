@@ -41,6 +41,13 @@ const AboutPage = () => {
               <li>Evidence-based health optimization strategies</li>
             </ul>
 
+            <h2>Family Plan</h2>
+            <ul>
+              <li>Help your family members too!</li>
+              <li>Minimum size family of 3 to maximum 7, pay a discounted $15/month or $150/yearly per member</li>
+              <li>Compete in family challenges for taking your supplements everyday and tracking your symptoms to earn special family prizes, may the best family member win!</li>
+            </ul>
+
             <h2>Privacy & Security</h2>
             <p>
               Your health data is precious, and we treat it that way. All information
