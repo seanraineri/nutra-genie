@@ -29,10 +29,7 @@ const AboutPage = () => {
           <div className="prose prose-lg">
             <h2>Our Mission</h2>
             <p>
-              We believe that everyone deserves access to personalized health insights
-              and recommendations. By combining cutting-edge AI technology with
-              scientific research, we help you make informed decisions about your
-              health and wellness journey.
+              We believe that everyone should have access to the most affordable health services. After being overwhelmed and let down with traditional health advice, pharmaceutical drugs, and the traditional American food system our founder Sean Raineri discovered the power of testing your genes and giving them a fighting chance. He feels that everyone deserves this power at an affordable price, but also someone that can hold them accountable in a friendly manner, find the best solutions just for them, while sticking to their budget can changes people's lives forever. Using artificial intelligence trained specifically for holistic health solutions can give the power back to people who are curious and want motivation to change their lives. Whether that issue is anxiety, depression, skin health, chronic illnesses, and many more that are now ever so prevalent in society, SupplementScribe is there for users at their disposal anytime.
             </p>
 
             <h2>What We Offer</h2>
