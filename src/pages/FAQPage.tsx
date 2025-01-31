@@ -34,6 +34,13 @@ const FAQPage = () => {
           </AccordionContent>
         </AccordionItem>
 
+        <AccordionItem value="lab-tests">
+          <AccordionTrigger>What kind of lab tests do you support?</AccordionTrigger>
+          <AccordionContent>
+            We support a wide range of standard blood tests, including complete blood count (CBC), comprehensive metabolic panel (CMP), vitamin D, B12, iron studies, thyroid function tests, and more. We also partner with specialized labs for more detailed testing options.
+          </AccordionContent>
+        </AccordionItem>
+
         <AccordionItem value="data-security">
           <AccordionTrigger>Is my health information secure?</AccordionTrigger>
           <AccordionContent>
@@ -55,10 +62,45 @@ const FAQPage = () => {
           </AccordionContent>
         </AccordionItem>
 
+        <AccordionItem value="update-frequency">
+          <AccordionTrigger>How often should I update my health data?</AccordionTrigger>
+          <AccordionContent>
+            We recommend updating your lab results every 3-6 months, or whenever you get new test results. For basic health metrics like weight and lifestyle factors, you can update these as frequently as they change. Regular updates help us provide more accurate recommendations.
+          </AccordionContent>
+        </AccordionItem>
+
+        <AccordionItem value="supplement-quality">
+          <AccordionTrigger>How do you ensure supplement quality?</AccordionTrigger>
+          <AccordionContent>
+            We only recommend supplements from manufacturers that follow Good Manufacturing Practices (GMP), have third-party testing, and maintain high quality standards. Our team regularly reviews and updates our supplement database based on the latest research and quality assessments.
+          </AccordionContent>
+        </AccordionItem>
+
         <AccordionItem value="platform-cost">
           <AccordionTrigger>What is the cost of using the platform?</AccordionTrigger>
           <AccordionContent>
-            Our platform costs $10/month, but we also offer a family plan at $7/month for each member signed up.
+            Our platform costs $10/month for individual users. We also offer a family plan at $7/month per member. This includes all AI recommendations, health tracking features, and regular updates to your supplement plan. Lab tests, when ordered through our partners, are priced separately.
+          </AccordionContent>
+        </AccordionItem>
+
+        <AccordionItem value="cancel-subscription">
+          <AccordionTrigger>Can I cancel my subscription at any time?</AccordionTrigger>
+          <AccordionContent>
+            Yes, you can cancel your subscription at any time with no penalty. Your access will continue until the end of your current billing period. We also offer a 30-day money-back guarantee for new subscribers.
+          </AccordionContent>
+        </AccordionItem>
+
+        <AccordionItem value="medical-advice">
+          <AccordionTrigger>Does this replace medical advice?</AccordionTrigger>
+          <AccordionContent>
+            No, our platform is not a replacement for professional medical advice. While we provide evidence-based supplement recommendations, you should always consult with your healthcare provider before starting any new supplement regimen, especially if you have existing health conditions or take medications.
+          </AccordionContent>
+        </AccordionItem>
+
+        <AccordionItem value="support">
+          <AccordionTrigger>What kind of support do you offer?</AccordionTrigger>
+          <AccordionContent>
+            We provide 24/7 email support and live chat during business hours. Our support team includes qualified nutritionists who can answer questions about your supplement recommendations. For technical issues, our tech support team is available Monday through Friday.
           </AccordionContent>
         </AccordionItem>
       </Accordion>
