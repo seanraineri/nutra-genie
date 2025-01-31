@@ -60,9 +60,6 @@ const AboutPage = () => {
             <Button asChild>
               <Link to="/input">Get Started</Link>
             </Button>
-            <Button variant="outline" asChild>
-              <Link to="/faq">View FAQ</Link>
-            </Button>
           </div>
         </div>
       </div>
