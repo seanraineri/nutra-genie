@@ -41,7 +41,7 @@ export const HowItWorksModal = ({ open, onClose }: HowItWorksModalProps) => {
     {
       icon: <MessageCircle className="w-8 h-8" />,
       title: "Receive Texts",
-      description: "Everyday we will remind you to take your supplements and your daily holistic health advice providing inspiration to feel better and live healthier",
+      description: "Everyday we will remind you to take your supplements and your holistic health advice providing inspiration to feel better and live healthier",
     },
     {
       icon: <Gift className="w-8 h-8" />,
