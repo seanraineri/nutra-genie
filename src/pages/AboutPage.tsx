@@ -33,7 +33,6 @@ const AboutPage = () => {
             </p>
 
             <h2>What We Offer</h2>
-            <h3>Family Plan</h3>
             <ul>
               <li>Personalized supplement recommendations based on your health profile</li>
               <li>AI-powered health assistant for real-time guidance</li>
@@ -43,7 +42,6 @@ const AboutPage = () => {
             </ul>
 
             <h2>Privacy & Security</h2>
-            <h3>Family Plan</h3>
             <p>
               Your health data is precious, and we treat it that way. All information
               is encrypted and stored securely. We never share your personal data
