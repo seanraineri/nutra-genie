@@ -4,7 +4,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { ChartLine, Upload, Pill, MessageSquare, LayoutDashboard } from "lucide-react";
+import { ChartLine, Upload, Pill, MessageSquare, LayoutDashboard, Gift } from "lucide-react";
 
 interface HowItWorksModalProps {
   open: boolean;
@@ -37,6 +37,11 @@ export const HowItWorksModal = ({ open, onClose }: HowItWorksModalProps) => {
       icon: <LayoutDashboard className="w-8 h-8" />,
       title: "Track Progress",
       description: "Monitor your health journey daily and receive recaps and insights",
+    },
+    {
+      icon: <Gift className="w-8 h-8" />,
+      title: "Redeem Prizes",
+      description: "Earn XP points for logging if you took your supplements, complete your daily quiz, and refer friends in exchange for prizes like custom merch and fitness classes!",
     },
   ];
 
