@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { useNavigate, Link } from "react-router-dom";
 import { HowItWorksModal } from "./HowItWorksModal";
 import { useState } from "react";
-import { BookOpen, Menu, ShieldCheck } from "lucide-react";
+import { Book, Menu, ShieldCheck } from "lucide-react";
 
 export const LandingHero = () => {
   const navigate = useNavigate();
@@ -20,11 +20,11 @@ export const LandingHero = () => {
             <div className="flex items-center gap-4">
               <Button
                 variant="ghost"
+                size="icon"
                 onClick={() => navigate("/content")}
-                className="text-gray-600 hover:text-black flex items-center gap-2"
+                className="text-gray-600 hover:text-black"
               >
-                <BookOpen className="h-4 w-4" />
-                Content
+                <Book className="h-5 w-5" />
               </Button>
               <Button variant="ghost" className="lg:hidden">
                 <Menu className="h-6 w-6" />
