@@ -70,7 +70,7 @@ export const StepWizard = () => {
       sleepHours: "",
       smokingStatus: "non_smoker",
       alcoholConsumption: "none",
-    } as HealthFormSchemaType,
+    },
   });
 
   const onSubmit = async (data: HealthFormSchemaType) => {
