@@ -179,7 +179,7 @@ export const TestResultsStep = ({ form }: TestResultsStepProps) => {
       {/* Biomarker Concerns Section */}
       <div className="space-y-4 pt-6">
         <Label className="text-base font-bold">
-          Describe any Biomarkers or Genetic Data you are concerned with specifically
+          Describe any Biomarkers or Genetic Data you are concerned with specifically (Optional)
         </Label>
         <Textarea
           placeholder="E.g., Vitamin D levels, MTHFR gene mutation, cholesterol levels..."
