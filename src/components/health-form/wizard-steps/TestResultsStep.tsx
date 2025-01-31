@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Upload, ExternalLink, Loader2, HelpCircle, ArrowRight } from "lucide-react";
+import { Upload, ExternalLink, Loader2, HelpCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Textarea } from "@/components/ui/textarea";
@@ -26,6 +26,7 @@ export const TestResultsStep = ({ form }: TestResultsStepProps) => {
     genetic: false
   });
   const [noTestsYet, setNoTestsYet] = useState(false);
+  const [proceedWithoutTests, setProceedWithoutTests] = useState(false);
   const [biomarkerConcerns, setBiomarkerConcerns] = useState("");
 
   const handleFileUpload = async (
@@ -95,14 +96,14 @@ export const TestResultsStep = ({ form }: TestResultsStepProps) => {
                 accept=".pdf"
                 className="hidden"
                 onChange={(e) => handleFileUpload(e, "bloodwork")}
-                disabled={uploading.bloodwork || noTestsYet}
+                disabled={uploading.bloodwork || noTestsYet || proceedWithoutTests}
               />
             </div>
             <Button
               variant="outline"
               className="w-full font-semibold"
               onClick={() => document.getElementById('bloodwork')?.click()}
-              disabled={uploading.bloodwork || noTestsYet}
+              disabled={uploading.bloodwork || noTestsYet || proceedWithoutTests}
             >
               {uploading.bloodwork ? (
                 <>
@@ -150,14 +151,14 @@ export const TestResultsStep = ({ form }: TestResultsStepProps) => {
                 accept=".pdf"
                 className="hidden"
                 onChange={(e) => handleFileUpload(e, "genetic")}
-                disabled={uploading.genetic || noTestsYet}
+                disabled={uploading.genetic || noTestsYet || proceedWithoutTests}
               />
             </div>
             <Button
               variant="outline"
               className="w-full font-semibold"
               onClick={() => document.getElementById('genetic')?.click()}
-              disabled={uploading.genetic || noTestsYet}
+              disabled={uploading.genetic || noTestsYet || proceedWithoutTests}
             >
               {uploading.genetic ? (
                 <>
@@ -202,7 +203,7 @@ export const TestResultsStep = ({ form }: TestResultsStepProps) => {
       </div>
 
       <div className="space-y-4 pt-4">
-        <div className="flex items-center justify-between gap-4">
+        <div className="flex flex-col space-y-4">
           <div className="flex items-center space-x-2">
             <Checkbox
               id="no-tests"
@@ -219,18 +220,24 @@ export const TestResultsStep = ({ form }: TestResultsStepProps) => {
               I don't have any test results yet but am purchasing
             </Label>
           </div>
-          <Button
-            variant="outline"
-            className="font-semibold"
-            onClick={() => {
-              setNoTestsYet(true);
-              form.setValue("hasBloodwork", false);
-              form.setValue("hasGeneticTesting", false);
-            }}
-          >
-            <ArrowRight className="mr-2 h-4 w-4" />
-            Proceed without any test results
-          </Button>
+          
+          <div className="flex items-center space-x-2">
+            <Checkbox
+              id="proceed-without-tests"
+              checked={proceedWithoutTests}
+              onCheckedChange={(checked) => {
+                setProceedWithoutTests(checked as boolean);
+                if (checked) {
+                  setNoTestsYet(false);
+                  form.setValue("hasBloodwork", false);
+                  form.setValue("hasGeneticTesting", false);
+                }
+              }}
+            />
+            <Label htmlFor="proceed-without-tests" className="text-sm font-semibold">
+              Proceed without any test results
+            </Label>
+          </div>
         </div>
 
         <Button
