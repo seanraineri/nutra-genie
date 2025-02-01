@@ -4,7 +4,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { ChartLine, Upload, Pill, MessageSquare, LayoutDashboard, Gift, MessageCircle } from "lucide-react";
+import { ChartLine, Upload, Pill, MessageSquare, LayoutDashboard, Gift, MessageCircle, DollarSign } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 interface HowItWorksModalProps {
@@ -25,6 +25,11 @@ export const HowItWorksModal = ({ open, onClose }: HowItWorksModalProps) => {
       icon: <Upload className="w-6 h-6 sm:w-8 sm:h-8" />,
       title: "Upload Test Results",
       description: "Upload your blood work and/or genetic test results",
+    },
+    {
+      icon: <DollarSign className="w-6 h-6 sm:w-8 sm:h-8" />,
+      title: "Set Your Budget",
+      description: "Input your monthly budget and find the best brands for your biggest needs",
     },
     {
       icon: <Pill className="w-6 h-6 sm:w-8 sm:h-8" />,
