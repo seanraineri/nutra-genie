@@ -26,7 +26,7 @@ const LAB_TESTS: LabTest[] = [
   },
   {
     name: "Most Affordable DNA Test",
-    description: "Download the Raw DNA file included, find your nutrient deficiencies, recieve results",
+    description: "Download the Raw DNA file included, upload it to our site, find your nutrient deficiencies, receive results",
     price: 36,
     icon: <Dna className="h-5 w-5" />,
     image: "/lovable-uploads/9c9c4102-f5d3-409c-8b1b-5e8f96ebc430.png",
