@@ -1,10 +1,20 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { Loader2, ArrowLeft } from "lucide-react";
+import { Loader2, ArrowLeft, TestTube, DollarSign } from "lucide-react";
+
+interface LabTest {
+  id: string;
+  partner_name: string;
+  test_name: string;
+  description: string | null;
+  price: number;
+  url: string;
+}
 
 const PurchaseTestsPage = () => {
   const navigate = useNavigate();
@@ -28,11 +38,11 @@ const PurchaseTestsPage = () => {
         return [];
       }
 
-      return data;
+      return data as LabTest[];
     },
   });
 
-  const handlePurchase = async (test: any) => {
+  const handlePurchase = async (test: LabTest) => {
     setIsLoading(true);
     try {
       const { error } = await supabase
@@ -72,9 +82,14 @@ const PurchaseTestsPage = () => {
           Back to Form
         </Button>
 
-        <h1 className="text-3xl font-bold mb-8 bg-gradient-to-r from-cyan-500 to-teal-500 bg-clip-text text-transparent">
-          Available Lab Tests
-        </h1>
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-cyan-500 to-teal-500 bg-clip-text text-transparent">
+            Purchase Testing
+          </h1>
+          <p className="text-muted-foreground mt-2">
+            Select from our range of comprehensive health tests
+          </p>
+        </div>
 
         <div className="grid gap-6">
           {isLoadingTests ? (
@@ -85,15 +100,21 @@ const PurchaseTestsPage = () => {
             labTests?.map((test) => (
               <Card key={test.id} className="p-6 space-y-4 hover:shadow-lg transition-shadow">
                 <div className="flex justify-between items-start">
-                  <div>
-                    <h2 className="text-xl font-semibold">{test.test_name}</h2>
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2">
+                      <TestTube className="h-5 w-5 text-primary" />
+                      <h2 className="text-xl font-semibold">{test.test_name}</h2>
+                    </div>
                     <p className="text-sm text-muted-foreground">by {test.partner_name}</p>
                   </div>
-                  <div className="text-xl font-bold text-primary">
-                    ${test.price}
+                  <div className="flex items-center text-xl font-bold text-primary">
+                    <DollarSign className="h-5 w-5" />
+                    {test.price}
                   </div>
                 </div>
-                <p className="text-muted-foreground">{test.description}</p>
+                {test.description && (
+                  <p className="text-muted-foreground">{test.description}</p>
+                )}
                 <Button 
                   className="w-full"
                   onClick={() => handlePurchase(test)}
