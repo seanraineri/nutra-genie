@@ -26,9 +26,10 @@ const LAB_TESTS: LabTest[] = [
   },
   {
     name: "Most Affordable DNA Test",
-    description: "Will tell you your heritage but also includes a raw data file which contains key information for SupplementScribe regarding potential nutrient deficiencies. Upload that raw data file and receive results.",
+    description: "Download the Raw DNA file included, find your nutrient deficiencies, recieve results",
     price: 36,
     icon: <Dna className="h-5 w-5" />,
+    image: "/lovable-uploads/9c9c4102-f5d3-409c-8b1b-5e8f96ebc430.png",
     purchaseUrl: "https://www.myheritage.com/order/3154917996/MhDna.LandingPageKitOnly.Offer?initialProductId=900&currency=USD&processor=adyen&thirdPartyPaymentProcessor=adyen"
   },
   {
