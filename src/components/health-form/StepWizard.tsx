@@ -49,7 +49,7 @@ export const StepWizard = () => {
     resolver: zodResolver(healthFormSchema),
     mode: "onChange",
     defaultValues: {
-      firstName: "",
+      firstName: "",  // Required fields now have default values
       lastName: "",
       email: "",
       phoneNumber: "",
@@ -59,7 +59,7 @@ export const StepWizard = () => {
       height: "",
       weight: "",
       activityLevel: "sedentary",
-      medicalConditions: [],
+      medicalConditions: [], // This will be populated with proper MedicalCondition objects
       allergies: [],
       currentMedications: [],
       hasBloodwork: false,
