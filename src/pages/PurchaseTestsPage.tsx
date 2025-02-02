@@ -1,11 +1,17 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import { Card, CardHeader, CardContent, CardFooter } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { Loader2, ArrowLeft, TestTube, DollarSign } from "lucide-react";
+import { Loader2, ArrowLeft, TestTube, DollarSign, Building2, Info, ExternalLink } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface LabTest {
   id: string;
@@ -82,12 +88,12 @@ const PurchaseTestsPage = () => {
           Back to Form
         </Button>
 
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold bg-gradient-to-r from-cyan-500 to-teal-500 bg-clip-text text-transparent">
+        <div className="text-center mb-12">
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-cyan-500 to-teal-500 bg-clip-text text-transparent mb-3">
             Purchase Testing
           </h1>
-          <p className="text-muted-foreground mt-2">
-            Select from our range of comprehensive health tests
+          <p className="text-lg text-muted-foreground">
+            Select from our comprehensive range of health tests
           </p>
         </div>
 
@@ -98,37 +104,63 @@ const PurchaseTestsPage = () => {
             </div>
           ) : (
             labTests?.map((test) => (
-              <Card key={test.id} className="p-6 space-y-4 hover:shadow-lg transition-shadow">
-                <div className="flex justify-between items-start">
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-2">
-                      <TestTube className="h-5 w-5 text-primary" />
-                      <h2 className="text-xl font-semibold">{test.test_name}</h2>
+              <Card key={test.id} className="group hover:shadow-lg transition-all duration-300">
+                <CardHeader className="pb-4">
+                  <div className="flex justify-between items-start">
+                    <div className="space-y-1">
+                      <div className="flex items-center gap-2">
+                        <TestTube className="h-5 w-5 text-primary" />
+                        <h2 className="text-xl font-semibold group-hover:text-primary transition-colors">
+                          {test.test_name}
+                        </h2>
+                      </div>
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <Building2 className="h-4 w-4" />
+                        <span>by {test.partner_name}</span>
+                      </div>
                     </div>
-                    <p className="text-sm text-muted-foreground">by {test.partner_name}</p>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <div className="flex items-center gap-1 text-xl font-bold text-primary bg-primary/5 px-3 py-1 rounded-full">
+                            <DollarSign className="h-5 w-5" />
+                            {test.price}
+                          </div>
+                        </TooltipTrigger>
+                        <TooltipContent side="left">
+                          <p>Test price in USD</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
                   </div>
-                  <div className="flex items-center text-xl font-bold text-primary">
-                    <DollarSign className="h-5 w-5" />
-                    {test.price}
-                  </div>
-                </div>
+                </CardHeader>
                 {test.description && (
-                  <p className="text-muted-foreground">{test.description}</p>
+                  <CardContent className="pb-4">
+                    <div className="flex gap-2 text-muted-foreground">
+                      <Info className="h-5 w-5 flex-shrink-0 mt-1" />
+                      <p>{test.description}</p>
+                    </div>
+                  </CardContent>
                 )}
-                <Button 
-                  className="w-full"
-                  onClick={() => handlePurchase(test)}
-                  disabled={isLoading}
-                >
-                  {isLoading ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Processing...
-                    </>
-                  ) : (
-                    'Purchase Test'
-                  )}
-                </Button>
+                <CardFooter>
+                  <Button 
+                    className="w-full group-hover:shadow-md transition-shadow"
+                    onClick={() => handlePurchase(test)}
+                    disabled={isLoading}
+                  >
+                    {isLoading ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Processing...
+                      </>
+                    ) : (
+                      <>
+                        <ExternalLink className="mr-2 h-4 w-4" />
+                        Purchase Test
+                      </>
+                    )}
+                  </Button>
+                </CardFooter>
               </Card>
             ))
           )}
