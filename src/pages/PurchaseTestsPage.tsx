@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { Loader2, ArrowLeft, TestTube, DollarSign, Building2, Info, ExternalLink } from "lucide-react";
+import { Loader2, ArrowLeft, TestTube, DollarSign, Building2, Info, ExternalLink, ArrowRight } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -78,17 +78,19 @@ const PurchaseTestsPage = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-cyan-900/10 to-teal-900/10 backdrop-blur-sm py-8">
-      <div className="max-w-4xl mx-auto px-4">
-        <Button
-          variant="outline"
-          className="mb-6"
-          onClick={() => navigate('/input')}
-        >
-          <ArrowLeft className="h-4 w-4 mr-2" />
-          Back to Form
-        </Button>
+      <div className="max-w-4xl mx-auto px-4 relative">
+        <div className="absolute top-0 left-4 sm:left-8">
+          <Button
+            variant="outline"
+            onClick={() => navigate('/input')}
+            className="bg-gradient-to-r from-cyan-500/10 to-teal-500/10 hover:from-cyan-500/20 hover:to-teal-500/20 border-cyan-200/20"
+          >
+            <ArrowLeft className="h-4 w-4 mr-2" />
+            Back
+          </Button>
+        </div>
 
-        <div className="text-center mb-12">
+        <div className="text-center mb-12 mt-16">
           <h1 className="text-4xl font-bold bg-gradient-to-r from-cyan-500 to-teal-500 bg-clip-text text-transparent mb-3">
             Purchase Testing
           </h1>
@@ -164,6 +166,16 @@ const PurchaseTestsPage = () => {
               </Card>
             ))
           )}
+        </div>
+
+        <div className="fixed bottom-8 right-8">
+          <Button 
+            onClick={() => navigate('/payment')}
+            className="bg-gradient-to-r from-cyan-500 to-teal-500 hover:from-cyan-600 hover:to-teal-600 transition-colors"
+          >
+            Next
+            <ArrowRight className="ml-2 h-4 w-4" />
+          </Button>
         </div>
       </div>
     </div>
