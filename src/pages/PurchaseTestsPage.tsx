@@ -93,7 +93,7 @@ const PurchaseTestsPage = () => {
             Purchase Testing
           </h1>
           <p className="text-lg text-muted-foreground">
-            Select from our recommended health tests
+            Select from our recommended health tests, we recommend to prioritize the DNA test
           </p>
         </div>
 
