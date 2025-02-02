@@ -83,7 +83,7 @@ const PurchaseTestsPage = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-cyan-900/10 to-teal-900/10 backdrop-blur-sm py-8">
       <div className="max-w-4xl mx-auto px-4">
-        <div className="mb-8">
+        <div className="absolute top-8 left-8">
           <Button
             variant="outline"
             onClick={() => navigate('/input')}
@@ -94,7 +94,7 @@ const PurchaseTestsPage = () => {
           </Button>
         </div>
 
-        <div className="text-center mb-12">
+        <div className="text-center mb-12 mt-16">
           <div className="flex items-center justify-center gap-2 mb-3">
             <h1 className="text-4xl font-bold bg-gradient-to-r from-cyan-500 to-teal-500 bg-clip-text text-transparent">
               Purchase Testing
@@ -106,7 +106,10 @@ const PurchaseTestsPage = () => {
                     <HelpCircle className="h-5 w-5" />
                   </Button>
                 </TooltipTrigger>
-                <TooltipContent className="max-w-sm text-sm">
+                <TooltipContent 
+                  className="max-w-sm p-4 text-base bg-white border-2 border-cyan-200 shadow-lg"
+                  sideOffset={8}
+                >
                   These tests are optional, but we recommend taking a DNA test as you only need it once in your lifetime and can lead to finding information that can lower your blood biomarkers anyways. You can find any other blood or genetic test as well, but these are some we suggest
                 </TooltipContent>
               </Tooltip>
