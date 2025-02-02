@@ -1,22 +1,12 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/hooks/use-toast";
+import { Card } from "@/components/ui/card";
+import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { ArrowLeft, Loader2 } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { Loader2, ArrowLeft } from "lucide-react";
 
-interface LabTest {
-  id: string;
-  partner_name: string;
-  test_name: string;
-  description: string;
-  price: number;
-  url: string;
-}
-
-export const PurchaseTestsPage = () => {
+const PurchaseTestsPage = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
@@ -38,14 +28,13 @@ export const PurchaseTestsPage = () => {
         return [];
       }
 
-      return data as LabTest[];
+      return data;
     },
   });
 
-  const handlePurchase = async (test: LabTest) => {
+  const handlePurchase = async (test: any) => {
     setIsLoading(true);
     try {
-      // Record the purchase intent
       const { error } = await supabase
         .from('lab_test_purchases')
         .insert([
@@ -57,10 +46,7 @@ export const PurchaseTestsPage = () => {
 
       if (error) throw error;
 
-      // Redirect to partner's website
       window.open(test.url, '_blank');
-      
-      // Navigate back to test results step
       navigate('/input');
 
     } catch (error: any) {
@@ -130,3 +116,5 @@ export const PurchaseTestsPage = () => {
     </div>
   );
 };
+
+export default PurchaseTestsPage;
