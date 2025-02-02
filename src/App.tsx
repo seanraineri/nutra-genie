@@ -1,76 +1,48 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Toaster } from "@/components/ui/toaster";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Index } from "@/pages/Index";
+import { InputPage } from "@/pages/InputPage";
+import { PaymentPage } from "@/pages/PaymentPage";
+import { DashboardPage } from "@/pages/DashboardPage";
+import { FamilyPlanPage } from "@/pages/FamilyPlanPage";
+import { PrivacyPage } from "@/pages/PrivacyPage";
+import { ContentPage } from "@/pages/ContentPage";
+import { AboutPage } from "@/pages/AboutPage";
+import { FAQPage } from "@/pages/FAQPage";
+import { StudentsPage } from "@/pages/StudentsPage";
+import { WorkWithUsPage } from "@/pages/WorkWithUsPage";
+import { RewardsPage } from "@/pages/RewardsPage";
+import { PurchaseTestsPage } from "@/pages/PurchaseTestsPage";
 import { AuthWrapper } from "@/components/AuthWrapper";
-import { Suspense, lazy } from "react";
-import { LoadingSpinner } from "./components/ui/loading-spinner";
-
-// Lazy load pages
-const Index = lazy(() => import("@/pages/Index"));
-const InputPage = lazy(() => import("@/pages/InputPage"));
-const DashboardPage = lazy(() => import("@/pages/DashboardPage"));
-const PaymentPage = lazy(() => import("@/pages/PaymentPage"));
-const ContentPage = lazy(() => import("@/pages/ContentPage"));
-const AboutPage = lazy(() => import("@/pages/AboutPage"));
-const PrivacyPage = lazy(() => import("@/pages/PrivacyPage"));
-const WorkWithUsPage = lazy(() => import("@/pages/WorkWithUsPage"));
-const RewardsPage = lazy(() => import("@/pages/RewardsPage"));
-const StudentsPage = lazy(() => import("@/pages/StudentsPage"));
-
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Index />,
-  },
-  {
-    path: "/input",
-    element: <InputPage />,
-  },
-  {
-    path: "/dashboard",
-    element: <DashboardPage />,
-  },
-  {
-    path: "/payment",
-    element: <PaymentPage />,
-  },
-  {
-    path: "/content",
-    element: <ContentPage />,
-  },
-  {
-    path: "/about",
-    element: <AboutPage />,
-  },
-  {
-    path: "/privacy",
-    element: <PrivacyPage />,
-  },
-  {
-    path: "/work-with-us",
-    element: <WorkWithUsPage />,
-  },
-  {
-    path: "/rewards",
-    element: <RewardsPage />,
-  },
-  {
-    path: "/students",
-    element: <StudentsPage />,
-  },
-]);
+import { Toaster } from "@/components/ui/toaster";
+import "./App.css";
 
 function App() {
   return (
-    <Suspense
-      fallback={
-        <div className="min-h-screen flex items-center justify-center">
-          <LoadingSpinner className="h-8 w-8" />
-        </div>
-      }
-    >
-      <RouterProvider router={router} />
+    <Router>
+      <Routes>
+        <Route path="/" element={<Index />} />
+        <Route path="/input" element={<InputPage />} />
+        <Route path="/payment" element={<PaymentPage />} />
+        <Route path="/family-plan" element={<FamilyPlanPage />} />
+        <Route path="/privacy" element={<PrivacyPage />} />
+        <Route path="/content" element={<ContentPage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/faq" element={<FAQPage />} />
+        <Route path="/students" element={<StudentsPage />} />
+        <Route path="/work-with-us" element={<WorkWithUsPage />} />
+        <Route path="/rewards" element={<RewardsPage />} />
+        <Route path="/purchase-tests" element={<PurchaseTestsPage />} />
+        <Route
+          path="/dashboard/*"
+          element={
+            <AuthWrapper>
+              <DashboardPage />
+            </AuthWrapper>
+          }
+        />
+      </Routes>
       <Toaster />
-    </Suspense>
+    </Router>
   );
 }
 

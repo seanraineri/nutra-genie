@@ -8,6 +8,7 @@ import { Upload, ExternalLink, Loader2, HelpCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Textarea } from "@/components/ui/textarea";
+import { useNavigate } from "react-router-dom";
 import {
   Tooltip,
   TooltipContent,
@@ -21,6 +22,7 @@ interface TestResultsStepProps {
 
 export const TestResultsStep = ({ form }: TestResultsStepProps) => {
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [uploading, setUploading] = useState({
     bloodwork: false,
     genetic: false
@@ -243,7 +245,7 @@ export const TestResultsStep = ({ form }: TestResultsStepProps) => {
         <Button
           variant="outline"
           className="w-full font-semibold"
-          onClick={() => window.open("/purchase-tests", "_blank")}
+          onClick={() => navigate('/purchase-tests')}
         >
           <ExternalLink className="mr-2 h-4 w-4" />
           Purchase Tests from Our Partners
