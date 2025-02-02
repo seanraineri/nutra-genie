@@ -3,8 +3,14 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
-import { Loader2, ArrowLeft, TestTube, ArrowRight, Dna } from "lucide-react";
+import { Loader2, ArrowLeft, TestTube, ArrowRight, Dna, HelpCircle } from "lucide-react";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface LabTest {
   name: string;
@@ -89,9 +95,23 @@ const PurchaseTestsPage = () => {
         </div>
 
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-cyan-500 to-teal-500 bg-clip-text text-transparent mb-3">
-            Purchase Testing
-          </h1>
+          <div className="flex items-center justify-center gap-2 mb-3">
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-cyan-500 to-teal-500 bg-clip-text text-transparent">
+              Purchase Testing
+            </h1>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button variant="ghost" size="icon" className="w-8 h-8">
+                    <HelpCircle className="h-5 w-5" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent className="max-w-sm text-sm">
+                  These tests are optional, but we recommend taking a DNA test as you only need it once in your lifetime and can lead to finding information that can lower your blood biomarkers anyways. You can find any other blood or genetic test as well, but these are some we suggest
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
           <p className="text-lg text-muted-foreground">
             Select from our recommended health tests, we recommend to prioritize the DNA test
           </p>
