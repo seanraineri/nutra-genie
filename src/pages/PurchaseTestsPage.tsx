@@ -34,9 +34,11 @@ const LAB_TESTS: LabTest[] = [
   },
   {
     name: "Extensive DNA Test",
-    description: "Deep whole genome sequencing with comprehensive health insights and genetic counseling",
+    description: "Direct testing of all key SNPs that effect your everyday function",
     price: 299.99,
-    icon: <Dna className="h-5 w-5" />
+    icon: <Dna className="h-5 w-5" />,
+    image: "/lovable-uploads/59bef718-4d3c-4acf-9d3b-0c5168d0263d.png",
+    purchaseUrl: "https://maxgenlabs.com/collections/genetic-testing-kits/products/the-works-panel"
   },
 ];
 
