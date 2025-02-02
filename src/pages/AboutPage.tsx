@@ -8,17 +8,18 @@ const AboutPage = () => {
   return (
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-16">
-        <Button
-          variant="ghost"
-          size="sm"
-          className="mb-6"
-          onClick={() => navigate(-1)}
-        >
-          <ChevronLeft className="mr-2 h-4 w-4" />
-          Back
-        </Button>
+        <div className="absolute top-8 left-4 sm:left-8">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => navigate(-1)}
+          >
+            <ChevronLeft className="mr-2 h-4 w-4" />
+            Back
+          </Button>
+        </div>
 
-        <div className="max-w-3xl mx-auto space-y-8">
+        <div className="max-w-3xl mx-auto space-y-8 mt-16">
           <div className="space-y-4">
             <h1 className="text-4xl font-bold tracking-tight">About SupplementScribe.ai</h1>
             <p className="text-muted-foreground text-lg">

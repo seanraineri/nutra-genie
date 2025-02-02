@@ -7,17 +7,20 @@ const FAQPage = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="container mx-auto py-12 px-4">
-      <Button
-        variant="ghost"
-        size="sm"
-        className="mb-8"
-        onClick={() => navigate(-1)}
-      >
-        <ArrowLeft className="mr-2" />
-        Back
-      </Button>
+    <div className="min-h-screen bg-background">
+      <div className="container mx-auto py-12 px-4">
+        <div className="absolute top-8 left-4 sm:left-8">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => navigate(-1)}
+          >
+            <ArrowLeft className="mr-2" />
+            Back
+          </Button>
+        </div>
 
+        <div className="mt-16">
       <h1 className="text-3xl font-bold mb-8 text-center">Frequently Asked Questions</h1>
       <Accordion type="single" collapsible className="w-full max-w-3xl mx-auto">
         <AccordionItem value="what-platform-does">
@@ -104,6 +107,8 @@ const FAQPage = () => {
           </AccordionContent>
         </AccordionItem>
       </Accordion>
+        </div>
+      </div>
     </div>
   );
 };

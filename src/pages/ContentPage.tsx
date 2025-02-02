@@ -8,18 +8,19 @@ const ContentPage = () => {
 
   return (
     <div className="min-h-screen bg-background w-full">
-      <div className="w-full px-4 sm:px-6 lg:px-8 py-8">
-        <Button
-          variant="ghost"
-          size="sm"
-          className="mb-6"
-          onClick={() => navigate(-1)}
-        >
-          <ChevronLeft className="mr-2 h-4 w-4" />
-          Back
-        </Button>
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="absolute top-8 left-4 sm:left-8">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => navigate(-1)}
+          >
+            <ChevronLeft className="mr-2 h-4 w-4" />
+            Back
+          </Button>
+        </div>
 
-        <div className="space-y-6">
+        <div className="space-y-6 mt-16">
           <div className="flex items-center justify-between">
             <h1 className="text-3xl font-bold text-secondary">Educational Content</h1>
             <Button variant="outline">View All Blog Posts</Button>

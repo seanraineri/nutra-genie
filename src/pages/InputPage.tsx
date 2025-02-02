@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -10,16 +9,19 @@ const InputPage = () => {
   return (
     <div className="min-h-screen bg-background">
       <div className="container mx-auto py-8">
-        <Button
-          variant="ghost"
-          size="sm"
-          className="mb-6"
-          onClick={() => navigate(-1)}
-        >
-          <ChevronLeft className="mr-2 h-4 w-4" />
-          Back
-        </Button>
-        <StepWizard />
+        <div className="absolute top-8 left-4 sm:left-8">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => navigate(-1)}
+          >
+            <ChevronLeft className="mr-2 h-4 w-4" />
+            Back
+          </Button>
+        </div>
+        <div className="mt-16">
+          <StepWizard />
+        </div>
       </div>
     </div>
   );
