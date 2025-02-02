@@ -2,68 +2,54 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardContent, CardFooter } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { Loader2, ArrowLeft, TestTube, DollarSign, Building2, Info, ExternalLink, ArrowRight } from "lucide-react";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { Loader2, ArrowLeft, TestTube, ArrowRight, Dna } from "lucide-react";
 
 interface LabTest {
-  id: string;
-  partner_name: string;
-  test_name: string;
-  description: string | null;
+  name: string;
+  description: string;
   price: number;
-  url: string;
+  icon: JSX.Element;
 }
+
+const LAB_TESTS: LabTest[] = [
+  {
+    name: "Complete Blood Panel",
+    description: "Comprehensive blood work analysis including CBC, metabolic panel, lipids, and key biomarkers",
+    price: 199.99,
+    icon: <TestTube className="h-5 w-5" />,
+  },
+  {
+    name: "Most Affordable DNA Test",
+    description: "Basic DNA analysis covering ancestry, traits, and basic health predispositions",
+    price: 99.99,
+    icon: <Dna className="h-5 w-5" />,
+  },
+  {
+    name: "Extensive DNA Test",
+    description: "Deep whole genome sequencing with comprehensive health insights and genetic counseling",
+    price: 299.99,
+    icon: <Dna className="h-5 w-5" />,
+  },
+];
 
 const PurchaseTestsPage = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
 
-  const { data: labTests, isLoading: isLoadingTests } = useQuery({
-    queryKey: ['labTests'],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('lab_test_offerings')
-        .select('*')
-        .order('price', { ascending: true });
-
-      if (error) {
-        toast({
-          title: "Error loading lab tests",
-          description: error.message,
-          variant: "destructive",
-        });
-        return [];
-      }
-
-      return data as LabTest[];
-    },
-  });
-
   const handlePurchase = async (test: LabTest) => {
     setIsLoading(true);
     try {
-      const { error } = await supabase
-        .from('lab_test_purchases')
-        .insert([
-          {
-            offering_id: test.id,
-            status: 'pending'
-          }
-        ]);
-
-      if (error) throw error;
-
-      window.open(test.url, '_blank');
-      navigate('/input');
+      toast({
+        title: "Redirecting to test provider",
+        description: `You'll be redirected to purchase ${test.name}.`,
+      });
+      
+      // Simulate redirect
+      setTimeout(() => {
+        navigate('/payment');
+      }, 1500);
 
     } catch (error: any) {
       toast({
@@ -79,7 +65,7 @@ const PurchaseTestsPage = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-cyan-900/10 to-teal-900/10 backdrop-blur-sm py-8">
       <div className="max-w-4xl mx-auto px-4 relative">
-        <div className="absolute top-0 left-4 sm:left-8">
+        <div className="absolute top-0 left-4">
           <Button
             variant="outline"
             onClick={() => navigate('/input')}
@@ -95,60 +81,32 @@ const PurchaseTestsPage = () => {
             Purchase Testing
           </h1>
           <p className="text-lg text-muted-foreground">
-            Select from our comprehensive range of health tests
+            Select from our recommended health tests
           </p>
         </div>
 
-        <div className="grid gap-6">
-          {isLoadingTests ? (
-            <div className="flex justify-center items-center py-12">
-              <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            </div>
-          ) : (
-            labTests?.map((test) => (
-              <Card key={test.id} className="group hover:shadow-lg transition-all duration-300">
-                <CardHeader className="pb-4">
-                  <div className="flex justify-between items-start">
-                    <div className="space-y-1">
-                      <div className="flex items-center gap-2">
-                        <TestTube className="h-5 w-5 text-primary" />
-                        <h2 className="text-xl font-semibold group-hover:text-primary transition-colors">
-                          {test.test_name}
-                        </h2>
-                      </div>
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <Building2 className="h-4 w-4" />
-                        <span>by {test.partner_name}</span>
-                      </div>
-                    </div>
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <div className="flex items-center gap-1 text-xl font-bold text-primary bg-primary/5 px-3 py-1 rounded-full">
-                            <DollarSign className="h-5 w-5" />
-                            {test.price}
-                          </div>
-                        </TooltipTrigger>
-                        <TooltipContent side="left">
-                          <p>Test price in USD</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
-                  </div>
-                </CardHeader>
-                {test.description && (
-                  <CardContent className="pb-4">
-                    <div className="flex gap-2 text-muted-foreground">
-                      <Info className="h-5 w-5 flex-shrink-0 mt-1" />
-                      <p>{test.description}</p>
-                    </div>
-                  </CardContent>
-                )}
-                <CardFooter>
-                  <Button 
-                    className="w-full group-hover:shadow-md transition-shadow"
-                    onClick={() => handlePurchase(test)}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {LAB_TESTS.map((test, index) => (
+            <Card key={index} className="p-4 relative overflow-hidden bg-white">
+              <div className="flex flex-col items-center h-full">
+                <div className="p-3 bg-primary/10 rounded-lg mb-4">
+                  {test.icon}
+                </div>
+                <div className="text-center w-full mt-auto">
+                  <h4 className="font-medium mb-2">
+                    {test.name}
+                  </h4>
+                  <p className="text-sm text-muted-foreground mb-3">
+                    {test.description}
+                  </p>
+                  <p className="text-lg font-bold text-primary mb-4">
+                    ${test.price}
+                  </p>
+                  <Button
+                    variant="outline"
                     disabled={isLoading}
+                    onClick={() => handlePurchase(test)}
+                    className="w-full bg-[#22C55E] hover:bg-[#16A34A] text-white border-0 transition-colors"
                   >
                     {isLoading ? (
                       <>
@@ -156,16 +114,13 @@ const PurchaseTestsPage = () => {
                         Processing...
                       </>
                     ) : (
-                      <>
-                        <ExternalLink className="mr-2 h-4 w-4" />
-                        Purchase Test
-                      </>
+                      "Purchase"
                     )}
                   </Button>
-                </CardFooter>
-              </Card>
-            ))
-          )}
+                </div>
+              </div>
+            </Card>
+          ))}
         </div>
 
         <div className="fixed bottom-8 right-8">
