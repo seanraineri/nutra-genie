@@ -26,9 +26,10 @@ const LAB_TESTS: LabTest[] = [
   },
   {
     name: "Most Affordable DNA Test",
-    description: "Basic DNA analysis covering ancestry, traits, and basic health predispositions",
-    price: 99.99,
-    icon: <Dna className="h-5 w-5" />
+    description: "Will tell you your heritage but also includes a raw data file which contains key information for SupplementScribe regarding potential nutrient deficiencies. Upload that raw data file and receive results.",
+    price: 36,
+    icon: <Dna className="h-5 w-5" />,
+    purchaseUrl: "https://www.myheritage.com/order/3154917996/MhDna.LandingPageKitOnly.Offer?initialProductId=900&currency=USD&processor=adyen&thirdPartyPaymentProcessor=adyen"
   },
   {
     name: "Extensive DNA Test",
