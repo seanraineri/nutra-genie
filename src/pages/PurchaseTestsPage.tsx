@@ -181,10 +181,10 @@ const PurchaseTestsPage = () => {
 
         <div className="fixed bottom-8 right-8">
           <Button 
-            onClick={() => navigate('/payment')}
+            onClick={() => navigate('/input')}
             className="bg-gradient-to-r from-cyan-500 to-teal-500 hover:from-cyan-600 hover:to-teal-600 transition-colors"
           >
-            Next
+            Continue to Monthly Budget
             <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
         </div>
