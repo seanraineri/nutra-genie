@@ -22,7 +22,7 @@ import { LifestyleStep } from "./wizard-steps/LifestyleStep";
 import { TestResultsStep } from "./wizard-steps/TestResultsStep";
 import { BudgetStep } from "./wizard-steps/BudgetStep";
 import { FinalStep } from "./wizard-steps/FinalStep";
-import type { HealthFormData } from "@/types/health-form";
+import type { HealthFormData, MedicalCondition } from "@/types/health-form";
 
 const steps = [
   "Personal Information",
@@ -59,7 +59,7 @@ export const StepWizard = () => {
       height: "",
       weight: "",
       activityLevel: "sedentary",
-      medicalConditions: [] as MedicalCondition[], // Fixed type
+      medicalConditions: [] as MedicalCondition[],
       allergies: [],
       currentMedications: [],
       hasBloodwork: false,
