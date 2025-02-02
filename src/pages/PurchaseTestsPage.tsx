@@ -1,35 +1,40 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardHeader, CardContent, CardFooter } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2, ArrowLeft, TestTube, ArrowRight, Dna } from "lucide-react";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 
 interface LabTest {
   name: string;
   description: string;
   price: number;
   icon: JSX.Element;
+  image?: string;
+  purchaseUrl?: string;
 }
 
 const LAB_TESTS: LabTest[] = [
   {
     name: "Complete Blood Panel",
     description: "Comprehensive blood work analysis including CBC, metabolic panel, lipids, and key biomarkers",
-    price: 199.99,
+    price: 335,
     icon: <TestTube className="h-5 w-5" />,
+    image: "/lovable-uploads/f92c565f-0ae1-4337-aaed-34237ff4d4bf.png",
+    purchaseUrl: "https://www.questhealth.com/product/comprehensive-health-profile-standard-34603M.html"
   },
   {
     name: "Most Affordable DNA Test",
     description: "Basic DNA analysis covering ancestry, traits, and basic health predispositions",
     price: 99.99,
-    icon: <Dna className="h-5 w-5" />,
+    icon: <Dna className="h-5 w-5" />
   },
   {
     name: "Extensive DNA Test",
     description: "Deep whole genome sequencing with comprehensive health insights and genetic counseling",
     price: 299.99,
-    icon: <Dna className="h-5 w-5" />,
+    icon: <Dna className="h-5 w-5" />
   },
 ];
 
@@ -41,16 +46,19 @@ const PurchaseTestsPage = () => {
   const handlePurchase = async (test: LabTest) => {
     setIsLoading(true);
     try {
-      toast({
-        title: "Redirecting to test provider",
-        description: `You'll be redirected to purchase ${test.name}.`,
-      });
-      
-      // Simulate redirect
-      setTimeout(() => {
-        navigate('/payment');
-      }, 1500);
-
+      if (test.purchaseUrl) {
+        window.open(test.purchaseUrl, '_blank');
+      } else {
+        toast({
+          title: "Redirecting to test provider",
+          description: `You'll be redirected to purchase ${test.name}.`,
+        });
+        
+        // Simulate redirect for tests without direct URLs
+        setTimeout(() => {
+          navigate('/payment');
+        }, 1500);
+      }
     } catch (error: any) {
       toast({
         title: "Error",
@@ -64,8 +72,8 @@ const PurchaseTestsPage = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-cyan-900/10 to-teal-900/10 backdrop-blur-sm py-8">
-      <div className="max-w-4xl mx-auto px-4 relative">
-        <div className="absolute top-0 left-4">
+      <div className="max-w-4xl mx-auto px-4">
+        <div className="mb-8">
           <Button
             variant="outline"
             onClick={() => navigate('/input')}
@@ -76,7 +84,7 @@ const PurchaseTestsPage = () => {
           </Button>
         </div>
 
-        <div className="text-center mb-12 mt-16">
+        <div className="text-center mb-12">
           <h1 className="text-4xl font-bold bg-gradient-to-r from-cyan-500 to-teal-500 bg-clip-text text-transparent mb-3">
             Purchase Testing
           </h1>
@@ -85,13 +93,34 @@ const PurchaseTestsPage = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {LAB_TESTS.map((test, index) => (
             <Card key={index} className="p-4 relative overflow-hidden bg-white">
               <div className="flex flex-col items-center h-full">
-                <div className="p-3 bg-primary/10 rounded-lg mb-4">
-                  {test.icon}
-                </div>
+                {test.image ? (
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <div className="w-full h-48 relative mb-4 cursor-pointer transition-transform hover:scale-105">
+                        <img 
+                          src={test.image} 
+                          alt={test.name}
+                          className="w-full h-full object-contain filter drop-shadow-lg"
+                        />
+                      </div>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-xl">
+                      <img 
+                        src={test.image} 
+                        alt={test.name}
+                        className="w-full h-auto object-contain"
+                      />
+                    </DialogContent>
+                  </Dialog>
+                ) : (
+                  <div className="p-3 bg-primary/10 rounded-lg mb-4">
+                    {test.icon}
+                  </div>
+                )}
                 <div className="text-center w-full mt-auto">
                   <h4 className="font-medium mb-2">
                     {test.name}
@@ -100,7 +129,7 @@ const PurchaseTestsPage = () => {
                     {test.description}
                   </p>
                   <p className="text-lg font-bold text-primary mb-4">
-                    ${test.price}
+                    ${test.price.toFixed(2)}
                   </p>
                   <Button
                     variant="outline"
