@@ -12,7 +12,6 @@ import StudentsPage from "@/pages/StudentsPage";
 import WorkWithUsPage from "@/pages/WorkWithUsPage";
 import RewardsPage from "@/pages/RewardsPage";
 import PurchaseTestsPage from "@/pages/PurchaseTestsPage";
-import { AuthWrapper } from "@/components/AuthWrapper";
 import { Toaster } from "@/components/ui/toaster";
 import "./App.css";
 
@@ -32,14 +31,7 @@ function App() {
         <Route path="/work-with-us" element={<WorkWithUsPage />} />
         <Route path="/rewards" element={<RewardsPage />} />
         <Route path="/purchase-tests" element={<PurchaseTestsPage />} />
-        <Route
-          path="/dashboard/*"
-          element={
-            <AuthWrapper>
-              <DashboardPage />
-            </AuthWrapper>
-          }
-        />
+        <Route path="/dashboard/*" element={<DashboardPage />} />
       </Routes>
       <Toaster />
     </Router>

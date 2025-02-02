@@ -7,30 +7,10 @@ import { SupplementPlan } from "./dashboard/SupplementPlan";
 import { HealthGoals } from "./dashboard/HealthGoals";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
 
 export const Dashboard = () => {
   const navigate = useNavigate();
   const isMobile = useIsMobile();
-  const { toast } = useToast();
-
-  const handleSignUpPrompt = () => {
-    toast({
-      title: "Create an account to save your progress",
-      description: "Sign up to unlock all features and track your health journey.",
-      action: (
-        <Button
-          onClick={() => navigate("/input")}
-          variant="default"
-          size="sm"
-        >
-          Sign Up
-        </Button>
-      ),
-      duration: 5000,
-    });
-  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -55,28 +35,24 @@ export const Dashboard = () => {
               <TabsTrigger 
                 value="assistant" 
                 className="px-2 md:px-6 text-sm"
-                onClick={handleSignUpPrompt}
               >
                 <span className="truncate">Assistant</span>
               </TabsTrigger>
               <TabsTrigger 
                 value="metrics" 
                 className="px-2 md:px-6 text-sm"
-                onClick={handleSignUpPrompt}
               >
                 <span className="truncate">Metrics</span>
               </TabsTrigger>
               <TabsTrigger 
                 value="supplements" 
                 className="px-2 md:px-6 text-sm"
-                onClick={handleSignUpPrompt}
               >
                 <span className="truncate">Plan</span>
               </TabsTrigger>
               <TabsTrigger 
                 value="goals" 
                 className="px-2 md:px-6 text-sm"
-                onClick={handleSignUpPrompt}
               >
                 <span className="truncate">Goals</span>
               </TabsTrigger>
