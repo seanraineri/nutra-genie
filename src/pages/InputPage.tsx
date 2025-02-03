@@ -9,7 +9,7 @@ const InputPage = () => {
   return (
     <div className="min-h-screen bg-background">
       <div className="container mx-auto py-8 relative">
-        <div className="absolute top-8 left-4 sm:left-8">
+        <div className="flex justify-between items-center mb-8">
           <Button
             variant="ghost"
             size="sm"
@@ -19,6 +19,11 @@ const InputPage = () => {
             <ChevronLeft className="mr-2 h-4 w-4" />
             Back
           </Button>
+          <img 
+            src="/lovable-uploads/3ac3b205-09c1-4160-88b8-65e4fd82034a.png" 
+            alt="SupplementScribe Logo" 
+            className="h-12 w-auto absolute left-1/2 transform -translate-x-1/2"
+          />
         </div>
         <div className="mt-16">
           <StepWizard />
