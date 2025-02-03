@@ -16,9 +16,9 @@ export const LandingHero = () => {
           <div className="flex justify-between items-center h-16 max-w-[1400px] mx-auto">
             <div className="flex items-center">
               <img 
-                src="/lovable-uploads/a2217f52-8938-4085-867b-c0038eec1012.png" 
-                alt="SupplementScribe.ai Logo" 
-                className="h-10 w-auto"
+                src="/lovable-uploads/3ac3b205-09c1-4160-88b8-65e4fd82034a.png" 
+                alt="SupplementScribe Logo" 
+                className="h-12 w-auto"
               />
             </div>
             <div className="flex items-center gap-4">
