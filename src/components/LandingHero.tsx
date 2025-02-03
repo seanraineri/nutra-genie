@@ -13,10 +13,14 @@ export const LandingHero = () => {
       {/* Navigation bar with logo */}
       <div className="fixed top-0 left-0 right-0 bg-white/80 backdrop-blur-sm z-10 border-b border-gray-100/50">
         <div className="w-full px-4">
-          <div className="flex justify-between items-center h-12 max-w-[1400px] mx-auto">
-            <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-cyan-500 to-teal-500 bg-clip-text text-transparent animate-text-shimmer">
-              SupplementScribe.ai
-            </h1>
+          <div className="flex justify-between items-center h-16 max-w-[1400px] mx-auto">
+            <div className="flex items-center">
+              <img 
+                src="/lovable-uploads/a2217f52-8938-4085-867b-c0038eec1012.png" 
+                alt="SupplementScribe.ai Logo" 
+                className="h-10 w-auto"
+              />
+            </div>
             <div className="flex items-center gap-4">
               <Button
                 variant="ghost"
