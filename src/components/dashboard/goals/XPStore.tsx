@@ -212,6 +212,22 @@ export const XPStore = () => {
               <span className="font-medium">50 XP</span>
             </li>
             <li className="flex items-center justify-between">
+              <span>7 Day Quiz Streak</span>
+              <span className="font-medium">200 XP</span>
+            </li>
+            <li className="flex items-center justify-between">
+              <span>14 Day Quiz Streak</span>
+              <span className="font-medium">400 XP</span>
+            </li>
+            <li className="flex items-center justify-between">
+              <span>21 Day Quiz Streak</span>
+              <span className="font-medium">600 XP</span>
+            </li>
+            <li className="flex items-center justify-between">
+              <span>28 Day Quiz Streak</span>
+              <span className="font-medium">800 XP</span>
+            </li>
+            <li className="flex items-center justify-between">
               <span>Refer a Friend</span>
               <span className="font-medium">500 XP</span>
             </li>
