@@ -153,23 +153,23 @@ export const LandingHero = () => {
           {/* Why SupplementScribe Section */}
           <div 
             id="why-section"
-            className={`max-w-4xl mx-auto py-16 px-4 transition-all duration-1000 transform ${
+            className={`max-w-4xl mx-auto py-16 px-8 transition-all duration-1000 transform bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl ${
               isWhyVisible 
-                ? 'translate-y-0 opacity-100' 
-                : 'translate-y-10 opacity-0'
+                ? 'translate-y-0 opacity-100 scale-105' 
+                : 'translate-y-10 opacity-0 scale-100'
             }`}
           >
-            <h2 className="text-4xl font-bold text-center mb-8 bg-gradient-to-r from-cyan-500 to-teal-500 bg-clip-text text-transparent">
+            <h2 className="text-4xl font-bold text-center mb-12 bg-gradient-to-r from-cyan-500 to-teal-500 bg-clip-text text-transparent">
               Why SupplementScribe?
             </h2>
-            <div className="space-y-6 text-lg text-gray-200 leading-relaxed">
-              <p>
+            <div className="space-y-8 text-lg font-light leading-relaxed max-w-3xl mx-auto">
+              <p className="text-gray-800">
                 Ever feel overwhelmed choosing what supplements to take? Do you take products like all-in-one multivitamins in powders that you don't feel much benefit from?
               </p>
-              <p>
+              <p className="text-gray-800">
                 Not only could you be wasting money, but it could actually be hurting your health from risks of over or under-supplementation.
               </p>
-              <p className="font-medium text-teal-300">
+              <p className="font-medium text-cyan-600">
                 Today, find the nutrients that YOUR body actually needs and feel your best self.
               </p>
             </div>
