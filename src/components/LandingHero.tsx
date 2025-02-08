@@ -155,19 +155,56 @@ export const LandingHero = () => {
             <h2 className="text-3xl sm:text-4xl font-bold text-center mb-8 sm:mb-12 bg-gradient-to-r from-cyan-500 to-teal-500 bg-clip-text text-transparent animate-glow-pulse">
               Why SupplementScribe?
             </h2>
-            <div className="space-y-6 sm:space-y-8 text-base sm:text-lg font-light leading-relaxed max-w-3xl mx-auto">
-              <p className="text-gray-200">
-                Ever feel overwhelmed choosing what supplements to take?
-              </p>
-              <p className="text-gray-200">
-                Do you take products like all-in-one multivitamins or powders that you don't feel much benefit from?
-              </p>
-              <p className="text-gray-200">
-                Not only could you be wasting money, but it could actually be hurting your health from risks of over or under-supplementation.
-              </p>
-              <p className="font-medium text-cyan-600 text-lg sm:text-xl">
-                Find out today if you are taking the supplement YOU actually need
-              </p>
+            <div className="space-y-8 text-base sm:text-lg font-light leading-relaxed max-w-3xl mx-auto">
+              <h3 className="text-xl sm:text-2xl font-semibold text-cyan-400 text-center">
+                Stop Wasting Money on Generic Supplements!
+              </h3>
+              
+              <div className="space-y-2">
+                <h4 className="text-lg sm:text-xl font-medium text-teal-300">Overwhelmed by Choices?</h4>
+                <p className="text-gray-200">
+                  Up to 80% of supplement users take products that aren't tailored to their unique needs. That means you might be wasting money and even risking your health.
+                </p>
+              </div>
+
+              <div className="space-y-2">
+                <h4 className="text-lg sm:text-xl font-medium text-teal-300">Not Getting the Results You Need?</h4>
+                <p className="text-gray-200">
+                  Standard multivitamins and powders often miss the mark. They don't match your body's exact nutritional needs, which can lead to under- or over-supplementation.
+                </p>
+              </div>
+
+              <div className="space-y-4">
+                <h4 className="text-lg sm:text-xl font-medium text-teal-300">Experience a Tailor-Made Supplement Plan:</h4>
+                <div className="space-y-2 pl-4">
+                  <div>
+                    <p className="text-cyan-300 font-medium">Personal Data, Personal Plan:</p>
+                    <p className="text-gray-200">
+                      SupplementScribe collects your health info, lifestyle habits, blood test results, and even genetic insights.
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-cyan-300 font-medium">Customized Just for You:</p>
+                    <p className="text-gray-200">
+                      We create a supplement plan that fits your unique body profile—so you only get what you truly need.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <h4 className="text-lg sm:text-xl font-medium text-teal-300">Feel Energized and Confident:</h4>
+                <p className="text-gray-200">
+                  Imagine a supplement regimen that boosts your energy, supports your well-being, and saves you from unnecessary spending.
+                </p>
+              </div>
+
+              <div className="text-center pt-4">
+                <p className="text-xl sm:text-2xl font-semibold text-cyan-400">Take Control of Your Health Today!</p>
+                <p className="text-gray-200 mt-2">
+                  Discover your personalized supplement plan with SupplementScribe and finally get the tailored support your body deserves.
+                </p>
+              </div>
             </div>
           </div>
 
