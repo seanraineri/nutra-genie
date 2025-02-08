@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { useNavigate, Link } from "react-router-dom";
 import { HowItWorksModal } from "./HowItWorksModal";
@@ -153,13 +152,13 @@ export const LandingHero = () => {
           {/* Why SupplementScribe Section */}
           <div 
             id="why-section"
-            className={`max-w-4xl mx-auto py-16 px-8 transition-all duration-1000 transform bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl ${
+            className={`max-w-4xl mx-auto py-16 px-8 transition-all duration-1000 transform bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl mt-24 mb-16 shadow-2xl ${
               isWhyVisible 
                 ? 'translate-y-0 opacity-100 scale-105' 
-                : 'translate-y-10 opacity-0 scale-100'
+                : 'translate-y-20 opacity-0 scale-95'
             }`}
           >
-            <h2 className="text-4xl font-bold text-center mb-12 bg-gradient-to-r from-cyan-500 to-teal-500 bg-clip-text text-transparent">
+            <h2 className="text-4xl font-bold text-center mb-12 bg-gradient-to-r from-cyan-500 to-teal-500 bg-clip-text text-transparent animate-glow-pulse">
               Why SupplementScribe?
             </h2>
             <div className="space-y-8 text-lg font-light leading-relaxed max-w-3xl mx-auto">
@@ -169,8 +168,8 @@ export const LandingHero = () => {
               <p className="text-gray-800">
                 Not only could you be wasting money, but it could actually be hurting your health from risks of over or under-supplementation.
               </p>
-              <p className="font-medium text-cyan-600">
-                Today, find the nutrients that YOUR body actually needs and feel your best self.
+              <p className="font-medium text-cyan-600 text-xl">
+                Find out today if you are taking the supplement YOU actually need
               </p>
             </div>
           </div>
