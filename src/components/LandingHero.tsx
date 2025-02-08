@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { useNavigate, Link } from "react-router-dom";
 import { HowItWorksModal } from "./HowItWorksModal";
@@ -36,7 +35,6 @@ export const LandingHero = () => {
 
   return (
     <>
-      {/* Navigation bar with logo */}
       <div className="fixed top-0 left-0 right-0 bg-white/80 backdrop-blur-sm z-10 border-b border-gray-100/50">
         <div className="w-full px-4">
           <div className="flex justify-between items-center h-16 max-w-[1400px] mx-auto">
@@ -66,10 +64,8 @@ export const LandingHero = () => {
 
       <div className="min-h-screen">
         <div className="max-w-[1400px] mx-auto px-4 flex flex-col min-h-screen">
-          {/* Main content */}
           <div className="flex-grow flex items-center justify-center py-8 mt-16">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-              {/* Text content */}
               <div className="space-y-6 text-left">
                 <h1 className="text-5xl sm:text-6xl font-bold tracking-tight bg-gradient-to-r from-cyan-500 to-teal-500 bg-clip-text text-transparent animate-text-shimmer animate-glow-pulse leading-[1.2] pb-4">
                   Optimize Your Health with Supplements Tailored to Your Biology
@@ -104,7 +100,6 @@ export const LandingHero = () => {
                 </div>
               </div>
 
-              {/* Image section */}
               <div className="w-full max-w-xl mx-auto lg:mx-0">
                 <div className="relative h-[400px] rounded-2xl overflow-hidden shadow-xl transition-all duration-300 transform hover:scale-105 hover:shadow-2xl cursor-pointer bg-white/5 backdrop-blur-sm border border-white/10">
                   <img
@@ -118,7 +113,6 @@ export const LandingHero = () => {
             </div>
           </div>
 
-          {/* Feature points */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
             <div className="flex flex-col items-center space-y-4 animate-fade-in bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10">
               <div className="flex items-center justify-center h-16 w-16">
@@ -150,7 +144,6 @@ export const LandingHero = () => {
             </div>
           </div>
 
-          {/* Why SupplementScribe Section */}
           <div 
             id="why-section"
             className={`max-w-4xl mx-auto py-8 sm:py-16 px-4 sm:px-8 transition-all duration-700 transform bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl mt-16 sm:mt-24 mb-12 sm:mb-16 shadow-2xl ${
@@ -167,7 +160,7 @@ export const LandingHero = () => {
                 Ever feel overwhelmed choosing what supplements to take?
               </p>
               <p className="text-gray-200">
-                Do you take products like all-in-one multivitamins in powders that you don't feel much benefit from?
+                Do you take products like all-in-one multivitamins or powders that you don't feel much benefit from?
               </p>
               <p className="text-gray-200">
                 Not only could you be wasting money, but it could actually be hurting your health from risks of over or under-supplementation.
@@ -178,7 +171,6 @@ export const LandingHero = () => {
             </div>
           </div>
 
-          {/* Footer links */}
           <div className="py-4">
             <div className="flex flex-wrap justify-center gap-x-8 gap-y-2 text-sm text-gray-400 max-w-4xl mx-auto px-4">
               <Link to="/privacy" className="hover:text-teal-200 transition-colors whitespace-nowrap">Privacy Policy</Link>
@@ -195,4 +187,3 @@ export const LandingHero = () => {
     </>
   );
 };
-
