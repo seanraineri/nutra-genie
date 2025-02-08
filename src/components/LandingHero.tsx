@@ -1,12 +1,38 @@
+
 import { Button } from "@/components/ui/button";
 import { useNavigate, Link } from "react-router-dom";
 import { HowItWorksModal } from "./HowItWorksModal";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Book, Menu, ShieldCheck } from "lucide-react";
 
 export const LandingHero = () => {
   const navigate = useNavigate();
   const [showHowItWorks, setShowHowItWorks] = useState(false);
+  const [isWhyVisible, setIsWhyVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsWhyVisible(true);
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    const whySection = document.getElementById("why-section");
+    if (whySection) {
+      observer.observe(whySection);
+    }
+
+    return () => {
+      if (whySection) {
+        observer.unobserve(whySection);
+      }
+    };
+  }, []);
 
   return (
     <>
@@ -121,6 +147,31 @@ export const LandingHero = () => {
               </div>
               <h3 className="text-lg font-semibold text-teal-200 animate-glow-pulse text-center">HIPAA Compliant</h3>
               <p className="text-gray-300 font-light text-center">All health data is encrypted and private.</p>
+            </div>
+          </div>
+
+          {/* Why SupplementScribe Section */}
+          <div 
+            id="why-section"
+            className={`max-w-4xl mx-auto py-16 px-4 transition-all duration-1000 transform ${
+              isWhyVisible 
+                ? 'translate-y-0 opacity-100' 
+                : 'translate-y-10 opacity-0'
+            }`}
+          >
+            <h2 className="text-4xl font-bold text-center mb-8 bg-gradient-to-r from-cyan-500 to-teal-500 bg-clip-text text-transparent">
+              Why SupplementScribe?
+            </h2>
+            <div className="space-y-6 text-lg text-gray-200 leading-relaxed">
+              <p>
+                Ever feel overwhelmed choosing what supplements to take? Do you take products like all-in-one multivitamins in powders that you don't feel much benefit from?
+              </p>
+              <p>
+                Not only could you be wasting money, but it could actually be hurting your health from risks of over or under-supplementation.
+              </p>
+              <p className="font-medium text-teal-300">
+                Today, find the nutrients that YOUR body actually needs and feel your best self.
+              </p>
             </div>
           </div>
 
