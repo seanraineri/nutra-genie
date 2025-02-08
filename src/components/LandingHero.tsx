@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { useNavigate, Link } from "react-router-dom";
 import { HowItWorksModal } from "./HowItWorksModal";
@@ -163,7 +164,10 @@ export const LandingHero = () => {
             </h2>
             <div className="space-y-6 sm:space-y-8 text-base sm:text-lg font-light leading-relaxed max-w-3xl mx-auto">
               <p className="text-gray-200">
-                Ever feel overwhelmed choosing what supplements to take? Do you take products like all-in-one multivitamins in powders that you don't feel much benefit from?
+                Ever feel overwhelmed choosing what supplements to take?
+              </p>
+              <p className="text-gray-200">
+                Do you take products like all-in-one multivitamins in powders that you don't feel much benefit from?
               </p>
               <p className="text-gray-200">
                 Not only could you be wasting money, but it could actually be hurting your health from risks of over or under-supplementation.
@@ -191,3 +195,4 @@ export const LandingHero = () => {
     </>
   );
 };
+
