@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { useNavigate, Link } from "react-router-dom";
 import { HowItWorksModal } from "./HowItWorksModal";
@@ -152,7 +153,7 @@ export const LandingHero = () => {
           {/* Why SupplementScribe Section */}
           <div 
             id="why-section"
-            className={`max-w-4xl mx-auto py-16 px-8 transition-all duration-1000 transform bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl mt-24 mb-16 shadow-2xl ${
+            className={`max-w-4xl mx-auto py-16 px-8 transition-all duration-700 transform bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl mt-24 mb-16 shadow-2xl ${
               isWhyVisible 
                 ? 'translate-y-0 opacity-100 scale-105' 
                 : 'translate-y-20 opacity-0 scale-95'
@@ -162,10 +163,10 @@ export const LandingHero = () => {
               Why SupplementScribe?
             </h2>
             <div className="space-y-8 text-lg font-light leading-relaxed max-w-3xl mx-auto">
-              <p className="text-gray-800">
+              <p className="text-gray-200">
                 Ever feel overwhelmed choosing what supplements to take? Do you take products like all-in-one multivitamins in powders that you don't feel much benefit from?
               </p>
-              <p className="text-gray-800">
+              <p className="text-gray-200">
                 Not only could you be wasting money, but it could actually be hurting your health from risks of over or under-supplementation.
               </p>
               <p className="font-medium text-cyan-600 text-xl">
@@ -191,3 +192,4 @@ export const LandingHero = () => {
     </>
   );
 };
+
