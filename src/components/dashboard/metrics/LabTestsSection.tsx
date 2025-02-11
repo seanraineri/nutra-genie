@@ -8,10 +8,13 @@ import { useIsMobile } from "@/hooks/use-mobile";
 
 export const LabTestsSection = () => {
   const { toast } = useToast();
-  const [isUploading, setIsUploading] = useState(false);
+  const [isUploading, setIsUploading] = useState({
+    bloodwork: false,
+    genetic: false
+  });
   const isMobile = useIsMobile();
 
-  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>, type: 'bloodwork' | 'genetic') => {
     const file = event.target.files?.[0];
     if (!file) return;
 
@@ -24,13 +27,13 @@ export const LabTestsSection = () => {
       return;
     }
 
-    setIsUploading(true);
+    setIsUploading(prev => ({ ...prev, [type]: true }));
 
     try {
       // First, upload the file to Supabase Storage
       const fileExt = file.name.split('.').pop();
       const fileName = `${Date.now()}.${fileExt}`;
-      const filePath = `lab_results/${fileName}`;
+      const filePath = `${type}_results/${fileName}`;
 
       const { error: uploadError } = await supabase.storage
         .from('health_files')
@@ -48,6 +51,7 @@ export const LabTestsSection = () => {
 
       const formData = new FormData();
       formData.append('file', file);
+      formData.append('type', type);
 
       const response = await supabase.functions.invoke('process-lab-results', {
         body: formData,
@@ -58,7 +62,7 @@ export const LabTestsSection = () => {
       }
 
       toast({
-        title: "Lab results uploaded successfully",
+        title: "Results uploaded successfully",
         description: "Your results are being processed and will be available shortly.",
       });
 
@@ -66,11 +70,11 @@ export const LabTestsSection = () => {
       console.error('Upload error:', error);
       toast({
         title: "Upload failed",
-        description: error.message || "There was an error uploading your lab results.",
+        description: error.message || "There was an error uploading your results.",
         variant: "destructive",
       });
     } finally {
-      setIsUploading(false);
+      setIsUploading(prev => ({ ...prev, [type]: false }));
     }
   };
 
@@ -95,7 +99,7 @@ export const LabTestsSection = () => {
   return (
     <div className="mt-4 md:mt-6 p-4 md:p-6 border-2 border-dashed rounded-lg bg-muted/50">
       <h3 className="text-base md:text-lg font-semibold mb-3 md:mb-4">Tests</h3>
-      <div className={`grid grid-cols-1 ${isMobile ? 'gap-3' : 'md:grid-cols-2 gap-4'}`}>
+      <div className={`grid grid-cols-1 ${isMobile ? 'gap-3' : 'md:grid-cols-3 gap-4'}`}>
         <div className="flex flex-col items-center justify-center p-3 md:p-4 bg-background rounded-lg border">
           <Upload className="h-6 w-6 md:h-8 md:w-8 mb-2 text-primary" />
           <h4 className="font-medium mb-2 text-sm md:text-base">Upload your Bloodwork</h4>
@@ -107,15 +111,15 @@ export const LabTestsSection = () => {
               type="file"
               className="hidden"
               accept=".pdf"
-              onChange={handleFileUpload}
-              disabled={isUploading}
+              onChange={(e) => handleFileUpload(e, 'bloodwork')}
+              disabled={isUploading.bloodwork}
             />
             <Button 
               variant="outline" 
               className={`w-full flex items-center justify-center gap-2 text-xs md:text-sm ${buttonClasses}`}
-              disabled={isUploading}
+              disabled={isUploading.bloodwork}
             >
-              {isUploading ? (
+              {isUploading.bloodwork ? (
                 <>
                   <Loader2 className="h-3 w-3 md:h-4 md:w-4 animate-spin" />
                   Processing...
@@ -123,7 +127,41 @@ export const LabTestsSection = () => {
               ) : (
                 <>
                   <Upload className="h-3 w-3 md:h-4 md:w-4" />
-                  Choose PDF File
+                  Choose File
+                </>
+              )}
+            </Button>
+          </label>
+        </div>
+
+        <div className="flex flex-col items-center justify-center p-3 md:p-4 bg-background rounded-lg border">
+          <Upload className="h-6 w-6 md:h-8 md:w-8 mb-2 text-primary" />
+          <h4 className="font-medium mb-2 text-sm md:text-base">Upload your Genetic Test</h4>
+          <p className="text-xs md:text-sm text-muted-foreground text-center mb-3 md:mb-4">
+            Drop your genetic test results here or click to upload
+          </p>
+          <label className="w-full">
+            <input
+              type="file"
+              className="hidden"
+              accept=".pdf"
+              onChange={(e) => handleFileUpload(e, 'genetic')}
+              disabled={isUploading.genetic}
+            />
+            <Button 
+              variant="outline" 
+              className={`w-full flex items-center justify-center gap-2 text-xs md:text-sm ${buttonClasses}`}
+              disabled={isUploading.genetic}
+            >
+              {isUploading.genetic ? (
+                <>
+                  <Loader2 className="h-3 w-3 md:h-4 md:w-4 animate-spin" />
+                  Processing...
+                </>
+              ) : (
+                <>
+                  <Upload className="h-3 w-3 md:h-4 md:w-4" />
+                  Choose File
                 </>
               )}
             </Button>
