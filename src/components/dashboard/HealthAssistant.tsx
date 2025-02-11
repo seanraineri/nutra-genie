@@ -6,7 +6,7 @@ import { QuickReplies } from "./QuickReplies";
 import { ChatInput } from "./chat/ChatInput";
 import { useHealthChat } from "@/hooks/useHealthChat";
 import { Loader2, Trash2 } from "lucide-react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "../ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -38,6 +38,31 @@ export const HealthAssistant = () => {
   const { chatHistory, isLoading, isTyping, handleSendMessage, clearHistory } = useHealthChat();
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
+  const [firstName, setFirstName] = useState<string>('');
+
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return;
+
+        const { data: profile, error } = await supabase
+          .from('user_profiles')
+          .select('first_name')
+          .eq('id', user.id)
+          .maybeSingle();
+
+        if (error) throw error;
+        if (profile) {
+          setFirstName(profile.first_name);
+        }
+      } catch (error) {
+        console.error('Error fetching user profile:', error);
+      }
+    };
+
+    fetchUserProfile();
+  }, []);
 
   useEffect(() => {
     if (scrollAreaRef.current) {
@@ -81,7 +106,7 @@ export const HealthAssistant = () => {
             <div className="flex items-center gap-2 md:gap-3">
               <div className="space-y-0.5 md:space-y-1">
                 <h2 className="text-xl md:text-3xl font-bold bg-gradient-to-r from-[#0EA5E9] via-[#38BDF8] to-[#7DD3FC] bg-clip-text text-transparent drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)] tracking-wide">
-                  Welcome to Your Health Journey
+                  Welcome {firstName ? `${firstName} to` : 'to'} Your Health Journey
                 </h2>
               </div>
             </div>
