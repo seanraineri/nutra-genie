@@ -34,7 +34,7 @@ const REWARDS: Reward[] = [
     image: "/lovable-uploads/024b60df-4690-4eb2-a127-e145724032d2.png"
   },
   { 
-    name: "Fitness Class (F45/Barry's/Spincycle)", 
+    name: "Fitness Class of your Choice", 
     cost: 20000, 
     icon: <Award className="h-5 w-5" />,
     emoji: "🚲"
