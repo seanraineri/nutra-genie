@@ -22,7 +22,7 @@ export const Dashboard = () => {
               <Button
                 variant="ghost"
                 size="sm"
-                className="shrink-0 rounded-full"
+                className="shrink-0 rounded-full hover:bg-gradient-to-r hover:from-cyan-500 hover:to-teal-500 hover:text-white active:from-cyan-600 active:to-teal-600 transition-all duration-200"
                 onClick={() => navigate("/")}
               >
                 <ChevronLeft className="h-4 w-4 md:mr-2" />
