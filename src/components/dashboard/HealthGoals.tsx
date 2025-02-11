@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { Plus, HelpCircle } from "lucide-react";
 import { Card } from "@/components/ui/card";
@@ -175,25 +176,13 @@ export const HealthGoals = () => {
               </Button>
             </div>
 
-            <Tabs defaultValue="fitness" className="w-full">
-              <TabsList className="grid w-full grid-cols-4 mb-6 bg-white/5 backdrop-blur-sm border border-white/20 rounded-lg p-1">
+            <Tabs defaultValue="goals" className="w-full">
+              <TabsList className="grid w-full grid-cols-3 mb-6 bg-white/5 backdrop-blur-sm border border-white/20 rounded-lg p-1">
                 <TabsTrigger 
-                  value="fitness"
+                  value="goals"
                   className="text-white data-[state=active]:bg-[#0EA5E9] data-[state=active]:text-white transition-all duration-300 font-medium tracking-wide"
                 >
-                  Fitness
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="nutrition"
-                  className="text-white data-[state=active]:bg-[#0EA5E9] data-[state=active]:text-white transition-all duration-300 font-medium tracking-wide"
-                >
-                  Nutrition
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="wellness"
-                  className="text-white data-[state=active]:bg-[#0EA5E9] data-[state=active]:text-white transition-all duration-300 font-medium tracking-wide"
-                >
-                  Wellness
+                  Goals
                 </TabsTrigger>
                 <TabsTrigger 
                   value="biomarkers"
@@ -201,22 +190,24 @@ export const HealthGoals = () => {
                 >
                   Biomarkers
                 </TabsTrigger>
+                <TabsTrigger 
+                  value="genes"
+                  className="text-white data-[state=active]:bg-[#0EA5E9] data-[state=active]:text-white transition-all duration-300 font-medium tracking-wide"
+                >
+                  Genes
+                </TabsTrigger>
               </TabsList>
 
-              <TabsContent value="fitness" className="space-y-4">
-                {renderGoalsList('fitness')}
-              </TabsContent>
-
-              <TabsContent value="nutrition" className="space-y-4">
-                {renderGoalsList('nutrition')}
-              </TabsContent>
-
-              <TabsContent value="wellness" className="space-y-4">
-                {renderGoalsList('wellness')}
+              <TabsContent value="goals" className="space-y-4">
+                {renderGoalsList('goals')}
               </TabsContent>
 
               <TabsContent value="biomarkers" className="space-y-4">
                 {renderGoalsList('biomarkers')}
+              </TabsContent>
+
+              <TabsContent value="genes" className="space-y-4">
+                {renderGoalsList('genes')}
               </TabsContent>
             </Tabs>
           </div>
