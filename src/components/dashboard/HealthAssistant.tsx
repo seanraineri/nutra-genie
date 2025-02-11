@@ -1,3 +1,4 @@
+
 import { Card } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ChatMessage } from "./ChatMessage";
@@ -66,7 +67,7 @@ export const HealthAssistant = () => {
 
   return (
     <div className="relative min-h-screen overflow-hidden">
-      {/* Animated background */}
+      {/* Animated background with gradients */}
       <div className="absolute inset-0 bg-gradient-to-br from-[#1A1F2C] to-[#1E293B] overflow-hidden">
         <div className="absolute inset-0 opacity-30">
           <div className="absolute w-full h-full bg-[radial-gradient(circle_at_50%_50%,_#0EA5E9_0%,_transparent_50%)] animate-[pulse_6s_ease-in-out_infinite]" />

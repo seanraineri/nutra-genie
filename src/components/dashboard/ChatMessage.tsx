@@ -1,3 +1,4 @@
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { format } from "date-fns";
 
@@ -75,7 +76,7 @@ export const ChatMessage = ({ role, content, timestamp }: ChatMessageProps) => {
           ) : (
             <>
               <AvatarImage src="/lovable-uploads/2f53b616-9c59-4de0-abb0-263c4a144685.png" />
-              <AvatarFallback className="bg-secondary text-secondary-foreground">AI</AvatarFallback>
+              <AvatarFallback className="bg-gradient-to-br from-cyan-500 to-teal-500 text-white">AI</AvatarFallback>
             </>
           )}
         </Avatar>
