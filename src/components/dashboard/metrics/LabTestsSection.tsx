@@ -93,6 +93,7 @@ export const LabTestsSection = () => {
     before:opacity-0 before:transition-opacity
     hover:before:opacity-10
     active:before:opacity-20
+    active:bg-gradient-to-r active:from-[#0EA5E9] active:to-[#10B981] active:text-white
     disabled:before:opacity-0
   `;
 
