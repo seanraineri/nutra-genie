@@ -10,7 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { addHealthGoal } from "@/api/healthGoalsApi";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { useState, useEffect } from "react";
-import { navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 interface Goal {
   id: string;
@@ -25,6 +25,7 @@ export const HealthGoals = () => {
   const [goals, setGoals] = useState<Goal[]>([]);
   const [isEditing, setIsEditing] = useState(false);
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const fetchGoals = async () => {
     const { data: { user } } = await supabase.auth.getUser();
@@ -137,7 +138,6 @@ export const HealthGoals = () => {
 
   return (
     <div className="relative min-h-screen overflow-hidden">
-      {/* Animated background */}
       <div className="absolute inset-0 bg-gradient-to-br from-[#1A1F2C] to-[#1E293B] overflow-hidden">
         <div className="absolute inset-0 opacity-30">
           <div className="absolute w-full h-full bg-[radial-gradient(circle_at_50%_50%,_#0EA5E9_0%,_transparent_50%)] animate-[pulse_6s_ease-in-out_infinite]" />
