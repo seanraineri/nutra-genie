@@ -1,6 +1,5 @@
-
 import { Button } from "@/components/ui/button";
-import { Plus, HelpCircle } from "lucide-react";
+import { Plus, HelpCircle, BookOpen } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -11,6 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { addHealthGoal } from "@/api/healthGoalsApi";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { useState, useEffect } from "react";
+import { navigate } from "react-router-dom";
 
 interface Goal {
   id: string;
@@ -169,13 +169,23 @@ export const HealthGoals = () => {
                   </PopoverContent>
                 </Popover>
               </div>
-              <Button
-                variant="outline"
-                onClick={() => (isEditing ? handleSave() : setIsEditing(true))}
-                className="bg-white/10 text-white border border-white/30 hover:bg-white/20 hover:border-white/50"
-              >
-                {isEditing ? "Save Changes" : "Edit Goals"}
-              </Button>
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="outline"
+                  onClick={() => navigate("/dashboard/journal")}
+                  className="bg-white/10 text-white border border-white/30 hover:bg-white/20 hover:border-white/50 gap-2"
+                >
+                  <BookOpen className="h-4 w-4" />
+                  Journal
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={() => (isEditing ? handleSave() : setIsEditing(true))}
+                  className="bg-white/10 text-white border border-white/30 hover:bg-white/20 hover:border-white/50"
+                >
+                  {isEditing ? "Save Changes" : "Edit Goals"}
+                </Button>
+              </div>
             </div>
 
             <Tabs defaultValue="goals" className="w-full">
