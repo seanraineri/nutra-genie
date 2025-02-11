@@ -122,12 +122,14 @@ export const HealthGoals = () => {
           </Card>
         ))}
         <Button
-          variant="ghost"
-          className="w-full border-2 border-dashed border-[#0EA5E9]/30 hover:border-[#0EA5E9] hover:bg-[#0EA5E9]/10 transition-all duration-300 p-8 group"
+          variant="outline"
+          className="w-full bg-gradient-to-r from-[#0EA5E9]/20 to-[#10B981]/20 hover:from-[#0EA5E9]/30 hover:to-[#10B981]/30 border-2 border-dashed border-[#0EA5E9]/50 hover:border-[#0EA5E9] transition-all duration-300 p-8 group shadow-lg hover:shadow-xl hover:scale-[1.01]"
           onClick={() => handleAddGoal(category)}
         >
-          <Plus className="mr-2 h-4 w-4 group-hover:scale-110 transition-transform" />
-          Add New Goal
+          <Plus className="mr-2 h-5 w-5 text-[#0EA5E9] group-hover:scale-110 transition-transform" />
+          <span className="text-lg font-semibold bg-gradient-to-r from-[#0EA5E9] to-[#10B981] bg-clip-text text-transparent">
+            Add New Goal
+          </span>
         </Button>
       </div>
     );
