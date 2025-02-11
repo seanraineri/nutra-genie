@@ -6,12 +6,10 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Slider } from "@/components/ui/slider";
 
 export const SymptomTracker = () => {
   const [energyLevel, setEnergyLevel] = useState<number>(3);
-  const [exercised, setExercised] = useState<string>("");
   const [stressLevel, setStressLevel] = useState<number>(3);
   const [sleepQuality, setSleepQuality] = useState<number>(3);
   const [otherSymptoms, setOtherSymptoms] = useState("");
@@ -32,12 +30,6 @@ export const SymptomTracker = () => {
             symptom: "Energy Level",
             severity: energyLevel,
             notes: "Daily energy tracking"
-          },
-          {
-            user_id: user.id,
-            symptom: "Exercise",
-            severity: exercised === "yes" ? 5 : 1,
-            notes: `Exercised: ${exercised}`
           },
           {
             user_id: user.id,
@@ -68,7 +60,6 @@ export const SymptomTracker = () => {
 
       // Reset form
       setEnergyLevel(3);
-      setExercised("");
       setStressLevel(3);
       setSleepQuality(3);
       setOtherSymptoms("");
@@ -133,34 +124,6 @@ export const SymptomTracker = () => {
               <span>Poor Sleep</span>
               <span className="ml-auto">Great Sleep</span>
             </div>
-          </div>
-        </div>
-
-        <div className="space-y-4">
-          <Label className="text-center block">Did you exercise today?</Label>
-          <div className="flex justify-center">
-            <RadioGroup
-              value={exercised}
-              onValueChange={setExercised}
-              className="flex gap-8"
-            >
-              <div className="relative group">
-                <div className="flex flex-col items-center space-y-2">
-                  <div className={`w-16 h-16 rounded-lg border-2 border-primary/30 group-hover:border-primary transition-all duration-300 flex items-center justify-center bg-white hover:bg-gray-50 ${exercised === "yes" ? "border-primary bg-primary/10" : ""}`}>
-                    <RadioGroupItem value="yes" id="exercise-yes" className="h-8 w-8" />
-                  </div>
-                  <Label htmlFor="exercise-yes" className="text-lg font-medium text-gray-700">Yes</Label>
-                </div>
-              </div>
-              <div className="relative group">
-                <div className="flex flex-col items-center space-y-2">
-                  <div className={`w-16 h-16 rounded-lg border-2 border-primary/30 group-hover:border-primary transition-all duration-300 flex items-center justify-center bg-white hover:bg-gray-50 ${exercised === "no" ? "border-primary bg-primary/10" : ""}`}>
-                    <RadioGroupItem value="no" id="exercise-no" className="h-8 w-8" />
-                  </div>
-                  <Label htmlFor="exercise-no" className="text-lg font-medium text-gray-700">No</Label>
-                </div>
-              </div>
-            </RadioGroup>
           </div>
         </div>
 
