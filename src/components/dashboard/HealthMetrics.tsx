@@ -55,6 +55,17 @@ export const HealthMetrics = () => {
     }
   };
 
+  const buttonClasses = `
+    relative overflow-hidden transition-all duration-300
+    before:absolute before:inset-0 
+    before:bg-gradient-to-r before:from-[#0EA5E9] before:to-[#10B981]
+    before:opacity-0 before:transition-opacity
+    hover:before:opacity-10
+    active:before:opacity-20
+    disabled:before:opacity-0
+    ${isMobile ? 'flex-1' : ''}
+  `;
+
   return (
     <Card className="p-2 md:p-6 h-[calc(100vh-12rem)] overflow-y-auto">
       <div className="space-y-4 md:space-y-6">
@@ -69,14 +80,14 @@ export const HealthMetrics = () => {
             <Button
               variant="outline"
               onClick={() => (isEditing ? handleSave() : setIsEditing(true))}
-              className={isMobile ? 'flex-1' : ''}
+              className={buttonClasses}
             >
               {isEditing ? "Save Changes" : "Edit Information"}
             </Button>
             <Button
               variant="outline"
               onClick={handleReferFriend}
-              className={`gap-2 ${isMobile ? 'flex-1' : ''}`}
+              className={`${buttonClasses} gap-2`}
             >
               <Share2 className="h-4 w-4" />
               {!isMobile && "Refer a Friend"}
