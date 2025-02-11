@@ -62,14 +62,14 @@ const JournalPage = () => {
           <h1 className="text-2xl font-bold text-white">Health Journal</h1>
         </div>
 
-        <Card className="backdrop-blur-xl bg-white/10 border-[#0EA5E9]/20">
+        <Card className="backdrop-blur-xl bg-white border-[#0EA5E9]/20">
           <div className="p-8">
             <div className="max-w-lg mx-auto text-center">
               <h3 className="text-2xl font-bold mb-6 bg-gradient-to-r from-[#0EA5E9] to-[#10B981] bg-clip-text text-transparent">
                 Daily Supplement Check
               </h3>
               <div className="space-y-6">
-                <Label className="text-lg block">
+                <Label className="text-lg block text-gray-700">
                   Did you take your supplements today?
                 </Label>
                 <RadioGroup
@@ -79,18 +79,18 @@ const JournalPage = () => {
                 >
                   <div className="relative group">
                     <div className="flex flex-col items-center space-y-2">
-                      <div className="w-16 h-16 rounded-lg border-2 border-[#0EA5E9]/30 group-hover:border-[#0EA5E9] transition-all duration-300 flex items-center justify-center bg-white/5 group-hover:bg-white/10">
+                      <div className="w-16 h-16 rounded-lg border-2 border-[#0EA5E9]/30 group-hover:border-[#0EA5E9] transition-all duration-300 flex items-center justify-center bg-white hover:bg-gray-50">
                         <RadioGroupItem value="yes" id="yes" className="h-8 w-8" />
                       </div>
-                      <Label htmlFor="yes" className="text-lg font-medium">Yes</Label>
+                      <Label htmlFor="yes" className="text-lg font-medium text-gray-700">Yes</Label>
                     </div>
                   </div>
                   <div className="relative group">
                     <div className="flex flex-col items-center space-y-2">
-                      <div className="w-16 h-16 rounded-lg border-2 border-[#0EA5E9]/30 group-hover:border-[#0EA5E9] transition-all duration-300 flex items-center justify-center bg-white/5 group-hover:bg-white/10">
+                      <div className="w-16 h-16 rounded-lg border-2 border-[#0EA5E9]/30 group-hover:border-[#0EA5E9] transition-all duration-300 flex items-center justify-center bg-white hover:bg-gray-50">
                         <RadioGroupItem value="no" id="no" className="h-8 w-8" />
                       </div>
-                      <Label htmlFor="no" className="text-lg font-medium">No</Label>
+                      <Label htmlFor="no" className="text-lg font-medium text-gray-700">No</Label>
                     </div>
                   </div>
                 </RadioGroup>
