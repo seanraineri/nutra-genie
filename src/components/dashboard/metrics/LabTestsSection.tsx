@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { Upload, ShoppingCart, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
@@ -81,6 +82,16 @@ export const LabTestsSection = () => {
     window.open("/purchase-tests", "_blank");
   };
 
+  const buttonClasses = `
+    relative overflow-hidden transition-all duration-300
+    before:absolute before:inset-0 
+    before:bg-gradient-to-r before:from-[#0EA5E9] before:to-[#10B981]
+    before:opacity-0 before:transition-opacity
+    hover:before:opacity-10
+    active:before:opacity-20
+    disabled:before:opacity-0
+  `;
+
   return (
     <div className="mt-4 md:mt-6 p-4 md:p-6 border-2 border-dashed rounded-lg bg-muted/50">
       <h3 className="text-base md:text-lg font-semibold mb-3 md:mb-4">Lab Tests</h3>
@@ -101,7 +112,7 @@ export const LabTestsSection = () => {
             />
             <Button 
               variant="outline" 
-              className="w-full flex items-center justify-center gap-2 text-xs md:text-sm"
+              className={`w-full flex items-center justify-center gap-2 text-xs md:text-sm ${buttonClasses}`}
               disabled={isUploading}
             >
               {isUploading ? (
@@ -125,7 +136,10 @@ export const LabTestsSection = () => {
           <p className="text-xs md:text-sm text-muted-foreground text-center mb-3 md:mb-4">
             Get comprehensive lab testing through our trusted partners
           </p>
-          <Button onClick={handlePurchase} className="w-full text-xs md:text-sm">
+          <Button 
+            onClick={handlePurchase} 
+            className={`w-full text-xs md:text-sm ${buttonClasses}`}
+          >
             Order Now
           </Button>
         </div>
