@@ -17,40 +17,40 @@ export const Dashboard = () => {
     <div className="min-h-screen bg-background">
       <div className="container mx-auto py-2 md:py-8 px-2 md:px-6 animate-fade-in">
         <Tabs defaultValue="assistant" className="w-full space-y-4 md:space-y-6">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 md:gap-4">
+          <div className="flex flex-col md:flex-row items-start justify-between gap-2 md:gap-4">
             <div className="flex items-center gap-2 md:gap-4">
               <Button
                 variant="ghost"
                 size="sm"
-                className="shrink-0"
+                className="shrink-0 rounded-full"
                 onClick={() => navigate("/")}
               >
                 <ChevronLeft className="h-4 w-4 md:mr-2" />
                 <span className="hidden md:inline">Back</span>
               </Button>
             </div>
-            <TabsList className="bg-background border w-full md:w-auto grid grid-cols-4 gap-1">
+            <TabsList className="bg-background border w-full md:w-auto grid grid-cols-4 gap-2 rounded-full p-1.5">
               <TabsTrigger 
                 value="assistant" 
-                className="px-2 md:px-6 text-sm"
+                className="px-3 md:px-6 py-1.5 text-sm rounded-full data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
               >
                 <span className="truncate">Assistant</span>
               </TabsTrigger>
               <TabsTrigger 
                 value="metrics" 
-                className="px-2 md:px-6 text-sm"
+                className="px-3 md:px-6 py-1.5 text-sm rounded-full data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
               >
                 <span className="truncate">Metrics</span>
               </TabsTrigger>
               <TabsTrigger 
                 value="supplements" 
-                className="px-2 md:px-6 text-sm"
+                className="px-3 md:px-6 py-1.5 text-sm rounded-full data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
               >
                 <span className="truncate">Plan</span>
               </TabsTrigger>
               <TabsTrigger 
                 value="goals" 
-                className="px-2 md:px-6 text-sm"
+                className="px-3 md:px-6 py-1.5 text-sm rounded-full data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
               >
                 <span className="truncate">Goals</span>
               </TabsTrigger>
