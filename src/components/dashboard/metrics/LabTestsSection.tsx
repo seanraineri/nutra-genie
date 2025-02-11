@@ -94,11 +94,11 @@ export const LabTestsSection = () => {
 
   return (
     <div className="mt-4 md:mt-6 p-4 md:p-6 border-2 border-dashed rounded-lg bg-muted/50">
-      <h3 className="text-base md:text-lg font-semibold mb-3 md:mb-4">Lab Tests</h3>
+      <h3 className="text-base md:text-lg font-semibold mb-3 md:mb-4">Tests</h3>
       <div className={`grid grid-cols-1 ${isMobile ? 'gap-3' : 'md:grid-cols-2 gap-4'}`}>
         <div className="flex flex-col items-center justify-center p-3 md:p-4 bg-background rounded-lg border">
           <Upload className="h-6 w-6 md:h-8 md:w-8 mb-2 text-primary" />
-          <h4 className="font-medium mb-2 text-sm md:text-base">Upload Your Lab Tests</h4>
+          <h4 className="font-medium mb-2 text-sm md:text-base">Upload your Bloodwork</h4>
           <p className="text-xs md:text-sm text-muted-foreground text-center mb-3 md:mb-4">
             Drop your lab test results here or click to upload
           </p>
