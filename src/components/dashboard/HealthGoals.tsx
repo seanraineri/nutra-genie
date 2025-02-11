@@ -10,7 +10,6 @@ import { addHealthGoal } from "@/api/healthGoalsApi";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useIsMobile } from "@/hooks/use-mobile";
 
 interface Goal {
   id: string;
@@ -26,7 +25,6 @@ export const HealthGoals = () => {
   const [isEditing, setIsEditing] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
-  const isMobile = useIsMobile();
 
   const fetchGoals = async () => {
     const { data: { user } } = await supabase.auth.getUser();
@@ -151,92 +149,92 @@ export const HealthGoals = () => {
         </div>
       </div>
 
-      <Card className="flex flex-col h-[calc(100vh-8rem)] md:h-[calc(100vh-12rem)] relative z-10 m-6 backdrop-blur-xl bg-white/10 border-[#0EA5E9]/20">
-        <div className="px-3 py-2 md:p-6 border-b bg-gradient-to-r from-primary/10 via-secondary/10 to-accent/10">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 md:gap-0">
-            <div className="flex items-center gap-2 md:gap-3">
-              <div className="space-y-0.5 md:space-y-1">
-                <h2 className="text-xl md:text-3xl font-bold bg-gradient-to-r from-[#0EA5E9] via-[#38BDF8] to-[#7DD3FC] bg-clip-text text-transparent drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)] tracking-wide">
+      <div className="relative z-10 space-y-6">
+        <Card className="m-6 backdrop-blur-xl bg-white/10 border-[#0EA5E9]/20">
+          <div className="p-6">
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-2 md:gap-4">
+                <h2 className="text-2xl font-bold tracking-wider text-white drop-shadow-[0_2px_2px_rgba(0,0,0,0.5)]">
                   Health Goals
                 </h2>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button 
+                      variant="ghost" 
+                      size="icon" 
+                      className="h-8 w-8 text-white hover:bg-white/20 active:bg-white/30"
+                    >
+                      <HelpCircle className="h-4 w-4" />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="max-w-[300px] text-sm bg-white/90 backdrop-blur-sm text-gray-800 shadow-lg border border-[#0EA5E9]/20">
+                    Track your progress towards your goals and earn XP for completing activities
+                  </PopoverContent>
+                </Popover>
               </div>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button 
-                    variant="ghost" 
-                    size={isMobile ? "sm" : "icon"}
-                    className="h-8 w-8 text-white hover:bg-white/20 active:bg-white/30"
-                  >
-                    <HelpCircle className="h-4 w-4" />
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="max-w-[300px] text-sm bg-white/90 backdrop-blur-sm text-gray-800 shadow-lg border border-[#0EA5E9]/20">
-                  Track your progress towards your goals and earn XP for completing activities
-                </PopoverContent>
-              </Popover>
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="outline"
+                  onClick={handleJournalClick}
+                  className="bg-white/10 text-white border border-white/30 hover:bg-white/20 hover:border-white/50 gap-2"
+                >
+                  <BookOpen className="h-4 w-4" />
+                  Journal
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={() => (isEditing ? handleSave() : setIsEditing(true))}
+                  className="bg-white/10 text-white border border-white/30 hover:bg-white/20 hover:border-white/50"
+                >
+                  {isEditing ? "Save Changes" : "Edit Goals"}
+                </Button>
+              </div>
             </div>
-            <div className="flex items-center gap-2 w-full md:w-auto">
-              <Button
-                variant="outline"
-                onClick={handleJournalClick}
-                className="flex-1 md:flex-none py-5 md:py-2 bg-white/10 text-white border border-white/30 hover:bg-gradient-to-r hover:from-[#0EA5E9] hover:to-[#10B981] hover:border-transparent active:from-[#0EA5E9]/90 active:to-[#10B981]/90 transition-all duration-200 gap-2"
-              >
-                <BookOpen className="h-4 w-4" />
-                <span className="text-sm md:text-base">Journal</span>
-              </Button>
-              <Button
-                variant="outline"
-                onClick={() => (isEditing ? handleSave() : setIsEditing(true))}
-                className="flex-1 md:flex-none py-5 md:py-2 bg-white/10 text-white border border-white/30 hover:bg-gradient-to-r hover:from-[#0EA5E9] hover:to-[#10B981] hover:border-transparent active:from-[#0EA5E9]/90 active:to-[#10B981]/90 transition-all duration-200"
-              >
-                <span className="text-sm md:text-base">{isEditing ? "Save Changes" : "Edit Goals"}</span>
-              </Button>
-            </div>
-          </div>
-        </div>
 
-        <Tabs defaultValue="goals" className="w-full">
-          <TabsList className="grid w-full grid-cols-3 mb-6 bg-white/5 backdrop-blur-sm border border-white/20 rounded-lg p-1">
-            <TabsTrigger 
-              value="goals"
-              className="text-sm md:text-base text-white data-[state=active]:bg-[#0EA5E9] data-[state=active]:text-white transition-all duration-300 font-medium tracking-wide py-3"
-            >
-              Goals
-            </TabsTrigger>
-            <TabsTrigger 
-              value="biomarkers"
-              className="text-sm md:text-base text-white data-[state=active]:bg-[#0EA5E9] data-[state=active]:text-white transition-all duration-300 font-medium tracking-wide py-3"
-            >
-              Biomarkers
-            </TabsTrigger>
-            <TabsTrigger 
-              value="genes"
-              className="text-sm md:text-base text-white data-[state=active]:bg-[#0EA5E9] data-[state=active]:text-white transition-all duration-300 font-medium tracking-wide py-3"
-            >
-              Genes
-            </TabsTrigger>
-          </TabsList>
+            <Tabs defaultValue="goals" className="w-full">
+              <TabsList className="grid w-full grid-cols-3 mb-6 bg-white/5 backdrop-blur-sm border border-white/20 rounded-lg p-1">
+                <TabsTrigger 
+                  value="goals"
+                  className="text-white data-[state=active]:bg-[#0EA5E9] data-[state=active]:text-white transition-all duration-300 font-medium tracking-wide"
+                >
+                  Goals
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="biomarkers"
+                  className="text-white data-[state=active]:bg-[#0EA5E9] data-[state=active]:text-white transition-all duration-300 font-medium tracking-wide"
+                >
+                  Biomarkers
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="genes"
+                  className="text-white data-[state=active]:bg-[#0EA5E9] data-[state=active]:text-white transition-all duration-300 font-medium tracking-wide"
+                >
+                  Genes
+                </TabsTrigger>
+              </TabsList>
 
-          <TabsContent value="goals" className="space-y-4">
-            {renderGoalsList('goals')}
-          </TabsContent>
+              <TabsContent value="goals" className="space-y-4">
+                {renderGoalsList('goals')}
+              </TabsContent>
 
-          <TabsContent value="biomarkers" className="space-y-4">
-            {renderGoalsList('biomarkers')}
-          </TabsContent>
+              <TabsContent value="biomarkers" className="space-y-4">
+                {renderGoalsList('biomarkers')}
+              </TabsContent>
 
-          <TabsContent value="genes" className="space-y-4">
-            {renderGoalsList('genes')}
-          </TabsContent>
-        </Tabs>
-      </Card>
-
-      <div className="mx-6 mb-6">
-        <Card className="backdrop-blur-xl bg-white/10 border-[#0EA5E9]/20">
-          <div className="p-4">
-            <XPStore />
+              <TabsContent value="genes" className="space-y-4">
+                {renderGoalsList('genes')}
+              </TabsContent>
+            </Tabs>
           </div>
         </Card>
+
+        <div className="mx-6 mb-6">
+          <Card className="backdrop-blur-xl bg-white/10 border-[#0EA5E9]/20">
+            <div className="p-4">
+              <XPStore />
+            </div>
+          </Card>
+        </div>
       </div>
     </div>
   );
