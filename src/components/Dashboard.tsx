@@ -29,30 +29,30 @@ export const Dashboard = () => {
                 <span className="hidden md:inline">Back</span>
               </Button>
             </div>
-            <TabsList className="bg-background border w-full md:w-auto grid grid-cols-4 gap-2 rounded-full p-1.5">
+            <TabsList className="bg-background border w-full md:w-auto grid grid-cols-4 gap-1 rounded-full p-1">
               <TabsTrigger 
                 value="assistant" 
-                className="px-3 md:px-6 py-1.5 text-sm rounded-full data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+                className="px-2 md:px-4 py-1.5 text-xs md:text-sm rounded-full whitespace-nowrap data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
               >
-                <span className="truncate">Assistant</span>
+                Assistant
               </TabsTrigger>
               <TabsTrigger 
                 value="metrics" 
-                className="px-3 md:px-6 py-1.5 text-sm rounded-full data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+                className="px-2 md:px-4 py-1.5 text-xs md:text-sm rounded-full whitespace-nowrap data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
               >
-                <span className="truncate">Metrics</span>
+                Metrics
               </TabsTrigger>
               <TabsTrigger 
                 value="supplements" 
-                className="px-3 md:px-6 py-1.5 text-sm rounded-full data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+                className="px-2 md:px-4 py-1.5 text-xs md:text-sm rounded-full whitespace-nowrap data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
               >
-                <span className="truncate">Plan</span>
+                Plan
               </TabsTrigger>
               <TabsTrigger 
                 value="goals" 
-                className="px-3 md:px-6 py-1.5 text-sm rounded-full data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+                className="px-2 md:px-4 py-1.5 text-xs md:text-sm rounded-full whitespace-nowrap data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
               >
-                <span className="truncate">Goals</span>
+                Goals
               </TabsTrigger>
             </TabsList>
           </div>
