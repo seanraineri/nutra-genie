@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PaperclipIcon, SendIcon } from "lucide-react";
@@ -26,7 +27,7 @@ export const ChatInput = ({ onSendMessage, isLoading }: ChatInputProps) => {
           type="button"
           variant="ghost"
           size="icon"
-          className="shrink-0 text-muted-foreground hover:text-primary transition-colors"
+          className="shrink-0 text-muted-foreground hover:bg-gradient-to-r hover:from-[#0EA5E9] hover:to-[#10B981] hover:text-white active:bg-gradient-to-r active:from-[#0EA5E9] active:to-[#10B981] active:text-white transition-all duration-200"
         >
           <PaperclipIcon className="h-5 w-5" />
           <span className="sr-only">Attach file</span>
@@ -46,9 +47,9 @@ export const ChatInput = ({ onSendMessage, isLoading }: ChatInputProps) => {
           disabled={!message.trim() || isLoading}
           className={`shrink-0 ${
             message.trim() && !isLoading
-              ? "bg-primary hover:bg-primary/90"
+              ? "bg-gradient-to-r from-[#0EA5E9] to-[#10B981] hover:from-[#0EA5E9]/90 hover:to-[#10B981]/90"
               : "bg-muted/50 hover:bg-muted/60"
-          } text-white rounded-xl transition-colors`}
+          } text-white rounded-xl transition-all duration-200`}
         >
           <SendIcon className="h-5 w-5" />
           <span className="sr-only">Send message</span>
