@@ -1,4 +1,3 @@
-
 import { Card } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ChatMessage } from "./ChatMessage";
@@ -67,7 +66,6 @@ export const HealthAssistant = () => {
 
   return (
     <div className="relative min-h-screen overflow-hidden">
-      {/* Animated background with gradients */}
       <div className="absolute inset-0 bg-gradient-to-br from-[#1A1F2C] to-[#1E293B] overflow-hidden">
         <div className="absolute inset-0 opacity-30">
           <div className="absolute w-full h-full bg-[radial-gradient(circle_at_50%_50%,_#0EA5E9_0%,_transparent_50%)] animate-[pulse_6s_ease-in-out_infinite]" />
@@ -80,10 +78,8 @@ export const HealthAssistant = () => {
         <div className="px-3 py-2 md:p-6 border-b bg-gradient-to-r from-primary/10 via-secondary/10 to-accent/10">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 md:gap-3">
-              <div className="relative p-2 rounded-lg shadow-md overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-emerald-400 via-green-500 to-teal-600"></div>
-                <div className="absolute inset-0 bg-gradient-to-tr from-emerald-400/50 via-transparent to-white/30"></div>
-                <Sprout className="h-5 w-5 md:h-6 md:w-6 text-white relative z-10 drop-shadow-md transform -rotate-12 hover:rotate-0 transition-transform duration-300" />
+              <div className="p-2 bg-gradient-to-br from-green-400 to-emerald-500 rounded-lg shadow-md">
+                <Sprout className="h-5 w-5 md:h-6 md:w-6 text-white transform -rotate-12 hover:rotate-0 transition-transform duration-300" />
               </div>
               <div className="space-y-0.5 md:space-y-1">
                 <h2 className="text-xl md:text-3xl font-bold bg-gradient-to-r from-[#0EA5E9] via-[#38BDF8] to-[#7DD3FC] bg-clip-text text-transparent drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)] tracking-wide">
