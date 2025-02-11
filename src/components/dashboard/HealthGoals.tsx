@@ -10,6 +10,7 @@ import { addHealthGoal } from "@/api/healthGoalsApi";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface Goal {
   id: string;
@@ -25,6 +26,7 @@ export const HealthGoals = () => {
   const [isEditing, setIsEditing] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
 
   const fetchGoals = async () => {
     const { data: { user } } = await supabase.auth.getUser();
@@ -152,8 +154,8 @@ export const HealthGoals = () => {
       <div className="relative z-10 space-y-6">
         <Card className="m-6 backdrop-blur-xl bg-white/10 border-[#0EA5E9]/20">
           <div className="p-6">
-            <div className="flex items-center justify-between mb-6">
-              <div className="flex items-center gap-2 md:gap-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+              <div className="flex items-center gap-2">
                 <h2 className="text-2xl font-bold tracking-wider text-white drop-shadow-[0_2px_2px_rgba(0,0,0,0.5)]">
                   Health Goals
                 </h2>
@@ -172,11 +174,11 @@ export const HealthGoals = () => {
                   </PopoverContent>
                 </Popover>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
                 <Button
                   variant="outline"
                   onClick={handleJournalClick}
-                  className="bg-white/10 text-white border border-white/30 hover:bg-white/20 hover:border-white/50 gap-2"
+                  className="py-3 px-4 bg-white/10 text-white border border-white/30 gap-2 w-full sm:w-auto"
                 >
                   <BookOpen className="h-4 w-4" />
                   Journal
@@ -184,7 +186,7 @@ export const HealthGoals = () => {
                 <Button
                   variant="outline"
                   onClick={() => (isEditing ? handleSave() : setIsEditing(true))}
-                  className="bg-white/10 text-white border border-white/30 hover:bg-white/20 hover:border-white/50"
+                  className="py-3 px-4 bg-white/10 text-white border border-white/30 w-full sm:w-auto"
                 >
                   {isEditing ? "Save Changes" : "Edit Goals"}
                 </Button>
