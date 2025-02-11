@@ -90,8 +90,15 @@ export const SymptomTracker = () => {
               className="w-full"
             />
             <div className="flex justify-between text-sm text-gray-600">
-              <span>Low Energy (1)</span>
-              <span>Great Energy (5)</span>
+              <span>1</span>
+              <span>2</span>
+              <span>3</span>
+              <span>4</span>
+              <span>5</span>
+            </div>
+            <div className="flex justify-between text-sm text-gray-600">
+              <span>Low Energy</span>
+              <span className="ml-auto">Great Energy</span>
             </div>
           </div>
         </div>
@@ -132,8 +139,15 @@ export const SymptomTracker = () => {
               className="w-full"
             />
             <div className="flex justify-between text-sm text-gray-600">
-              <span>Not at all (1)</span>
-              <span>Very (5)</span>
+              <span>1</span>
+              <span>2</span>
+              <span>3</span>
+              <span>4</span>
+              <span>5</span>
+            </div>
+            <div className="flex justify-between text-sm text-gray-600">
+              <span>Not at all</span>
+              <span className="ml-auto">Very</span>
             </div>
           </div>
         </div>
