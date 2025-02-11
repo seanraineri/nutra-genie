@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { ChevronLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -27,9 +28,6 @@ export const Dashboard = () => {
                 <ChevronLeft className="h-4 w-4 md:mr-2" />
                 <span className="hidden md:inline">Back</span>
               </Button>
-              <h1 className="text-xl md:text-3xl font-bold text-secondary truncate">
-                Your Health Dashboard
-              </h1>
             </div>
             <TabsList className="bg-background border w-full md:w-auto grid grid-cols-4 gap-1">
               <TabsTrigger 
