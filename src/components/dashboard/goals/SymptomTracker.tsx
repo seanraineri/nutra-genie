@@ -97,21 +97,27 @@ export const SymptomTracker = () => {
         </div>
 
         <div className="space-y-4">
-          <Label>Did you exercise today?</Label>
-          <RadioGroup
-            value={exercised}
-            onValueChange={setExercised}
-            className="flex gap-4"
-          >
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem value="yes" id="exercise-yes" />
-              <Label htmlFor="exercise-yes">Yes</Label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem value="no" id="exercise-no" />
-              <Label htmlFor="exercise-no">No</Label>
-            </div>
-          </RadioGroup>
+          <Label className="text-center block">Did you exercise today?</Label>
+          <div className="flex justify-center">
+            <RadioGroup
+              value={exercised}
+              onValueChange={setExercised}
+              className="flex gap-8"
+            >
+              <div className="flex items-center space-x-2">
+                <div className="relative">
+                  <RadioGroupItem value="yes" id="exercise-yes" className="h-6 w-6" />
+                </div>
+                <Label htmlFor="exercise-yes">Yes</Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <div className="relative">
+                  <RadioGroupItem value="no" id="exercise-no" className="h-6 w-6" />
+                </div>
+                <Label htmlFor="exercise-no">No</Label>
+              </div>
+            </RadioGroup>
+          </div>
         </div>
 
         <div className="space-y-4">
