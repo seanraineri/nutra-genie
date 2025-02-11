@@ -17,11 +17,15 @@ const JournalPage = () => {
 
   const handleSupplementsSubmit = async () => {
     try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("No user found");
+
       const { error } = await supabase
         .from('supplement_tracking')
         .insert({
           took_supplements: tookSupplements === "yes",
           date: new Date().toISOString(),
+          user_id: user.id
         });
 
       if (error) throw error;
@@ -30,6 +34,8 @@ const JournalPage = () => {
         title: "Recorded successfully",
         description: "Your supplement intake has been tracked.",
       });
+      
+      setTookSupplements(""); // Reset after successful submission
     } catch (error) {
       console.error('Error tracking supplements:', error);
       toast({
@@ -57,33 +63,46 @@ const JournalPage = () => {
         </div>
 
         <Card className="backdrop-blur-xl bg-white/10 border-[#0EA5E9]/20">
-          <div className="p-6">
-            <h3 className="text-lg font-semibold mb-4">Daily Supplement Check</h3>
-            <div className="space-y-4">
-              <div className="space-y-3">
-                <Label className="text-base">Did you take your supplements today?</Label>
+          <div className="p-8">
+            <div className="max-w-lg mx-auto text-center">
+              <h3 className="text-2xl font-bold mb-6 bg-gradient-to-r from-[#0EA5E9] to-[#10B981] bg-clip-text text-transparent">
+                Daily Supplement Check
+              </h3>
+              <div className="space-y-6">
+                <Label className="text-lg block">
+                  Did you take your supplements today?
+                </Label>
                 <RadioGroup
                   value={tookSupplements}
                   onValueChange={setTookSupplements}
-                  className="flex gap-4"
+                  className="flex justify-center gap-8"
                 >
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="yes" id="yes" />
-                    <Label htmlFor="yes">Yes</Label>
+                  <div className="relative group">
+                    <div className="flex flex-col items-center space-y-2">
+                      <div className="w-16 h-16 rounded-lg border-2 border-[#0EA5E9]/30 group-hover:border-[#0EA5E9] transition-all duration-300 flex items-center justify-center bg-white/5 group-hover:bg-white/10">
+                        <RadioGroupItem value="yes" id="yes" className="h-8 w-8" />
+                      </div>
+                      <Label htmlFor="yes" className="text-lg font-medium">Yes</Label>
+                    </div>
                   </div>
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="no" id="no" />
-                    <Label htmlFor="no">No</Label>
+                  <div className="relative group">
+                    <div className="flex flex-col items-center space-y-2">
+                      <div className="w-16 h-16 rounded-lg border-2 border-[#0EA5E9]/30 group-hover:border-[#0EA5E9] transition-all duration-300 flex items-center justify-center bg-white/5 group-hover:bg-white/10">
+                        <RadioGroupItem value="no" id="no" className="h-8 w-8" />
+                      </div>
+                      <Label htmlFor="no" className="text-lg font-medium">No</Label>
+                    </div>
                   </div>
                 </RadioGroup>
+                <Button 
+                  onClick={handleSupplementsSubmit}
+                  className="w-full max-w-xs mx-auto mt-8 bg-gradient-to-r from-[#0EA5E9] to-[#10B981] hover:opacity-90 transition-opacity"
+                  disabled={!tookSupplements}
+                  size="lg"
+                >
+                  Save Response
+                </Button>
               </div>
-              <Button 
-                onClick={handleSupplementsSubmit}
-                className="w-full bg-primary hover:bg-primary/90"
-                disabled={!tookSupplements}
-              >
-                Save Response
-              </Button>
             </div>
           </div>
         </Card>
