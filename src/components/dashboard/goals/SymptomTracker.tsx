@@ -144,17 +144,21 @@ export const SymptomTracker = () => {
               onValueChange={setExercised}
               className="flex gap-8"
             >
-              <div className="flex items-center space-x-2">
-                <div className="relative">
-                  <RadioGroupItem value="yes" id="exercise-yes" className="h-6 w-6" />
+              <div className="relative group">
+                <div className="flex flex-col items-center space-y-2">
+                  <div className={`w-16 h-16 rounded-lg border-2 border-primary/30 group-hover:border-primary transition-all duration-300 flex items-center justify-center bg-white hover:bg-gray-50 ${exercised === "yes" ? "border-primary bg-primary/10" : ""}`}>
+                    <RadioGroupItem value="yes" id="exercise-yes" className="h-8 w-8" />
+                  </div>
+                  <Label htmlFor="exercise-yes" className="text-lg font-medium text-gray-700">Yes</Label>
                 </div>
-                <Label htmlFor="exercise-yes">Yes</Label>
               </div>
-              <div className="flex items-center space-x-2">
-                <div className="relative">
-                  <RadioGroupItem value="no" id="exercise-no" className="h-6 w-6" />
+              <div className="relative group">
+                <div className="flex flex-col items-center space-y-2">
+                  <div className={`w-16 h-16 rounded-lg border-2 border-primary/30 group-hover:border-primary transition-all duration-300 flex items-center justify-center bg-white hover:bg-gray-50 ${exercised === "no" ? "border-primary bg-primary/10" : ""}`}>
+                    <RadioGroupItem value="no" id="exercise-no" className="h-8 w-8" />
+                  </div>
+                  <Label htmlFor="exercise-no" className="text-lg font-medium text-gray-700">No</Label>
                 </div>
-                <Label htmlFor="exercise-no">No</Label>
               </div>
             </RadioGroup>
           </div>
