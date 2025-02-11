@@ -4,7 +4,6 @@ import { Card } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { GoalItem } from "./goals/GoalItem";
-import { SymptomTracker } from "./goals/SymptomTracker";
 import { XPStore } from "./goals/XPStore";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { addHealthGoal } from "@/api/healthGoalsApi";
@@ -229,21 +228,12 @@ export const HealthGoals = () => {
           </div>
         </Card>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mx-6 mb-6">
-          <div className="md:col-span-2">
-            <Card className="backdrop-blur-xl bg-white/10 border-[#0EA5E9]/20">
-              <div className="p-4">
-                <XPStore />
-              </div>
-            </Card>
-          </div>
-          <div className="md:col-span-1">
-            <Card className="backdrop-blur-xl bg-white/10 border-[#0EA5E9]/20">
-              <div className="p-4">
-                <SymptomTracker />
-              </div>
-            </Card>
-          </div>
+        <div className="mx-6 mb-6">
+          <Card className="backdrop-blur-xl bg-white/10 border-[#0EA5E9]/20">
+            <div className="p-4">
+              <XPStore />
+            </div>
+          </Card>
         </div>
       </div>
     </div>
