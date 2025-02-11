@@ -96,90 +96,108 @@ export const LabTestsSection = () => {
     disabled:before:opacity-0
   `;
 
+  const tileClasses = "flex flex-col items-center justify-between h-full p-3 md:p-4 bg-background rounded-lg border";
+  const iconClasses = "h-6 w-6 md:h-8 md:w-8 mb-2 text-primary";
+  const titleClasses = "font-medium mb-2 text-sm md:text-base text-center";
+  const descriptionClasses = "text-xs md:text-sm text-muted-foreground text-center mb-3 md:mb-4";
+  const buttonWrapperClasses = "w-full mt-auto";
+
   return (
     <div className="mt-4 md:mt-6 p-4 md:p-6 border-2 border-dashed rounded-lg bg-muted/50">
       <h3 className="text-base md:text-lg font-semibold mb-3 md:mb-4">Tests</h3>
       <div className={`grid grid-cols-1 ${isMobile ? 'gap-3' : 'md:grid-cols-3 gap-4'}`}>
-        <div className="flex flex-col items-center justify-center p-3 md:p-4 bg-background rounded-lg border">
-          <Upload className="h-6 w-6 md:h-8 md:w-8 mb-2 text-primary" />
-          <h4 className="font-medium mb-2 text-sm md:text-base">Upload your Bloodwork</h4>
-          <p className="text-xs md:text-sm text-muted-foreground text-center mb-3 md:mb-4">
-            Drop your lab test results here or click to upload
-          </p>
-          <label className="w-full">
-            <input
-              type="file"
-              className="hidden"
-              accept=".pdf"
-              onChange={(e) => handleFileUpload(e, 'bloodwork')}
-              disabled={isUploading.bloodwork}
-            />
-            <Button 
-              variant="outline" 
-              className={`w-full flex items-center justify-center gap-2 text-xs md:text-sm ${buttonClasses}`}
-              disabled={isUploading.bloodwork}
-            >
-              {isUploading.bloodwork ? (
-                <>
-                  <Loader2 className="h-3 w-3 md:h-4 md:w-4 animate-spin" />
-                  Processing...
-                </>
-              ) : (
-                <>
-                  <Upload className="h-3 w-3 md:h-4 md:w-4" />
-                  Choose File
-                </>
-              )}
-            </Button>
-          </label>
+        <div className={tileClasses}>
+          <div>
+            <Upload className={iconClasses} />
+            <h4 className={titleClasses}>Upload your Bloodwork</h4>
+            <p className={descriptionClasses}>
+              Drop your lab test results here or click to upload
+            </p>
+          </div>
+          <div className={buttonWrapperClasses}>
+            <label className="w-full">
+              <input
+                type="file"
+                className="hidden"
+                accept=".pdf"
+                onChange={(e) => handleFileUpload(e, 'bloodwork')}
+                disabled={isUploading.bloodwork}
+              />
+              <Button 
+                variant="outline" 
+                className={`w-full flex items-center justify-center gap-2 text-xs md:text-sm ${buttonClasses}`}
+                disabled={isUploading.bloodwork}
+              >
+                {isUploading.bloodwork ? (
+                  <>
+                    <Loader2 className="h-3 w-3 md:h-4 md:w-4 animate-spin" />
+                    Processing...
+                  </>
+                ) : (
+                  <>
+                    <Upload className="h-3 w-3 md:h-4 md:w-4" />
+                    Choose File
+                  </>
+                )}
+              </Button>
+            </label>
+          </div>
         </div>
 
-        <div className="flex flex-col items-center justify-center p-3 md:p-4 bg-background rounded-lg border">
-          <Upload className="h-6 w-6 md:h-8 md:w-8 mb-2 text-primary" />
-          <h4 className="font-medium mb-2 text-sm md:text-base">Upload your Genetic Test</h4>
-          <p className="text-xs md:text-sm text-muted-foreground text-center mb-3 md:mb-4">
-            Drop your genetic test results here or click to upload
-          </p>
-          <label className="w-full">
-            <input
-              type="file"
-              className="hidden"
-              accept=".pdf"
-              onChange={(e) => handleFileUpload(e, 'genetic')}
-              disabled={isUploading.genetic}
-            />
-            <Button 
-              variant="outline" 
-              className={`w-full flex items-center justify-center gap-2 text-xs md:text-sm ${buttonClasses}`}
-              disabled={isUploading.genetic}
-            >
-              {isUploading.genetic ? (
-                <>
-                  <Loader2 className="h-3 w-3 md:h-4 md:w-4 animate-spin" />
-                  Processing...
-                </>
-              ) : (
-                <>
-                  <Upload className="h-3 w-3 md:h-4 md:w-4" />
-                  Choose File
-                </>
-              )}
-            </Button>
-          </label>
+        <div className={tileClasses}>
+          <div>
+            <Upload className={iconClasses} />
+            <h4 className={titleClasses}>Upload your Genetic Test</h4>
+            <p className={descriptionClasses}>
+              Drop your genetic test results here or click to upload
+            </p>
+          </div>
+          <div className={buttonWrapperClasses}>
+            <label className="w-full">
+              <input
+                type="file"
+                className="hidden"
+                accept=".pdf"
+                onChange={(e) => handleFileUpload(e, 'genetic')}
+                disabled={isUploading.genetic}
+              />
+              <Button 
+                variant="outline" 
+                className={`w-full flex items-center justify-center gap-2 text-xs md:text-sm ${buttonClasses}`}
+                disabled={isUploading.genetic}
+              >
+                {isUploading.genetic ? (
+                  <>
+                    <Loader2 className="h-3 w-3 md:h-4 md:w-4 animate-spin" />
+                    Processing...
+                  </>
+                ) : (
+                  <>
+                    <Upload className="h-3 w-3 md:h-4 md:w-4" />
+                    Choose File
+                  </>
+                )}
+              </Button>
+            </label>
+          </div>
         </div>
         
-        <div className="flex flex-col items-center justify-center p-3 md:p-4 bg-background rounded-lg border">
-          <ShoppingCart className="h-6 w-6 md:h-8 md:w-8 mb-2 text-primary" />
-          <h4 className="font-medium mb-2 text-sm md:text-base">Purchase a Lab Test</h4>
-          <p className="text-xs md:text-sm text-muted-foreground text-center mb-3 md:mb-4">
-            Get comprehensive lab testing through our trusted partners
-          </p>
-          <Button 
-            onClick={handlePurchase} 
-            className={`w-full text-xs md:text-sm ${buttonClasses}`}
-          >
-            Order Now
-          </Button>
+        <div className={tileClasses}>
+          <div>
+            <ShoppingCart className={iconClasses} />
+            <h4 className={titleClasses}>Purchase a Lab Test</h4>
+            <p className={descriptionClasses}>
+              Get comprehensive lab testing through our trusted partners
+            </p>
+          </div>
+          <div className={buttonWrapperClasses}>
+            <Button 
+              onClick={handlePurchase} 
+              className={`w-full text-xs md:text-sm ${buttonClasses}`}
+            >
+              Order Now
+            </Button>
+          </div>
         </div>
       </div>
     </div>
