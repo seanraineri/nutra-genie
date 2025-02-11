@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { Plus, HelpCircle, BookOpen } from "lucide-react";
 import { Card } from "@/components/ui/card";
@@ -163,7 +164,7 @@ export const HealthGoals = () => {
                   <PopoverTrigger asChild>
                     <Button 
                       variant="ghost" 
-                      size="icon" 
+                      size="icon"
                       className="h-8 w-8 text-white hover:bg-white/20 active:bg-white/30"
                     >
                       <HelpCircle className="h-4 w-4" />
@@ -178,7 +179,7 @@ export const HealthGoals = () => {
                 <Button
                   variant="outline"
                   onClick={handleJournalClick}
-                  className="py-3 px-4 bg-white/10 text-white border border-white/30 gap-2 w-full sm:w-auto"
+                  className="py-3 px-4 bg-white/10 text-white border border-white/30 gap-2 w-full sm:w-auto active:bg-gradient-to-r active:from-[#0EA5E9] active:to-[#10B981] active:border-transparent transition-colors"
                 >
                   <BookOpen className="h-4 w-4" />
                   Journal
@@ -186,7 +187,7 @@ export const HealthGoals = () => {
                 <Button
                   variant="outline"
                   onClick={() => (isEditing ? handleSave() : setIsEditing(true))}
-                  className="py-3 px-4 bg-white/10 text-white border border-white/30 w-full sm:w-auto"
+                  className="py-3 px-4 bg-white/10 text-white border border-white/30 w-full sm:w-auto active:bg-gradient-to-r active:from-[#0EA5E9] active:to-[#10B981] active:border-transparent transition-colors"
                 >
                   {isEditing ? "Save Changes" : "Edit Goals"}
                 </Button>
