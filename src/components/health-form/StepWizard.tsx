@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -60,7 +59,7 @@ export const StepWizard = () => {
       height: "",
       weight: "",
       activityLevel: "sedentary",
-      medicalConditions: [{ condition: "", specification: "" }],
+      medicalConditions: [{ condition: "", specification: "" }] as MedicalCondition[],
       allergies: [],
       currentMedications: [],
       hasBloodwork: false,
@@ -81,30 +80,29 @@ export const StepWizard = () => {
     try {
       setIsSubmitting(true);
       
-      // Ensure all required fields are present before creating HealthFormData
       const formData: HealthFormData = {
-        firstName: data.firstName,
-        lastName: data.lastName,
-        email: data.email,
-        phoneNumber: data.phoneNumber,
-        password: data.password,
-        age: data.age,
-        gender: data.gender,
-        height: data.height,
-        weight: data.weight,
-        activityLevel: data.activityLevel,
-        medicalConditions: data.medicalConditions.filter(mc => mc.condition !== ""),
-        allergies: data.allergies,
-        currentMedications: data.currentMedications,
-        hasBloodwork: data.hasBloodwork,
-        hasGeneticTesting: data.hasGeneticTesting,
-        healthGoals: data.healthGoals,
-        otherHealthGoals: data.otherHealthGoals,
-        monthlyBudget: data.monthlyBudget,
-        dietType: data.dietType,
-        sleepHours: data.sleepHours,
-        smokingStatus: data.smokingStatus,
-        alcoholConsumption: data.alcoholConsumption,
+        firstName: data.firstName || "",
+        lastName: data.lastName || "",
+        email: data.email || "",
+        phoneNumber: data.phoneNumber || "",
+        password: data.password || "",
+        age: data.age || "",
+        gender: data.gender || "male",
+        height: data.height || "",
+        weight: data.weight || "",
+        activityLevel: data.activityLevel || "sedentary",
+        medicalConditions: data.medicalConditions.filter(mc => mc.condition !== "") as MedicalCondition[],
+        allergies: data.allergies || [],
+        currentMedications: data.currentMedications || [],
+        hasBloodwork: data.hasBloodwork || false,
+        hasGeneticTesting: data.hasGeneticTesting || false,
+        healthGoals: data.healthGoals || [],
+        otherHealthGoals: data.otherHealthGoals || [],
+        monthlyBudget: data.monthlyBudget || "",
+        dietType: data.dietType || "healthy_balanced",
+        sleepHours: data.sleepHours || "",
+        smokingStatus: data.smokingStatus || "non_smoker",
+        alcoholConsumption: data.alcoholConsumption || "none",
       };
 
       await submitHealthFormData(formData);
