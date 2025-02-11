@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { ChevronLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -13,6 +14,7 @@ const ContentPage = () => {
           <Button
             variant="ghost"
             size="sm"
+            className="bg-gradient-to-r from-[#0EA5E9] to-[#10B981] text-white hover:opacity-90"
             onClick={() => navigate(-1)}
           >
             <ChevronLeft className="mr-2 h-4 w-4" />
