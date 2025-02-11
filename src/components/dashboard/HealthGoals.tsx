@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { Plus, HelpCircle, BookOpen } from "lucide-react";
 import { Card } from "@/components/ui/card";
@@ -197,19 +198,19 @@ export const HealthGoals = () => {
               <TabsList className="grid w-full grid-cols-3 mb-6 bg-white/5 backdrop-blur-sm border border-white/20 rounded-lg p-1">
                 <TabsTrigger 
                   value="goals"
-                  className="text-white data-[state=active]:bg-[#0EA5E9] data-[state=active]:text-white transition-all duration-300 font-medium tracking-wide"
+                  className="text-white data-[state=active]:bg-[#0EA5E9]/90 data-[state=active]:shadow-inner data-[state=active]:text-white transition-all duration-200 font-medium tracking-wide text-sm sm:text-base py-2 px-3"
                 >
                   Goals
                 </TabsTrigger>
                 <TabsTrigger 
                   value="biomarkers"
-                  className="text-white data-[state=active]:bg-[#0EA5E9] data-[state=active]:text-white transition-all duration-300 font-medium tracking-wide"
+                  className="text-white data-[state=active]:bg-[#0EA5E9]/90 data-[state=active]:shadow-inner data-[state=active]:text-white transition-all duration-200 font-medium tracking-wide text-sm sm:text-base py-2 px-3"
                 >
                   Biomarkers
                 </TabsTrigger>
                 <TabsTrigger 
                   value="genes"
-                  className="text-white data-[state=active]:bg-[#0EA5E9] data-[state=active]:text-white transition-all duration-300 font-medium tracking-wide"
+                  className="text-white data-[state=active]:bg-[#0EA5E9]/90 data-[state=active]:shadow-inner data-[state=active]:text-white transition-all duration-200 font-medium tracking-wide text-sm sm:text-base py-2 px-3"
                 >
                   Genes
                 </TabsTrigger>
