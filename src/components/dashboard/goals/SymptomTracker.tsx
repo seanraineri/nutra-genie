@@ -13,6 +13,7 @@ export const SymptomTracker = () => {
   const [energyLevel, setEnergyLevel] = useState<number>(3);
   const [exercised, setExercised] = useState<string>("");
   const [stressLevel, setStressLevel] = useState<number>(3);
+  const [sleepQuality, setSleepQuality] = useState<number>(3);
   const [otherSymptoms, setOtherSymptoms] = useState("");
   const { toast } = useToast();
 
@@ -40,6 +41,12 @@ export const SymptomTracker = () => {
           },
           {
             user_id: user.id,
+            symptom: "Sleep Quality",
+            severity: sleepQuality,
+            notes: "Daily sleep quality tracking"
+          },
+          {
+            user_id: user.id,
             symptom: "Stress/Anxiety",
             severity: stressLevel,
             notes: "Daily stress tracking"
@@ -63,6 +70,7 @@ export const SymptomTracker = () => {
       setEnergyLevel(3);
       setExercised("");
       setStressLevel(3);
+      setSleepQuality(3);
       setOtherSymptoms("");
     } catch (error) {
       console.error('Error tracking wellness:', error);
@@ -99,6 +107,31 @@ export const SymptomTracker = () => {
             <div className="flex justify-between text-sm text-gray-600">
               <span>Low Energy</span>
               <span className="ml-auto">Great Energy</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="space-y-4">
+          <Label>How well did you sleep?</Label>
+          <div className="space-y-3">
+            <Slider
+              value={[sleepQuality]}
+              onValueChange={(value) => setSleepQuality(value[0])}
+              max={5}
+              min={1}
+              step={1}
+              className="w-full"
+            />
+            <div className="flex justify-between text-sm text-gray-600">
+              <span>1</span>
+              <span>2</span>
+              <span>3</span>
+              <span>4</span>
+              <span>5</span>
+            </div>
+            <div className="flex justify-between text-sm text-gray-600">
+              <span>Poor Sleep</span>
+              <span className="ml-auto">Great Sleep</span>
             </div>
           </div>
         </div>
