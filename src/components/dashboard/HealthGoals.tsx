@@ -85,6 +85,10 @@ export const HealthGoals = () => {
     }
   };
 
+  const handleJournalClick = () => {
+    navigate("journal");
+  };
+
   useEffect(() => {
     fetchGoals();
 
@@ -172,7 +176,7 @@ export const HealthGoals = () => {
               <div className="flex items-center gap-2">
                 <Button
                   variant="outline"
-                  onClick={() => navigate("/dashboard/journal")}
+                  onClick={handleJournalClick}
                   className="bg-white/10 text-white border border-white/30 hover:bg-white/20 hover:border-white/50 gap-2"
                 >
                   <BookOpen className="h-4 w-4" />
