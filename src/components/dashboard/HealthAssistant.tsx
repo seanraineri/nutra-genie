@@ -1,10 +1,11 @@
+
 import { Card } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ChatMessage } from "./ChatMessage";
 import { QuickReplies } from "./QuickReplies";
 import { ChatInput } from "./chat/ChatInput";
 import { useHealthChat } from "@/hooks/useHealthChat";
-import { Loader2, Trash2, Sprout } from "lucide-react";
+import { Loader2, Trash2 } from "lucide-react";
 import { useEffect, useRef } from "react";
 import { Button } from "../ui/button";
 import { useToast } from "@/hooks/use-toast";
@@ -78,9 +79,6 @@ export const HealthAssistant = () => {
         <div className="px-3 py-2 md:p-6 border-b bg-gradient-to-r from-primary/10 via-secondary/10 to-accent/10">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 md:gap-3">
-              <div className="p-2 bg-gradient-to-br from-green-400 to-emerald-500 rounded-lg shadow-md">
-                <Sprout className="h-5 w-5 md:h-6 md:w-6 text-white transform -rotate-12 hover:rotate-0 transition-transform duration-300" />
-              </div>
               <div className="space-y-0.5 md:space-y-1">
                 <h2 className="text-xl md:text-3xl font-bold bg-gradient-to-r from-[#0EA5E9] via-[#38BDF8] to-[#7DD3FC] bg-clip-text text-transparent drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)] tracking-wide">
                   Welcome to Your Health Journey
