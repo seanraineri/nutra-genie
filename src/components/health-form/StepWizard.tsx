@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -22,7 +23,7 @@ import { LifestyleStep } from "./wizard-steps/LifestyleStep";
 import { TestResultsStep } from "./wizard-steps/TestResultsStep";
 import { BudgetStep } from "./wizard-steps/BudgetStep";
 import { FinalStep } from "./wizard-steps/FinalStep";
-import type { HealthFormData, MedicalCondition } from "@/types/health-form";
+import type { HealthFormData } from "@/types/health-form";
 
 const steps = [
   "Personal Information",
@@ -59,7 +60,7 @@ export const StepWizard = () => {
       height: "",
       weight: "",
       activityLevel: "sedentary",
-      medicalConditions: [{ condition: "", specification: "" }] as MedicalCondition[],
+      medicalConditions: [{ condition: "", specification: "" }],
       allergies: [],
       currentMedications: [],
       hasBloodwork: false,
@@ -79,6 +80,8 @@ export const StepWizard = () => {
 
     try {
       setIsSubmitting(true);
+      
+      // Ensure all required fields are present before creating HealthFormData
       const formData: HealthFormData = {
         firstName: data.firstName,
         lastName: data.lastName,
