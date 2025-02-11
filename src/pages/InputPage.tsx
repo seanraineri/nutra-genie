@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { ChevronLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -14,7 +15,7 @@ const InputPage = () => {
             variant="ghost"
             size="sm"
             onClick={() => navigate(-1)}
-            className="bg-gradient-to-r from-cyan-500/10 to-teal-500/10 hover:from-cyan-500/20 hover:to-teal-500/20 border-cyan-200/20"
+            className="rounded-full hover:bg-gradient-to-r hover:from-cyan-500 hover:to-teal-500 hover:text-white active:from-cyan-600 active:to-teal-600 transition-all duration-200"
           >
             <ChevronLeft className="mr-2 h-4 w-4" />
             Back
