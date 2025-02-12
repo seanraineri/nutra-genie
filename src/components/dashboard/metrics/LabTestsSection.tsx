@@ -87,14 +87,14 @@ export const LabTestsSection = () => {
   };
 
   const buttonClasses = `
-    relative overflow-hidden transition-all duration-300
-    before:absolute before:inset-0 
-    before:bg-gradient-to-r before:from-[#0EA5E9] before:to-[#10B981]
-    before:opacity-0 before:transition-opacity
-    hover:before:opacity-10
-    active:before:opacity-20
-    active:bg-gradient-to-r active:from-[#0EA5E9] active:to-[#10B981] active:text-white
-    disabled:before:opacity-0
+    w-full bg-gradient-to-r from-[#0EA5E9]/20 to-[#10B981]/20 
+    hover:from-[#0EA5E9]/30 hover:to-[#10B981]/30 
+    border-2 border-[#0EA5E9]/50 
+    hover:border-[#0EA5E9] 
+    transition-all duration-300 
+    active:from-[#0EA5E9] active:to-[#10B981] active:text-white
+    shadow-lg hover:shadow-xl hover:scale-[1.01]
+    disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100
   `;
 
   const tileClasses = "flex flex-col items-center justify-between h-full p-3 md:p-4 bg-background rounded-lg border";
@@ -126,7 +126,7 @@ export const LabTestsSection = () => {
               />
               <Button 
                 variant="outline" 
-                className={`w-full flex items-center justify-center gap-2 text-xs md:text-sm ${buttonClasses}`}
+                className={`${buttonClasses} flex items-center justify-center gap-2 text-xs md:text-sm`}
                 disabled={isUploading.bloodwork}
               >
                 {isUploading.bloodwork ? (
@@ -164,7 +164,7 @@ export const LabTestsSection = () => {
               />
               <Button 
                 variant="outline" 
-                className={`w-full flex items-center justify-center gap-2 text-xs md:text-sm ${buttonClasses}`}
+                className={`${buttonClasses} flex items-center justify-center gap-2 text-xs md:text-sm`}
                 disabled={isUploading.genetic}
               >
                 {isUploading.genetic ? (
@@ -194,7 +194,7 @@ export const LabTestsSection = () => {
           <div className={buttonWrapperClasses}>
             <Button 
               onClick={handlePurchase} 
-              className={`w-full text-xs md:text-sm ${buttonClasses}`}
+              className={`${buttonClasses} text-xs md:text-sm`}
             >
               Order Now
             </Button>
