@@ -1,3 +1,4 @@
+
 import { UseFormReturn } from "react-hook-form";
 import { HealthFormSchemaType } from "@/schemas/healthFormSchema";
 import { FormField, FormItem, FormLabel } from "@/components/ui/form";
@@ -17,52 +18,52 @@ export const HealthGoalsStep = ({ form }: HealthGoalsStepProps) => {
     {
       value: "weight_management",
       label: "Weight Management",
-      description: "Support healthy weight goals",
+      description: "Discover personalized strategies to reach your ideal weight and boost your confidence, tailored to your lifestyle.",
     },
     {
       value: "energy_focus",
       label: "Energy & Focus",
-      description: "Improve daily energy levels and mental clarity",
+      description: "Fuel your day with sustained energy and sharp mental clarity—designed just for you.",
     },
     {
       value: "immune_support",
       label: "Immune Support",
-      description: "Strengthen immune system function",
+      description: "Empower your body's natural defenses with targeted, nutrient-rich support that keeps you resilient.",
     },
     {
       value: "sleep_stress",
       label: "Sleep & Stress",
-      description: "Better sleep quality and stress management",
+      description: "Experience deeper, restorative sleep and effective stress management with a plan that fits your unique needs.",
     },
     {
       value: "fitness_performance",
       label: "Fitness Performance",
-      description: "Enhance workout results and recovery",
+      description: "Elevate your workouts and accelerate recovery with personalized guidance to help you reach new heights.",
     },
     {
       value: "mental_health",
       label: "Mental Health",
-      description: "Support cognitive function and emotional well-being",
+      description: "Enhance your cognitive function and emotional balance with tailored support for a clearer, happier mind.",
     },
     {
       value: "hormone_balance",
       label: "Hormone Balance",
-      description: "Optimize hormone levels naturally",
+      description: "Naturally optimize your hormone levels to restore balance and boost your overall vitality.",
     },
     {
       value: "longevity",
       label: "Longevity",
-      description: "Support healthy aging and cellular health",
+      description: "Support healthy aging and nourish your cells with a plan designed to keep you feeling youthful and energetic.",
     },
     {
       value: "chronic_conditions",
       label: "Manage Chronic Conditions",
-      description: "Support overall health with existing conditions",
+      description: "Take control of your health with personalized support for managing chronic conditions and enhancing overall well-being.",
     },
     {
       value: "beauty",
       label: "Beauty & Aesthetics",
-      description: "Support skin health and natural beauty from within",
+      description: "Reveal your natural radiance by nourishing your skin from within, using personalized, clean formulas.",
     },
   ];
 
