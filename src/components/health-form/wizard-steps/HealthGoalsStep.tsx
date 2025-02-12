@@ -18,52 +18,52 @@ export const HealthGoalsStep = ({ form }: HealthGoalsStepProps) => {
     {
       value: "weight_management",
       label: "Weight Management",
-      description: "Discover personalized strategies to reach your ideal weight and boost your confidence, tailored to your lifestyle.",
+      description: "Discover your path to a healthier weight.",
     },
     {
       value: "energy_focus",
       label: "Energy & Focus",
-      description: "Fuel your day with sustained energy and sharp mental clarity—designed just for you.",
+      description: "Unlock lasting energy and clarity.",
     },
     {
       value: "immune_support",
       label: "Immune Support",
-      description: "Empower your body's natural defenses with targeted, nutrient-rich support that keeps you resilient.",
+      description: "Fortify your natural defenses today.",
     },
     {
       value: "sleep_stress",
       label: "Sleep & Stress",
-      description: "Experience deeper, restorative sleep and effective stress management with a plan that fits your unique needs.",
+      description: "Enjoy deeper sleep and a calmer mind.",
     },
     {
       value: "fitness_performance",
       label: "Fitness Performance",
-      description: "Elevate your workouts and accelerate recovery with personalized guidance to help you reach new heights.",
+      description: "Push your limits and recover faster.",
     },
     {
       value: "mental_health",
       label: "Mental Health",
-      description: "Enhance your cognitive function and emotional balance with tailored support for a clearer, happier mind.",
+      description: "Elevate your mood and sharpen your focus.",
     },
     {
       value: "hormone_balance",
       label: "Hormone Balance",
-      description: "Naturally optimize your hormone levels to restore balance and boost your overall vitality.",
+      description: "Restore harmony for vibrant living.",
     },
     {
       value: "longevity",
       label: "Longevity",
-      description: "Support healthy aging and nourish your cells with a plan designed to keep you feeling youthful and energetic.",
+      description: "Invest in your youthful vitality.",
     },
     {
       value: "chronic_conditions",
       label: "Manage Chronic Conditions",
-      description: "Take control of your health with personalized support for managing chronic conditions and enhancing overall well-being.",
+      description: "Take control with tailored, proactive care.",
     },
     {
       value: "beauty",
       label: "Beauty & Aesthetics",
-      description: "Reveal your natural radiance by nourishing your skin from within, using personalized, clean formulas.",
+      description: "Enhance your natural radiance from within.",
     },
   ];
 
