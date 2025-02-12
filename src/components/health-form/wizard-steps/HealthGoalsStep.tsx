@@ -91,7 +91,7 @@ export const HealthGoalsStep = ({ form }: HealthGoalsStepProps) => {
         render={({ field }) => (
           <FormItem>
             <FormLabel>What are your health goals?</FormLabel>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {healthGoalOptions.map((option) => (
                 <BubbleOption
                   key={option.value}
@@ -114,7 +114,7 @@ export const HealthGoalsStep = ({ form }: HealthGoalsStepProps) => {
 
       <div className="space-y-4 pt-4 border-t">
         <FormLabel>Other Health Goals</FormLabel>
-        <div className="flex gap-2">
+        <div className="flex flex-col sm:flex-row gap-2">
           <Input
             placeholder="Enter a custom health goal"
             value={newGoal}
@@ -126,14 +126,18 @@ export const HealthGoalsStep = ({ form }: HealthGoalsStepProps) => {
               }
             }}
           />
-          <Button type="button" onClick={handleAddCustomGoal}>
+          <Button 
+            type="button" 
+            onClick={handleAddCustomGoal}
+            className="w-full sm:w-auto"
+          >
             Add
           </Button>
         </div>
         <div className="space-y-2">
           {form.getValues("otherHealthGoals")?.map((goal, index) => (
             <div key={index} className="flex items-center gap-2 bg-secondary/20 p-2 rounded-md">
-              <span>{goal}</span>
+              <span className="flex-1 break-words">{goal}</span>
               <Button
                 type="button"
                 variant="ghost"
