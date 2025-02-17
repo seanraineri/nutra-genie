@@ -13,6 +13,16 @@ export const mockApiCall = async () => {
   });
 };
 
+// Mock database query builder
+const createQueryBuilder = () => ({
+  select: () => mockDatabase,
+  eq: () => mockDatabase,
+  insert: (data: any) => mockDatabase.insertData(data),
+  update: (data: any) => mockDatabase.updateData(data),
+  delete: () => mockDatabase.deleteData,
+  order: () => mockDatabase,
+});
+
 // Mock database functions
 export const mockDatabase = {
   async fetchData() {
@@ -20,34 +30,42 @@ export const mockDatabase = {
   },
   async insertData(data: any) {
     console.log('Mock inserting data:', data);
-    return { data, success: true };
+    return { data, error: null };
   },
   async updateData(data: any) {
     console.log('Mock updating data:', data);
-    return { data, success: true };
+    return { data, error: null };
   },
   async deleteData(id: string) {
     console.log('Mock deleting data:', id);
-    return { success: true };
+    return { data: null, error: null };
   }
 };
 
 // Mock auth functions
 export const mockAuth = {
   user: temporaryAuthUser,
-  session: null,
+  session: { user: temporaryAuthUser },
+  getUser: async () => ({ data: { user: temporaryAuthUser }, error: null }),
+  getSession: async () => ({ data: { session: null }, error: null }),
   signIn: async () => ({ user: temporaryAuthUser, session: null }),
   signOut: async () => ({ error: null }),
   onAuthStateChange: (callback: Function) => {
-    callback('SIGNED_IN', { user: temporaryAuthUser });
-    return { unsubscribe: () => {} };
+    callback('SIGNED_IN', { data: { user: temporaryAuthUser } });
+    return { data: { subscription: { unsubscribe: () => {} } }, error: null };
   }
+};
+
+// Mock realtime subscription
+const mockChannel = {
+  on: () => mockChannel,
+  subscribe: () => ({ data: {}, error: null })
 };
 
 // Export a mock client that resembles the original Supabase structure
 export const client = {
   from: (table: string) => ({
-    select: () => mockDatabase,
+    select: () => createQueryBuilder(),
     insert: (data: any) => mockDatabase.insertData(data),
     update: (data: any) => mockDatabase.updateData(data),
     delete: () => mockDatabase.deleteData,
@@ -64,6 +82,14 @@ export const client = {
       }),
     }),
   },
+  channel: (name: string) => mockChannel,
+  removeChannel: (channel: any) => {},
+  functions: {
+    invoke: async (name: string, { body }: { body: any }) => {
+      console.log('Mock function invocation:', { name, body });
+      return { data: {}, error: null };
+    }
+  }
 };
 
 // Add this line to maintain compatibility with existing imports

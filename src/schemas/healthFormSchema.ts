@@ -47,4 +47,4 @@ export const healthFormSchema = z.object({
   }).optional(),
 });
 
-export type HealthFormData = z.infer<typeof healthFormSchema>;
+export type HealthFormSchemaType = z.infer<typeof healthFormSchema>;

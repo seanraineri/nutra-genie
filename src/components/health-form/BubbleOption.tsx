@@ -6,6 +6,7 @@ interface BubbleOptionProps {
   description?: string;
   isSelected: boolean;
   onClick: () => void;
+  className?: string;
 }
 
 export const BubbleOption = ({
@@ -13,6 +14,7 @@ export const BubbleOption = ({
   description,
   isSelected,
   onClick,
+  className,
 }: BubbleOptionProps) => {
   return (
     <button
@@ -23,7 +25,8 @@ export const BubbleOption = ({
         "border-2 hover:border-primary/50 hover:bg-primary/5",
         isSelected
           ? "border-primary bg-primary/10 shadow-sm"
-          : "border-muted bg-background"
+          : "border-muted bg-background",
+        className
       )}
     >
       <div className="space-y-1.5 sm:space-y-2">
