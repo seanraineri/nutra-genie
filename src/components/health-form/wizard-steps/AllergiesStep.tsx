@@ -11,8 +11,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Badge } from "@/components/ui/badge";
-import { X, CheckCircle2 } from "lucide-react";
+import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 
 interface AllergiesStepProps {
   form: UseFormReturn<HealthFormSchemaType>;
@@ -20,11 +21,11 @@ interface AllergiesStepProps {
 
 export const AllergiesStep = ({ form }: AllergiesStepProps) => {
   const [newAllergy, setNewAllergy] = useState("");
+  const [noAllergies, setNoAllergies] = useState(false);
   const allergies = form.watch("allergies") || [];
-  const hasNoAllergies = allergies.length === 0;
 
   const handleAllergyAdd = () => {
-    if (newAllergy.trim()) {
+    if (newAllergy.trim() && !noAllergies) {
       const currentAllergies = form.getValues("allergies") || [];
       form.setValue("allergies", [...currentAllergies, newAllergy.trim()]);
       setNewAllergy("");
@@ -39,26 +40,28 @@ export const AllergiesStep = ({ form }: AllergiesStepProps) => {
     );
   };
 
-  const handleNoAllergies = () => {
-    form.setValue("allergies", []);
+  const handleNoAllergiesChange = (checked: boolean) => {
+    setNoAllergies(checked);
+    if (checked) {
+      form.setValue("allergies", []);
+    }
   };
 
   return (
     <div className="space-y-6">
       <div className="space-y-4">
         <h2 className="text-lg font-semibold">Do you have any allergies?</h2>
-        
-        <Button
-          type="button"
-          variant={hasNoAllergies ? "default" : "outline"}
-          className="w-full h-auto py-6 flex flex-col items-center gap-2 bg-gradient-to-r hover:from-cyan-500 hover:to-teal-500 hover:text-white"
-          onClick={handleNoAllergies}
-        >
-          <CheckCircle2 className="h-6 w-6" />
-          <span className="text-lg">I don't have any allergies</span>
-        </Button>
 
-        {!hasNoAllergies && (
+        <div className="flex items-center space-x-2">
+          <Checkbox
+            id="noAllergies"
+            checked={noAllergies}
+            onCheckedChange={handleNoAllergiesChange}
+          />
+          <Label htmlFor="noAllergies">I don't have any allergies</Label>
+        </div>
+
+        {!noAllergies && (
           <>
             <div className="space-y-2">
               <Label>Enter your allergies</Label>
@@ -74,13 +77,13 @@ export const AllergiesStep = ({ form }: AllergiesStepProps) => {
                     }
                   }}
                 />
-                <button
+                <Button
                   type="button"
                   onClick={handleAllergyAdd}
-                  className="px-4 py-2 bg-gradient-to-r from-cyan-500 to-teal-500 text-white rounded-md hover:from-cyan-600 hover:to-teal-600 transition-all"
+                  className="bg-gradient-to-r from-cyan-500 to-teal-500 text-white hover:from-cyan-600 hover:to-teal-600"
                 >
                   Add
-                </button>
+                </Button>
               </div>
             </div>
 
