@@ -52,7 +52,61 @@ export const AllergiesStep = ({ form }: AllergiesStepProps) => {
       <div className="space-y-4">
         <h2 className="text-lg font-semibold">Do you have any allergies?</h2>
 
-        <div className="flex items-center space-x-2">
+        <div className="space-y-2">
+          <Label>Enter your allergies</Label>
+          <div className="flex space-x-2">
+            <Input
+              value={newAllergy}
+              onChange={(e) => setNewAllergy(e.target.value)}
+              placeholder="Type your allergy here"
+              onKeyPress={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  handleAllergyAdd();
+                }
+              }}
+            />
+            <Button
+              type="button"
+              onClick={handleAllergyAdd}
+              className="bg-gradient-to-r from-cyan-500 to-teal-500 text-white hover:from-cyan-600 hover:to-teal-600"
+            >
+              Add
+            </Button>
+          </div>
+        </div>
+
+        <FormField
+          control={form.control}
+          name="allergies"
+          render={() => (
+            <FormItem>
+              <FormControl>
+                <div className="flex flex-wrap gap-2">
+                  {allergies.map((allergy, index) => (
+                    <Badge
+                      key={index}
+                      variant="secondary"
+                      className="flex items-center gap-1"
+                    >
+                      {allergy}
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveAllergy(allergy)}
+                        className="ml-1 hover:text-destructive"
+                      >
+                        <X className="h-3 w-3" />
+                      </button>
+                    </Badge>
+                  ))}
+                </div>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <div className="flex items-center space-x-2 pt-2">
           <Checkbox
             id="noAllergies"
             checked={noAllergies}
@@ -60,64 +114,6 @@ export const AllergiesStep = ({ form }: AllergiesStepProps) => {
           />
           <Label htmlFor="noAllergies">I don't have any allergies</Label>
         </div>
-
-        {!noAllergies && (
-          <>
-            <div className="space-y-2">
-              <Label>Enter your allergies</Label>
-              <div className="flex space-x-2">
-                <Input
-                  value={newAllergy}
-                  onChange={(e) => setNewAllergy(e.target.value)}
-                  placeholder="Type your allergy here"
-                  onKeyPress={(e) => {
-                    if (e.key === "Enter") {
-                      e.preventDefault();
-                      handleAllergyAdd();
-                    }
-                  }}
-                />
-                <Button
-                  type="button"
-                  onClick={handleAllergyAdd}
-                  className="bg-gradient-to-r from-cyan-500 to-teal-500 text-white hover:from-cyan-600 hover:to-teal-600"
-                >
-                  Add
-                </Button>
-              </div>
-            </div>
-
-            <FormField
-              control={form.control}
-              name="allergies"
-              render={() => (
-                <FormItem>
-                  <FormControl>
-                    <div className="flex flex-wrap gap-2">
-                      {allergies.map((allergy, index) => (
-                        <Badge
-                          key={index}
-                          variant="secondary"
-                          className="flex items-center gap-1"
-                        >
-                          {allergy}
-                          <button
-                            type="button"
-                            onClick={() => handleRemoveAllergy(allergy)}
-                            className="ml-1 hover:text-destructive"
-                          >
-                            <X className="h-3 w-3" />
-                          </button>
-                        </Badge>
-                      ))}
-                    </div>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </>
-        )}
       </div>
     </div>
   );
