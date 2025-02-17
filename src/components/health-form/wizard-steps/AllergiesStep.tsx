@@ -106,7 +106,7 @@ export const AllergiesStep = ({ form }: AllergiesStepProps) => {
           )}
         />
 
-        <div className="flex items-center space-x-2 pt-2">
+        <div className="flex items-center space-x-2 pt-4 mt-4 border-t">
           <Checkbox
             id="noAllergies"
             checked={noAllergies}
