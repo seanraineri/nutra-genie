@@ -70,7 +70,7 @@ export const ChatMessage = ({ role, content, timestamp }: ChatMessageProps) => {
         <Avatar className="h-8 w-8 shrink-0">
           {role === "user" ? (
             <>
-              <AvatarImage src="/lovable-uploads/151ff454-649a-4fcb-8142-f989d5ebebde.png" />
+              <AvatarImage src="/lovable-uploads/983b57c9-7c97-4c35-b95d-11bd7c6c85fc.png" className="p-1" />
               <AvatarFallback className="bg-gradient-to-br from-[#0EA5E9] to-[#10B981] text-white">U</AvatarFallback>
             </>
           ) : (
