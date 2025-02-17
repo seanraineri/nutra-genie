@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { HealthFormSchemaType } from "@/schemas/healthFormSchema";
@@ -71,12 +72,6 @@ export const MedicalConditionsStep = ({ form }: MedicalConditionsStepProps) => {
       <div className="space-y-4">
         <h2 className="text-lg font-semibold">Do you have any medical conditions?</h2>
         
-        <BubbleOption
-          label="I don't have any medical conditions"
-          isSelected={noConditions}
-          onClick={() => handleNoConditions(!noConditions)}
-        />
-
         {!noConditions && (
           <>
             <div className="grid grid-cols-2 gap-4">
@@ -187,6 +182,14 @@ export const MedicalConditionsStep = ({ form }: MedicalConditionsStepProps) => {
             </div>
           </>
         )}
+
+        <div className="pt-4 mt-4 border-t">
+          <BubbleOption
+            label="I don't have any medical conditions"
+            isSelected={noConditions}
+            onClick={() => handleNoConditions(!noConditions)}
+          />
+        </div>
       </div>
     </div>
   );
