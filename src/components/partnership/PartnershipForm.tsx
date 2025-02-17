@@ -1,9 +1,9 @@
+
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
 
 interface PartnershipFormProps {
   type: 'influencer' | 'lab' | 'supplement' | 'student';
@@ -22,18 +22,8 @@ export const PartnershipForm = ({ type, onClose }: PartnershipFormProps) => {
     setIsSubmitting(true);
 
     try {
-      const { error } = await supabase
-        .from('partnership_applications')
-        .insert([
-          {
-            name,
-            email,
-            company_name: companyName || null,
-            partnership_type: type,
-          }
-        ]);
-
-      if (error) throw error;
+      // Mock API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
 
       toast({
         title: "Application Submitted",

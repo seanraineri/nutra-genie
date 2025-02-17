@@ -1,38 +1,11 @@
-import { supabase } from "@/integrations/supabase/client";
+
 import type { HealthFormData, MedicalCondition } from "@/types/health-form";
 
 export const submitHealthFormData = async (data: HealthFormData) => {
   try {
-    // Convert medical conditions array to string array for database storage
-    const medicalConditionsForDb = data.medicalConditions.map(
-      (condition: MedicalCondition) =>
-        condition.specification
-          ? `${condition.condition} - ${condition.specification}`
-          : condition.condition
-    );
-
-    const { error } = await supabase.from("pending_health_profiles").insert({
-      email: data.email,
-      password: data.password,
-      first_name: data.firstName,
-      last_name: data.lastName,
-      age: parseInt(data.age),
-      gender: data.gender,
-      height: parseFloat(data.height),
-      weight: parseFloat(data.weight),
-      activity_level: data.activityLevel,
-      medical_conditions: medicalConditionsForDb,
-      allergies: data.allergies,
-      current_medications: data.currentMedications,
-      health_goals: data.healthGoals.join(", "),
-      monthly_supplement_budget: parseFloat(data.monthlyBudget),
-      sleep_hours: parseFloat(data.sleepHours),
-      smoking_status: data.smokingStatus,
-      alcohol_consumption: data.alcoholConsumption,
-    });
-
-    if (error) throw error;
-
+    // Mock submission
+    console.log('Mock submitting health form data:', data);
+    await new Promise(resolve => setTimeout(resolve, 1000));
     return { success: true };
   } catch (error: any) {
     console.error("Error submitting health form data:", error);
