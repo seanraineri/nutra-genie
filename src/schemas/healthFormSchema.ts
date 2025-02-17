@@ -7,6 +7,10 @@ export const healthFormSchema = z.object({
   lastName: z.string().min(1, "Last name is required"),
   email: z.string().email("Invalid email address"),
   phoneNumber: z.string().optional(),
+  password: z.string()
+    .min(8, "Password must be at least 8 characters")
+    .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
+    .regex(/[!@#$%^&*(),.?":{}|<>]/, "Password must contain at least one special character"),
   age: z.string().min(1, "Age is required"),
   gender: z.enum(["male", "female", "other", "prefer_not_to_say"]),
   height: z.string().min(1, "Height is required"),

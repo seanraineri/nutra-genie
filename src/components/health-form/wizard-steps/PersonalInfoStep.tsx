@@ -1,3 +1,4 @@
+
 import { UseFormReturn } from "react-hook-form";
 import { HealthFormSchemaType } from "@/schemas/healthFormSchema";
 import {
@@ -6,6 +7,7 @@ import {
   FormLabel,
   FormControl,
   FormMessage,
+  FormDescription,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
@@ -82,6 +84,14 @@ export const PersonalInfoStep = ({ form }: PersonalInfoStepProps) => {
             <FormControl>
               <Input type="password" {...field} />
             </FormControl>
+            <FormDescription className="text-sm text-muted-foreground">
+              Password must:
+              <ul className="list-disc list-inside mt-1">
+                <li>Be at least 8 characters long</li>
+                <li>Contain at least one uppercase letter</li>
+                <li>Contain at least one special character (!@#$%^&*(),.?":{}|&lt;&gt;)</li>
+              </ul>
+            </FormDescription>
             <FormMessage />
           </FormItem>
         )}
