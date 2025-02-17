@@ -80,9 +80,7 @@ const JournalPage = () => {
                   <div className="relative">
                     <div className="flex flex-col items-center space-y-2">
                       <div className="w-24 h-24 rounded-xl border-2 border-[#0EA5E9]/30 hover:border-[#0EA5E9] transition-all duration-300 relative bg-gradient-to-r from-[#0EA5E9]/5 to-[#10B981]/5 hover:from-[#0EA5E9]/10 hover:to-[#10B981]/10">
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <RadioGroupItem value="yes" id="yes" className="h-8 w-8" />
-                        </div>
+                        <RadioGroupItem value="yes" id="yes" className="absolute inset-0 w-full h-full rounded-xl cursor-pointer" />
                       </div>
                       <Label 
                         htmlFor="yes" 
@@ -96,9 +94,7 @@ const JournalPage = () => {
                   <div className="relative">
                     <div className="flex flex-col items-center space-y-2">
                       <div className="w-24 h-24 rounded-xl border-2 border-[#0EA5E9]/30 hover:border-[#0EA5E9] transition-all duration-300 relative bg-gradient-to-r from-[#0EA5E9]/5 to-[#10B981]/5 hover:from-[#0EA5E9]/10 hover:to-[#10B981]/10">
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <RadioGroupItem value="no" id="no" className="h-8 w-8" />
-                        </div>
+                        <RadioGroupItem value="no" id="no" className="absolute inset-0 w-full h-full rounded-xl cursor-pointer" />
                       </div>
                       <Label 
                         htmlFor="no" 
