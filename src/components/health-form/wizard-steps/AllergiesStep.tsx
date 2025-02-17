@@ -4,7 +4,6 @@ import { HealthFormSchemaType } from "@/schemas/healthFormSchema";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import { BubbleOption } from "../BubbleOption";
 import {
   FormField,
   FormItem,
@@ -14,52 +13,19 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { X } from "lucide-react";
 
-const ALLERGY_OPTIONS = [
-  "No Allergies",
-  "Seasonal Allergies",
-  "Shellfish",
-  "Pet",
-  "Dairy",
-  "Gluten",
-  "Latex",
-  "Nuts",
-  "Soy",
-  "Corn",
-  "Gelatin",
-] as const;
-
 interface AllergiesStepProps {
   form: UseFormReturn<HealthFormSchemaType>;
 }
 
 export const AllergiesStep = ({ form }: AllergiesStepProps) => {
-  const [otherAllergies, setOtherAllergies] = useState("");
+  const [newAllergy, setNewAllergy] = useState("");
   const allergies = form.watch("allergies") || [];
 
-  const handleAllergyChange = (allergy: string, checked: boolean) => {
-    if (allergy === "No Allergies") {
-      if (checked) {
-        form.setValue("allergies", []);
-      }
-      return;
-    }
-
-    const currentAllergies = form.getValues("allergies") || [];
-    if (checked) {
-      form.setValue("allergies", [...currentAllergies, allergy]);
-    } else {
-      form.setValue(
-        "allergies",
-        currentAllergies.filter((a) => a !== allergy)
-      );
-    }
-  };
-
-  const handleOtherAllergyAdd = () => {
-    if (otherAllergies.trim()) {
+  const handleAllergyAdd = () => {
+    if (newAllergy.trim()) {
       const currentAllergies = form.getValues("allergies") || [];
-      form.setValue("allergies", [...currentAllergies, otherAllergies.trim()]);
-      setOtherAllergies("");
+      form.setValue("allergies", [...currentAllergies, newAllergy.trim()]);
+      setNewAllergy("");
     }
   };
 
@@ -71,88 +37,64 @@ export const AllergiesStep = ({ form }: AllergiesStepProps) => {
     );
   };
 
-  const hasNoAllergies = allergies.length === 0;
-
   return (
     <div className="space-y-6">
       <div className="space-y-4">
         <h2 className="text-lg font-semibold">Do you have any allergies?</h2>
         
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-          <BubbleOption
-            label="I don't have any allergies"
-            isSelected={hasNoAllergies}
-            onClick={() => handleAllergyChange("No Allergies", !hasNoAllergies)}
-            className="col-span-2 sm:col-span-3"
-          />
-          
-          {!hasNoAllergies && ALLERGY_OPTIONS.slice(1).map((allergy) => (
-            <BubbleOption
-              key={allergy}
-              label={allergy}
-              isSelected={allergies.includes(allergy)}
-              onClick={() => handleAllergyChange(allergy, !allergies.includes(allergy))}
+        <div className="space-y-2">
+          <Label>Enter your allergies</Label>
+          <div className="flex space-x-2">
+            <Input
+              value={newAllergy}
+              onChange={(e) => setNewAllergy(e.target.value)}
+              placeholder="Type your allergy here"
+              onKeyPress={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  handleAllergyAdd();
+                }
+              }}
             />
-          ))}
+            <button
+              type="button"
+              onClick={handleAllergyAdd}
+              className="px-4 py-2 bg-gradient-to-r from-cyan-500 to-teal-500 text-white rounded-md hover:from-cyan-600 hover:to-teal-600 transition-all"
+            >
+              Add
+            </button>
+          </div>
         </div>
 
-        {!hasNoAllergies && (
-          <>
-            <div className="space-y-2">
-              <Label>Other Allergies</Label>
-              <div className="flex space-x-2">
-                <Input
-                  value={otherAllergies}
-                  onChange={(e) => setOtherAllergies(e.target.value)}
-                  placeholder="Type your allergy here"
-                  onKeyPress={(e) => {
-                    if (e.key === "Enter") {
-                      e.preventDefault();
-                      handleOtherAllergyAdd();
-                    }
-                  }}
-                />
-                <button
-                  type="button"
-                  onClick={handleOtherAllergyAdd}
-                  className="px-4 py-2 bg-gradient-to-r from-cyan-500 to-teal-500 text-white rounded-md hover:from-cyan-600 hover:to-teal-600 transition-all"
-                >
-                  Add
-                </button>
-              </div>
-            </div>
-
-            <FormField
-              control={form.control}
-              name="allergies"
-              render={() => (
-                <FormItem>
-                  <FormControl>
-                    <div className="flex flex-wrap gap-2">
-                      {allergies.map((allergy, index) => (
-                        <Badge
-                          key={index}
-                          variant="secondary"
-                          className="flex items-center gap-1"
-                        >
-                          {allergy}
-                          <button
-                            type="button"
-                            onClick={() => handleRemoveAllergy(allergy)}
-                            className="ml-1 hover:text-destructive"
-                          >
-                            <X className="h-3 w-3" />
-                          </button>
-                        </Badge>
-                      ))}
-                    </div>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </>
-        )}
+        <FormField
+          control={form.control}
+          name="allergies"
+          render={() => (
+            <FormItem>
+              <FormControl>
+                <div className="flex flex-wrap gap-2">
+                  {allergies.map((allergy, index) => (
+                    <Badge
+                      key={index}
+                      variant="secondary"
+                      className="flex items-center gap-1"
+                    >
+                      {allergy}
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveAllergy(allergy)}
+                        className="ml-1 hover:text-destructive"
+                      >
+                        <X className="h-3 w-3" />
+                      </button>
+                    </Badge>
+                  ))}
+                </div>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
       </div>
     </div>
   );
