@@ -1,10 +1,11 @@
+
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useState, useEffect } from "react";
 import { Gender } from "@/types/health-form";
 import { UseFormReturn } from "react-hook-form";
-import { HealthFormSchemaType } from "@/schemas/healthFormSchema";
+import { healthFormSchema } from "@/schemas/healthFormSchema";
 import {
   FormControl,
   FormField,
@@ -14,7 +15,7 @@ import {
 } from "@/components/ui/form";
 
 interface BasicMetricsInputsProps {
-  form: UseFormReturn<HealthFormSchemaType>;
+  form: UseFormReturn<typeof healthFormSchema>;
 }
 
 export const BasicMetricsInputs = ({ form }: BasicMetricsInputsProps) => {
@@ -69,13 +70,17 @@ export const BasicMetricsInputs = ({ form }: BasicMetricsInputsProps) => {
                     onValueChange={field.onChange}
                     className="flex space-x-4"
                   >
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="male" id="male" />
-                      <Label htmlFor="male">Male</Label>
+                    <div className="flex-1">
+                      <div className="flex items-center justify-center p-4 border-2 rounded-lg cursor-pointer hover:bg-accent/10 transition-colors hover:border-primary/50 data-[state=checked]:border-primary data-[state=checked]:bg-primary/10">
+                        <RadioGroupItem value="male" id="male" className="hidden" />
+                        <Label htmlFor="male" className="cursor-pointer text-lg font-medium">Male</Label>
+                      </div>
                     </div>
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="female" id="female" />
-                      <Label htmlFor="female">Female</Label>
+                    <div className="flex-1">
+                      <div className="flex items-center justify-center p-4 border-2 rounded-lg cursor-pointer hover:bg-accent/10 transition-colors hover:border-primary/50 data-[state=checked]:border-primary data-[state=checked]:bg-primary/10">
+                        <RadioGroupItem value="female" id="female" className="hidden" />
+                        <Label htmlFor="female" className="cursor-pointer text-lg font-medium">Female</Label>
+                      </div>
                     </div>
                   </RadioGroup>
                 </FormControl>
