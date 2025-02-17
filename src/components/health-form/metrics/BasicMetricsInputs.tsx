@@ -71,13 +71,13 @@ export const BasicMetricsInputs = ({ form }: BasicMetricsInputsProps) => {
                     className="flex space-x-4"
                   >
                     <div className="flex-1">
-                      <div className="flex items-center justify-center h-10 border-2 rounded-md cursor-pointer hover:bg-accent/10 transition-colors hover:border-primary/50 data-[state=checked]:border-primary data-[state=checked]:bg-primary/10">
+                      <div className="flex items-center justify-center h-10 border-2 rounded-md cursor-pointer hover:bg-gradient-to-r hover:from-cyan-500 hover:to-teal-500 hover:border-transparent hover:text-white transition-all data-[state=checked]:bg-gradient-to-r data-[state=checked]:from-cyan-500 data-[state=checked]:to-teal-500 data-[state=checked]:border-transparent data-[state=checked]:text-white">
                         <RadioGroupItem value="male" id="male" className="hidden" />
                         <Label htmlFor="male" className="cursor-pointer text-sm font-medium">Male</Label>
                       </div>
                     </div>
                     <div className="flex-1">
-                      <div className="flex items-center justify-center h-10 border-2 rounded-md cursor-pointer hover:bg-accent/10 transition-colors hover:border-primary/50 data-[state=checked]:border-primary data-[state=checked]:bg-primary/10">
+                      <div className="flex items-center justify-center h-10 border-2 rounded-md cursor-pointer hover:bg-gradient-to-r hover:from-cyan-500 hover:to-teal-500 hover:border-transparent hover:text-white transition-all data-[state=checked]:bg-gradient-to-r data-[state=checked]:from-cyan-500 data-[state=checked]:to-teal-500 data-[state=checked]:border-transparent data-[state=checked]:text-white">
                         <RadioGroupItem value="female" id="female" className="hidden" />
                         <Label htmlFor="female" className="cursor-pointer text-sm font-medium">Female</Label>
                       </div>
