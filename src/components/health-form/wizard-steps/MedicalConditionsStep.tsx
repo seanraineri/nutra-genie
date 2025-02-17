@@ -85,6 +85,7 @@ export const MedicalConditionsStep = ({ form }: MedicalConditionsStepProps) => {
                             label={condition.label}
                             isSelected={conditions.some(c => c.condition === "Diabetes")}
                             onClick={() => {}}
+                            className="bg-gradient-to-r from-[#0EA5E9] to-[#10B981] text-white hover:from-[#0EA5E9]/90 hover:to-[#10B981]/90"
                           />
                         </div>
                       </DialogTrigger>
@@ -100,11 +101,13 @@ export const MedicalConditionsStep = ({ form }: MedicalConditionsStepProps) => {
                             label="Type 1"
                             isSelected={conditions.some(c => c.condition === "Diabetes" && c.specification === "Type 1")}
                             onClick={() => handleAddCondition("Diabetes", "Type 1")}
+                            className="bg-gradient-to-r from-[#0EA5E9] to-[#10B981] text-white hover:from-[#0EA5E9]/90 hover:to-[#10B981]/90"
                           />
                           <BubbleOption
                             label="Type 2"
                             isSelected={conditions.some(c => c.condition === "Diabetes" && c.specification === "Type 2")}
                             onClick={() => handleAddCondition("Diabetes", "Type 2")}
+                            className="bg-gradient-to-r from-[#0EA5E9] to-[#10B981] text-white hover:from-[#0EA5E9]/90 hover:to-[#10B981]/90"
                           />
                         </div>
                       </DialogContent>
@@ -119,6 +122,7 @@ export const MedicalConditionsStep = ({ form }: MedicalConditionsStepProps) => {
                             label={condition.label}
                             isSelected={conditions.some(c => c.condition === "Other")}
                             onClick={() => {}}
+                            className="bg-gradient-to-r from-[#0EA5E9] to-[#10B981] text-white hover:from-[#0EA5E9]/90 hover:to-[#10B981]/90"
                           />
                         </div>
                       </DialogTrigger>
@@ -136,7 +140,7 @@ export const MedicalConditionsStep = ({ form }: MedicalConditionsStepProps) => {
                             placeholder="Enter condition"
                           />
                           <Button
-                            className="w-full"
+                            className="w-full bg-gradient-to-r from-[#0EA5E9] to-[#10B981] hover:from-[#0EA5E9]/90 hover:to-[#10B981]/90"
                             onClick={() => handleAddCondition("Other", otherCondition)}
                             disabled={!otherCondition.trim()}
                           >
@@ -154,6 +158,7 @@ export const MedicalConditionsStep = ({ form }: MedicalConditionsStepProps) => {
                     label={condition.label}
                     isSelected={conditions.some(c => c.condition === condition.label)}
                     onClick={() => handleAddCondition(condition.label)}
+                    className="bg-gradient-to-r from-[#0EA5E9] to-[#10B981] text-white hover:from-[#0EA5E9]/90 hover:to-[#10B981]/90"
                   />
                 );
               })}
@@ -188,6 +193,7 @@ export const MedicalConditionsStep = ({ form }: MedicalConditionsStepProps) => {
             label="I don't have any medical conditions"
             isSelected={noConditions}
             onClick={() => handleNoConditions(!noConditions)}
+            className="bg-gradient-to-r from-[#0EA5E9] to-[#10B981] text-white hover:from-[#0EA5E9]/90 hover:to-[#10B981]/90"
           />
         </div>
       </div>
