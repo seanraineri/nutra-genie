@@ -77,20 +77,35 @@ const JournalPage = () => {
                   onValueChange={setTookSupplements}
                   className="flex justify-center gap-8"
                 >
-                  <div className="relative group">
+                  <div className="relative">
                     <div className="flex flex-col items-center space-y-2">
-                      <div className="w-16 h-16 rounded-lg border-2 border-[#0EA5E9]/30 group-hover:border-[#0EA5E9] transition-all duration-300 flex items-center justify-center bg-white hover:bg-gray-50">
-                        <RadioGroupItem value="yes" id="yes" className="h-8 w-8" />
+                      <div className="w-24 h-24 rounded-xl border-2 border-[#0EA5E9]/30 hover:border-[#0EA5E9] transition-all duration-300 relative bg-gradient-to-r from-[#0EA5E9]/5 to-[#10B981]/5 hover:from-[#0EA5E9]/10 hover:to-[#10B981]/10">
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <RadioGroupItem value="yes" id="yes" className="h-8 w-8" />
+                        </div>
                       </div>
-                      <Label htmlFor="yes" className="text-lg font-medium text-gray-700">Yes</Label>
+                      <Label 
+                        htmlFor="yes" 
+                        className="text-lg font-medium text-gray-700 hover:text-[#0EA5E9] transition-colors"
+                      >
+                        Yes
+                      </Label>
                     </div>
                   </div>
-                  <div className="relative group">
+                  
+                  <div className="relative">
                     <div className="flex flex-col items-center space-y-2">
-                      <div className="w-16 h-16 rounded-lg border-2 border-[#0EA5E9]/30 group-hover:border-[#0EA5E9] transition-all duration-300 flex items-center justify-center bg-white hover:bg-gray-50">
-                        <RadioGroupItem value="no" id="no" className="h-8 w-8" />
+                      <div className="w-24 h-24 rounded-xl border-2 border-[#0EA5E9]/30 hover:border-[#0EA5E9] transition-all duration-300 relative bg-gradient-to-r from-[#0EA5E9]/5 to-[#10B981]/5 hover:from-[#0EA5E9]/10 hover:to-[#10B981]/10">
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <RadioGroupItem value="no" id="no" className="h-8 w-8" />
+                        </div>
                       </div>
-                      <Label htmlFor="no" className="text-lg font-medium text-gray-700">No</Label>
+                      <Label 
+                        htmlFor="no" 
+                        className="text-lg font-medium text-gray-700 hover:text-[#0EA5E9] transition-colors"
+                      >
+                        No
+                      </Label>
                     </div>
                   </div>
                 </RadioGroup>
