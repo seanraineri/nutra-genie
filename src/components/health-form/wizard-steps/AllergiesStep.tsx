@@ -1,3 +1,4 @@
+
 import { UseFormReturn } from "react-hook-form";
 import { HealthFormSchemaType } from "@/schemas/healthFormSchema";
 import { Label } from "@/components/ui/label";
@@ -15,12 +16,16 @@ import { X } from "lucide-react";
 
 const ALLERGY_OPTIONS = [
   "No Allergies",
-  "Seasonal",
+  "Seasonal Allergies",
+  "Shellfish",
+  "Pet",
   "Dairy",
   "Gluten",
-  "Shellfish",
-  "Nuts",
   "Latex",
+  "Nuts",
+  "Soy",
+  "Corn",
+  "Gelatin",
 ] as const;
 
 interface AllergiesStepProps {
@@ -73,11 +78,12 @@ export const AllergiesStep = ({ form }: AllergiesStepProps) => {
       <div className="space-y-4">
         <h2 className="text-lg font-semibold">Do you have any allergies?</h2>
         
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
           <BubbleOption
             label="I don't have any allergies"
             isSelected={hasNoAllergies}
             onClick={() => handleAllergyChange("No Allergies", !hasNoAllergies)}
+            className="col-span-2 sm:col-span-3"
           />
           
           {!hasNoAllergies && ALLERGY_OPTIONS.slice(1).map((allergy) => (
@@ -98,7 +104,7 @@ export const AllergiesStep = ({ form }: AllergiesStepProps) => {
                 <Input
                   value={otherAllergies}
                   onChange={(e) => setOtherAllergies(e.target.value)}
-                  placeholder="Enter other allergy"
+                  placeholder="Type your allergy here"
                   onKeyPress={(e) => {
                     if (e.key === "Enter") {
                       e.preventDefault();
@@ -109,7 +115,7 @@ export const AllergiesStep = ({ form }: AllergiesStepProps) => {
                 <button
                   type="button"
                   onClick={handleOtherAllergyAdd}
-                  className="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90"
+                  className="px-4 py-2 bg-gradient-to-r from-cyan-500 to-teal-500 text-white rounded-md hover:from-cyan-600 hover:to-teal-600 transition-all"
                 >
                   Add
                 </button>
