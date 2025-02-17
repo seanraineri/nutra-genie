@@ -70,13 +70,13 @@ export const ChatMessage = ({ role, content, timestamp }: ChatMessageProps) => {
         <Avatar className="h-8 w-8 shrink-0">
           {role === "user" ? (
             <>
-              <AvatarImage src="/placeholder.svg" />
-              <AvatarFallback className="bg-primary text-primary-foreground">U</AvatarFallback>
+              <AvatarImage src="/lovable-uploads/151ff454-649a-4fcb-8142-f989d5ebebde.png" />
+              <AvatarFallback className="bg-gradient-to-br from-[#0EA5E9] to-[#10B981] text-white">U</AvatarFallback>
             </>
           ) : (
             <>
-              <AvatarImage src="/lovable-uploads/2f53b616-9c59-4de0-abb0-263c4a144685.png" />
-              <AvatarFallback className="bg-gradient-to-br from-cyan-500 to-teal-500 text-white">AI</AvatarFallback>
+              <AvatarImage src="/lovable-uploads/15cb73cf-57ff-4716-a01d-e8548a470723.png" />
+              <AvatarFallback className="bg-gradient-to-br from-[#0EA5E9] to-[#10B981] text-white">AI</AvatarFallback>
             </>
           )}
         </Avatar>
