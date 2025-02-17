@@ -75,7 +75,7 @@ export const ChatMessage = ({ role, content, timestamp }: ChatMessageProps) => {
             </>
           ) : (
             <>
-              <AvatarImage src="/lovable-uploads/15cb73cf-57ff-4716-a01d-e8548a470723.png" />
+              <AvatarImage src="/lovable-uploads/2e31b276-dba1-4ac1-bbb6-24efe6c7b027.png" className="bg-white" />
               <AvatarFallback className="bg-gradient-to-br from-[#0EA5E9] to-[#10B981] text-white">AI</AvatarFallback>
             </>
           )}
