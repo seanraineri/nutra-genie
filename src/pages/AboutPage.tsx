@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import { ChevronLeft } from "lucide-react";
@@ -34,20 +35,20 @@ const AboutPage = () => {
             </p>
 
             <h2>What We Offer</h2>
-            <ul>
-              <li>Personalized supplement recommendations based on your health profile</li>
-              <li>AI-powered health assistant for real-time guidance</li>
-              <li>Secure storage and analysis of your lab results</li>
-              <li>Goal tracking and progress monitoring</li>
-              <li>Evidence-based health optimization strategies</li>
-            </ul>
+            <p>
+              Personalized supplement recommendations based on your health profile.
+              AI-powered health assistant for real-time guidance.
+              Secure storage and analysis of your lab results.
+              Goal tracking and progress monitoring.
+              Evidence-based health optimization strategies.
+            </p>
 
             <h2>Family Plan</h2>
-            <ul>
-              <li>Help your family members too!</li>
-              <li>Minimum size family of 3 to maximum 7, pay a discounted $15/month or $150/yearly per member</li>
-              <li>Compete in family challenges for taking your supplements everyday and tracking your symptoms to earn special family prizes, may the best family member win!</li>
-            </ul>
+            <p>
+              Help your family members too!
+              Minimum size family of 3 to maximum 7, pay a discounted $15/month or $150/yearly per member.
+              Compete in family challenges for taking your supplements everyday and tracking your symptoms to earn special family prizes, may the best family member win!
+            </p>
 
             <h2>Privacy & Security</h2>
             <p>
