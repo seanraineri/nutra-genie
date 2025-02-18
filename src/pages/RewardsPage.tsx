@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { Gift, ArrowLeft } from "lucide-react";
@@ -40,24 +41,24 @@ const RewardsPage = () => {
                     key={index}
                     className="border rounded-lg p-4 bg-white shadow-sm hover:shadow-md transition-shadow"
                   >
-                    <div className="flex items-center justify-between">
-                      <div>
+                    <div className="flex items-center justify-between w-full">
+                      <div className="flex-1">
                         <h3 className="text-base font-semibold text-gray-800">
                           {tier.referrals} Referrals
                         </h3>
                         <p className="text-base text-[#3498DB] mt-1 font-medium">
                           {tier.reward}
                         </p>
+                        {tier.referrals === 25 && (
+                          <p className="text-gray-600 mt-2 text-xs">
+                            Earn 20% of the revenue from each member you refer
+                          </p>
+                        )}
                       </div>
-                      <div className="h-10 w-10 bg-blue-50 rounded-full flex items-center justify-center">
+                      <div className="h-10 w-10 bg-blue-50 rounded-full flex items-center justify-center flex-shrink-0">
                         <span className="text-[#3498DB] font-bold text-sm">{tier.referrals}</span>
                       </div>
                     </div>
-                    {tier.referrals === 25 && (
-                      <p className="text-gray-600 mt-2 text-xs">
-                        Earn 20% of the revenue from each member you refer
-                      </p>
-                    )}
                   </div>
                 ))}
               </div>
