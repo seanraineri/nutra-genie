@@ -23,7 +23,7 @@ export const BubbleOption = ({
       className={cn(
         "w-full p-3 sm:p-4 rounded-xl text-left transition-all duration-200 h-[100px] sm:h-[120px] flex flex-col justify-between",
         "border-2 hover:border-primary/50 hover:bg-primary/5",
-        "active:bg-gradient-to-r active:from-[#0EA5E9] active:to-[#10B981] active:text-white",
+        "active:bg-primary/10 active:border-primary",
         isSelected
           ? "border-primary bg-primary/10 shadow-sm"
           : "border-muted bg-background",
