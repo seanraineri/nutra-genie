@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Trophy, TrendingUp, History } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
+import { client } from "@/integrations/supabase/client";
 import { addGoalScore } from "@/api/healthGoalsApi";
 import { useToast } from "@/hooks/use-toast";
 
@@ -26,43 +26,19 @@ export const GoalScores = ({ goalId }: GoalScoresProps) => {
   const { toast } = useToast();
 
   const fetchScores = async () => {
-    const { data, error } = await supabase
-      .from('goal_scores')
-      .select('*')
-      .eq('goal_id', goalId)
-      .order('created_at', { ascending: false });
-
-    if (error) {
+    try {
+      const response = await client.get(`/api/goals/${goalId}/scores`);
+      setScores(response.data || []);
+    } catch (error) {
       console.error('Error fetching scores:', error);
-      return;
     }
-
-    setScores(data || []);
   };
 
   useEffect(() => {
     fetchScores();
 
-    // Subscribe to real-time updates
-    const channel = supabase
-      .channel('goal_scores_changes')
-      .on(
-        'postgres_changes',
-        {
-          event: '*',
-          schema: 'public',
-          table: 'goal_scores',
-          filter: `goal_id=eq.${goalId}`
-        },
-        () => {
-          fetchScores();
-        }
-      )
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(channel);
-    };
+    // Set up WebSocket connection for real-time updates if needed
+    // This would need to be implemented on your FastAPI backend
   }, [goalId]);
 
   const handleAddScore = async () => {
@@ -93,6 +69,7 @@ export const GoalScores = ({ goalId }: GoalScoresProps) => {
         title: "Score added",
         description: "Your progress has been recorded successfully.",
       });
+      fetchScores();
     } catch (error) {
       console.error('Error adding score:', error);
       toast({

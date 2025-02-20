@@ -1,3 +1,4 @@
+
 import { UseFormReturn } from "react-hook-form";
 import { HealthFormSchemaType } from "@/schemas/healthFormSchema";
 import { useState } from "react";
@@ -6,7 +7,6 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Upload, ExternalLink, Loader2, HelpCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
 import { Textarea } from "@/components/ui/textarea";
 import { useNavigate } from "react-router-dom";
 import {
@@ -53,13 +53,13 @@ export const TestResultsStep = ({ form }: TestResultsStepProps) => {
       const formData = new FormData();
       formData.append('file', file);
       formData.append('type', type);
-      formData.append('tempUserId', crypto.randomUUID());
 
-      const { error } = await supabase.functions.invoke('process-lab-results', {
-        body: formData,
+      const response = await fetch('http://localhost:8000/api/upload-lab-results', {
+        method: 'POST',
+        body: formData
       });
 
-      if (error) throw error;
+      if (!response.ok) throw new Error('Failed to upload file');
 
       form.setValue(type === "bloodwork" ? "hasBloodwork" : "hasGeneticTesting", true);
 

@@ -1,10 +1,9 @@
-
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
-import { supabase } from "@/integrations/supabase/client";
+import { client } from "@/integrations/supabase/client";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 
@@ -19,39 +18,30 @@ export const SymptomTracker = () => {
     e.preventDefault();
     
     try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error("No user found");
+      const response = await client.post('/api/symptoms', [
+        {
+          symptom: "Energy Level",
+          severity: energyLevel,
+          notes: "Daily energy tracking"
+        },
+        {
+          symptom: "Sleep Quality",
+          severity: sleepQuality,
+          notes: "Daily sleep quality tracking"
+        },
+        {
+          symptom: "Stress/Anxiety",
+          severity: stressLevel,
+          notes: "Daily stress tracking"
+        },
+        ...(otherSymptoms ? [{
+          symptom: "Other",
+          severity: 0,
+          notes: otherSymptoms
+        }] : [])
+      ]);
 
-      const { error } = await supabase
-        .from('symptom_tracking')
-        .insert([
-          {
-            user_id: user.id,
-            symptom: "Energy Level",
-            severity: energyLevel,
-            notes: "Daily energy tracking"
-          },
-          {
-            user_id: user.id,
-            symptom: "Sleep Quality",
-            severity: sleepQuality,
-            notes: "Daily sleep quality tracking"
-          },
-          {
-            user_id: user.id,
-            symptom: "Stress/Anxiety",
-            severity: stressLevel,
-            notes: "Daily stress tracking"
-          },
-          ...(otherSymptoms ? [{
-            user_id: user.id,
-            symptom: "Other",
-            severity: 0,
-            notes: otherSymptoms
-          }] : [])
-        ]);
-
-      if (error) throw error;
+      if (!response.ok) throw new Error('Failed to save symptoms');
 
       toast({
         title: "Wellness tracked",

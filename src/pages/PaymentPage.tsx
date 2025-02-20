@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
 import { Progress } from "@/components/ui/progress";
-import { supabase } from "@/integrations/supabase/client";
+import { client } from "@/integrations/supabase/client";
 
 export default function PaymentPage() {
   const { search } = useLocation();
@@ -37,19 +37,16 @@ export default function PaymentPage() {
   const handleSubscribe = async () => {
     setLoading(true);
     try {
-      const { data, error } = await supabase.functions.invoke('create-checkout', {
-        body: { email },
-      });
+      const response = await client.post('/api/create-checkout', { email });
 
-      if (error) throw error;
-      if (data?.url) {
-        setProgress(100);
-        setTimeout(() => {
-          window.location.href = data.url;
-        }, 500);
-      } else {
+      if (!response.url) {
         throw new Error('No checkout URL received');
       }
+
+      setProgress(100);
+      setTimeout(() => {
+        window.location.href = response.url;
+      }, 500);
     } catch (error) {
       console.error('Error:', error);
       toast({

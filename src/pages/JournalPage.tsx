@@ -1,4 +1,3 @@
-
 import { SymptomTracker } from "@/components/dashboard/goals/SymptomTracker";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -7,8 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
-import { useToast } from "@/components/ui/use-toast";
-import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
+import { client } from "@/integrations/supabase/client";
 
 const JournalPage = () => {
   const navigate = useNavigate();
@@ -17,18 +16,12 @@ const JournalPage = () => {
 
   const handleSupplementsSubmit = async () => {
     try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error("No user found");
+      const response = await client.post('/api/supplements/tracking', {
+        took_supplements: tookSupplements === "yes",
+        date: new Date().toISOString(),
+      });
 
-      const { error } = await supabase
-        .from('supplement_tracking')
-        .insert({
-          took_supplements: tookSupplements === "yes",
-          date: new Date().toISOString(),
-          user_id: user.id
-        });
-
-      if (error) throw error;
+      if (!response.ok) throw new Error('Failed to track supplements');
 
       toast({
         title: "Recorded successfully",
