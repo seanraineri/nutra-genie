@@ -1,11 +1,13 @@
+
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
-import { client } from "@/integrations/supabase/client";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
+import { addSymptomEntry } from "@/api/symptomApi";
+import type { SymptomEntry } from "@/types/api";
 
 export const SymptomTracker = () => {
   const [energyLevel, setEnergyLevel] = useState<number>(3);
@@ -17,29 +19,31 @@ export const SymptomTracker = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    const symptoms: SymptomEntry[] = [
+      {
+        symptom: "Energy Level",
+        severity: energyLevel,
+        notes: "Daily energy tracking"
+      },
+      {
+        symptom: "Sleep Quality",
+        severity: sleepQuality,
+        notes: "Daily sleep quality tracking"
+      },
+      {
+        symptom: "Stress/Anxiety",
+        severity: stressLevel,
+        notes: "Daily stress tracking"
+      },
+      ...(otherSymptoms ? [{
+        symptom: "Other",
+        severity: 0,
+        notes: otherSymptoms
+      }] : [])
+    ];
+
     try {
-      const response = await client.post('/api/symptoms', [
-        {
-          symptom: "Energy Level",
-          severity: energyLevel,
-          notes: "Daily energy tracking"
-        },
-        {
-          symptom: "Sleep Quality",
-          severity: sleepQuality,
-          notes: "Daily sleep quality tracking"
-        },
-        {
-          symptom: "Stress/Anxiety",
-          severity: stressLevel,
-          notes: "Daily stress tracking"
-        },
-        ...(otherSymptoms ? [{
-          symptom: "Other",
-          severity: 0,
-          notes: otherSymptoms
-        }] : [])
-      ]);
+      const response = await addSymptomEntry(symptoms);
 
       if (!response.ok) throw new Error('Failed to save symptoms');
 

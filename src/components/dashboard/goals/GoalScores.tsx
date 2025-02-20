@@ -4,31 +4,30 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Trophy, TrendingUp, History } from "lucide-react";
-import { client } from "@/integrations/supabase/client";
-import { addGoalScore } from "@/api/healthGoalsApi";
 import { useToast } from "@/hooks/use-toast";
-
-interface GoalScore {
-  id: string;
-  score: number;
-  created_at: string;
-  notes?: string;
-}
+import { addGoalScore, getGoalScores } from "@/api/healthGoalsApi";
+import type { GoalScore } from "@/api/healthGoalsApi";
 
 interface GoalScoresProps {
   goalId: string;
 }
 
+interface GoalScoreWithId extends GoalScore {
+  id: string;
+}
+
 export const GoalScores = ({ goalId }: GoalScoresProps) => {
-  const [scores, setScores] = useState<GoalScore[]>([]);
+  const [scores, setScores] = useState<GoalScoreWithId[]>([]);
   const [newScore, setNewScore] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
   const fetchScores = async () => {
     try {
-      const response = await client.get(`/api/goals/${goalId}/scores`);
-      setScores(response.data || []);
+      const response = await getGoalScores(goalId);
+      if (response.ok && response.data) {
+        setScores(response.data);
+      }
     } catch (error) {
       console.error('Error fetching scores:', error);
     }
@@ -36,9 +35,6 @@ export const GoalScores = ({ goalId }: GoalScoresProps) => {
 
   useEffect(() => {
     fetchScores();
-
-    // Set up WebSocket connection for real-time updates if needed
-    // This would need to be implemented on your FastAPI backend
   }, [goalId]);
 
   const handleAddScore = async () => {
@@ -63,7 +59,9 @@ export const GoalScores = ({ goalId }: GoalScoresProps) => {
 
     setIsLoading(true);
     try {
-      await addGoalScore(goalId, scoreValue);
+      const response = await addGoalScore(goalId, scoreValue);
+      if (!response.ok) throw new Error('Failed to add score');
+      
       setNewScore("");
       toast({
         title: "Score added",
