@@ -1,5 +1,5 @@
 
-import { mockApiCall } from "@/integrations/supabase/client";
+import { client } from "@/integrations/supabase/client";
 
 export const addHealthGoal = async (goal: {
   goal_name: string;
@@ -8,11 +8,11 @@ export const addHealthGoal = async (goal: {
   progress?: number;
   category: string;
 }) => {
-  await mockApiCall();
-  console.log('Mock adding health goal:', goal);
+  const response = await client.post('/api/goals', goal);
+  return response;
 };
 
 export const addGoalScore = async (goalId: string, score: number, notes?: string) => {
-  await mockApiCall();
-  console.log('Mock adding goal score:', { goalId, score, notes });
+  const response = await client.post(`/api/goals/${goalId}/scores`, { score, notes });
+  return response;
 };

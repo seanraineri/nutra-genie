@@ -1,9 +1,8 @@
-
 import { Button } from "@/components/ui/button";
 import { Plus, HelpCircle, BookOpen } from "lucide-react";
 import { Card } from "@/components/ui/card";
-import { useToast } from "@/components/ui/use-toast";
-import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
+import { client } from "@/integrations/supabase/client";
 import { GoalItem } from "./goals/GoalItem";
 import { XPStore } from "./goals/XPStore";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -30,27 +29,12 @@ export const HealthGoals = () => {
   const isMobile = useIsMobile();
 
   const fetchGoals = async () => {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return;
-
-    const { data, error } = await supabase
-      .from('health_goals')
-      .select('id, goal_name, description, progress, target, category')
-      .eq('user_id', user.id)
-      .order('created_at', { ascending: false });
-
-    if (error) {
+    try {
+      const response = await client.get('/api/goals');
+      setGoals(response.data || []);
+    } catch (error) {
       console.error('Error fetching goals:', error);
-      return;
     }
-
-    const formattedGoals = (data || []).map(goal => ({
-      ...goal,
-      progress: Number(goal.progress) || 0,
-      target: Number(goal.target) || 100
-    }));
-
-    setGoals(formattedGoals);
   };
 
   const handleSave = () => {
@@ -93,25 +77,6 @@ export const HealthGoals = () => {
 
   useEffect(() => {
     fetchGoals();
-
-    const channel = supabase
-      .channel('schema-db-changes')
-      .on(
-        'postgres_changes',
-        {
-          event: '*',
-          schema: 'public',
-          table: 'health_goals'
-        },
-        () => {
-          fetchGoals();
-        }
-      )
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(channel);
-    };
   }, []);
 
   const renderGoalsList = (category: string) => {
