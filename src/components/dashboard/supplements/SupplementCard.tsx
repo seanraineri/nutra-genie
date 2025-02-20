@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ThumbsUp, ThumbsDown, DollarSign } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
-import { supabase } from "@/integrations/supabase/client";
+import { client } from "@/integrations/supabase/client";
 
 interface SupplementCardProps {
   id: string;
@@ -33,21 +33,15 @@ export const SupplementCard = ({
   const submitFeedback = async (isHelpful: boolean, followedRecommendation: boolean) => {
     setIsSubmitting(true);
     try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error("User not authenticated");
-
-      const { error } = await supabase.functions.invoke('track-ai-metrics', {
-        body: {
-          userId: user.id,
-          recommendationId: id,
-          isHelpful,
-          followedRecommendation,
-          budgetFit: true,
-          feedback: `User ${isHelpful ? 'found' : 'did not find'} the recommendation helpful`,
-        }
+      const response = await client.post('/api/supplements/feedback', {
+        recommendationId: id,
+        isHelpful,
+        followedRecommendation,
+        budgetFit: true,
+        feedback: `User ${isHelpful ? 'found' : 'did not find'} the recommendation helpful`,
       });
 
-      if (error) throw error;
+      if (!response.ok) throw new Error('Failed to submit feedback');
 
       toast({
         title: "Thank you for your feedback!",

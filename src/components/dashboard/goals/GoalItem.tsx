@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -6,7 +7,7 @@ import { Progress } from "@/components/ui/progress";
 import { Card } from "@/components/ui/card";
 import { GoalScores } from "./GoalScores";
 import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
+import { client } from "@/integrations/supabase/client";
 
 interface Goal {
   id: string;
@@ -35,17 +36,14 @@ export const GoalItem = ({ goal, onUpdate, isEditing }: GoalItemProps) => {
 
   const handleSave = async () => {
     try {
-      const { error } = await supabase
-        .from('health_goals')
-        .update({
-          goal_name: editedGoal.goal_name,
-          description: editedGoal.description,
-          progress: editedGoal.progress,
-          target: editedGoal.target
-        })
-        .eq('id', goal.id);
+      const response = await client.put(`/api/goals/${goal.id}`, {
+        goal_name: editedGoal.goal_name,
+        description: editedGoal.description,
+        progress: editedGoal.progress,
+        target: editedGoal.target
+      });
 
-      if (error) throw error;
+      if (!response.ok) throw new Error('Failed to update goal');
 
       toast({
         title: "Goal updated",

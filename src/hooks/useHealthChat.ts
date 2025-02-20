@@ -1,9 +1,10 @@
+
 import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { ChatMessage } from "@/types/chat";
 import { useAIChat } from "./useAIChat";
 import { fetchChatHistory, persistMessage } from "@/api/chatApi";
-import { supabase } from "@/integrations/supabase/client";
+import { client } from "@/integrations/supabase/client";
 
 export const useHealthChat = () => {
   const { toast } = useToast();
@@ -19,16 +20,9 @@ export const useHealthChat = () => {
 
   const clearHistory = async () => {
     try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error("Not authenticated");
-
       // Delete chat history from the database
-      const { error } = await supabase
-        .from('chat_history')
-        .delete()
-        .eq('user_id', user.id);
-
-      if (error) throw error;
+      const response = await client.delete('/api/chat/history');
+      if (!response.ok) throw new Error('Failed to clear chat history');
 
       // Reset chat history to initial state
       setChatHistory([{
@@ -55,11 +49,6 @@ export const useHealthChat = () => {
     setChatHistory(prev => [...prev, userMessage]);
 
     try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
-        throw new Error('Please sign in to use the chat feature');
-      }
-      
       // Persist user message in background
       persistMessage(userMessage).catch(console.error);
       
@@ -67,7 +56,7 @@ export const useHealthChat = () => {
       setIsTyping(true);
       
       // Process AI response with streaming
-      const response = await processAIResponse(message, user.id);
+      const response = await processAIResponse(message, 'temporary-user-id');
       
       const assistantMessage: ChatMessage = { 
         role: "assistant", 

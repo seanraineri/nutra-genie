@@ -1,9 +1,8 @@
-
 import { Button } from "@/components/ui/button";
 import { Upload, ShoppingCart, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { client } from "@/integrations/supabase/client";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 export const LabTestsSection = () => {
@@ -30,35 +29,17 @@ export const LabTestsSection = () => {
     setIsUploading(prev => ({ ...prev, [type]: true }));
 
     try {
-      // First, upload the file to Supabase Storage
-      const fileExt = file.name.split('.').pop();
-      const fileName = `${Date.now()}.${fileExt}`;
-      const filePath = `${type}_results/${fileName}`;
-
-      const { error: uploadError } = await supabase.storage
-        .from('health_files')
-        .upload(filePath, file);
-
-      if (uploadError) {
-        throw new Error('Failed to upload file');
-      }
-
-      // Now call the process-lab-results function
-      const { data: session } = await supabase.auth.getSession();
-      if (!session?.session?.access_token) {
-        throw new Error('No authentication session found');
-      }
-
       const formData = new FormData();
       formData.append('file', file);
       formData.append('type', type);
 
-      const response = await supabase.functions.invoke('process-lab-results', {
+      const response = await fetch('http://localhost:8000/api/upload-lab-results', {
+        method: 'POST',
         body: formData,
       });
 
-      if (response.error) {
-        throw new Error(response.error.message);
+      if (!response.ok) {
+        throw new Error('Failed to upload file');
       }
 
       toast({
