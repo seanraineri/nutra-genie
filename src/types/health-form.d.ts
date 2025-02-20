@@ -4,37 +4,33 @@ export interface HealthFormData {
   lastName: string;
   email: string;
   phoneNumber?: string;
+  password: string;
   age: string;
-  gender: "male" | "female" | "other" | "prefer_not_to_say";
+  gender: Gender;
   height: string;
   weight: string;
-  activityLevel: "sedentary" | "moderate" | "active" | "athlete";
-  sleepQuality?: "poor" | "fair" | "good" | "excellent";
-  stressLevel?: "low" | "moderate" | "high";
-  dietType?: string[];
-  medicalConditions?: string[];
-  allergies?: string[];
-  medications?: string[];
-  supplements?: string[];
-  familyHistory?: string[];
-  alcoholConsumption?: "none" | "occasional" | "moderate" | "frequent";
-  smoker?: boolean;
-  exercise?: string[];
-  healthGoals?: string[];
-  otherHealthGoals?: string[];
-  budget?: "low" | "moderate" | "high";
-  labResults?: any[];
+  activityLevel: ActivityLevel;
+  sleepQuality: string;
+  stressLevel: string;
+  dietType: DietType[];
+  medicalConditions: MedicalCondition[];
+  allergies: string[];
+  currentMedications: string[];
+  supplementPreferences: string[];
+  hasBloodwork: boolean;
+  hasGeneticTesting: boolean;
+  healthGoals: string[];
+  monthlyBudget: string;
   testInformation?: {
-    testType?: string;
-    testDate?: string;
-    labName?: string;
-    results?: any;
+    results: Record<string, string>;
   };
 }
 
+export type Gender = 'male' | 'female' | 'other' | 'prefer_not_to_say';
+export type ActivityLevel = 'sedentary' | 'light' | 'moderate' | 'active' | 'very_active';
+export type DietType = 'healthy_balanced' | 'vegan_vegetarian' | 'animal_based' | 'keto' | 'processed_food' | 'fair_average';
+
 export interface MedicalCondition {
-  id: string;
-  name: string;
-  description?: string;
-  category?: string;
+  condition: string;
+  specification?: string;
 }

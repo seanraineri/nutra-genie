@@ -1,86 +1,75 @@
+
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { useToast } from "@/hooks/use-toast";
+import { auth } from "@/api/auth";
 
 interface AuthWrapperProps {
   children: React.ReactNode;
 }
 
 export const AuthWrapper = ({ children }: AuthWrapperProps) => {
-  const navigate = useNavigate();
-  const location = useLocation();
   const [isLoading, setIsLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
   const { toast } = useToast();
 
   useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const { data: { session } } = await supabase.auth.getSession();
-        
-        // Special handling for payment page
-        if (location.pathname === '/payment' && location.search.includes('email=')) {
-          setIsLoading(false);
-          setIsAuthenticated(true);
-          return;
-        }
-
-        if (!session) {
-          toast({
-            title: "Please create an account to access this feature",
-            action: (
-              <button
-                onClick={() => navigate("/input")}
-                className="bg-primary text-primary-foreground px-3 py-2 rounded-md text-sm font-medium hover:bg-primary/90 transition-colors"
-              >
-                Sign Up
-              </button>
-            ),
-            duration: 5000,
-          });
-          navigate("/");
-          return;
-        }
-
-        setIsAuthenticated(true);
-      } catch (error) {
-        console.error("Auth check failed:", error);
-        // Only navigate away if not on payment page
-        if (location.pathname !== '/payment') {
-          navigate("/");
-        }
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      // Only handle auth changes if not on payment page
-      if (!session && location.pathname !== '/payment') {
-        navigate("/");
+    checkSession();
+    
+    const { data: { subscription } } = auth.onAuthStateChange((_event, session) => {
+      if (!session && !isPublicRoute(location.pathname)) {
+        navigate('/login');
+        toast({
+          title: "Session expired",
+          description: "Please log in again to continue.",
+          variant: "destructive",
+        });
       }
     });
-
-    checkAuth();
 
     return () => {
       subscription.unsubscribe();
     };
-  }, [navigate, toast, location]);
+  }, [location.pathname, navigate]);
+
+  const isPublicRoute = (path: string) => {
+    const publicRoutes = ['/login', '/signup', '/forgot-password', '/', '/about', '/faq'];
+    return publicRoutes.includes(path);
+  };
+
+  const checkSession = async () => {
+    try {
+      const { data: { session } } = await auth.getSession();
+      
+      if (!session && !isPublicRoute(location.pathname)) {
+        navigate('/login');
+      } else {
+        setIsAuthenticated(true);
+      }
+    } catch (error) {
+      console.error('Session check error:', error);
+      if (!isPublicRoute(location.pathname)) {
+        navigate('/login');
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <LoadingSpinner className="h-8 w-8" />
+      <div className="h-screen w-screen flex items-center justify-center">
+        <LoadingSpinner size="lg" />
       </div>
     );
   }
 
-  if (!isAuthenticated) {
+  if (!isAuthenticated && !isPublicRoute(location.pathname)) {
     return null;
   }
 
-  return children;
+  return <>{children}</>;
 };

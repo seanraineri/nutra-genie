@@ -2,42 +2,94 @@
 // This file provides a basic HTTP client for FastAPI integration
 const API_BASE_URL = 'http://localhost:8000'; // Change this to your FastAPI server URL
 
+interface APIResponse<T = any> {
+  data?: T;
+  error?: string;
+  ok: boolean;
+  url?: string;
+}
+
 export const client = {
-  async get(endpoint: string) {
-    const response = await fetch(`${API_BASE_URL}${endpoint}`);
-    return response.json();
+  async get(endpoint: string): Promise<APIResponse> {
+    try {
+      const response = await fetch(`${API_BASE_URL}${endpoint}`);
+      const data = await response.json();
+      return {
+        data,
+        ok: response.ok
+      };
+    } catch (error) {
+      return {
+        error: error instanceof Error ? error.message : 'Unknown error',
+        ok: false
+      };
+    }
   },
 
-  async post(endpoint: string, data: any) {
-    const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    });
-    return response.json();
+  async post(endpoint: string, data: any): Promise<APIResponse> {
+    try {
+      const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+      const responseData = await response.json();
+      return {
+        data: responseData,
+        ok: response.ok,
+        url: responseData.url
+      };
+    } catch (error) {
+      return {
+        error: error instanceof Error ? error.message : 'Unknown error',
+        ok: false
+      };
+    }
   },
 
-  async put(endpoint: string, data: any) {
-    const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    });
-    return response.json();
+  async put(endpoint: string, data: any): Promise<APIResponse> {
+    try {
+      const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+      const responseData = await response.json();
+      return {
+        data: responseData,
+        ok: response.ok
+      };
+    } catch (error) {
+      return {
+        error: error instanceof Error ? error.message : 'Unknown error',
+        ok: false
+      };
+    }
   },
 
-  async delete(endpoint: string) {
-    const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    return response.json();
+  async delete(endpoint: string): Promise<APIResponse> {
+    try {
+      const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      const data = await response.json();
+      return {
+        data,
+        ok: response.ok
+      };
+    } catch (error) {
+      return {
+        error: error instanceof Error ? error.message : 'Unknown error',
+        ok: false
+      };
+    }
   },
 };
 
@@ -46,6 +98,3 @@ export const temporaryAuthUser = {
   id: "temp-user-id",
   email: "temp@example.com"
 };
-
-// Export for backward compatibility
-export const supabase = client;
