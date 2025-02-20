@@ -1,8 +1,20 @@
 
 export const useAIChat = () => {
   const processAIResponse = async (message: string, userId: string) => {
-    console.log('Mock AI chat processing:', message);
-    return "This is a mock AI response. The backend is currently disconnected.";
+    try {
+      const response = await fetch('http://localhost:8000/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ message, userId }),
+      });
+      const data = await response.json();
+      return data.response;
+    } catch (error) {
+      console.error('Error processing AI response:', error);
+      return "I'm having trouble connecting to the server. Please try again later.";
+    }
   };
 
   return {
